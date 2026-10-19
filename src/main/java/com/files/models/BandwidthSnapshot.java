@@ -35,6 +35,11 @@ public class BandwidthSnapshot implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class BandwidthSnapshot implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code BandwidthSnapshot} with no attributes set.
+   */
   public BandwidthSnapshot() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code BandwidthSnapshot} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public BandwidthSnapshot(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code BandwidthSnapshot} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public BandwidthSnapshot(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,6 +103,11 @@ public class BandwidthSnapshot implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -93,6 +118,11 @@ public class BandwidthSnapshot implements ModelInterface {
   @JsonProperty("bytes_received")
   public Long bytesReceived;
 
+  /**
+   * Gets {@link #bytesReceived}.
+   *
+   * @return the value of {@link #bytesReceived}
+   */
   public Long getBytesReceived() {
     return bytesReceived;
   }
@@ -103,6 +133,11 @@ public class BandwidthSnapshot implements ModelInterface {
   @JsonProperty("bytes_sent")
   public Long bytesSent;
 
+  /**
+   * Gets {@link #bytesSent}.
+   *
+   * @return the value of {@link #bytesSent}
+   */
   public Long getBytesSent() {
     return bytesSent;
   }
@@ -113,6 +148,11 @@ public class BandwidthSnapshot implements ModelInterface {
   @JsonProperty("sync_bytes_received")
   public Long syncBytesReceived;
 
+  /**
+   * Gets {@link #syncBytesReceived}.
+   *
+   * @return the value of {@link #syncBytesReceived}
+   */
   public Long getSyncBytesReceived() {
     return syncBytesReceived;
   }
@@ -123,6 +163,11 @@ public class BandwidthSnapshot implements ModelInterface {
   @JsonProperty("sync_bytes_sent")
   public Long syncBytesSent;
 
+  /**
+   * Gets {@link #syncBytesSent}.
+   *
+   * @return the value of {@link #syncBytesSent}
+   */
   public Long getSyncBytesSent() {
     return syncBytesSent;
   }
@@ -133,6 +178,11 @@ public class BandwidthSnapshot implements ModelInterface {
   @JsonProperty("requests_get")
   public Long requestsGet;
 
+  /**
+   * Gets {@link #requestsGet}.
+   *
+   * @return the value of {@link #requestsGet}
+   */
   public Long getRequestsGet() {
     return requestsGet;
   }
@@ -143,6 +193,11 @@ public class BandwidthSnapshot implements ModelInterface {
   @JsonProperty("requests_put")
   public Long requestsPut;
 
+  /**
+   * Gets {@link #requestsPut}.
+   *
+   * @return the value of {@link #requestsPut}
+   */
   public Long getRequestsPut() {
     return requestsPut;
   }
@@ -153,6 +208,11 @@ public class BandwidthSnapshot implements ModelInterface {
   @JsonProperty("requests_other")
   public Long requestsOther;
 
+  /**
+   * Gets {@link #requestsOther}.
+   *
+   * @return the value of {@link #requestsOther}
+   */
   public Long getRequestsOther() {
     return requestsOther;
   }
@@ -163,39 +223,71 @@ public class BandwidthSnapshot implements ModelInterface {
   @JsonProperty("logged_at")
   public Date loggedAt;
 
+  /**
+   * Gets {@link #loggedAt}.
+   *
+   * @return the value of {@link #loggedAt}
+   */
   public Date getLoggedAt() {
     return loggedAt;
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `logged_at`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `logged_at`.
-   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `logged_at`.
-   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `logged_at`.
-   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `logged_at`.
-   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `logged_at`.
+   * List Bandwidth Snapshots
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<BandwidthSnapshot> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Bandwidth Snapshots
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<BandwidthSnapshot> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Bandwidth Snapshots
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `logged_at`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `logged_at`.</li>
+   * <li>{@code filter_gt} (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `logged_at`.</li>
+   * <li>{@code filter_gteq} (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `logged_at`.</li>
+   * <li>{@code filter_lt} (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `logged_at`.</li>
+   * <li>{@code filter_lteq} (Object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `logged_at`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code BandwidthSnapshot} records, in a {@code ListIterator}
+   */
   public static ListIterator<BandwidthSnapshot> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().bandwidthSnapshots().list(parameters, options);
   }
 
+  /**
+   * List Bandwidth Snapshots
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<BandwidthSnapshot> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Bandwidth Snapshots
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<BandwidthSnapshot> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }

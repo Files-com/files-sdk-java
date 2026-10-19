@@ -34,6 +34,11 @@ public class AgentNode implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -57,14 +62,29 @@ public class AgentNode implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code AgentNode} with no attributes set.
+   */
   public AgentNode() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code AgentNode} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public AgentNode(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code AgentNode} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public AgentNode(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -82,6 +102,11 @@ public class AgentNode implements ModelInterface {
   @JsonProperty("node_id")
   public String nodeId;
 
+  /**
+   * Gets {@link #nodeId}.
+   *
+   * @return the value of {@link #nodeId}
+   */
   public String getNodeId() {
     return nodeId;
   }
@@ -92,6 +117,11 @@ public class AgentNode implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
@@ -102,6 +132,11 @@ public class AgentNode implements ModelInterface {
   @JsonProperty("hostname")
   public String hostname;
 
+  /**
+   * Gets {@link #hostname}.
+   *
+   * @return the value of {@link #hostname}
+   */
   public String getHostname() {
     return hostname;
   }
@@ -112,6 +147,11 @@ public class AgentNode implements ModelInterface {
   @JsonProperty("availability_role")
   public String availabilityRole;
 
+  /**
+   * Gets {@link #availabilityRole}.
+   *
+   * @return the value of {@link #availabilityRole}
+   */
   public String getAvailabilityRole() {
     return availabilityRole;
   }
@@ -122,6 +162,11 @@ public class AgentNode implements ModelInterface {
   @JsonProperty("status")
   public String status;
 
+  /**
+   * Gets {@link #status}.
+   *
+   * @return the value of {@link #status}
+   */
   public String getStatus() {
     return status;
   }
@@ -132,6 +177,11 @@ public class AgentNode implements ModelInterface {
   @JsonProperty("is_default")
   public Boolean isDefault;
 
+  /**
+   * Gets {@link #isDefault}.
+   *
+   * @return the value of {@link #isDefault}
+   */
   public Boolean getIsDefault() {
     return isDefault;
   }
@@ -142,6 +192,11 @@ public class AgentNode implements ModelInterface {
   @JsonProperty("direct_transfer_available")
   public Boolean directTransferAvailable;
 
+  /**
+   * Gets {@link #directTransferAvailable}.
+   *
+   * @return the value of {@link #directTransferAvailable}
+   */
   public Boolean getDirectTransferAvailable() {
     return directTransferAvailable;
   }
@@ -152,6 +207,11 @@ public class AgentNode implements ModelInterface {
   @JsonProperty("last_seen_at")
   public Date lastSeenAt;
 
+  /**
+   * Gets {@link #lastSeenAt}.
+   *
+   * @return the value of {@link #lastSeenAt}
+   */
   public Date getLastSeenAt() {
     return lastSeenAt;
   }
@@ -162,6 +222,11 @@ public class AgentNode implements ModelInterface {
   @JsonProperty("instances")
   public AgentNodeInstance[] instances;
 
+  /**
+   * Gets {@link #instances}.
+   *
+   * @return the value of {@link #instances}
+   */
   public AgentNodeInstance[] getInstances() {
     return instances;
   }

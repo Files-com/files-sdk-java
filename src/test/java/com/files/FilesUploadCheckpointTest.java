@@ -9,6 +9,7 @@ import static org.junit.Assume.assumeTrue;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.files.exceptions.ApiErrorException;
+import com.files.exceptions.OperationCancelledException;
 import com.files.exceptions.TransferCheckpointException;
 import com.files.exceptions.UploadCompletionUnknownException;
 import com.files.models.FileUploadPart;
@@ -117,6 +118,94 @@ public class FilesUploadCheckpointTest {
     assertEquals(0, first.getBytesPerSecond(), 0);
     assertEquals(12, result.getFinalProgress().getTransferredBytes());
     assertEquals(10, result.getFinalProgress().getResumedBytes());
+    assertEquals("deleted once completed", 0, listing(checkpoints).size());
+  }
+
+  @Test(timeout = 20000)
+  public void aCancelledUploadContinuesFromItsCheckpointWithAFreshClient() throws Exception {
+    byte[] contents = bytes(12, 5);
+    Path source = file("cancelled.bin", contents);
+    // Part 3 is held once it arrives, after parts 1 and 2 were accepted, and the caller cancels then.
+    CountDownLatch arrived = new CountDownLatch(1);
+    CountDownLatch release = new CountDownLatch(1);
+    files.storage = (part, attempt) -> {
+      if (part == 3 && attempt == 1) {
+        arrived.countDown();
+        return FakeFiles.Answer.holdUntil(release);
+      }
+      return null;
+    };
+    CancellationToken token = new CancellationToken();
+    ExecutorService canceller = Executors.newSingleThreadExecutor();
+    try {
+      Future<?> cancelling = canceller.submit(() -> {
+        assertTrue("part 3 arrived", arrived.await(10, TimeUnit.SECONDS));
+        token.cancel();
+        return null;
+      });
+      try {
+        client.transfers().upload(source, "cancelled.bin", checkpointed().cancellation(token).build());
+        fail("Expected the upload to be cancelled");
+      } catch (OperationCancelledException e) {
+        assertEquals(OperationCancelledException.Reason.CANCELLED, e.getReason());
+      }
+      cancelling.get(10, TimeUnit.SECONDS);
+    } finally {
+      release.countDown();
+      canceller.shutdownNow();
+      assertTrue("the canceller has ended", canceller.awaitTermination(10, TimeUnit.SECONDS));
+    }
+    assertEquals("nothing is completed", 0, files.finishes.size());
+    assertEquals(1, files.partsNumbered(1).size());
+    assertEquals(1, files.partsNumbered(2).size());
+    assertFalse("the checkpoint is kept", listing(checkpoints).isEmpty());
+    final int beginsBefore = files.begins.size();
+
+    // Another client continues the upload from the checkpoint.
+    files.storage = (part, attempt) -> null;
+    List<TransferProgress> progress = new ArrayList<>();
+    UploadResult result;
+    try (FilesClient fresh = FilesClient.builder()
+             .apiKey("transfer-key")
+             .workspaceId(0L)
+             .apiRoot(files.root())
+             .retryDelay(Duration.ofMillis(1))
+             .build()) {
+      result = fresh.transfers().upload(source, "cancelled.bin", checkpointed().progressListener(progress::add).build());
+    }
+    assertEquals(12, result.getSize());
+    assertEquals(3, result.getParts().size());
+
+    // Only part 3 is sent again, once, with its bytes; the cancelled attempt may or may not have
+    // reached the service before its connection closed.
+    assertEquals(1, files.partsNumbered(1).size());
+    assertEquals(1, files.partsNumbered(2).size());
+    List<FakeFiles.Received> resent = files.partsNumbered(3).stream().filter(p -> p.attempt == 2).collect(Collectors.toList());
+    assertEquals(1, resent.size());
+    assertArrayEquals(Arrays.copyOfRange(contents, 10, 12), resent.get(0).body);
+    assertTrue("no later attempt", files.partsNumbered(3).stream().allMatch(p -> p.attempt <= 2));
+    List<FakeFiles.Received> begins = new ArrayList<>(files.begins);
+    for (FakeFiles.Received begin : begins.subList(beginsBefore, begins.size())) {
+      assertEquals("the recorded upload is continued", "put-1", begin.json().path("ref").asText());
+    }
+    assertEquals(1, files.finishes.size());
+    JsonNode finish = files.finishes.get(0).json();
+    assertEquals("put-1", finish.path("ref").asText());
+    assertEquals(12, finish.path("size").asLong());
+    assertEquals(Arrays.asList("\"etag-1-1\"", "\"etag-2-1\"", "\"etag-3-2\""), etags(finish));
+
+    // The parts accepted before the cancellation count as transferred and resumed, and not in the rate:
+    // the rate is the 2 bytes this run transferred per second of the time it reports.
+    TransferProgress first = progress.get(0);
+    assertEquals(10, first.getTransferredBytes());
+    assertEquals(10, first.getResumedBytes());
+    assertEquals(0, first.getBytesPerSecond(), 0);
+    TransferProgress last = result.getFinalProgress();
+    assertEquals(12, last.getTransferredBytes());
+    assertEquals(10, last.getResumedBytes());
+    assertTrue(String.valueOf(last.getElapsed()), last.getElapsed().toNanos() > 0);
+    assertTrue(String.valueOf(last.getBytesPerSecond()), last.getBytesPerSecond() > 0 && Double.isFinite(last.getBytesPerSecond()));
+    assertEquals(2, last.getBytesPerSecond() * last.getElapsed().toNanos() / 1e9, 1e-6);
     assertEquals("deleted once completed", 0, listing(checkpoints).size());
   }
 

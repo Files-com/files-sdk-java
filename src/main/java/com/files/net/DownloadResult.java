@@ -4,7 +4,7 @@ import com.files.models.File;
 import java.nio.file.Path;
 
 /**
- * A completed download.
+ * A completed download, to a local file or to a stream of yours.
  */
 public final class DownloadResult {
   private final File file;
@@ -26,12 +26,15 @@ public final class DownloadResult {
     return file;
   }
 
-  /** The local file the contents were written to. */
+  /**
+   * The local file the contents were written to, or null for a download to a stream
+   * ({@link Transfers#download(File, java.io.OutputStream, DownloadOptions)}).
+   */
   public Path getDestination() {
     return destination;
   }
 
-  /** The number of bytes downloaded. */
+  /** The number of bytes downloaded: for a download to a stream, the bytes written to it. */
   public long getSize() {
     return size;
   }

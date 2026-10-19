@@ -33,6 +33,11 @@ public class FileMigration implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -56,14 +61,29 @@ public class FileMigration implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code FileMigration} with no attributes set.
+   */
   public FileMigration() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code FileMigration} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public FileMigration(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code FileMigration} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public FileMigration(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -81,6 +101,11 @@ public class FileMigration implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -91,6 +116,11 @@ public class FileMigration implements ModelInterface {
   @JsonProperty("path")
   public String path;
 
+  /**
+   * Gets {@link #path}.
+   *
+   * @return the value of {@link #path}
+   */
   public String getPath() {
     return path;
   }
@@ -101,6 +131,11 @@ public class FileMigration implements ModelInterface {
   @JsonProperty("dest_path")
   public String destPath;
 
+  /**
+   * Gets {@link #destPath}.
+   *
+   * @return the value of {@link #destPath}
+   */
   public String getDestPath() {
     return destPath;
   }
@@ -111,6 +146,11 @@ public class FileMigration implements ModelInterface {
   @JsonProperty("failure_message")
   public String failureMessage;
 
+  /**
+   * Gets {@link #failureMessage}.
+   *
+   * @return the value of {@link #failureMessage}
+   */
   public String getFailureMessage() {
     return failureMessage;
   }
@@ -121,15 +161,26 @@ public class FileMigration implements ModelInterface {
   @JsonProperty("files_moved")
   public Long filesMoved;
 
+  /**
+   * Gets {@link #filesMoved}.
+   *
+   * @return the value of {@link #filesMoved}
+   */
   public Long getFilesMoved() {
     return filesMoved;
   }
 
   /**
+   * Deprecated total file count for a regional migration; other migration types return zero.
    */
   @JsonProperty("files_total")
   public Long filesTotal;
 
+  /**
+   * Gets {@link #filesTotal}.
+   *
+   * @return the value of {@link #filesTotal}
+   */
   public Long getFilesTotal() {
     return filesTotal;
   }
@@ -140,6 +191,11 @@ public class FileMigration implements ModelInterface {
   @JsonProperty("operation")
   public String operation;
 
+  /**
+   * Gets {@link #operation}.
+   *
+   * @return the value of {@link #operation}
+   */
   public String getOperation() {
     return operation;
   }
@@ -150,6 +206,11 @@ public class FileMigration implements ModelInterface {
   @JsonProperty("region")
   public String region;
 
+  /**
+   * Gets {@link #region}.
+   *
+   * @return the value of {@link #region}
+   */
   public String getRegion() {
     return region;
   }
@@ -160,6 +221,11 @@ public class FileMigration implements ModelInterface {
   @JsonProperty("status")
   public String status;
 
+  /**
+   * Gets {@link #status}.
+   *
+   * @return the value of {@link #status}
+   */
   public String getStatus() {
     return status;
   }
@@ -170,35 +236,69 @@ public class FileMigration implements ModelInterface {
   @JsonProperty("log_url")
   public String logUrl;
 
+  /**
+   * Gets {@link #logUrl}.
+   *
+   * @return the value of {@link #logUrl}
+   */
   public String getLogUrl() {
     return logUrl;
   }
 
 
   /**
-   * Parameters:
-   *   id (required) - int64 - File Migration ID.
+   * Show File Migration
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static FileMigration find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show File Migration
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static FileMigration find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show File Migration
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static FileMigration find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show File Migration
+   *
+   * @param id File Migration ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code FileMigration}
+   */
   public static FileMigration find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().fileMigrations().find(id, parameters, options);
   }
 
+  /**
+   * Show File Migration
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static FileMigration get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show File Migration
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static FileMigration get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }

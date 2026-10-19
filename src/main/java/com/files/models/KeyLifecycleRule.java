@@ -36,6 +36,11 @@ public class KeyLifecycleRule implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -59,14 +64,29 @@ public class KeyLifecycleRule implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code KeyLifecycleRule} with no attributes set.
+   */
   public KeyLifecycleRule() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code KeyLifecycleRule} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public KeyLifecycleRule(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code KeyLifecycleRule} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public KeyLifecycleRule(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -84,10 +104,20 @@ public class KeyLifecycleRule implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -98,10 +128,20 @@ public class KeyLifecycleRule implements ModelInterface {
   @JsonProperty("key_type")
   public String keyType;
 
+  /**
+   * Gets {@link #keyType}.
+   *
+   * @return the value of {@link #keyType}
+   */
   public String getKeyType() {
     return keyType;
   }
 
+  /**
+   * Sets {@link #keyType}.
+   *
+   * @param keyType the new value
+   */
   public void setKeyType(String keyType) {
     this.keyType = keyType;
   }
@@ -112,10 +152,20 @@ public class KeyLifecycleRule implements ModelInterface {
   @JsonProperty("inactivity_days")
   public Long inactivityDays;
 
+  /**
+   * Gets {@link #inactivityDays}.
+   *
+   * @return the value of {@link #inactivityDays}
+   */
   public Long getInactivityDays() {
     return inactivityDays;
   }
 
+  /**
+   * Sets {@link #inactivityDays}.
+   *
+   * @param inactivityDays the new value
+   */
   public void setInactivityDays(Long inactivityDays) {
     this.inactivityDays = inactivityDays;
   }
@@ -126,10 +176,20 @@ public class KeyLifecycleRule implements ModelInterface {
   @JsonProperty("expiration_days")
   public Long expirationDays;
 
+  /**
+   * Gets {@link #expirationDays}.
+   *
+   * @return the value of {@link #expirationDays}
+   */
   public Long getExpirationDays() {
     return expirationDays;
   }
 
+  /**
+   * Sets {@link #expirationDays}.
+   *
+   * @param expirationDays the new value
+   */
   public void setExpirationDays(Long expirationDays) {
     this.expirationDays = expirationDays;
   }
@@ -140,10 +200,20 @@ public class KeyLifecycleRule implements ModelInterface {
   @JsonProperty("apply_to_all_workspaces")
   public Boolean applyToAllWorkspaces;
 
+  /**
+   * Gets {@link #applyToAllWorkspaces}.
+   *
+   * @return the value of {@link #applyToAllWorkspaces}
+   */
   public Boolean getApplyToAllWorkspaces() {
     return applyToAllWorkspaces;
   }
 
+  /**
+   * Sets {@link #applyToAllWorkspaces}.
+   *
+   * @param applyToAllWorkspaces the new value
+   */
   public void setApplyToAllWorkspaces(Boolean applyToAllWorkspaces) {
     this.applyToAllWorkspaces = applyToAllWorkspaces;
   }
@@ -154,10 +224,20 @@ public class KeyLifecycleRule implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -168,23 +248,39 @@ public class KeyLifecycleRule implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
 
+  /**
+   * Sets {@link #workspaceId}.
+   *
+   * @param workspaceId the new value
+   */
   public void setWorkspaceId(Long workspaceId) {
     this.workspaceId = workspaceId;
   }
 
   /**
    * Updates this KeyLifecycleRule. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to keys in all workspaces.
-   *   expiration_days - int64 - Number of days after creation before an SSH key expires. Applies only to SSH keys.
-   *   key_type - string - Key type for which the rule will apply (gpg, ssh, or api).
-   *   inactivity_days - int64 - Number of days of inactivity before the rule applies.
-   *   name - string - Key Lifecycle Rule name
-   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   * <p>Update Key Lifecycle Rule
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code apply_to_all_workspaces} (Boolean): If true, a default-workspace rule also applies to keys in all workspaces.</li>
+   * <li>{@code expiration_days} (Long): Number of days after creation before an SSH key expires. Applies only to SSH keys.</li>
+   * <li>{@code key_type} (String): Key type for which the rule will apply (gpg, ssh, or api).</li>
+   * <li>{@code inactivity_days} (Long): Number of days of inactivity before the rule applies.</li>
+   * <li>{@code name} (String): Key Lifecycle Rule name</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. `0` means the default workspace.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code KeyLifecycleRule}
    */
   public KeyLifecycleRule update(HashMap<String, Object> parameters) throws IOException {
     KeyLifecycleRule updated = filesClient().keyLifecycleRules().update(this.id, parameters, this.options);
@@ -193,11 +289,19 @@ public class KeyLifecycleRule implements ModelInterface {
   }
 
   /**
+   * Delete Key Lifecycle Rule
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().keyLifecycleRules().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Key Lifecycle Rule
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -236,132 +340,258 @@ public class KeyLifecycleRule implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `key_type`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `key_type` and `workspace_id`. Valid field combinations are `[ workspace_id, key_type ]`.
+   * List Key Lifecycle Rules
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<KeyLifecycleRule> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Key Lifecycle Rules
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<KeyLifecycleRule> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Key Lifecycle Rules
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `key_type`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `key_type` and `workspace_id`. Valid field combinations are `[ workspace_id, key_type ]`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code KeyLifecycleRule} records, in a {@code ListIterator}
+   */
   public static ListIterator<KeyLifecycleRule> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().keyLifecycleRules().list(parameters, options);
   }
 
+  /**
+   * List Key Lifecycle Rules
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<KeyLifecycleRule> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Key Lifecycle Rules
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<KeyLifecycleRule> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Key Lifecycle Rule ID.
+   * Show Key Lifecycle Rule
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static KeyLifecycleRule find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Key Lifecycle Rule
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static KeyLifecycleRule find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Key Lifecycle Rule
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static KeyLifecycleRule find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Key Lifecycle Rule
+   *
+   * @param id Key Lifecycle Rule ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code KeyLifecycleRule}
+   */
   public static KeyLifecycleRule find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().keyLifecycleRules().find(id, parameters, options);
   }
 
+  /**
+   * Show Key Lifecycle Rule
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static KeyLifecycleRule get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Key Lifecycle Rule
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static KeyLifecycleRule get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to keys in all workspaces.
-   *   expiration_days - int64 - Number of days after creation before an SSH key expires. Applies only to SSH keys.
-   *   key_type - string - Key type for which the rule will apply (gpg, ssh, or api).
-   *   inactivity_days - int64 - Number of days of inactivity before the rule applies.
-   *   name - string - Key Lifecycle Rule name
-   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   * Create Key Lifecycle Rule
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static KeyLifecycleRule create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Key Lifecycle Rule
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static KeyLifecycleRule create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Key Lifecycle Rule
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code apply_to_all_workspaces} (Boolean): If true, a default-workspace rule also applies to keys in all workspaces.</li>
+   * <li>{@code expiration_days} (Long): Number of days after creation before an SSH key expires. Applies only to SSH keys.</li>
+   * <li>{@code key_type} (String): Key type for which the rule will apply (gpg, ssh, or api).</li>
+   * <li>{@code inactivity_days} (Long): Number of days of inactivity before the rule applies.</li>
+   * <li>{@code name} (String): Key Lifecycle Rule name</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. `0` means the default workspace.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code KeyLifecycleRule}
+   */
   public static KeyLifecycleRule create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().keyLifecycleRules().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   apply_to_all_workspaces - boolean - If true, a default-workspace rule also applies to keys in all workspaces.
-   *   expiration_days - int64 - Number of days after creation before an SSH key expires. Applies only to SSH keys.
-   *   key_type - string - Key type for which the rule will apply (gpg, ssh, or api).
-   *   inactivity_days - int64 - Number of days of inactivity before the rule applies.
-   *   name - string - Key Lifecycle Rule name
-   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   * Update Key Lifecycle Rule
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static KeyLifecycleRule update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Key Lifecycle Rule
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static KeyLifecycleRule update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Key Lifecycle Rule
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static KeyLifecycleRule update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Key Lifecycle Rule
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code apply_to_all_workspaces} (Boolean): If true, a default-workspace rule also applies to keys in all workspaces.</li>
+   * <li>{@code expiration_days} (Long): Number of days after creation before an SSH key expires. Applies only to SSH keys.</li>
+   * <li>{@code key_type} (String): Key type for which the rule will apply (gpg, ssh, or api).</li>
+   * <li>{@code inactivity_days} (Long): Number of days of inactivity before the rule applies.</li>
+   * <li>{@code name} (String): Key Lifecycle Rule name</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. `0` means the default workspace.</li>
+   * </ul>
+   *
+   * @param id Key Lifecycle Rule ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code KeyLifecycleRule}
+   */
   public static KeyLifecycleRule update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().keyLifecycleRules().update(id, parameters, options);
   }
 
 
   /**
+   * Delete Key Lifecycle Rule
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Key Lifecycle Rule
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Key Lifecycle Rule
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Key Lifecycle Rule
+   *
+   * @param id Key Lifecycle Rule ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().keyLifecycleRules().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Key Lifecycle Rule
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Key Lifecycle Rule
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

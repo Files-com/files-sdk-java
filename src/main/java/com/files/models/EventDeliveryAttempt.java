@@ -35,6 +35,11 @@ public class EventDeliveryAttempt implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class EventDeliveryAttempt implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code EventDeliveryAttempt} with no attributes set.
+   */
   public EventDeliveryAttempt() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code EventDeliveryAttempt} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public EventDeliveryAttempt(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code EventDeliveryAttempt} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public EventDeliveryAttempt(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,6 +103,11 @@ public class EventDeliveryAttempt implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -93,6 +118,11 @@ public class EventDeliveryAttempt implements ModelInterface {
   @JsonProperty("event_record_id")
   public Long eventRecordId;
 
+  /**
+   * Gets {@link #eventRecordId}.
+   *
+   * @return the value of {@link #eventRecordId}
+   */
   public Long getEventRecordId() {
     return eventRecordId;
   }
@@ -103,6 +133,11 @@ public class EventDeliveryAttempt implements ModelInterface {
   @JsonProperty("event_subscription_id")
   public Long eventSubscriptionId;
 
+  /**
+   * Gets {@link #eventSubscriptionId}.
+   *
+   * @return the value of {@link #eventSubscriptionId}
+   */
   public Long getEventSubscriptionId() {
     return eventSubscriptionId;
   }
@@ -113,6 +148,11 @@ public class EventDeliveryAttempt implements ModelInterface {
   @JsonProperty("event_target_id")
   public Long eventTargetId;
 
+  /**
+   * Gets {@link #eventTargetId}.
+   *
+   * @return the value of {@link #eventTargetId}
+   */
   public Long getEventTargetId() {
     return eventTargetId;
   }
@@ -123,6 +163,11 @@ public class EventDeliveryAttempt implements ModelInterface {
   @JsonProperty("activity_notification_batch_id")
   public Long activityNotificationBatchId;
 
+  /**
+   * Gets {@link #activityNotificationBatchId}.
+   *
+   * @return the value of {@link #activityNotificationBatchId}
+   */
   public Long getActivityNotificationBatchId() {
     return activityNotificationBatchId;
   }
@@ -133,6 +178,11 @@ public class EventDeliveryAttempt implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
@@ -143,6 +193,11 @@ public class EventDeliveryAttempt implements ModelInterface {
   @JsonProperty("status")
   public String status;
 
+  /**
+   * Gets {@link #status}.
+   *
+   * @return the value of {@link #status}
+   */
   public String getStatus() {
     return status;
   }
@@ -153,6 +208,11 @@ public class EventDeliveryAttempt implements ModelInterface {
   @JsonProperty("attempt_number")
   public Long attemptNumber;
 
+  /**
+   * Gets {@link #attemptNumber}.
+   *
+   * @return the value of {@link #attemptNumber}
+   */
   public Long getAttemptNumber() {
     return attemptNumber;
   }
@@ -163,6 +223,11 @@ public class EventDeliveryAttempt implements ModelInterface {
   @JsonProperty("response_code")
   public Long responseCode;
 
+  /**
+   * Gets {@link #responseCode}.
+   *
+   * @return the value of {@link #responseCode}
+   */
   public Long getResponseCode() {
     return responseCode;
   }
@@ -173,6 +238,11 @@ public class EventDeliveryAttempt implements ModelInterface {
   @JsonProperty("error_message")
   public String errorMessage;
 
+  /**
+   * Gets {@link #errorMessage}.
+   *
+   * @return the value of {@link #errorMessage}
+   */
   public String getErrorMessage() {
     return errorMessage;
   }
@@ -183,6 +253,11 @@ public class EventDeliveryAttempt implements ModelInterface {
   @JsonProperty("response_body")
   public String responseBody;
 
+  /**
+   * Gets {@link #responseBody}.
+   *
+   * @return the value of {@link #responseBody}
+   */
   public String getResponseBody() {
     return responseBody;
   }
@@ -193,6 +268,11 @@ public class EventDeliveryAttempt implements ModelInterface {
   @JsonProperty("latency_ms")
   public Long latencyMs;
 
+  /**
+   * Gets {@link #latencyMs}.
+   *
+   * @return the value of {@link #latencyMs}
+   */
   public Long getLatencyMs() {
     return latencyMs;
   }
@@ -203,6 +283,11 @@ public class EventDeliveryAttempt implements ModelInterface {
   @JsonProperty("delivered_at")
   public Date deliveredAt;
 
+  /**
+   * Gets {@link #deliveredAt}.
+   *
+   * @return the value of {@link #deliveredAt}
+   */
   public Date getDeliveredAt() {
     return deliveredAt;
   }
@@ -213,6 +298,11 @@ public class EventDeliveryAttempt implements ModelInterface {
   @JsonProperty("last_attempted_at")
   public Date lastAttemptedAt;
 
+  /**
+   * Gets {@link #lastAttemptedAt}.
+   *
+   * @return the value of {@link #lastAttemptedAt}
+   */
   public Date getLastAttemptedAt() {
     return lastAttemptedAt;
   }
@@ -223,6 +313,11 @@ public class EventDeliveryAttempt implements ModelInterface {
   @JsonProperty("next_attempt_at")
   public Date nextAttemptAt;
 
+  /**
+   * Gets {@link #nextAttemptAt}.
+   *
+   * @return the value of {@link #nextAttemptAt}
+   */
   public Date getNextAttemptAt() {
     return nextAttemptAt;
   }
@@ -233,63 +328,124 @@ public class EventDeliveryAttempt implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`, `status`, `event_record_id`, `event_target_id` or `workspace_id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `status`, `workspace_id`, `event_record_id` or `event_target_id`. Valid field combinations are `[ workspace_id, status ]`, `[ workspace_id, event_record_id ]` or `[ workspace_id, event_target_id ]`.
+   * List Event Delivery Attempts
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<EventDeliveryAttempt> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Event Delivery Attempts
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<EventDeliveryAttempt> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Event Delivery Attempts
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`, `status`, `event_record_id`, `event_target_id` or `workspace_id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `status`, `workspace_id`, `event_record_id` or `event_target_id`. Valid field combinations are `[ workspace_id, status ]`, `[ workspace_id, event_record_id ]` or `[ workspace_id, event_target_id ]`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code EventDeliveryAttempt} records, in a {@code ListIterator}
+   */
   public static ListIterator<EventDeliveryAttempt> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().eventDeliveryAttempts().list(parameters, options);
   }
 
+  /**
+   * List Event Delivery Attempts
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<EventDeliveryAttempt> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Event Delivery Attempts
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<EventDeliveryAttempt> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Event Delivery Attempt ID.
+   * Show Event Delivery Attempt
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static EventDeliveryAttempt find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Event Delivery Attempt
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static EventDeliveryAttempt find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Event Delivery Attempt
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static EventDeliveryAttempt find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Event Delivery Attempt
+   *
+   * @param id Event Delivery Attempt ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code EventDeliveryAttempt}
+   */
   public static EventDeliveryAttempt find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().eventDeliveryAttempts().find(id, parameters, options);
   }
 
+  /**
+   * Show Event Delivery Attempt
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static EventDeliveryAttempt get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Event Delivery Attempt
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static EventDeliveryAttempt get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }

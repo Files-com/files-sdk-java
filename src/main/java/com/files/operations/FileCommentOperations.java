@@ -25,23 +25,45 @@ public final class FileCommentOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   path (required) - string - Path to operate on.
+   * List File Comments by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
    */
   public ListIterator<FileComment> listFor() throws RuntimeException {
     return listFor(null, null, null);
   }
 
+  /**
+   * List File Comments by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
   public ListIterator<FileComment> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return listFor(path, parameters, null);
   }
 
+  /**
+   * List File Comments by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
   public ListIterator<FileComment> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return listFor(null, parameters, options);
   }
 
+  /**
+   * List File Comments by Path
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param path Path to operate on.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code FileComment} records, in a {@code ListIterator}
+   */
   public ListIterator<FileComment> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -72,18 +94,35 @@ public final class FileCommentOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   body (required) - string - Comment body.
-   *   path (required) - string - File path.
+   * Create File Comment
+   *
+   * @see #create(HashMap, HashMap)
    */
   public FileComment create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create File Comment
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public FileComment create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create File Comment
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code body} (String): Required. Comment body.</li>
+   * <li>{@code path} (String): Required. File path.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code FileComment}
+   */
   public FileComment create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -110,21 +149,44 @@ public final class FileCommentOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   body (required) - string - Comment body.
+   * Update File Comment
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public FileComment update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update File Comment
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public FileComment update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update File Comment
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public FileComment update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update File Comment
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code body} (String): Required. Comment body.</li>
+   * </ul>
+   *
+   * @param id File Comment ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code FileComment}
+   */
   public FileComment update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -155,19 +217,39 @@ public final class FileCommentOperations extends ResourceOperations {
   }
 
   /**
+   * Delete File Comment
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete File Comment
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete File Comment
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete File Comment
+   *
+   * @param id File Comment ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -188,10 +270,20 @@ public final class FileCommentOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete File Comment
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete File Comment
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

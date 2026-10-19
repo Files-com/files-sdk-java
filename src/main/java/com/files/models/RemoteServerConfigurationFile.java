@@ -33,6 +33,11 @@ public class RemoteServerConfigurationFile implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -56,14 +61,29 @@ public class RemoteServerConfigurationFile implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code RemoteServerConfigurationFile} with no attributes set.
+   */
   public RemoteServerConfigurationFile() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code RemoteServerConfigurationFile} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public RemoteServerConfigurationFile(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code RemoteServerConfigurationFile} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public RemoteServerConfigurationFile(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -81,6 +101,11 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -91,6 +116,11 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   @JsonProperty("permission_set")
   public String permissionSet;
 
+  /**
+   * Gets {@link #permissionSet}.
+   *
+   * @return the value of {@link #permissionSet}
+   */
   public String getPermissionSet() {
     return permissionSet;
   }
@@ -101,6 +131,11 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   @JsonProperty("private_key")
   public String privateKey;
 
+  /**
+   * Gets {@link #privateKey}.
+   *
+   * @return the value of {@link #privateKey}
+   */
   public String getPrivateKey() {
     return privateKey;
   }
@@ -111,6 +146,11 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   @JsonProperty("subdomain")
   public String subdomain;
 
+  /**
+   * Gets {@link #subdomain}.
+   *
+   * @return the value of {@link #subdomain}
+   */
   public String getSubdomain() {
     return subdomain;
   }
@@ -121,6 +161,11 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   @JsonProperty("root")
   public String root;
 
+  /**
+   * Gets {@link #root}.
+   *
+   * @return the value of {@link #root}
+   */
   public String getRoot() {
     return root;
   }
@@ -131,6 +176,11 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   @JsonProperty("node_name")
   public String nodeName;
 
+  /**
+   * Gets {@link #nodeName}.
+   *
+   * @return the value of {@link #nodeName}
+   */
   public String getNodeName() {
     return nodeName;
   }
@@ -141,6 +191,11 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   @JsonProperty("follow_links")
   public Boolean followLinks;
 
+  /**
+   * Gets {@link #followLinks}.
+   *
+   * @return the value of {@link #followLinks}
+   */
   public Boolean getFollowLinks() {
     return followLinks;
   }
@@ -151,6 +206,11 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   @JsonProperty("prefer_protocol")
   public String preferProtocol;
 
+  /**
+   * Gets {@link #preferProtocol}.
+   *
+   * @return the value of {@link #preferProtocol}
+   */
   public String getPreferProtocol() {
     return preferProtocol;
   }
@@ -161,6 +221,11 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   @JsonProperty("dns")
   public String dns;
 
+  /**
+   * Gets {@link #dns}.
+   *
+   * @return the value of {@link #dns}
+   */
   public String getDns() {
     return dns;
   }
@@ -171,6 +236,11 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   @JsonProperty("proxy_all_outbound")
   public Boolean proxyAllOutbound;
 
+  /**
+   * Gets {@link #proxyAllOutbound}.
+   *
+   * @return the value of {@link #proxyAllOutbound}
+   */
   public Boolean getProxyAllOutbound() {
     return proxyAllOutbound;
   }
@@ -181,6 +251,11 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   @JsonProperty("endpoint_override")
   public String endpointOverride;
 
+  /**
+   * Gets {@link #endpointOverride}.
+   *
+   * @return the value of {@link #endpointOverride}
+   */
   public String getEndpointOverride() {
     return endpointOverride;
   }
@@ -191,6 +266,11 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   @JsonProperty("log_file")
   public String logFile;
 
+  /**
+   * Gets {@link #logFile}.
+   *
+   * @return the value of {@link #logFile}
+   */
   public String getLogFile() {
     return logFile;
   }
@@ -201,6 +281,11 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   @JsonProperty("log_level")
   public String logLevel;
 
+  /**
+   * Gets {@link #logLevel}.
+   *
+   * @return the value of {@link #logLevel}
+   */
   public String getLogLevel() {
     return logLevel;
   }
@@ -211,6 +296,11 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   @JsonProperty("log_rotate_num")
   public Long logRotateNum;
 
+  /**
+   * Gets {@link #logRotateNum}.
+   *
+   * @return the value of {@link #logRotateNum}
+   */
   public Long getLogRotateNum() {
     return logRotateNum;
   }
@@ -221,6 +311,11 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   @JsonProperty("log_rotate_size")
   public Long logRotateSize;
 
+  /**
+   * Gets {@link #logRotateSize}.
+   *
+   * @return the value of {@link #logRotateSize}
+   */
   public Long getLogRotateSize() {
     return logRotateSize;
   }
@@ -231,6 +326,11 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   @JsonProperty("override_max_concurrent_jobs")
   public Long overrideMaxConcurrentJobs;
 
+  /**
+   * Gets {@link #overrideMaxConcurrentJobs}.
+   *
+   * @return the value of {@link #overrideMaxConcurrentJobs}
+   */
   public Long getOverrideMaxConcurrentJobs() {
     return overrideMaxConcurrentJobs;
   }
@@ -241,13 +341,18 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   @JsonProperty("graceful_shutdown_timeout")
   public Long gracefulShutdownTimeout;
 
+  /**
+   * Gets {@link #gracefulShutdownTimeout}.
+   *
+   * @return the value of {@link #gracefulShutdownTimeout}
+   */
   public Long getGracefulShutdownTimeout() {
     return gracefulShutdownTimeout;
   }
 
   /**
    * File transfer (upload/download) rate limit
-   *  ` limit - period `, with the given periods:
+   *  `&lt;limit&gt;-&lt;period&gt;`, with the given periods:
    * * 'S': second
    * * 'M': minute
    * * 'H': hour
@@ -261,6 +366,11 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   @JsonProperty("transfer_rate_limit")
   public String transferRateLimit;
 
+  /**
+   * Gets {@link #transferRateLimit}.
+   *
+   * @return the value of {@link #transferRateLimit}
+   */
   public String getTransferRateLimit() {
     return transferRateLimit;
   }
@@ -271,6 +381,11 @@ public class RemoteServerConfigurationFile implements ModelInterface {
   @JsonProperty("auto_update_policy")
   public String autoUpdatePolicy;
 
+  /**
+   * Gets {@link #autoUpdatePolicy}.
+   *
+   * @return the value of {@link #autoUpdatePolicy}
+   */
   public String getAutoUpdatePolicy() {
     return autoUpdatePolicy;
   }

@@ -44,12 +44,9 @@
 
 ## List Child Site Management Policies. On a Child Site, returns only the policy covering that site. Its value contains managed setting names with null values
 
-```
-ListIterator<ChildSiteManagementPolicy> childSiteManagementPolicy = ChildSiteManagementPolicy.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<ChildSiteManagementPolicy> childSiteManagementPolicies = ChildSiteManagementPolicy.list(parameters, null);
 ```
 
 ### Parameters
@@ -62,12 +59,9 @@ ListIterator<ChildSiteManagementPolicy> childSiteManagementPolicy = ChildSiteMan
 
 ## Show Child Site Management Policy
 
-```
-ChildSiteManagementPolicy childSiteManagementPolicy = ChildSiteManagementPolicy.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ChildSiteManagementPolicy childSiteManagementPolicy = ChildSiteManagementPolicy.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -79,12 +73,18 @@ ChildSiteManagementPolicy childSiteManagementPolicy = ChildSiteManagementPolicy.
 
 ## Create Child Site Management Policy
 
-```
-ChildSiteManagementPolicy childSiteManagementPolicy = ChildSiteManagementPolicy.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("color2_left", "#000000");
+parameters.put("value", map1);
+parameters.put("skip_child_site_ids", new Long[] {1L, 2L});
+parameters.put("child_site_ids", new Long[] {1L, 2L});
+parameters.put("default_policy", true);
+parameters.put("policy_type", "settings");
+parameters.put("name", "example");
+parameters.put("description", "example");
+ChildSiteManagementPolicy childSiteManagementPolicy = ChildSiteManagementPolicy.create(parameters, null);
 ```
 
 ### Parameters
@@ -102,12 +102,18 @@ ChildSiteManagementPolicy childSiteManagementPolicy = ChildSiteManagementPolicy.
 
 ## Update Child Site Management Policy
 
-```
-ChildSiteManagementPolicy childSiteManagementPolicy = ChildSiteManagementPolicy.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("color2_left", "#000000");
+parameters.put("value", map1);
+parameters.put("skip_child_site_ids", new Long[] {1L, 2L});
+parameters.put("child_site_ids", new Long[] {1L, 2L});
+parameters.put("default_policy", true);
+parameters.put("policy_type", "settings");
+parameters.put("name", "example");
+parameters.put("description", "example");
+ChildSiteManagementPolicy childSiteManagementPolicy = ChildSiteManagementPolicy.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -126,12 +132,9 @@ ChildSiteManagementPolicy childSiteManagementPolicy = ChildSiteManagementPolicy.
 
 ## Delete Child Site Management Policy
 
-```
-void childSiteManagementPolicy = ChildSiteManagementPolicy.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ChildSiteManagementPolicy.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -143,19 +146,19 @@ void childSiteManagementPolicy = ChildSiteManagementPolicy.delete(
 
 ## Update Child Site Management Policy
 
-```
-ChildSiteManagementPolicy childSiteManagementPolicy = ChildSiteManagementPolicy.find(id);
-
+```java
+ChildSiteManagementPolicy childSiteManagementPolicy = ChildSiteManagementPolicy.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("value", {"color2_left":"#000000"});
-parameters.put("skip_child_site_ids", [1,2]);
-parameters.put("child_site_ids", [1,2]);
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("color2_left", "#000000");
+parameters.put("value", map1);
+parameters.put("skip_child_site_ids", new Long[] {1L, 2L});
+parameters.put("child_site_ids", new Long[] {1L, 2L});
 parameters.put("default_policy", true);
 parameters.put("policy_type", "settings");
 parameters.put("name", "example");
 parameters.put("description", "example");
-
-childSiteManagementPolicy.update(parameters);
+ChildSiteManagementPolicy result = childSiteManagementPolicy.update(parameters);
 ```
 
 ### Parameters
@@ -174,11 +177,9 @@ childSiteManagementPolicy.update(parameters);
 
 ## Delete Child Site Management Policy
 
-```
-ChildSiteManagementPolicy childSiteManagementPolicy = ChildSiteManagementPolicy.find(id);
-
+```java
+ChildSiteManagementPolicy childSiteManagementPolicy = ChildSiteManagementPolicy.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 childSiteManagementPolicy.delete(parameters);
 ```
 

@@ -71,12 +71,10 @@
 
 ## List Sync Runs
 
-```
-ListIterator<SyncRun> syncRun = SyncRun.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+ListIterator<SyncRun> syncRuns = SyncRun.list(parameters, null);
 ```
 
 ### Parameters
@@ -96,12 +94,9 @@ ListIterator<SyncRun> syncRun = SyncRun.list(
 
 ## Show Sync Run
 
-```
-SyncRun syncRun = SyncRun.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+SyncRun syncRun = SyncRun.find(1L, parameters, null);
 ```
 
 ### Parameters

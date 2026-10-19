@@ -37,6 +37,11 @@ public class AiTask implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -60,14 +65,29 @@ public class AiTask implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code AiTask} with no attributes set.
+   */
   public AiTask() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code AiTask} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public AiTask(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code AiTask} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public AiTask(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -85,10 +105,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -99,10 +129,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
 
+  /**
+   * Sets {@link #workspaceId}.
+   *
+   * @param workspaceId the new value
+   */
   public void setWorkspaceId(Long workspaceId) {
     this.workspaceId = workspaceId;
   }
@@ -113,10 +153,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -127,10 +177,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("description")
   public String description;
 
+  /**
+   * Gets {@link #description}.
+   *
+   * @return the value of {@link #description}
+   */
   public String getDescription() {
     return description;
   }
 
+  /**
+   * Sets {@link #description}.
+   *
+   * @param description the new value
+   */
   public void setDescription(String description) {
     this.description = description;
   }
@@ -141,10 +201,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("prompt")
   public String prompt;
 
+  /**
+   * Gets {@link #prompt}.
+   *
+   * @return the value of {@link #prompt}
+   */
   public String getPrompt() {
     return prompt;
   }
 
+  /**
+   * Sets {@link #prompt}.
+   *
+   * @param prompt the new value
+   */
   public void setPrompt(String prompt) {
     this.prompt = prompt;
   }
@@ -155,10 +225,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("permission_set")
   public String permissionSet;
 
+  /**
+   * Gets {@link #permissionSet}.
+   *
+   * @return the value of {@link #permissionSet}
+   */
   public String getPermissionSet() {
     return permissionSet;
   }
 
+  /**
+   * Sets {@link #permissionSet}.
+   *
+   * @param permissionSet the new value
+   */
   public void setPermissionSet(String permissionSet) {
     this.permissionSet = permissionSet;
   }
@@ -169,10 +249,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("path")
   public String path;
 
+  /**
+   * Gets {@link #path}.
+   *
+   * @return the value of {@link #path}
+   */
   public String getPath() {
     return path;
   }
 
+  /**
+   * Sets {@link #path}.
+   *
+   * @param path the new value
+   */
   public void setPath(String path) {
     this.path = path;
   }
@@ -183,10 +273,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("source")
   public String source;
 
+  /**
+   * Gets {@link #source}.
+   *
+   * @return the value of {@link #source}
+   */
   public String getSource() {
     return source;
   }
 
+  /**
+   * Sets {@link #source}.
+   *
+   * @param source the new value
+   */
   public void setSource(String source) {
     this.source = source;
   }
@@ -197,10 +297,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("disabled")
   public Boolean disabled;
 
+  /**
+   * Gets {@link #disabled}.
+   *
+   * @return the value of {@link #disabled}
+   */
   public Boolean getDisabled() {
     return disabled;
   }
 
+  /**
+   * Sets {@link #disabled}.
+   *
+   * @param disabled the new value
+   */
   public void setDisabled(Boolean disabled) {
     this.disabled = disabled;
   }
@@ -211,10 +321,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("trigger")
   public String trigger;
 
+  /**
+   * Gets {@link #trigger}.
+   *
+   * @return the value of {@link #trigger}
+   */
   public String getTrigger() {
     return trigger;
   }
 
+  /**
+   * Sets {@link #trigger}.
+   *
+   * @param trigger the new value
+   */
   public void setTrigger(String trigger) {
     this.trigger = trigger;
   }
@@ -225,10 +345,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("trigger_actions")
   public String[] triggerActions;
 
+  /**
+   * Gets {@link #triggerActions}.
+   *
+   * @return the value of {@link #triggerActions}
+   */
   public String[] getTriggerActions() {
     return triggerActions;
   }
 
+  /**
+   * Sets {@link #triggerActions}.
+   *
+   * @param triggerActions the new value
+   */
   public void setTriggerActions(String[] triggerActions) {
     this.triggerActions = triggerActions;
   }
@@ -239,10 +369,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("interval")
   public String interval;
 
+  /**
+   * Gets {@link #interval}.
+   *
+   * @return the value of {@link #interval}
+   */
   public String getInterval() {
     return interval;
   }
 
+  /**
+   * Sets {@link #interval}.
+   *
+   * @param interval the new value
+   */
   public void setInterval(String interval) {
     this.interval = interval;
   }
@@ -253,10 +393,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("recurring_day")
   public Long recurringDay;
 
+  /**
+   * Gets {@link #recurringDay}.
+   *
+   * @return the value of {@link #recurringDay}
+   */
   public Long getRecurringDay() {
     return recurringDay;
   }
 
+  /**
+   * Sets {@link #recurringDay}.
+   *
+   * @param recurringDay the new value
+   */
   public void setRecurringDay(Long recurringDay) {
     this.recurringDay = recurringDay;
   }
@@ -267,10 +417,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("recurring_days")
   public Long[] recurringDays;
 
+  /**
+   * Gets {@link #recurringDays}.
+   *
+   * @return the value of {@link #recurringDays}
+   */
   public Long[] getRecurringDays() {
     return recurringDays;
   }
 
+  /**
+   * Sets {@link #recurringDays}.
+   *
+   * @param recurringDays the new value
+   */
   public void setRecurringDays(Long[] recurringDays) {
     this.recurringDays = recurringDays;
   }
@@ -281,10 +441,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("schedule_id")
   public Long scheduleId;
 
+  /**
+   * Gets {@link #scheduleId}.
+   *
+   * @return the value of {@link #scheduleId}
+   */
   public Long getScheduleId() {
     return scheduleId;
   }
 
+  /**
+   * Sets {@link #scheduleId}.
+   *
+   * @param scheduleId the new value
+   */
   public void setScheduleId(Long scheduleId) {
     this.scheduleId = scheduleId;
   }
@@ -295,10 +465,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("schedule_days_of_week")
   public Long[] scheduleDaysOfWeek;
 
+  /**
+   * Gets {@link #scheduleDaysOfWeek}.
+   *
+   * @return the value of {@link #scheduleDaysOfWeek}
+   */
   public Long[] getScheduleDaysOfWeek() {
     return scheduleDaysOfWeek;
   }
 
+  /**
+   * Sets {@link #scheduleDaysOfWeek}.
+   *
+   * @param scheduleDaysOfWeek the new value
+   */
   public void setScheduleDaysOfWeek(Long[] scheduleDaysOfWeek) {
     this.scheduleDaysOfWeek = scheduleDaysOfWeek;
   }
@@ -309,10 +489,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("schedule_times_of_day")
   public String[] scheduleTimesOfDay;
 
+  /**
+   * Gets {@link #scheduleTimesOfDay}.
+   *
+   * @return the value of {@link #scheduleTimesOfDay}
+   */
   public String[] getScheduleTimesOfDay() {
     return scheduleTimesOfDay;
   }
 
+  /**
+   * Sets {@link #scheduleTimesOfDay}.
+   *
+   * @param scheduleTimesOfDay the new value
+   */
   public void setScheduleTimesOfDay(String[] scheduleTimesOfDay) {
     this.scheduleTimesOfDay = scheduleTimesOfDay;
   }
@@ -323,10 +513,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("schedule_time_zone")
   public String scheduleTimeZone;
 
+  /**
+   * Gets {@link #scheduleTimeZone}.
+   *
+   * @return the value of {@link #scheduleTimeZone}
+   */
   public String getScheduleTimeZone() {
     return scheduleTimeZone;
   }
 
+  /**
+   * Sets {@link #scheduleTimeZone}.
+   *
+   * @param scheduleTimeZone the new value
+   */
   public void setScheduleTimeZone(String scheduleTimeZone) {
     this.scheduleTimeZone = scheduleTimeZone;
   }
@@ -337,10 +537,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("holiday_region")
   public String holidayRegion;
 
+  /**
+   * Gets {@link #holidayRegion}.
+   *
+   * @return the value of {@link #holidayRegion}
+   */
   public String getHolidayRegion() {
     return holidayRegion;
   }
 
+  /**
+   * Sets {@link #holidayRegion}.
+   *
+   * @param holidayRegion the new value
+   */
   public void setHolidayRegion(String holidayRegion) {
     this.holidayRegion = holidayRegion;
   }
@@ -351,10 +561,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("human_readable_schedule")
   public String humanReadableSchedule;
 
+  /**
+   * Gets {@link #humanReadableSchedule}.
+   *
+   * @return the value of {@link #humanReadableSchedule}
+   */
   public String getHumanReadableSchedule() {
     return humanReadableSchedule;
   }
 
+  /**
+   * Sets {@link #humanReadableSchedule}.
+   *
+   * @param humanReadableSchedule the new value
+   */
   public void setHumanReadableSchedule(String humanReadableSchedule) {
     this.humanReadableSchedule = humanReadableSchedule;
   }
@@ -365,10 +585,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("last_run_at")
   public Date lastRunAt;
 
+  /**
+   * Gets {@link #lastRunAt}.
+   *
+   * @return the value of {@link #lastRunAt}
+   */
   public Date getLastRunAt() {
     return lastRunAt;
   }
 
+  /**
+   * Sets {@link #lastRunAt}.
+   *
+   * @param lastRunAt the new value
+   */
   public void setLastRunAt(Date lastRunAt) {
     this.lastRunAt = lastRunAt;
   }
@@ -379,10 +609,20 @@ public class AiTask implements ModelInterface {
   @JsonProperty("master_admin_user_id")
   public Long masterAdminUserId;
 
+  /**
+   * Gets {@link #masterAdminUserId}.
+   *
+   * @return the value of {@link #masterAdminUserId}
+   */
   public Long getMasterAdminUserId() {
     return masterAdminUserId;
   }
 
+  /**
+   * Sets {@link #masterAdminUserId}.
+   *
+   * @param masterAdminUserId the new value
+   */
   public void setMasterAdminUserId(Long masterAdminUserId) {
     this.masterAdminUserId = masterAdminUserId;
   }
@@ -393,6 +633,11 @@ public class AiTask implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -403,12 +648,19 @@ public class AiTask implements ModelInterface {
   @JsonProperty("updated_at")
   public Date updatedAt;
 
+  /**
+   * Gets {@link #updatedAt}.
+   *
+   * @return the value of {@link #updatedAt}
+   */
   public Date getUpdatedAt() {
     return updatedAt;
   }
 
   /**
    * Manually Run AI Task
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void manualRun(HashMap<String, Object> parameters) throws IOException {
     filesClient().aiTasks().manualRun(this.id, parameters, this.options);
@@ -416,25 +668,31 @@ public class AiTask implements ModelInterface {
 
   /**
    * Updates this AiTask. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   description - string - AI Task description.
-   *   disabled - boolean - If true, this AI Task will not run.
-   *   holiday_region - string - Optional holiday region used by the AI Task schedule.
-   *   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
-   *   name - string - AI Task name.
-   *   path - string - Path scope used for action-triggered AI Tasks.
-   *   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
-   *   prompt - string - Prompt sent when this AI Task is invoked.
-   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
-   *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
-   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-   *   schedule_time_zone - string - Time zone used by the AI Task schedule.
-   *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the AI Task schedule.
-   *   source - string - Source glob used with `path` for action-triggered AI Tasks.
-   *   trigger - string - How this AI Task is triggered.
-   *   trigger_actions - array(string) - If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
-   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   * <p>Update Ai Task
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code description} (String): AI Task description.</li>
+   * <li>{@code disabled} (Boolean): If true, this AI Task will not run.</li>
+   * <li>{@code holiday_region} (String): Optional holiday region used by the AI Task schedule.</li>
+   * <li>{@code interval} (String): If trigger is `daily`, this specifies how often to run the AI Task.</li>
+   * <li>{@code name} (String): AI Task name.</li>
+   * <li>{@code path} (String): Path scope used for action-triggered AI Tasks.</li>
+   * <li>{@code permission_set} (String): Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.</li>
+   * <li>{@code prompt} (String): Prompt sent when this AI Task is invoked.</li>
+   * <li>{@code recurring_day} (Long): If trigger is `daily`, this selects the day number inside the chosen interval.</li>
+   * <li>{@code recurring_days} (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.</li>
+   * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.</li>
+   * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.</li>
+   * <li>{@code schedule_time_zone} (String): Time zone used by the AI Task schedule.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the AI Task schedule.</li>
+   * <li>{@code source} (String): Source glob used with `path` for action-triggered AI Tasks.</li>
+   * <li>{@code trigger} (String): How this AI Task is triggered.</li>
+   * <li>{@code trigger_actions} (String[]): If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. `0` means the default workspace.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code AiTask}
    */
   public AiTask update(HashMap<String, Object> parameters) throws IOException {
     AiTask updated = filesClient().aiTasks().update(this.id, parameters, this.options);
@@ -443,11 +701,19 @@ public class AiTask implements ModelInterface {
   }
 
   /**
+   * Delete Ai Task
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().aiTasks().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Ai Task
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -516,91 +782,164 @@ public class AiTask implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name`, `disabled` or `updated_at`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled`, `trigger` or `workspace_id`. Valid field combinations are `[ workspace_id, disabled ]`.
+   * List Ai Tasks
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<AiTask> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Ai Tasks
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<AiTask> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Ai Tasks
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name`, `disabled` or `updated_at`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled`, `trigger` or `workspace_id`. Valid field combinations are `[ workspace_id, disabled ]`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AiTask} records, in a {@code ListIterator}
+   */
   public static ListIterator<AiTask> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().aiTasks().list(parameters, options);
   }
 
+  /**
+   * List Ai Tasks
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<AiTask> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Ai Tasks
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<AiTask> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Ai Task ID.
+   * Show Ai Task
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static AiTask find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Ai Task
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static AiTask find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Ai Task
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static AiTask find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Ai Task
+   *
+   * @param id Ai Task ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AiTask}
+   */
   public static AiTask find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().aiTasks().find(id, parameters, options);
   }
 
+  /**
+   * Show Ai Task
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static AiTask get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Ai Task
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static AiTask get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   description - string - AI Task description.
-   *   disabled - boolean - If true, this AI Task will not run.
-   *   holiday_region - string - Optional holiday region used by the AI Task schedule.
-   *   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
-   *   name (required) - string - AI Task name.
-   *   path - string - Path scope used for action-triggered AI Tasks.
-   *   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
-   *   prompt (required) - string - Prompt sent when this AI Task is invoked.
-   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
-   *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
-   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-   *   schedule_time_zone - string - Time zone used by the AI Task schedule.
-   *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the AI Task schedule.
-   *   source - string - Source glob used with `path` for action-triggered AI Tasks.
-   *   trigger - string - How this AI Task is triggered.
-   *   trigger_actions - array(string) - If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
-   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   * Create Ai Task
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static AiTask create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Ai Task
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static AiTask create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Ai Task
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code description} (String): AI Task description.</li>
+   * <li>{@code disabled} (Boolean): If true, this AI Task will not run.</li>
+   * <li>{@code holiday_region} (String): Optional holiday region used by the AI Task schedule.</li>
+   * <li>{@code interval} (String): If trigger is `daily`, this specifies how often to run the AI Task.</li>
+   * <li>{@code name} (String): Required. AI Task name.</li>
+   * <li>{@code path} (String): Path scope used for action-triggered AI Tasks.</li>
+   * <li>{@code permission_set} (String): Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.</li>
+   * <li>{@code prompt} (String): Required. Prompt sent when this AI Task is invoked.</li>
+   * <li>{@code recurring_day} (Long): If trigger is `daily`, this selects the day number inside the chosen interval.</li>
+   * <li>{@code recurring_days} (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.</li>
+   * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.</li>
+   * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.</li>
+   * <li>{@code schedule_time_zone} (String): Time zone used by the AI Task schedule.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the AI Task schedule.</li>
+   * <li>{@code source} (String): Source glob used with `path` for action-triggered AI Tasks.</li>
+   * <li>{@code trigger} (String): How this AI Task is triggered.</li>
+   * <li>{@code trigger_actions} (String[]): If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. `0` means the default workspace.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AiTask}
+   */
   public static AiTask create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().aiTasks().create(parameters, options);
   }
@@ -608,84 +947,156 @@ public class AiTask implements ModelInterface {
 
   /**
    * Manually Run AI Task
+   *
+   * @see #manualRun(Long, HashMap, HashMap)
    */
   public static void manualRun() throws RuntimeException {
     manualRun(null, null, null);
   }
 
+  /**
+   * Manually Run AI Task
+   *
+   * @see #manualRun(Long, HashMap, HashMap)
+   */
   public static void manualRun(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     manualRun(id, parameters, null);
   }
 
+  /**
+   * Manually Run AI Task
+   *
+   * @see #manualRun(Long, HashMap, HashMap)
+   */
   public static void manualRun(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     manualRun(null, parameters, options);
   }
 
+  /**
+   * Manually Run AI Task
+   *
+   * @param id Ai Task ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void manualRun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().aiTasks().manualRun(id, parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   description - string - AI Task description.
-   *   disabled - boolean - If true, this AI Task will not run.
-   *   holiday_region - string - Optional holiday region used by the AI Task schedule.
-   *   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
-   *   name - string - AI Task name.
-   *   path - string - Path scope used for action-triggered AI Tasks.
-   *   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
-   *   prompt - string - Prompt sent when this AI Task is invoked.
-   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
-   *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
-   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-   *   schedule_time_zone - string - Time zone used by the AI Task schedule.
-   *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the AI Task schedule.
-   *   source - string - Source glob used with `path` for action-triggered AI Tasks.
-   *   trigger - string - How this AI Task is triggered.
-   *   trigger_actions - array(string) - If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
-   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   * Update Ai Task
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static AiTask update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Ai Task
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static AiTask update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Ai Task
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static AiTask update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Ai Task
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code description} (String): AI Task description.</li>
+   * <li>{@code disabled} (Boolean): If true, this AI Task will not run.</li>
+   * <li>{@code holiday_region} (String): Optional holiday region used by the AI Task schedule.</li>
+   * <li>{@code interval} (String): If trigger is `daily`, this specifies how often to run the AI Task.</li>
+   * <li>{@code name} (String): AI Task name.</li>
+   * <li>{@code path} (String): Path scope used for action-triggered AI Tasks.</li>
+   * <li>{@code permission_set} (String): Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.</li>
+   * <li>{@code prompt} (String): Prompt sent when this AI Task is invoked.</li>
+   * <li>{@code recurring_day} (Long): If trigger is `daily`, this selects the day number inside the chosen interval.</li>
+   * <li>{@code recurring_days} (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.</li>
+   * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.</li>
+   * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.</li>
+   * <li>{@code schedule_time_zone} (String): Time zone used by the AI Task schedule.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the AI Task schedule.</li>
+   * <li>{@code source} (String): Source glob used with `path` for action-triggered AI Tasks.</li>
+   * <li>{@code trigger} (String): How this AI Task is triggered.</li>
+   * <li>{@code trigger_actions} (String[]): If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. `0` means the default workspace.</li>
+   * </ul>
+   *
+   * @param id Ai Task ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AiTask}
+   */
   public static AiTask update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().aiTasks().update(id, parameters, options);
   }
 
 
   /**
+   * Delete Ai Task
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Ai Task
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Ai Task
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Ai Task
+   *
+   * @param id Ai Task ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().aiTasks().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Ai Task
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Ai Task
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

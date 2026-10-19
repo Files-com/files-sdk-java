@@ -25,12 +25,10 @@
 
 ## List Inbox Recipients
 
-```
-ListIterator<InboxRecipient> inboxRecipient = InboxRecipient.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("inbox_id", 1L);
+ListIterator<InboxRecipient> inboxRecipients = InboxRecipient.list(parameters, null);
 ```
 
 ### Parameters
@@ -46,12 +44,15 @@ ListIterator<InboxRecipient> inboxRecipient = InboxRecipient.list(
 
 ## Create Inbox Recipient
 
-```
-InboxRecipient inboxRecipient = InboxRecipient.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("inbox_id", 1L);
+parameters.put("recipient", "johndoe@gmail.com");
+parameters.put("name", "John Smith");
+parameters.put("company", "Acme Ltd");
+parameters.put("note", "Just a note.");
+parameters.put("share_after_create", false);
+InboxRecipient inboxRecipient = InboxRecipient.create(parameters, null);
 ```
 
 ### Parameters

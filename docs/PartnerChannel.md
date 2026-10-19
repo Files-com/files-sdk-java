@@ -53,12 +53,9 @@
 
 ## List Partner Channels
 
-```
-ListIterator<PartnerChannel> partnerChannel = PartnerChannel.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<PartnerChannel> partnerChannels = PartnerChannel.list(parameters, null);
 ```
 
 ### Parameters
@@ -73,12 +70,9 @@ ListIterator<PartnerChannel> partnerChannel = PartnerChannel.list(
 
 ## Show Partner Channel
 
-```
-PartnerChannel partnerChannel = PartnerChannel.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+PartnerChannel partnerChannel = PartnerChannel.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -90,12 +84,20 @@ PartnerChannel partnerChannel = PartnerChannel.find(
 
 ## Create Partner Channel
 
-```
-PartnerChannel partnerChannel = PartnerChannel.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("direction", "two_way");
+parameters.put("use_channel_root", false);
+parameters.put("from_partner_folder_name", "incoming");
+parameters.put("from_partner_managed_folder_paths", new String[] {"claims/received"});
+parameters.put("from_partner_route_path", "processing/from-partner");
+parameters.put("to_partner_folder_name", "outgoing");
+parameters.put("to_partner_managed_folder_paths", new String[] {"reports/monthly"});
+parameters.put("to_partner_route_path", "delivery/to-partner");
+parameters.put("partner_id", 1L);
+parameters.put("path", "claims/medical");
+parameters.put("workspace_id", 0L);
+PartnerChannel partnerChannel = PartnerChannel.create(parameters, null);
 ```
 
 ### Parameters
@@ -117,12 +119,18 @@ PartnerChannel partnerChannel = PartnerChannel.create(
 
 ## Update Partner Channel
 
-```
-PartnerChannel partnerChannel = PartnerChannel.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("direction", "two_way");
+parameters.put("use_channel_root", false);
+parameters.put("from_partner_folder_name", "incoming");
+parameters.put("from_partner_managed_folder_paths", new String[] {"claims/received"});
+parameters.put("from_partner_route_path", "processing/from-partner");
+parameters.put("to_partner_folder_name", "outgoing");
+parameters.put("to_partner_managed_folder_paths", new String[] {"reports/monthly"});
+parameters.put("to_partner_route_path", "delivery/to-partner");
+parameters.put("path", "claims/medical");
+PartnerChannel partnerChannel = PartnerChannel.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -143,12 +151,9 @@ PartnerChannel partnerChannel = PartnerChannel.update(
 
 ## Delete Partner Channel
 
-```
-void partnerChannel = PartnerChannel.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+PartnerChannel.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -160,21 +165,19 @@ void partnerChannel = PartnerChannel.delete(
 
 ## Update Partner Channel
 
-```
-PartnerChannel partnerChannel = PartnerChannel.find(id);
-
+```java
+PartnerChannel partnerChannel = PartnerChannel.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("direction", "two_way");
 parameters.put("use_channel_root", false);
 parameters.put("from_partner_folder_name", "incoming");
-parameters.put("from_partner_managed_folder_paths", ["claims/received"]);
+parameters.put("from_partner_managed_folder_paths", new String[] {"claims/received"});
 parameters.put("from_partner_route_path", "processing/from-partner");
 parameters.put("to_partner_folder_name", "outgoing");
-parameters.put("to_partner_managed_folder_paths", ["reports/monthly"]);
+parameters.put("to_partner_managed_folder_paths", new String[] {"reports/monthly"});
 parameters.put("to_partner_route_path", "delivery/to-partner");
 parameters.put("path", "claims/medical");
-
-partnerChannel.update(parameters);
+PartnerChannel result = partnerChannel.update(parameters);
 ```
 
 ### Parameters
@@ -195,11 +198,9 @@ partnerChannel.update(parameters);
 
 ## Delete Partner Channel
 
-```
-PartnerChannel partnerChannel = PartnerChannel.find(id);
-
+```java
+PartnerChannel partnerChannel = PartnerChannel.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 partnerChannel.delete(parameters);
 ```
 

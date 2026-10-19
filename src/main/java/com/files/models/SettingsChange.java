@@ -35,6 +35,11 @@ public class SettingsChange implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class SettingsChange implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code SettingsChange} with no attributes set.
+   */
   public SettingsChange() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code SettingsChange} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public SettingsChange(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code SettingsChange} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public SettingsChange(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,6 +103,11 @@ public class SettingsChange implements ModelInterface {
   @JsonProperty("api_key_id")
   public Long apiKeyId;
 
+  /**
+   * Gets {@link #apiKeyId}.
+   *
+   * @return the value of {@link #apiKeyId}
+   */
   public Long getApiKeyId() {
     return apiKeyId;
   }
@@ -93,6 +118,11 @@ public class SettingsChange implements ModelInterface {
   @JsonProperty("changes")
   public String[] changes;
 
+  /**
+   * Gets {@link #changes}.
+   *
+   * @return the value of {@link #changes}
+   */
   public String[] getChanges() {
     return changes;
   }
@@ -103,6 +133,11 @@ public class SettingsChange implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -113,6 +148,11 @@ public class SettingsChange implements ModelInterface {
   @JsonProperty("user_id")
   public Long userId;
 
+  /**
+   * Gets {@link #userId}.
+   *
+   * @return the value of {@link #userId}
+   */
   public Long getUserId() {
     return userId;
   }
@@ -123,6 +163,11 @@ public class SettingsChange implements ModelInterface {
   @JsonProperty("user_is_files_support")
   public Boolean userIsFilesSupport;
 
+  /**
+   * Gets {@link #userIsFilesSupport}.
+   *
+   * @return the value of {@link #userIsFilesSupport}
+   */
   public Boolean getUserIsFilesSupport() {
     return userIsFilesSupport;
   }
@@ -133,6 +178,11 @@ public class SettingsChange implements ModelInterface {
   @JsonProperty("user_is_from_parent_site")
   public Boolean userIsFromParentSite;
 
+  /**
+   * Gets {@link #userIsFromParentSite}.
+   *
+   * @return the value of {@link #userIsFromParentSite}
+   */
   public Boolean getUserIsFromParentSite() {
     return userIsFromParentSite;
   }
@@ -143,35 +193,67 @@ public class SettingsChange implements ModelInterface {
   @JsonProperty("username")
   public String username;
 
+  /**
+   * Gets {@link #username}.
+   *
+   * @return the value of {@link #username}
+   */
   public String getUsername() {
     return username;
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`, `api_key_id` or `user_id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `api_key_id` and `user_id`.
+   * List Settings Changes
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<SettingsChange> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Settings Changes
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<SettingsChange> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Settings Changes
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`, `api_key_id` or `user_id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `api_key_id` and `user_id`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code SettingsChange} records, in a {@code ListIterator}
+   */
   public static ListIterator<SettingsChange> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().settingsChanges().list(parameters, options);
   }
 
+  /**
+   * List Settings Changes
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<SettingsChange> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Settings Changes
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<SettingsChange> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }

@@ -36,6 +36,11 @@ public class DesktopConfigurationProfile implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -59,14 +64,29 @@ public class DesktopConfigurationProfile implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code DesktopConfigurationProfile} with no attributes set.
+   */
   public DesktopConfigurationProfile() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code DesktopConfigurationProfile} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public DesktopConfigurationProfile(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code DesktopConfigurationProfile} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public DesktopConfigurationProfile(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -84,10 +104,20 @@ public class DesktopConfigurationProfile implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -98,10 +128,20 @@ public class DesktopConfigurationProfile implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -112,10 +152,20 @@ public class DesktopConfigurationProfile implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
 
+  /**
+   * Sets {@link #workspaceId}.
+   *
+   * @param workspaceId the new value
+   */
   public void setWorkspaceId(Long workspaceId) {
     this.workspaceId = workspaceId;
   }
@@ -126,10 +176,20 @@ public class DesktopConfigurationProfile implements ModelInterface {
   @JsonProperty("use_for_all_users")
   public Boolean useForAllUsers;
 
+  /**
+   * Gets {@link #useForAllUsers}.
+   *
+   * @return the value of {@link #useForAllUsers}
+   */
   public Boolean getUseForAllUsers() {
     return useForAllUsers;
   }
 
+  /**
+   * Sets {@link #useForAllUsers}.
+   *
+   * @param useForAllUsers the new value
+   */
   public void setUseForAllUsers(Boolean useForAllUsers) {
     this.useForAllUsers = useForAllUsers;
   }
@@ -140,10 +200,20 @@ public class DesktopConfigurationProfile implements ModelInterface {
   @JsonProperty("disable_drive_mounting")
   public Boolean disableDriveMounting;
 
+  /**
+   * Gets {@link #disableDriveMounting}.
+   *
+   * @return the value of {@link #disableDriveMounting}
+   */
   public Boolean getDisableDriveMounting() {
     return disableDriveMounting;
   }
 
+  /**
+   * Sets {@link #disableDriveMounting}.
+   *
+   * @param disableDriveMounting the new value
+   */
   public void setDisableDriveMounting(Boolean disableDriveMounting) {
     this.disableDriveMounting = disableDriveMounting;
   }
@@ -154,22 +224,38 @@ public class DesktopConfigurationProfile implements ModelInterface {
   @JsonProperty("mount_mappings")
   public Object mountMappings;
 
+  /**
+   * Gets {@link #mountMappings}.
+   *
+   * @return the value of {@link #mountMappings}
+   */
   public Object getMountMappings() {
     return mountMappings;
   }
 
+  /**
+   * Sets {@link #mountMappings}.
+   *
+   * @param mountMappings the new value
+   */
   public void setMountMappings(Object mountMappings) {
     this.mountMappings = mountMappings;
   }
 
   /**
    * Updates this DesktopConfigurationProfile. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   name - string - Profile name
-   *   workspace_id - int64 - Workspace ID
-   *   mount_mappings - object - Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.
-   *   use_for_all_users - boolean - Whether this profile applies to all users in the Workspace by default
-   *   disable_drive_mounting - boolean - Whether the desktop app should hide drive mounting, prevent new drive mounts, and unmount active drive mounts for users with this profile
+   * <p>Update Desktop Configuration Profile
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Profile name</li>
+   * <li>{@code workspace_id} (Long): Workspace ID</li>
+   * <li>{@code mount_mappings} (Object): Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.</li>
+   * <li>{@code use_for_all_users} (Boolean): Whether this profile applies to all users in the Workspace by default</li>
+   * <li>{@code disable_drive_mounting} (Boolean): Whether the desktop app should hide drive mounting, prevent new drive mounts, and unmount active drive mounts for users with this profile</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code DesktopConfigurationProfile}
    */
   public DesktopConfigurationProfile update(HashMap<String, Object> parameters) throws IOException {
     DesktopConfigurationProfile updated = filesClient().desktopConfigurationProfiles().update(this.id, parameters, this.options);
@@ -178,11 +264,19 @@ public class DesktopConfigurationProfile implements ModelInterface {
   }
 
   /**
+   * Delete Desktop Configuration Profile
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().desktopConfigurationProfiles().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Desktop Configuration Profile
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -220,130 +314,256 @@ public class DesktopConfigurationProfile implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
+   * List Desktop Configuration Profiles
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<DesktopConfigurationProfile> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Desktop Configuration Profiles
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<DesktopConfigurationProfile> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Desktop Configuration Profiles
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code DesktopConfigurationProfile} records, in a {@code ListIterator}
+   */
   public static ListIterator<DesktopConfigurationProfile> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().desktopConfigurationProfiles().list(parameters, options);
   }
 
+  /**
+   * List Desktop Configuration Profiles
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<DesktopConfigurationProfile> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Desktop Configuration Profiles
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<DesktopConfigurationProfile> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Desktop Configuration Profile ID.
+   * Show Desktop Configuration Profile
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static DesktopConfigurationProfile find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Desktop Configuration Profile
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static DesktopConfigurationProfile find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Desktop Configuration Profile
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static DesktopConfigurationProfile find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Desktop Configuration Profile
+   *
+   * @param id Desktop Configuration Profile ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code DesktopConfigurationProfile}
+   */
   public static DesktopConfigurationProfile find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().desktopConfigurationProfiles().find(id, parameters, options);
   }
 
+  /**
+   * Show Desktop Configuration Profile
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static DesktopConfigurationProfile get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Desktop Configuration Profile
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static DesktopConfigurationProfile get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   name (required) - string - Profile name
-   *   mount_mappings (required) - object - Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.
-   *   workspace_id - int64 - Workspace ID
-   *   use_for_all_users - boolean - Whether this profile applies to all users in the Workspace by default
-   *   disable_drive_mounting - boolean - Whether the desktop app should hide drive mounting, prevent new drive mounts, and unmount active drive mounts for users with this profile
+   * Create Desktop Configuration Profile
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static DesktopConfigurationProfile create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Desktop Configuration Profile
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static DesktopConfigurationProfile create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Desktop Configuration Profile
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Required. Profile name</li>
+   * <li>{@code mount_mappings} (Object): Required. Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID</li>
+   * <li>{@code use_for_all_users} (Boolean): Whether this profile applies to all users in the Workspace by default</li>
+   * <li>{@code disable_drive_mounting} (Boolean): Whether the desktop app should hide drive mounting, prevent new drive mounts, and unmount active drive mounts for users with this profile</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code DesktopConfigurationProfile}
+   */
   public static DesktopConfigurationProfile create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().desktopConfigurationProfiles().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   name - string - Profile name
-   *   workspace_id - int64 - Workspace ID
-   *   mount_mappings - object - Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.
-   *   use_for_all_users - boolean - Whether this profile applies to all users in the Workspace by default
-   *   disable_drive_mounting - boolean - Whether the desktop app should hide drive mounting, prevent new drive mounts, and unmount active drive mounts for users with this profile
+   * Update Desktop Configuration Profile
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static DesktopConfigurationProfile update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Desktop Configuration Profile
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static DesktopConfigurationProfile update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Desktop Configuration Profile
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static DesktopConfigurationProfile update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Desktop Configuration Profile
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Profile name</li>
+   * <li>{@code workspace_id} (Long): Workspace ID</li>
+   * <li>{@code mount_mappings} (Object): Mount point mappings for the desktop app. Keys must be a single uppercase Windows drive letter other than A, B, or C, and values are Files.com paths to mount there.</li>
+   * <li>{@code use_for_all_users} (Boolean): Whether this profile applies to all users in the Workspace by default</li>
+   * <li>{@code disable_drive_mounting} (Boolean): Whether the desktop app should hide drive mounting, prevent new drive mounts, and unmount active drive mounts for users with this profile</li>
+   * </ul>
+   *
+   * @param id Desktop Configuration Profile ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code DesktopConfigurationProfile}
+   */
   public static DesktopConfigurationProfile update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().desktopConfigurationProfiles().update(id, parameters, options);
   }
 
 
   /**
+   * Delete Desktop Configuration Profile
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Desktop Configuration Profile
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Desktop Configuration Profile
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Desktop Configuration Profile
+   *
+   * @param id Desktop Configuration Profile ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().desktopConfigurationProfiles().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Desktop Configuration Profile
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Desktop Configuration Profile
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

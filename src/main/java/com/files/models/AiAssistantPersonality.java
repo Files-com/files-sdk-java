@@ -37,6 +37,11 @@ public class AiAssistantPersonality implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -60,14 +65,29 @@ public class AiAssistantPersonality implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code AiAssistantPersonality} with no attributes set.
+   */
   public AiAssistantPersonality() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code AiAssistantPersonality} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public AiAssistantPersonality(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code AiAssistantPersonality} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public AiAssistantPersonality(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -85,10 +105,20 @@ public class AiAssistantPersonality implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -99,10 +129,20 @@ public class AiAssistantPersonality implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
 
+  /**
+   * Sets {@link #workspaceId}.
+   *
+   * @param workspaceId the new value
+   */
   public void setWorkspaceId(Long workspaceId) {
     this.workspaceId = workspaceId;
   }
@@ -113,10 +153,20 @@ public class AiAssistantPersonality implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -127,10 +177,20 @@ public class AiAssistantPersonality implements ModelInterface {
   @JsonProperty("system_prompt")
   public String systemPrompt;
 
+  /**
+   * Gets {@link #systemPrompt}.
+   *
+   * @return the value of {@link #systemPrompt}
+   */
   public String getSystemPrompt() {
     return systemPrompt;
   }
 
+  /**
+   * Sets {@link #systemPrompt}.
+   *
+   * @param systemPrompt the new value
+   */
   public void setSystemPrompt(String systemPrompt) {
     this.systemPrompt = systemPrompt;
   }
@@ -141,10 +201,20 @@ public class AiAssistantPersonality implements ModelInterface {
   @JsonProperty("use_by_default")
   public Boolean useByDefault;
 
+  /**
+   * Gets {@link #useByDefault}.
+   *
+   * @return the value of {@link #useByDefault}
+   */
   public Boolean getUseByDefault() {
     return useByDefault;
   }
 
+  /**
+   * Sets {@link #useByDefault}.
+   *
+   * @param useByDefault the new value
+   */
   public void setUseByDefault(Boolean useByDefault) {
     this.useByDefault = useByDefault;
   }
@@ -155,10 +225,20 @@ public class AiAssistantPersonality implements ModelInterface {
   @JsonProperty("apply_to_all_workspaces")
   public Boolean applyToAllWorkspaces;
 
+  /**
+   * Gets {@link #applyToAllWorkspaces}.
+   *
+   * @return the value of {@link #applyToAllWorkspaces}
+   */
   public Boolean getApplyToAllWorkspaces() {
     return applyToAllWorkspaces;
   }
 
+  /**
+   * Sets {@link #applyToAllWorkspaces}.
+   *
+   * @param applyToAllWorkspaces the new value
+   */
   public void setApplyToAllWorkspaces(Boolean applyToAllWorkspaces) {
     this.applyToAllWorkspaces = applyToAllWorkspaces;
   }
@@ -169,6 +249,11 @@ public class AiAssistantPersonality implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -179,18 +264,29 @@ public class AiAssistantPersonality implements ModelInterface {
   @JsonProperty("updated_at")
   public Date updatedAt;
 
+  /**
+   * Gets {@link #updatedAt}.
+   *
+   * @return the value of {@link #updatedAt}
+   */
   public Date getUpdatedAt() {
     return updatedAt;
   }
 
   /**
    * Updates this AiAssistantPersonality. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   apply_to_all_workspaces - boolean - If true, this default-workspace personality can apply to users in all workspaces.
-   *   name - string - AI Assistant Personality name.
-   *   system_prompt - string - System prompt injected into the in-app AI Assistant.
-   *   use_by_default - boolean - Whether this personality is the default personality for the Workspace.
-   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   * <p>Update Ai Assistant Personality
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code apply_to_all_workspaces} (Boolean): If true, this default-workspace personality can apply to users in all workspaces.</li>
+   * <li>{@code name} (String): AI Assistant Personality name.</li>
+   * <li>{@code system_prompt} (String): System prompt injected into the in-app AI Assistant.</li>
+   * <li>{@code use_by_default} (Boolean): Whether this personality is the default personality for the Workspace.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. `0` means the default workspace.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code AiAssistantPersonality}
    */
   public AiAssistantPersonality update(HashMap<String, Object> parameters) throws IOException {
     AiAssistantPersonality updated = filesClient().aiAssistantPersonalities().update(this.id, parameters, this.options);
@@ -199,11 +295,19 @@ public class AiAssistantPersonality implements ModelInterface {
   }
 
   /**
+   * Delete Ai Assistant Personality
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().aiAssistantPersonalities().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Ai Assistant Personality
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -243,130 +347,256 @@ public class AiAssistantPersonality implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
+   * List Ai Assistant Personalities
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<AiAssistantPersonality> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Ai Assistant Personalities
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<AiAssistantPersonality> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Ai Assistant Personalities
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AiAssistantPersonality} records, in a {@code ListIterator}
+   */
   public static ListIterator<AiAssistantPersonality> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().aiAssistantPersonalities().list(parameters, options);
   }
 
+  /**
+   * List Ai Assistant Personalities
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<AiAssistantPersonality> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Ai Assistant Personalities
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<AiAssistantPersonality> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Ai Assistant Personality ID.
+   * Show Ai Assistant Personality
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static AiAssistantPersonality find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Ai Assistant Personality
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static AiAssistantPersonality find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Ai Assistant Personality
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static AiAssistantPersonality find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Ai Assistant Personality
+   *
+   * @param id Ai Assistant Personality ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AiAssistantPersonality}
+   */
   public static AiAssistantPersonality find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().aiAssistantPersonalities().find(id, parameters, options);
   }
 
+  /**
+   * Show Ai Assistant Personality
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static AiAssistantPersonality get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Ai Assistant Personality
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static AiAssistantPersonality get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   apply_to_all_workspaces - boolean - If true, this default-workspace personality can apply to users in all workspaces.
-   *   name (required) - string - AI Assistant Personality name.
-   *   system_prompt (required) - string - System prompt injected into the in-app AI Assistant.
-   *   use_by_default - boolean - Whether this personality is the default personality for the Workspace.
-   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   * Create Ai Assistant Personality
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static AiAssistantPersonality create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Ai Assistant Personality
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static AiAssistantPersonality create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Ai Assistant Personality
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code apply_to_all_workspaces} (Boolean): If true, this default-workspace personality can apply to users in all workspaces.</li>
+   * <li>{@code name} (String): Required. AI Assistant Personality name.</li>
+   * <li>{@code system_prompt} (String): Required. System prompt injected into the in-app AI Assistant.</li>
+   * <li>{@code use_by_default} (Boolean): Whether this personality is the default personality for the Workspace.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. `0` means the default workspace.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AiAssistantPersonality}
+   */
   public static AiAssistantPersonality create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().aiAssistantPersonalities().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   apply_to_all_workspaces - boolean - If true, this default-workspace personality can apply to users in all workspaces.
-   *   name - string - AI Assistant Personality name.
-   *   system_prompt - string - System prompt injected into the in-app AI Assistant.
-   *   use_by_default - boolean - Whether this personality is the default personality for the Workspace.
-   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   * Update Ai Assistant Personality
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static AiAssistantPersonality update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Ai Assistant Personality
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static AiAssistantPersonality update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Ai Assistant Personality
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static AiAssistantPersonality update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Ai Assistant Personality
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code apply_to_all_workspaces} (Boolean): If true, this default-workspace personality can apply to users in all workspaces.</li>
+   * <li>{@code name} (String): AI Assistant Personality name.</li>
+   * <li>{@code system_prompt} (String): System prompt injected into the in-app AI Assistant.</li>
+   * <li>{@code use_by_default} (Boolean): Whether this personality is the default personality for the Workspace.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. `0` means the default workspace.</li>
+   * </ul>
+   *
+   * @param id Ai Assistant Personality ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AiAssistantPersonality}
+   */
   public static AiAssistantPersonality update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().aiAssistantPersonalities().update(id, parameters, options);
   }
 
 
   /**
+   * Delete Ai Assistant Personality
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Ai Assistant Personality
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Ai Assistant Personality
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Ai Assistant Personality
+   *
+   * @param id Ai Assistant Personality ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().aiAssistantPersonalities().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Ai Assistant Personality
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Ai Assistant Personality
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

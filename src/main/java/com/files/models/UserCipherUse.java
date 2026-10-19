@@ -35,6 +35,11 @@ public class UserCipherUse implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class UserCipherUse implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code UserCipherUse} with no attributes set.
+   */
   public UserCipherUse() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code UserCipherUse} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public UserCipherUse(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code UserCipherUse} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public UserCipherUse(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,6 +103,11 @@ public class UserCipherUse implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -93,6 +118,11 @@ public class UserCipherUse implements ModelInterface {
   @JsonProperty("user_id")
   public Long userId;
 
+  /**
+   * Gets {@link #userId}.
+   *
+   * @return the value of {@link #userId}
+   */
   public Long getUserId() {
     return userId;
   }
@@ -103,6 +133,11 @@ public class UserCipherUse implements ModelInterface {
   @JsonProperty("username")
   public String username;
 
+  /**
+   * Gets {@link #username}.
+   *
+   * @return the value of {@link #username}
+   */
   public String getUsername() {
     return username;
   }
@@ -113,6 +148,11 @@ public class UserCipherUse implements ModelInterface {
   @JsonProperty("protocol_cipher")
   public String protocolCipher;
 
+  /**
+   * Gets {@link #protocolCipher}.
+   *
+   * @return the value of {@link #protocolCipher}
+   */
   public String getProtocolCipher() {
     return protocolCipher;
   }
@@ -123,6 +163,11 @@ public class UserCipherUse implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -133,6 +178,11 @@ public class UserCipherUse implements ModelInterface {
   @JsonProperty("insecure")
   public Boolean insecure;
 
+  /**
+   * Gets {@link #insecure}.
+   *
+   * @return the value of {@link #insecure}
+   */
   public Boolean getInsecure() {
     return insecure;
   }
@@ -143,6 +193,11 @@ public class UserCipherUse implements ModelInterface {
   @JsonProperty("interface")
   public String interfaceName;
 
+  /**
+   * Gets {@link #interfaceName}.
+   *
+   * @return the value of {@link #interfaceName}
+   */
   public String getInterfaceName() {
     return interfaceName;
   }
@@ -153,40 +208,72 @@ public class UserCipherUse implements ModelInterface {
   @JsonProperty("updated_at")
   public Date updatedAt;
 
+  /**
+   * Gets {@link #updatedAt}.
+   *
+   * @return the value of {@link #updatedAt}
+   */
   public Date getUpdatedAt() {
     return updatedAt;
   }
 
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID. If provided, will return uses for this user.
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `updated_at`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `insecure` and `updated_at`. Valid field combinations are `[ insecure, updated_at ]`.
-   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `updated_at`.
-   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `updated_at`.
-   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `updated_at`.
-   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `updated_at`.
+   * List User Cipher Uses
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<UserCipherUse> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List User Cipher Uses
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<UserCipherUse> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List User Cipher Uses
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID. If provided, will return uses for this user.</li>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `updated_at`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `insecure` and `updated_at`. Valid field combinations are `[ insecure, updated_at ]`.</li>
+   * <li>{@code filter_gt} (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `updated_at`.</li>
+   * <li>{@code filter_gteq} (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `updated_at`.</li>
+   * <li>{@code filter_lt} (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `updated_at`.</li>
+   * <li>{@code filter_lteq} (Object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `updated_at`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code UserCipherUse} records, in a {@code ListIterator}
+   */
   public static ListIterator<UserCipherUse> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().userCipherUses().list(parameters, options);
   }
 
+  /**
+   * List User Cipher Uses
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<UserCipherUse> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List User Cipher Uses
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<UserCipherUse> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }

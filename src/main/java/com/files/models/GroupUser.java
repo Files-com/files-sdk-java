@@ -36,6 +36,11 @@ public class GroupUser implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -59,14 +64,29 @@ public class GroupUser implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code GroupUser} with no attributes set.
+   */
   public GroupUser() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code GroupUser} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public GroupUser(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code GroupUser} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public GroupUser(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -84,10 +104,20 @@ public class GroupUser implements ModelInterface {
   @JsonProperty("group_name")
   public String groupName;
 
+  /**
+   * Gets {@link #groupName}.
+   *
+   * @return the value of {@link #groupName}
+   */
   public String getGroupName() {
     return groupName;
   }
 
+  /**
+   * Sets {@link #groupName}.
+   *
+   * @param groupName the new value
+   */
   public void setGroupName(String groupName) {
     this.groupName = groupName;
   }
@@ -98,10 +128,20 @@ public class GroupUser implements ModelInterface {
   @JsonProperty("group_id")
   public Long groupId;
 
+  /**
+   * Gets {@link #groupId}.
+   *
+   * @return the value of {@link #groupId}
+   */
   public Long getGroupId() {
     return groupId;
   }
 
+  /**
+   * Sets {@link #groupId}.
+   *
+   * @param groupId the new value
+   */
   public void setGroupId(Long groupId) {
     this.groupId = groupId;
   }
@@ -112,10 +152,20 @@ public class GroupUser implements ModelInterface {
   @JsonProperty("user_id")
   public Long userId;
 
+  /**
+   * Gets {@link #userId}.
+   *
+   * @return the value of {@link #userId}
+   */
   public Long getUserId() {
     return userId;
   }
 
+  /**
+   * Sets {@link #userId}.
+   *
+   * @param userId the new value
+   */
   public void setUserId(Long userId) {
     this.userId = userId;
   }
@@ -126,10 +176,20 @@ public class GroupUser implements ModelInterface {
   @JsonProperty("admin")
   public Boolean admin;
 
+  /**
+   * Gets {@link #admin}.
+   *
+   * @return the value of {@link #admin}
+   */
   public Boolean getAdmin() {
     return admin;
   }
 
+  /**
+   * Sets {@link #admin}.
+   *
+   * @param admin the new value
+   */
   public void setAdmin(Boolean admin) {
     this.admin = admin;
   }
@@ -140,10 +200,20 @@ public class GroupUser implements ModelInterface {
   @JsonProperty("username")
   public String username;
 
+  /**
+   * Gets {@link #username}.
+   *
+   * @return the value of {@link #username}
+   */
   public String getUsername() {
     return username;
   }
 
+  /**
+   * Sets {@link #username}.
+   *
+   * @param username the new value
+   */
   public void setUsername(String username) {
     this.username = username;
   }
@@ -154,20 +224,36 @@ public class GroupUser implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
 
   /**
    * Updates this GroupUser. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   group_id (required) - int64 - Group ID to add user to.
-   *   user_id (required) - int64 - User ID to add to group.
-   *   admin - boolean - Is the user a group administrator?
+   * <p>Update Group User
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code group_id} (Long): Required. Group ID to add user to.</li>
+   * <li>{@code user_id} (Long): Required. User ID to add to group.</li>
+   * <li>{@code admin} (Boolean): Is the user a group administrator?</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code GroupUser}
    */
   public GroupUser update(HashMap<String, Object> parameters) throws IOException {
     GroupUser updated = filesClient().groupUsers().update(this.id, parameters, this.options);
@@ -176,14 +262,24 @@ public class GroupUser implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   group_id (required) - int64 - Group ID from which to remove user.
-   *   user_id (required) - int64 - User ID to remove from group.
+   * Delete Group User
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code group_id} (Long): Required. Group ID from which to remove user.</li>
+   * <li>{@code user_id} (Long): Required. User ID to remove from group.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().groupUsers().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Group User
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -221,101 +317,200 @@ public class GroupUser implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   group_id - int64 - Group ID. If provided, returns memberships of this group. Requires a Site Administrator, a Read-only Administrator, a Workspace Administrator for the group's workspace, or a Group Administrator of this group.
-   *   user_id - int64 - User ID.  If provided, will return group_users of this user.
+   * List Group Users
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<GroupUser> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Group Users
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<GroupUser> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Group Users
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code group_id} (Long): Group ID. If provided, returns memberships of this group. Requires a Site Administrator, a Read-only Administrator, a Workspace Administrator for the group's workspace, or a Group Administrator of this group.</li>
+   * <li>{@code user_id} (Long): User ID.  If provided, will return group_users of this user.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code GroupUser} records, in a {@code ListIterator}
+   */
   public static ListIterator<GroupUser> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().groupUsers().list(parameters, options);
   }
 
+  /**
+   * List Group Users
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<GroupUser> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Group Users
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<GroupUser> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   group_id (required) - int64 - Group ID to add user to.
-   *   user_id (required) - int64 - User ID to add to group.
-   *   admin - boolean - Is the user a group administrator?
+   * Create Group User
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static GroupUser create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Group User
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static GroupUser create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Group User
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code group_id} (Long): Required. Group ID to add user to.</li>
+   * <li>{@code user_id} (Long): Required. User ID to add to group.</li>
+   * <li>{@code admin} (Boolean): Is the user a group administrator?</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code GroupUser}
+   */
   public static GroupUser create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().groupUsers().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   group_id (required) - int64 - Group ID to add user to.
-   *   user_id (required) - int64 - User ID to add to group.
-   *   admin - boolean - Is the user a group administrator?
+   * Update Group User
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static GroupUser update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Group User
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static GroupUser update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Group User
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static GroupUser update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Group User
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code group_id} (Long): Required. Group ID to add user to.</li>
+   * <li>{@code user_id} (Long): Required. User ID to add to group.</li>
+   * <li>{@code admin} (Boolean): Is the user a group administrator?</li>
+   * </ul>
+   *
+   * @param id Group User ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code GroupUser}
+   */
   public static GroupUser update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().groupUsers().update(id, parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   group_id (required) - int64 - Group ID from which to remove user.
-   *   user_id (required) - int64 - User ID to remove from group.
+   * Delete Group User
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Group User
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Group User
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Group User
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code group_id} (Long): Required. Group ID from which to remove user.</li>
+   * <li>{@code user_id} (Long): Required. User ID to remove from group.</li>
+   * </ul>
+   *
+   * @param id Group User ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().groupUsers().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Group User
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Group User
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

@@ -37,6 +37,11 @@ public class EventTarget implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -60,14 +65,29 @@ public class EventTarget implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code EventTarget} with no attributes set.
+   */
   public EventTarget() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code EventTarget} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public EventTarget(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code EventTarget} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public EventTarget(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -85,10 +105,20 @@ public class EventTarget implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -99,10 +129,20 @@ public class EventTarget implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -113,10 +153,20 @@ public class EventTarget implements ModelInterface {
   @JsonProperty("target_type")
   public String targetType;
 
+  /**
+   * Gets {@link #targetType}.
+   *
+   * @return the value of {@link #targetType}
+   */
   public String getTargetType() {
     return targetType;
   }
 
+  /**
+   * Sets {@link #targetType}.
+   *
+   * @param targetType the new value
+   */
   public void setTargetType(String targetType) {
     this.targetType = targetType;
   }
@@ -127,10 +177,20 @@ public class EventTarget implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
 
+  /**
+   * Sets {@link #workspaceId}.
+   *
+   * @param workspaceId the new value
+   */
   public void setWorkspaceId(Long workspaceId) {
     this.workspaceId = workspaceId;
   }
@@ -141,10 +201,20 @@ public class EventTarget implements ModelInterface {
   @JsonProperty("apply_to_all_workspaces")
   public Boolean applyToAllWorkspaces;
 
+  /**
+   * Gets {@link #applyToAllWorkspaces}.
+   *
+   * @return the value of {@link #applyToAllWorkspaces}
+   */
   public Boolean getApplyToAllWorkspaces() {
     return applyToAllWorkspaces;
   }
 
+  /**
+   * Sets {@link #applyToAllWorkspaces}.
+   *
+   * @param applyToAllWorkspaces the new value
+   */
   public void setApplyToAllWorkspaces(Boolean applyToAllWorkspaces) {
     this.applyToAllWorkspaces = applyToAllWorkspaces;
   }
@@ -155,10 +225,20 @@ public class EventTarget implements ModelInterface {
   @JsonProperty("enabled")
   public Boolean enabled;
 
+  /**
+   * Gets {@link #enabled}.
+   *
+   * @return the value of {@link #enabled}
+   */
   public Boolean getEnabled() {
     return enabled;
   }
 
+  /**
+   * Sets {@link #enabled}.
+   *
+   * @param enabled the new value
+   */
   public void setEnabled(Boolean enabled) {
     this.enabled = enabled;
   }
@@ -169,10 +249,20 @@ public class EventTarget implements ModelInterface {
   @JsonProperty("config")
   public Object config;
 
+  /**
+   * Gets {@link #config}.
+   *
+   * @return the value of {@link #config}
+   */
   public Object getConfig() {
     return config;
   }
 
+  /**
+   * Sets {@link #config}.
+   *
+   * @param config the new value
+   */
   public void setConfig(Object config) {
     this.config = config;
   }
@@ -183,10 +273,20 @@ public class EventTarget implements ModelInterface {
   @JsonProperty("delivery_policy")
   public Object deliveryPolicy;
 
+  /**
+   * Gets {@link #deliveryPolicy}.
+   *
+   * @return the value of {@link #deliveryPolicy}
+   */
   public Object getDeliveryPolicy() {
     return deliveryPolicy;
   }
 
+  /**
+   * Sets {@link #deliveryPolicy}.
+   *
+   * @param deliveryPolicy the new value
+   */
   public void setDeliveryPolicy(Object deliveryPolicy) {
     this.deliveryPolicy = deliveryPolicy;
   }
@@ -197,6 +297,11 @@ public class EventTarget implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -207,19 +312,30 @@ public class EventTarget implements ModelInterface {
   @JsonProperty("updated_at")
   public Date updatedAt;
 
+  /**
+   * Gets {@link #updatedAt}.
+   *
+   * @return the value of {@link #updatedAt}
+   */
   public Date getUpdatedAt() {
     return updatedAt;
   }
 
   /**
    * Updates this EventTarget. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   name - string - Event Target name.
-   *   workspace_id - int64 - Workspace ID. 0 means the default workspace or site-wide.
-   *   apply_to_all_workspaces - boolean - If true, this default-workspace target can receive events from all workspaces.
-   *   enabled - boolean - Whether this Event Target can receive events.
-   *   config - object - Event Target configuration. Folder targets accept path and format (json or csv).
-   *   delivery_policy - object - Event Target delivery policy. Email and folder targets support batch_interval in seconds, between 600 and 86400. Slack and Teams support delivery_mode (immediate or subfolder_summary), summary_path (empty string means root), and summary_delay (15–300 seconds, default 60). The summary applies to matching file activity under summary_path; other matching events retain immediate delivery.
+   * <p>Update Event Target
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Event Target name.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. 0 means the default workspace or site-wide.</li>
+   * <li>{@code apply_to_all_workspaces} (Boolean): If true, this default-workspace target can receive events from all workspaces.</li>
+   * <li>{@code enabled} (Boolean): Whether this Event Target can receive events.</li>
+   * <li>{@code config} (Object): Event Target configuration. Folder targets accept path and format (json or csv).</li>
+   * <li>{@code delivery_policy} (Object): Event Target delivery policy. Email and folder targets support batch_interval in seconds, between 600 and 86400. Slack and Teams support delivery_mode (immediate or subfolder_summary), summary_path (empty string means root), and summary_delay (15–300 seconds, default 60). The summary applies to matching file activity under summary_path; other matching events retain immediate delivery.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code EventTarget}
    */
   public EventTarget update(HashMap<String, Object> parameters) throws IOException {
     EventTarget updated = filesClient().eventTargets().update(this.id, parameters, this.options);
@@ -228,11 +344,19 @@ public class EventTarget implements ModelInterface {
   }
 
   /**
+   * Delete Event Target
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().eventTargets().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Event Target
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -274,133 +398,259 @@ public class EventTarget implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`, `enabled` or `workspace_id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `enabled`, `target_type` or `workspace_id`. Valid field combinations are `[ enabled, target_type ]`, `[ workspace_id, enabled ]` or `[ workspace_id, enabled, target_type ]`.
+   * List Event Targets
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<EventTarget> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Event Targets
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<EventTarget> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Event Targets
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`, `enabled` or `workspace_id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `enabled`, `target_type` or `workspace_id`. Valid field combinations are `[ enabled, target_type ]`, `[ workspace_id, enabled ]` or `[ workspace_id, enabled, target_type ]`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code EventTarget} records, in a {@code ListIterator}
+   */
   public static ListIterator<EventTarget> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().eventTargets().list(parameters, options);
   }
 
+  /**
+   * List Event Targets
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<EventTarget> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Event Targets
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<EventTarget> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Event Target ID.
+   * Show Event Target
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static EventTarget find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Event Target
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static EventTarget find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Event Target
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static EventTarget find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Event Target
+   *
+   * @param id Event Target ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code EventTarget}
+   */
   public static EventTarget find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().eventTargets().find(id, parameters, options);
   }
 
+  /**
+   * Show Event Target
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static EventTarget get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Event Target
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static EventTarget get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   name (required) - string - Event Target name.
-   *   workspace_id - int64 - Workspace ID. 0 means the default workspace or site-wide.
-   *   apply_to_all_workspaces - boolean - If true, this default-workspace target can receive events from all workspaces.
-   *   enabled - boolean - Whether this Event Target can receive events.
-   *   config (required) - object - Event Target configuration. Folder targets accept path and format (json or csv).
-   *   delivery_policy - object - Event Target delivery policy. Email and folder targets support batch_interval in seconds, between 600 and 86400. Slack and Teams support delivery_mode (immediate or subfolder_summary), summary_path (empty string means root), and summary_delay (15–300 seconds, default 60). The summary applies to matching file activity under summary_path; other matching events retain immediate delivery.
-   *   target_type (required) - string - Event Target type.
+   * Create Event Target
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static EventTarget create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Event Target
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static EventTarget create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Event Target
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Required. Event Target name.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. 0 means the default workspace or site-wide.</li>
+   * <li>{@code apply_to_all_workspaces} (Boolean): If true, this default-workspace target can receive events from all workspaces.</li>
+   * <li>{@code enabled} (Boolean): Whether this Event Target can receive events.</li>
+   * <li>{@code config} (Object): Required. Event Target configuration. Folder targets accept path and format (json or csv).</li>
+   * <li>{@code delivery_policy} (Object): Event Target delivery policy. Email and folder targets support batch_interval in seconds, between 600 and 86400. Slack and Teams support delivery_mode (immediate or subfolder_summary), summary_path (empty string means root), and summary_delay (15–300 seconds, default 60). The summary applies to matching file activity under summary_path; other matching events retain immediate delivery.</li>
+   * <li>{@code target_type} (String): Required. Event Target type.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code EventTarget}
+   */
   public static EventTarget create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().eventTargets().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   name - string - Event Target name.
-   *   workspace_id - int64 - Workspace ID. 0 means the default workspace or site-wide.
-   *   apply_to_all_workspaces - boolean - If true, this default-workspace target can receive events from all workspaces.
-   *   enabled - boolean - Whether this Event Target can receive events.
-   *   config - object - Event Target configuration. Folder targets accept path and format (json or csv).
-   *   delivery_policy - object - Event Target delivery policy. Email and folder targets support batch_interval in seconds, between 600 and 86400. Slack and Teams support delivery_mode (immediate or subfolder_summary), summary_path (empty string means root), and summary_delay (15–300 seconds, default 60). The summary applies to matching file activity under summary_path; other matching events retain immediate delivery.
+   * Update Event Target
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static EventTarget update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Event Target
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static EventTarget update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Event Target
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static EventTarget update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Event Target
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Event Target name.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. 0 means the default workspace or site-wide.</li>
+   * <li>{@code apply_to_all_workspaces} (Boolean): If true, this default-workspace target can receive events from all workspaces.</li>
+   * <li>{@code enabled} (Boolean): Whether this Event Target can receive events.</li>
+   * <li>{@code config} (Object): Event Target configuration. Folder targets accept path and format (json or csv).</li>
+   * <li>{@code delivery_policy} (Object): Event Target delivery policy. Email and folder targets support batch_interval in seconds, between 600 and 86400. Slack and Teams support delivery_mode (immediate or subfolder_summary), summary_path (empty string means root), and summary_delay (15–300 seconds, default 60). The summary applies to matching file activity under summary_path; other matching events retain immediate delivery.</li>
+   * </ul>
+   *
+   * @param id Event Target ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code EventTarget}
+   */
   public static EventTarget update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().eventTargets().update(id, parameters, options);
   }
 
 
   /**
+   * Delete Event Target
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Event Target
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Event Target
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Event Target
+   *
+   * @param id Event Target ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().eventTargets().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Event Target
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Event Target
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

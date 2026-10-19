@@ -44,12 +44,10 @@
 
 ## List GPG Keys
 
-```
-ListIterator<GpgKey> gpgKey = GpgKey.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+ListIterator<GpgKey> gpgKeys = GpgKey.list(parameters, null);
 ```
 
 ### Parameters
@@ -69,12 +67,9 @@ ListIterator<GpgKey> gpgKey = GpgKey.list(
 
 ## Show GPG Key
 
-```
-GpgKey gpgKey = GpgKey.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+GpgKey gpgKey = GpgKey.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -86,12 +81,17 @@ GpgKey gpgKey = GpgKey.find(
 
 ## Create GPG Key
 
-```
-GpgKey gpgKey = GpgKey.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("partner_id", 1L);
+parameters.put("name", "key name");
+parameters.put("workspace_id", 0L);
+parameters.put("generate_expires_at", "2025-06-19 12:00:00");
+parameters.put("generate_keypair", false);
+parameters.put("generate_full_name", "John Doe");
+parameters.put("generate_email", "jdoe@example.com");
+GpgKey gpgKey = GpgKey.create(parameters, null);
 ```
 
 ### Parameters
@@ -113,12 +113,11 @@ GpgKey gpgKey = GpgKey.create(
 
 ## Update GPG Key
 
-```
-GpgKey gpgKey = GpgKey.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("partner_id", 1L);
+parameters.put("name", "key name");
+GpgKey gpgKey = GpgKey.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -135,12 +134,9 @@ GpgKey gpgKey = GpgKey.update(
 
 ## Delete GPG Key
 
-```
-void gpgKey = GpgKey.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+GpgKey.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -152,14 +148,12 @@ void gpgKey = GpgKey.delete(
 
 ## Update GPG Key
 
-```
-GpgKey gpgKey = GpgKey.find(id);
-
+```java
+GpgKey gpgKey = GpgKey.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("partner_id", 1);
+parameters.put("partner_id", 1L);
 parameters.put("name", "key name");
-
-gpgKey.update(parameters);
+GpgKey result = gpgKey.update(parameters);
 ```
 
 ### Parameters
@@ -176,11 +170,9 @@ gpgKey.update(parameters);
 
 ## Delete GPG Key
 
-```
-GpgKey gpgKey = GpgKey.find(id);
-
+```java
+GpgKey gpgKey = GpgKey.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 gpgKey.delete(parameters);
 ```
 

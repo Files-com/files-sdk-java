@@ -65,12 +65,11 @@
 
 ## List History Export Results
 
-```
-ListIterator<HistoryExportResult> historyExportResult = HistoryExportResult.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("history_export_id", 1L);
+ListIterator<HistoryExportResult> historyExportResults = HistoryExportResult.list(parameters, null);
 ```
 
 ### Parameters

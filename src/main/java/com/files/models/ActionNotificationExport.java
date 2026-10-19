@@ -36,6 +36,11 @@ public class ActionNotificationExport implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -59,14 +64,29 @@ public class ActionNotificationExport implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code ActionNotificationExport} with no attributes set.
+   */
   public ActionNotificationExport() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code ActionNotificationExport} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public ActionNotificationExport(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code ActionNotificationExport} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public ActionNotificationExport(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -84,10 +104,20 @@ public class ActionNotificationExport implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -98,10 +128,20 @@ public class ActionNotificationExport implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
 
+  /**
+   * Sets {@link #workspaceId}.
+   *
+   * @param workspaceId the new value
+   */
   public void setWorkspaceId(Long workspaceId) {
     this.workspaceId = workspaceId;
   }
@@ -112,10 +152,20 @@ public class ActionNotificationExport implements ModelInterface {
   @JsonProperty("export_version")
   public String exportVersion;
 
+  /**
+   * Gets {@link #exportVersion}.
+   *
+   * @return the value of {@link #exportVersion}
+   */
   public String getExportVersion() {
     return exportVersion;
   }
 
+  /**
+   * Sets {@link #exportVersion}.
+   *
+   * @param exportVersion the new value
+   */
   public void setExportVersion(String exportVersion) {
     this.exportVersion = exportVersion;
   }
@@ -126,10 +176,20 @@ public class ActionNotificationExport implements ModelInterface {
   @JsonProperty("start_at")
   public Date startAt;
 
+  /**
+   * Gets {@link #startAt}.
+   *
+   * @return the value of {@link #startAt}
+   */
   public Date getStartAt() {
     return startAt;
   }
 
+  /**
+   * Sets {@link #startAt}.
+   *
+   * @param startAt the new value
+   */
   public void setStartAt(Date startAt) {
     this.startAt = startAt;
   }
@@ -140,10 +200,20 @@ public class ActionNotificationExport implements ModelInterface {
   @JsonProperty("end_at")
   public Date endAt;
 
+  /**
+   * Gets {@link #endAt}.
+   *
+   * @return the value of {@link #endAt}
+   */
   public Date getEndAt() {
     return endAt;
   }
 
+  /**
+   * Sets {@link #endAt}.
+   *
+   * @param endAt the new value
+   */
   public void setEndAt(Date endAt) {
     this.endAt = endAt;
   }
@@ -154,10 +224,20 @@ public class ActionNotificationExport implements ModelInterface {
   @JsonProperty("status")
   public String status;
 
+  /**
+   * Gets {@link #status}.
+   *
+   * @return the value of {@link #status}
+   */
   public String getStatus() {
     return status;
   }
 
+  /**
+   * Sets {@link #status}.
+   *
+   * @param status the new value
+   */
   public void setStatus(String status) {
     this.status = status;
   }
@@ -168,10 +248,20 @@ public class ActionNotificationExport implements ModelInterface {
   @JsonProperty("query_path")
   public String queryPath;
 
+  /**
+   * Gets {@link #queryPath}.
+   *
+   * @return the value of {@link #queryPath}
+   */
   public String getQueryPath() {
     return queryPath;
   }
 
+  /**
+   * Sets {@link #queryPath}.
+   *
+   * @param queryPath the new value
+   */
   public void setQueryPath(String queryPath) {
     this.queryPath = queryPath;
   }
@@ -182,10 +272,20 @@ public class ActionNotificationExport implements ModelInterface {
   @JsonProperty("query_folder")
   public String queryFolder;
 
+  /**
+   * Gets {@link #queryFolder}.
+   *
+   * @return the value of {@link #queryFolder}
+   */
   public String getQueryFolder() {
     return queryFolder;
   }
 
+  /**
+   * Sets {@link #queryFolder}.
+   *
+   * @param queryFolder the new value
+   */
   public void setQueryFolder(String queryFolder) {
     this.queryFolder = queryFolder;
   }
@@ -196,10 +296,20 @@ public class ActionNotificationExport implements ModelInterface {
   @JsonProperty("query_message")
   public String queryMessage;
 
+  /**
+   * Gets {@link #queryMessage}.
+   *
+   * @return the value of {@link #queryMessage}
+   */
   public String getQueryMessage() {
     return queryMessage;
   }
 
+  /**
+   * Sets {@link #queryMessage}.
+   *
+   * @param queryMessage the new value
+   */
   public void setQueryMessage(String queryMessage) {
     this.queryMessage = queryMessage;
   }
@@ -210,10 +320,20 @@ public class ActionNotificationExport implements ModelInterface {
   @JsonProperty("query_request_method")
   public String queryRequestMethod;
 
+  /**
+   * Gets {@link #queryRequestMethod}.
+   *
+   * @return the value of {@link #queryRequestMethod}
+   */
   public String getQueryRequestMethod() {
     return queryRequestMethod;
   }
 
+  /**
+   * Sets {@link #queryRequestMethod}.
+   *
+   * @param queryRequestMethod the new value
+   */
   public void setQueryRequestMethod(String queryRequestMethod) {
     this.queryRequestMethod = queryRequestMethod;
   }
@@ -224,10 +344,20 @@ public class ActionNotificationExport implements ModelInterface {
   @JsonProperty("query_request_url")
   public String queryRequestUrl;
 
+  /**
+   * Gets {@link #queryRequestUrl}.
+   *
+   * @return the value of {@link #queryRequestUrl}
+   */
   public String getQueryRequestUrl() {
     return queryRequestUrl;
   }
 
+  /**
+   * Sets {@link #queryRequestUrl}.
+   *
+   * @param queryRequestUrl the new value
+   */
   public void setQueryRequestUrl(String queryRequestUrl) {
     this.queryRequestUrl = queryRequestUrl;
   }
@@ -238,10 +368,20 @@ public class ActionNotificationExport implements ModelInterface {
   @JsonProperty("query_status")
   public String queryStatus;
 
+  /**
+   * Gets {@link #queryStatus}.
+   *
+   * @return the value of {@link #queryStatus}
+   */
   public String getQueryStatus() {
     return queryStatus;
   }
 
+  /**
+   * Sets {@link #queryStatus}.
+   *
+   * @param queryStatus the new value
+   */
   public void setQueryStatus(String queryStatus) {
     this.queryStatus = queryStatus;
   }
@@ -252,10 +392,20 @@ public class ActionNotificationExport implements ModelInterface {
   @JsonProperty("query_success")
   public Boolean querySuccess;
 
+  /**
+   * Gets {@link #querySuccess}.
+   *
+   * @return the value of {@link #querySuccess}
+   */
   public Boolean getQuerySuccess() {
     return querySuccess;
   }
 
+  /**
+   * Sets {@link #querySuccess}.
+   *
+   * @param querySuccess the new value
+   */
   public void setQuerySuccess(Boolean querySuccess) {
     this.querySuccess = querySuccess;
   }
@@ -266,10 +416,20 @@ public class ActionNotificationExport implements ModelInterface {
   @JsonProperty("results_url")
   public String resultsUrl;
 
+  /**
+   * Gets {@link #resultsUrl}.
+   *
+   * @return the value of {@link #resultsUrl}
+   */
   public String getResultsUrl() {
     return resultsUrl;
   }
 
+  /**
+   * Sets {@link #resultsUrl}.
+   *
+   * @param resultsUrl the new value
+   */
   public void setResultsUrl(String resultsUrl) {
     this.resultsUrl = resultsUrl;
   }
@@ -280,10 +440,20 @@ public class ActionNotificationExport implements ModelInterface {
   @JsonProperty("user_id")
   public Long userId;
 
+  /**
+   * Gets {@link #userId}.
+   *
+   * @return the value of {@link #userId}
+   */
   public Long getUserId() {
     return userId;
   }
 
+  /**
+   * Sets {@link #userId}.
+   *
+   * @param userId the new value
+   */
   public void setUserId(Long userId) {
     this.userId = userId;
   }
@@ -331,56 +501,102 @@ public class ActionNotificationExport implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Action Notification Export ID.
+   * Show Action Notification Export
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static ActionNotificationExport find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Action Notification Export
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ActionNotificationExport find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Action Notification Export
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ActionNotificationExport find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Action Notification Export
+   *
+   * @param id Action Notification Export ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ActionNotificationExport}
+   */
   public static ActionNotificationExport find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().actionNotificationExports().find(id, parameters, options);
   }
 
+  /**
+   * Show Action Notification Export
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ActionNotificationExport get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Action Notification Export
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ActionNotificationExport get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   workspace_id - int64 - Workspace whose logs are exported. Set to `0` for the default workspace. A null value means a site-wide export.
-   *   start_at - string - Start date/time of export range.
-   *   end_at - string - End date/time of export range.
-   *   query_message - string - Error message associated with the request, if any.
-   *   query_request_method - string - The HTTP request method used by the webhook.
-   *   query_request_url - string - The target webhook URL.
-   *   query_status - string - The HTTP status returned from the server in response to the webhook request.
-   *   query_success - boolean - true if the webhook request succeeded (i.e. returned a 200 or 204 response status). false otherwise.
-   *   query_path - string - Return notifications that were triggered by actions on this specific path.
-   *   query_folder - string - Return notifications that were triggered by actions in this folder.
+   * Create Action Notification Export
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static ActionNotificationExport create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Action Notification Export
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static ActionNotificationExport create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Action Notification Export
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code workspace_id} (Long): Workspace whose logs are exported. Set to `0` for the default workspace. A null value means a site-wide export.</li>
+   * <li>{@code start_at} (String): Start date/time of export range.</li>
+   * <li>{@code end_at} (String): End date/time of export range.</li>
+   * <li>{@code query_message} (String): Error message associated with the request, if any.</li>
+   * <li>{@code query_request_method} (String): The HTTP request method used by the webhook.</li>
+   * <li>{@code query_request_url} (String): The target webhook URL.</li>
+   * <li>{@code query_status} (String): The HTTP status returned from the server in response to the webhook request.</li>
+   * <li>{@code query_success} (Boolean): true if the webhook request succeeded (i.e. returned a 200 or 204 response status). false otherwise.</li>
+   * <li>{@code query_path} (String): Return notifications that were triggered by actions on this specific path.</li>
+   * <li>{@code query_folder} (String): Return notifications that were triggered by actions in this folder.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ActionNotificationExport}
+   */
   public static ActionNotificationExport create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().actionNotificationExports().create(parameters, options);
   }

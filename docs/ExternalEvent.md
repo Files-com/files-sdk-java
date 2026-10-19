@@ -25,12 +25,9 @@
 
 ## List External Events
 
-```
-ListIterator<ExternalEvent> externalEvent = ExternalEvent.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<ExternalEvent> externalEvents = ExternalEvent.list(parameters, null);
 ```
 
 ### Parameters
@@ -49,12 +46,9 @@ ListIterator<ExternalEvent> externalEvent = ExternalEvent.list(
 
 ## Show External Event
 
-```
-ExternalEvent externalEvent = ExternalEvent.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ExternalEvent externalEvent = ExternalEvent.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -66,12 +60,11 @@ ExternalEvent externalEvent = ExternalEvent.find(
 
 ## Create External Event
 
-```
-ExternalEvent externalEvent = ExternalEvent.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("status", "example");
+parameters.put("body", "example");
+ExternalEvent externalEvent = ExternalEvent.create(parameters, null);
 ```
 
 ### Parameters

@@ -58,12 +58,9 @@
 
 ## List Remote Mount Backends
 
-```
-ListIterator<RemoteMountBackend> remoteMountBackend = RemoteMountBackend.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<RemoteMountBackend> remoteMountBackends = RemoteMountBackend.list(parameters, null);
 ```
 
 ### Parameters
@@ -77,12 +74,9 @@ ListIterator<RemoteMountBackend> remoteMountBackend = RemoteMountBackend.list(
 
 ## Show Remote Mount Backend
 
-```
-RemoteMountBackend remoteMountBackend = RemoteMountBackend.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+RemoteMountBackend remoteMountBackend = RemoteMountBackend.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -94,12 +88,22 @@ RemoteMountBackend remoteMountBackend = RemoteMountBackend.find(
 
 ## Create Remote Mount Backend
 
-```
-RemoteMountBackend remoteMountBackend = RemoteMountBackend.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("enabled", true);
+parameters.put("fall", 1L);
+parameters.put("health_check_enabled", true);
+parameters.put("health_check_type", "active");
+parameters.put("interval", 60L);
+parameters.put("min_free_cpu", 1.0);
+parameters.put("min_free_mem", 1.0);
+parameters.put("priority", 1L);
+parameters.put("remote_path", "/path/on/remote");
+parameters.put("rise", 1L);
+parameters.put("canary_file_path", "backend1.txt");
+parameters.put("remote_server_mount_id", 1L);
+parameters.put("remote_server_id", 1L);
+RemoteMountBackend remoteMountBackend = RemoteMountBackend.create(parameters, null);
 ```
 
 ### Parameters
@@ -123,12 +127,9 @@ RemoteMountBackend remoteMountBackend = RemoteMountBackend.create(
 
 ## Reset backend status to healthy
 
-```
-void remoteMountBackend = RemoteMountBackend.resetStatus(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+RemoteMountBackend.resetStatus(1L, parameters, null);
 ```
 
 ### Parameters
@@ -140,12 +141,21 @@ void remoteMountBackend = RemoteMountBackend.resetStatus(
 
 ## Update Remote Mount Backend
 
-```
-RemoteMountBackend remoteMountBackend = RemoteMountBackend.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("enabled", true);
+parameters.put("fall", 1L);
+parameters.put("health_check_enabled", true);
+parameters.put("health_check_type", "active");
+parameters.put("interval", 60L);
+parameters.put("min_free_cpu", 1.0);
+parameters.put("min_free_mem", 1.0);
+parameters.put("priority", 1L);
+parameters.put("remote_path", "/path/on/remote");
+parameters.put("rise", 1L);
+parameters.put("canary_file_path", "backend1.txt");
+parameters.put("remote_server_id", 1L);
+RemoteMountBackend remoteMountBackend = RemoteMountBackend.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -169,12 +179,9 @@ RemoteMountBackend remoteMountBackend = RemoteMountBackend.update(
 
 ## Delete Remote Mount Backend
 
-```
-void remoteMountBackend = RemoteMountBackend.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+RemoteMountBackend.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -186,11 +193,9 @@ void remoteMountBackend = RemoteMountBackend.delete(
 
 ## Reset backend status to healthy
 
-```
-RemoteMountBackend remoteMountBackend = RemoteMountBackend.find(id);
-
+```java
+RemoteMountBackend remoteMountBackend = RemoteMountBackend.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 remoteMountBackend.resetStatus(parameters);
 ```
 
@@ -203,24 +208,22 @@ remoteMountBackend.resetStatus(parameters);
 
 ## Update Remote Mount Backend
 
-```
-RemoteMountBackend remoteMountBackend = RemoteMountBackend.find(id);
-
+```java
+RemoteMountBackend remoteMountBackend = RemoteMountBackend.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("enabled", true);
-parameters.put("fall", 1);
+parameters.put("fall", 1L);
 parameters.put("health_check_enabled", true);
 parameters.put("health_check_type", "active");
-parameters.put("interval", 60);
-parameters.put("min_free_cpu", "1.0");
-parameters.put("min_free_mem", "1.0");
-parameters.put("priority", 1);
+parameters.put("interval", 60L);
+parameters.put("min_free_cpu", 1.0);
+parameters.put("min_free_mem", 1.0);
+parameters.put("priority", 1L);
 parameters.put("remote_path", "/path/on/remote");
-parameters.put("rise", 1);
+parameters.put("rise", 1L);
 parameters.put("canary_file_path", "backend1.txt");
-parameters.put("remote_server_id", 1);
-
-remoteMountBackend.update(parameters);
+parameters.put("remote_server_id", 1L);
+RemoteMountBackend result = remoteMountBackend.update(parameters);
 ```
 
 ### Parameters
@@ -244,11 +247,9 @@ remoteMountBackend.update(parameters);
 
 ## Delete Remote Mount Backend
 
-```
-RemoteMountBackend remoteMountBackend = RemoteMountBackend.find(id);
-
+```java
+RemoteMountBackend remoteMountBackend = RemoteMountBackend.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 remoteMountBackend.delete(parameters);
 ```
 

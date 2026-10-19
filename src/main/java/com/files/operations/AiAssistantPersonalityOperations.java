@@ -25,20 +25,37 @@ public final class AiAssistantPersonalityOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
+   * List Ai Assistant Personalities
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<AiAssistantPersonality> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Ai Assistant Personalities
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<AiAssistantPersonality> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Ai Assistant Personalities
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AiAssistantPersonality} records, in a {@code ListIterator}
+   */
   public ListIterator<AiAssistantPersonality> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -64,30 +81,59 @@ public final class AiAssistantPersonalityOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Ai Assistant Personalities
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<AiAssistantPersonality> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Ai Assistant Personalities
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<AiAssistantPersonality> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Ai Assistant Personality ID.
+   * Show Ai Assistant Personality
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public AiAssistantPersonality find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Ai Assistant Personality
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public AiAssistantPersonality find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Ai Assistant Personality
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public AiAssistantPersonality find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Ai Assistant Personality
+   *
+   * @param id Ai Assistant Personality ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AiAssistantPersonality}
+   */
   public AiAssistantPersonality find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -109,30 +155,57 @@ public final class AiAssistantPersonalityOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Ai Assistant Personality
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public AiAssistantPersonality get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Ai Assistant Personality
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public AiAssistantPersonality get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   apply_to_all_workspaces - boolean - If true, this default-workspace personality can apply to users in all workspaces.
-   *   name (required) - string - AI Assistant Personality name.
-   *   system_prompt (required) - string - System prompt injected into the in-app AI Assistant.
-   *   use_by_default - boolean - Whether this personality is the default personality for the Workspace.
-   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   * Create Ai Assistant Personality
+   *
+   * @see #create(HashMap, HashMap)
    */
   public AiAssistantPersonality create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Ai Assistant Personality
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public AiAssistantPersonality create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Ai Assistant Personality
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code apply_to_all_workspaces} (Boolean): If true, this default-workspace personality can apply to users in all workspaces.</li>
+   * <li>{@code name} (String): Required. AI Assistant Personality name.</li>
+   * <li>{@code system_prompt} (String): Required. System prompt injected into the in-app AI Assistant.</li>
+   * <li>{@code use_by_default} (Boolean): Whether this personality is the default personality for the Workspace.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. `0` means the default workspace.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AiAssistantPersonality}
+   */
   public AiAssistantPersonality create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -171,25 +244,48 @@ public final class AiAssistantPersonalityOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   apply_to_all_workspaces - boolean - If true, this default-workspace personality can apply to users in all workspaces.
-   *   name - string - AI Assistant Personality name.
-   *   system_prompt - string - System prompt injected into the in-app AI Assistant.
-   *   use_by_default - boolean - Whether this personality is the default personality for the Workspace.
-   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   * Update Ai Assistant Personality
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public AiAssistantPersonality update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Ai Assistant Personality
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public AiAssistantPersonality update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Ai Assistant Personality
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public AiAssistantPersonality update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Ai Assistant Personality
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code apply_to_all_workspaces} (Boolean): If true, this default-workspace personality can apply to users in all workspaces.</li>
+   * <li>{@code name} (String): AI Assistant Personality name.</li>
+   * <li>{@code system_prompt} (String): System prompt injected into the in-app AI Assistant.</li>
+   * <li>{@code use_by_default} (Boolean): Whether this personality is the default personality for the Workspace.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. `0` means the default workspace.</li>
+   * </ul>
+   *
+   * @param id Ai Assistant Personality ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AiAssistantPersonality}
+   */
   public AiAssistantPersonality update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -232,19 +328,39 @@ public final class AiAssistantPersonalityOperations extends ResourceOperations {
   }
 
   /**
+   * Delete Ai Assistant Personality
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Ai Assistant Personality
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Ai Assistant Personality
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Ai Assistant Personality
+   *
+   * @param id Ai Assistant Personality ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -265,10 +381,20 @@ public final class AiAssistantPersonalityOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Ai Assistant Personality
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Ai Assistant Personality
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

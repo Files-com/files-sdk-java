@@ -47,12 +47,9 @@
 
 ## List Outbound Connection Logs
 
-```
-ListIterator<OutboundConnectionLog> outboundConnectionLog = OutboundConnectionLog.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<OutboundConnectionLog> outboundConnectionLogs = OutboundConnectionLog.list(parameters, null);
 ```
 
 ### Parameters

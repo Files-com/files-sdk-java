@@ -33,6 +33,11 @@ public class ShareGroupMember implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -56,14 +61,29 @@ public class ShareGroupMember implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code ShareGroupMember} with no attributes set.
+   */
   public ShareGroupMember() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code ShareGroupMember} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public ShareGroupMember(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code ShareGroupMember} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public ShareGroupMember(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -81,6 +101,11 @@ public class ShareGroupMember implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
@@ -91,6 +116,11 @@ public class ShareGroupMember implements ModelInterface {
   @JsonProperty("company")
   public String company;
 
+  /**
+   * Gets {@link #company}.
+   *
+   * @return the value of {@link #company}
+   */
   public String getCompany() {
     return company;
   }
@@ -101,6 +131,11 @@ public class ShareGroupMember implements ModelInterface {
   @JsonProperty("email")
   public String email;
 
+  /**
+   * Gets {@link #email}.
+   *
+   * @return the value of {@link #email}
+   */
   public String getEmail() {
     return email;
   }

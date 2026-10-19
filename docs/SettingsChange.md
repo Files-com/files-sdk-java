@@ -29,12 +29,9 @@
 
 ## List Settings Changes
 
-```
-ListIterator<SettingsChange> settingsChange = SettingsChange.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<SettingsChange> settingsChanges = SettingsChange.list(parameters, null);
 ```
 
 ### Parameters

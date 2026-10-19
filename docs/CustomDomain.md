@@ -45,12 +45,9 @@
 
 ## List Custom Domains
 
-```
-ListIterator<CustomDomain> customDomain = CustomDomain.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<CustomDomain> customDomains = CustomDomain.list(parameters, null);
 ```
 
 ### Parameters
@@ -65,12 +62,9 @@ ListIterator<CustomDomain> customDomain = CustomDomain.list(
 
 ## Show Custom Domain
 
-```
-CustomDomain customDomain = CustomDomain.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+CustomDomain customDomain = CustomDomain.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -82,12 +76,10 @@ CustomDomain customDomain = CustomDomain.find(
 
 ## Allocate dedicated IP addresses to this Custom Domain
 
-```
-CustomDomain customDomain = CustomDomain.createAllocateIp(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("count", 1L);
+CustomDomain customDomain = CustomDomain.createAllocateIp(1L, parameters, null);
 ```
 
 ### Parameters
@@ -100,12 +92,15 @@ CustomDomain customDomain = CustomDomain.createAllocateIp(
 
 ## Create Custom Domain
 
-```
-CustomDomain customDomain = CustomDomain.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("available_to_all_workspaces", false);
+parameters.put("workspace_id", 0L);
+parameters.put("destination", "site_alias");
+parameters.put("folder_behavior_id", 1L);
+parameters.put("ssl_certificate_id", 1L);
+parameters.put("domain", "files.example.com");
+CustomDomain customDomain = CustomDomain.create(parameters, null);
 ```
 
 ### Parameters
@@ -122,12 +117,15 @@ CustomDomain customDomain = CustomDomain.create(
 
 ## Update Custom Domain
 
-```
-CustomDomain customDomain = CustomDomain.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("available_to_all_workspaces", false);
+parameters.put("workspace_id", 0L);
+parameters.put("destination", "site_alias");
+parameters.put("folder_behavior_id", 1L);
+parameters.put("ssl_certificate_id", 1L);
+parameters.put("domain", "files.example.com");
+CustomDomain customDomain = CustomDomain.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -145,12 +143,9 @@ CustomDomain customDomain = CustomDomain.update(
 
 ## Delete Custom Domain
 
-```
-void customDomain = CustomDomain.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+CustomDomain.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -162,18 +157,16 @@ void customDomain = CustomDomain.delete(
 
 ## Update Custom Domain
 
-```
-CustomDomain customDomain = CustomDomain.find(id);
-
+```java
+CustomDomain customDomain = CustomDomain.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("available_to_all_workspaces", false);
-parameters.put("workspace_id", 0);
+parameters.put("workspace_id", 0L);
 parameters.put("destination", "site_alias");
-parameters.put("folder_behavior_id", 1);
-parameters.put("ssl_certificate_id", 1);
+parameters.put("folder_behavior_id", 1L);
+parameters.put("ssl_certificate_id", 1L);
 parameters.put("domain", "files.example.com");
-
-customDomain.update(parameters);
+CustomDomain result = customDomain.update(parameters);
 ```
 
 ### Parameters
@@ -191,11 +184,9 @@ customDomain.update(parameters);
 
 ## Delete Custom Domain
 
-```
-CustomDomain customDomain = CustomDomain.find(id);
-
+```java
+CustomDomain customDomain = CustomDomain.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 customDomain.delete(parameters);
 ```
 

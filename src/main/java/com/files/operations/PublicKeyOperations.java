@@ -25,25 +25,42 @@ public final class PublicKeyOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `user_id`, `title` or `created_at`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at` and `workspace_id`. Valid field combinations are `[ workspace_id, created_at ]`.
-   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
-   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
-   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
-   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
+   * List Public Keys
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<PublicKey> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Public Keys
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<PublicKey> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Public Keys
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `user_id`, `title` or `created_at`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at` and `workspace_id`. Valid field combinations are `[ workspace_id, created_at ]`.</li>
+   * <li>{@code filter_gt} (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_gteq} (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_lt} (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_lteq} (Object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code PublicKey} records, in a {@code ListIterator}
+   */
   public ListIterator<PublicKey> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -89,30 +106,59 @@ public final class PublicKeyOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Public Keys
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<PublicKey> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Public Keys
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<PublicKey> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Public Key ID.
+   * Show Public Key
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public PublicKey find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Public Key
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public PublicKey find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Public Key
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public PublicKey find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Public Key
+   *
+   * @param id Public Key ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code PublicKey}
+   */
   public PublicKey find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -134,32 +180,59 @@ public final class PublicKeyOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Public Key
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public PublicKey get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Public Key
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public PublicKey get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   title (required) - string - Internal reference for key.
-   *   public_key - string - Actual contents of SSH key.
-   *   generate_keypair - boolean - If true, generate a new SSH key pair. Can not be used with `public_key`
-   *   generate_private_key_password - string - Password for the private key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
-   *   generate_algorithm - string - Type of key to generate.  One of rsa, dsa, ecdsa, ed25519. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
-   *   generate_length - int64 - Length of key to generate. If algorithm is ecdsa, this is the signature size. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+   * Create Public Key
+   *
+   * @see #create(HashMap, HashMap)
    */
   public PublicKey create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Public Key
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public PublicKey create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Public Key
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code title} (String): Required. Internal reference for key.</li>
+   * <li>{@code public_key} (String): Actual contents of SSH key.</li>
+   * <li>{@code generate_keypair} (Boolean): If true, generate a new SSH key pair. Can not be used with `public_key`</li>
+   * <li>{@code generate_private_key_password} (String): Password for the private key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.</li>
+   * <li>{@code generate_algorithm} (String): Type of key to generate.  One of rsa, dsa, ecdsa, ed25519. Used for the generation of the key. Will be ignored if `generate_keypair` is false.</li>
+   * <li>{@code generate_length} (Long): Length of key to generate. If algorithm is ecdsa, this is the signature size. Used for the generation of the key. Will be ignored if `generate_keypair` is false.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code PublicKey}
+   */
   public PublicKey create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -202,21 +275,44 @@ public final class PublicKeyOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   title (required) - string - Internal reference for key.
+   * Update Public Key
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public PublicKey update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Public Key
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public PublicKey update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Public Key
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public PublicKey update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Public Key
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code title} (String): Required. Internal reference for key.</li>
+   * </ul>
+   *
+   * @param id Public Key ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code PublicKey}
+   */
   public PublicKey update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -247,19 +343,39 @@ public final class PublicKeyOperations extends ResourceOperations {
   }
 
   /**
+   * Delete Public Key
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Public Key
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Public Key
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Public Key
+   *
+   * @param id Public Key ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -280,10 +396,20 @@ public final class PublicKeyOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Public Key
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Public Key
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

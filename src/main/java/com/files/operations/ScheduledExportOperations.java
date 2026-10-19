@@ -25,21 +25,38 @@ public final class ScheduledExportOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`, `export_type` or `disabled`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled` and `export_type`.
-   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `export_type`.
+   * List Scheduled Exports
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<ScheduledExport> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Scheduled Exports
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<ScheduledExport> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Scheduled Exports
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`, `export_type` or `disabled`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled` and `export_type`.</li>
+   * <li>{@code filter_prefix} (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `export_type`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ScheduledExport} records, in a {@code ListIterator}
+   */
   public ListIterator<ScheduledExport> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -69,30 +86,59 @@ public final class ScheduledExportOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Scheduled Exports
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<ScheduledExport> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Scheduled Exports
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<ScheduledExport> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Scheduled Export ID.
+   * Show Scheduled Export
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public ScheduledExport find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Scheduled Export
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ScheduledExport find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Scheduled Export
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ScheduledExport find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Scheduled Export
+   *
+   * @param id Scheduled Export ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ScheduledExport}
+   */
   public ScheduledExport find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -114,39 +160,66 @@ public final class ScheduledExportOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Scheduled Export
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ScheduledExport get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Scheduled Export
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ScheduledExport get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   name (required) - string - Name for this scheduled export.
-   *   export_type (required) - string - Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit
-   *   export_options - object - Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.
-   *   user_id - int64 - Site Admin user who receives the completed export e-mail.
-   *   disabled - boolean - If true, this scheduled export will not run.
-   *   trigger - string - Schedule trigger type: `daily` or `custom_schedule`.
-   *   interval - string - If trigger is `daily`, this specifies how often to run the scheduled export.
-   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
-   *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
-   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-   *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the scheduled export schedule.
-   *   schedule_time_zone - string - Time zone used by the scheduled export schedule.
-   *   holiday_region - string - Optional holiday region used by the scheduled export schedule.
+   * Create Scheduled Export
+   *
+   * @see #create(HashMap, HashMap)
    */
   public ScheduledExport create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Scheduled Export
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public ScheduledExport create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Scheduled Export
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Required. Name for this scheduled export.</li>
+   * <li>{@code export_type} (String): Required. Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit</li>
+   * <li>{@code export_options} (Object): Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.</li>
+   * <li>{@code user_id} (Long): Site Admin user who receives the completed export e-mail.</li>
+   * <li>{@code disabled} (Boolean): If true, this scheduled export will not run.</li>
+   * <li>{@code trigger} (String): Schedule trigger type: `daily` or `custom_schedule`.</li>
+   * <li>{@code interval} (String): If trigger is `daily`, this specifies how often to run the scheduled export.</li>
+   * <li>{@code recurring_day} (Long): If trigger is `daily`, this selects the day number inside the chosen interval.</li>
+   * <li>{@code recurring_days} (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.</li>
+   * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.</li>
+   * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the scheduled export schedule.</li>
+   * <li>{@code schedule_time_zone} (String): Time zone used by the scheduled export schedule.</li>
+   * <li>{@code holiday_region} (String): Optional holiday region used by the scheduled export schedule.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ScheduledExport}
+   */
   public ScheduledExport create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -221,34 +294,57 @@ public final class ScheduledExportOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   name - string - Name for this scheduled export.
-   *   export_type - string - Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit
-   *   export_options - object - Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.
-   *   user_id - int64 - Site Admin user who receives the completed export e-mail.
-   *   disabled - boolean - If true, this scheduled export will not run.
-   *   trigger - string - Schedule trigger type: `daily` or `custom_schedule`.
-   *   interval - string - If trigger is `daily`, this specifies how often to run the scheduled export.
-   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
-   *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
-   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-   *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the scheduled export schedule.
-   *   schedule_time_zone - string - Time zone used by the scheduled export schedule.
-   *   holiday_region - string - Optional holiday region used by the scheduled export schedule.
+   * Update Scheduled Export
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public ScheduledExport update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Scheduled Export
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public ScheduledExport update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Scheduled Export
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public ScheduledExport update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Scheduled Export
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Name for this scheduled export.</li>
+   * <li>{@code export_type} (String): Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit</li>
+   * <li>{@code export_options} (Object): Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.</li>
+   * <li>{@code user_id} (Long): Site Admin user who receives the completed export e-mail.</li>
+   * <li>{@code disabled} (Boolean): If true, this scheduled export will not run.</li>
+   * <li>{@code trigger} (String): Schedule trigger type: `daily` or `custom_schedule`.</li>
+   * <li>{@code interval} (String): If trigger is `daily`, this specifies how often to run the scheduled export.</li>
+   * <li>{@code recurring_day} (Long): If trigger is `daily`, this selects the day number inside the chosen interval.</li>
+   * <li>{@code recurring_days} (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.</li>
+   * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.</li>
+   * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the scheduled export schedule.</li>
+   * <li>{@code schedule_time_zone} (String): Time zone used by the scheduled export schedule.</li>
+   * <li>{@code holiday_region} (String): Optional holiday region used by the scheduled export schedule.</li>
+   * </ul>
+   *
+   * @param id Scheduled Export ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ScheduledExport}
+   */
   public ScheduledExport update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -327,19 +423,39 @@ public final class ScheduledExportOperations extends ResourceOperations {
   }
 
   /**
+   * Delete Scheduled Export
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Scheduled Export
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Scheduled Export
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Scheduled Export
+   *
+   * @param id Scheduled Export ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -360,10 +476,20 @@ public final class ScheduledExportOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Scheduled Export
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Scheduled Export
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

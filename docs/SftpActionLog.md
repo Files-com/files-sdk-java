@@ -61,12 +61,9 @@
 
 ## List SFTP Action Logs
 
-```
-ListIterator<SftpActionLog> sftpActionLog = SftpActionLog.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<SftpActionLog> sftpActionLogs = SftpActionLog.list(parameters, null);
 ```
 
 ### Parameters

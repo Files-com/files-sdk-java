@@ -58,6 +58,7 @@ import org.apache.http.ConnectionClosedException;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpException;
+import org.apache.http.HttpHost;
 import org.apache.http.MalformedChunkCodingException;
 import org.apache.http.NoHttpResponseException;
 import org.apache.http.TruncatedChunkException;
@@ -397,7 +398,8 @@ public final class ClientRuntime implements Closeable {
 
   // Sends the request, retrying it within one budget of maxRetries: a retry after a failure that
   // may be temporary, and a relocation after Files.com named another server for the site, each
-  // use one. The body is prepared once and resent unchanged. A relocation moves the rest of the
+  // use one. Only a region mismatch from the server the request was sent to can relocate it (see
+  // attempt). The body is prepared once and resent unchanged. A relocation moves the rest of the
   // operation; it moves the client's later operations too only when the request carried the
   // client's own credentials, since a call's own credentials, or none, may be for another site.
   FilesResponse send(RequestMethods method, String target, HashMap<String, Object> parameters, Map<String, Object> options,
@@ -442,8 +444,8 @@ public final class ClientRuntime implements Closeable {
         }
         int limit = retryLimit(maxRetries);
         boolean canRetry = retry < limit && !(onlyUnsent && attempt.sent);
-        if (attempt.error instanceof ApiErrorException.LockoutRegionMismatchException) {
-          URI relocated = relocatable ? relocation(root, (ApiErrorException.LockoutRegionMismatchException) attempt.error) : null;
+        if (attempt.regionMismatch) {
+          URI relocated = relocatable ? relocation(root, attempt.regionHost) : null;
           if (relocated == null || !canRetry) {
             throw attempt.error;
           }
@@ -521,10 +523,15 @@ public final class ClientRuntime implements Closeable {
           }
           return Attempt.succeeded(new FilesResponse(status, Arrays.asList(response.getAllHeaders()), responseBody));
         }
-        SdkException error = ApiErrors.forResponse(response, status, operation(request));
+        // A region mismatch can name another server for the site only when it came from the
+        // server the request was sent to; from anywhere else it is just the request's error.
+        ApiErrors.Failure failure = ApiErrors.read(response, status, operation(request), answeredFrom(root, context));
         scope.check();
+        if (failure.regionMismatch) {
+          return Attempt.regionMismatch(failure.error, failure.host, "HTTP status " + status);
+        }
         long retryAfter = status == 429 || status == 503 ? retryAfterMillis(response.getFirstHeader("Retry-After")) : 0;
-        return Attempt.failed(error, isRetryableStatus(request, status), "HTTP status " + status, retryAfter, true);
+        return Attempt.failed(failure.error, isRetryableStatus(request, status), "HTTP status " + status, retryAfter, true);
       } finally {
         closeQuietly(response);
       }
@@ -533,11 +540,10 @@ public final class ClientRuntime implements Closeable {
     }
   }
 
-  // Where to send the site's requests after a region mismatch, or null to fail with it.
-  private URI relocation(URI root, ApiErrorException.LockoutRegionMismatchException error) {
-    Map<String, Object> data = error.getData();
-    Object host = data == null ? null : data.get("host");
-    URI relocated = settings.regionRelocation.relocate(root, host instanceof String ? (String) host : null);
+  // Where to send the site's requests after a region mismatch naming host, which may be null, or
+  // null to fail with it.
+  private URI relocation(URI root, String host) {
+    URI relocated = settings.regionRelocation.relocate(root, host);
     if (relocated == null
         || relocated.getHost() == null
         || relocated.getRawUserInfo() != null
@@ -550,6 +556,29 @@ public final class ClientRuntime implements Closeable {
     }
     URI normalized = URI.create(relocated.getScheme().toLowerCase(Locale.ROOT) + "://" + relocated.getRawAuthority());
     return normalized.equals(root) ? null : normalized;
+  }
+
+  // Whether the response came from root's own server: every server the request reached, the first
+  // and each redirect HttpClient followed, has root's origin, as CredentialGuard.sameOrigin decides
+  // it for credentials. HttpClient records the last of them as the target host of the exchange's
+  // context, and each redirect in its redirect locations. A response whose server was not recorded
+  // is not taken to be root's: that the request was sent there does not show where its answer came
+  // from. As with credentials, a request that once left root's origin is not trusted again, even
+  // back there.
+  private static boolean answeredFrom(URI root, HttpClientContext context) {
+    if (!CredentialGuard.sameOrigin(root, context.getTargetHost())) {
+      return false;
+    }
+    List<URI> redirects = context.getRedirectLocations();
+    if (redirects != null) {
+      for (URI location : redirects) {
+        if (location == null || location.getHost() == null || location.getScheme() == null
+            || !CredentialGuard.sameOrigin(root, new HttpHost(location.getHost(), location.getPort(), location.getScheme()))) {
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   // The wait before a retry: the retry delay, doubling with each retry up to the maximum, or the
@@ -731,11 +760,12 @@ public final class ClientRuntime implements Closeable {
     return false;
   }
 
-  // Whether an API request that got this status may be sent again: 429, and 502 or above, which
-  // are temporary; 500 only for a GET, since repeating a GET cannot change data while repeating
-  // another method might; never 501, which means the server does not support the request at all.
+  // Whether an API request that got this status may be sent again, whatever its method: 429, and 500
+  // or above, which may be temporary; never 501, which means the server does not support the request
+  // at all. A request whose effect must not be repeated, such as the one completing an upload, is
+  // kept from being sent again by its caller (send's onlyUnsent), not by its status.
   static boolean isRetryableStatus(HttpRequestBase request, int status) {
-    return status == 429 || status >= 502 || (status == 500 && "GET".equals(request.getMethod()));
+    return status == 429 || (status >= 500 && status != 501);
   }
 
   // The request a failure belongs to: its method and its path as sent, without the host or the
@@ -933,13 +963,30 @@ public final class ClientRuntime implements Closeable {
   }
 
   // As executeStorage, following no redirect unless followRedirects: a request whose answer must come
-  // from the very resource it names, such as a range of one version of a file.
+  // from the very resource it names, such as a range of one version of a file. No expiry is checked.
   StorageExchange executeStorage(HttpRequestBase request, OperationScope scope, boolean followRedirects) throws IOException {
+    return sendStorage(request, scope, followRedirects, false, null);
+  }
+
+  // As above, for a signed URL known to expire at expiresAt, or null when that is not known. Once it
+  // has expired, the request is refused as its head for that URL is about to be written, after any
+  // wait for a connection, with CredentialGuard.ExpiredUrl: its connection is given up, and nothing
+  // more of it is sent. A head for another URL, as after a redirect, is refused the same way once the
+  // expiry that URL states itself has come, even when the signed URL's is not known or has not come.
+  // The URL itself is sent exactly as given.
+  StorageExchange executeStorage(HttpRequestBase request, OperationScope scope, boolean followRedirects, Instant expiresAt)
+      throws IOException {
+    return sendStorage(request, scope, followRedirects, true, expiresAt);
+  }
+
+  // Sends a storage request, its expiry checked when signed (CredentialGuard.forStorage).
+  private StorageExchange sendStorage(HttpRequestBase request, OperationScope scope, boolean followRedirects, boolean signed,
+      Instant expiresAt) throws IOException {
     request.setHeader("User-Agent", settings.userAgent);
     RequestConfig config = requestConfig(true);
     request.setConfig(followRedirects ? config : RequestConfig.copy(config).setRedirectsEnabled(false).build());
     CancellationToken.Registration abort = scope.onStop(request::abort);
-    CredentialGuard.Exchange guard = CredentialGuard.forStorage();
+    CredentialGuard.Exchange guard = signed ? CredentialGuard.forStorage(request.getURI(), expiresAt) : CredentialGuard.forStorage();
     try {
       return new StorageExchange(transport.execute(request, HttpClientContext.create()), abort);
     } catch (IOException | RuntimeException | Error e) {
@@ -986,9 +1033,37 @@ public final class ClientRuntime implements Closeable {
 
   /**
    * Opens a download from a storage URL, retrying as API requests are; the caller closes it.
+   *
+   * <p>Once the expiry the URL itself states, if it states one, has come, the request is refused
+   * before it is sent, even after a wait for a connection or a redirect, and as a URL alone gives
+   * nothing to renew it with, the download fails. A URL that states no expiry is sent. An answer
+   * from Files.com's web application, rather than from storage, is refused before any of its body is
+   * returned. Opening is a call of its own, which ends once the stream is returned: the stream owns
+   * the response until it is closed, and its reads are not part of any call, so they are neither
+   * cancelled nor retried by the SDK.
    */
   public FilesApacheHttpInputStream openDownload(String url) {
-    return new FilesApacheHttpInputStream(sendStorage(() -> new HttpGet(url), storageRetries()));
+    try (OperationScope scope = open("The request", Collections.<String, Object>emptyMap())) {
+      return openDownload(url, scope, storageRetries(), new int[1]);
+    } catch (CredentialGuard.ExpiredUrl e) {
+      throw new ApiErrorException.ApiConnectionException("The download URL expired before it could be used, and a URL alone cannot be renewed");
+    }
+  }
+
+  // Opens a download from url within scope, as openDownload(String) does, within the retry limit
+  // maxRetries, of which retried[0] retries the opening has used already; each retry made here adds
+  // one, so an opening whose URL is renewed goes on with the retries it has left rather than starting
+  // again. A refusal for an expiry a URL states is thrown as CredentialGuard.ExpiredUrl, for a caller
+  // that can renew it.
+  FilesApacheHttpInputStream openDownload(String url, OperationScope scope, int maxRetries, int[] retried) {
+    return new FilesApacheHttpInputStream(sendStorage(() -> new HttpGet(url), maxRetries, retried, scope, true));
+  }
+
+  // The retry limit of a storage request of a call with options: the call's own max_retries, when it
+  // gives one; otherwise the client's, which the default client takes from FilesConfig as it retries
+  // (storageRetries).
+  int storageRetries(Map<String, Object> options) {
+    return options.get(MAX_RETRIES_OPTION) == null ? storageRetries() : maxRetries(options);
   }
 
   /**
@@ -1021,47 +1096,65 @@ public final class ClientRuntime implements Closeable {
   // and close.
   private CloseableHttpResponse sendStorage(java.util.function.Supplier<HttpRequestBase> requests, int maxRetries) {
     try (OperationScope scope = open("The request", Collections.<String, Object>emptyMap())) {
-      for (int retry = 0; ; retry++) {
-        scope.check();
-        HttpRequestBase request = requests.get();
-        SdkException error;
-        boolean retryable;
-        String reason;
-        long retryAfter = 0;
+      return sendStorage(requests, maxRetries, new int[1], scope, false);
+    }
+  }
+
+  // As above, within scope, retried[0] of whose retries have been used already: each retry adds one.
+  // For a download, a request is refused with CredentialGuard.ExpiredUrl, and not retried, once the
+  // expiry its URL states, or the URL a redirect leads to states, has come by the time it would be
+  // sent; and an answer from Files.com's web application is refused before its body is returned.
+  private CloseableHttpResponse sendStorage(java.util.function.Supplier<HttpRequestBase> requests, int maxRetries, int[] retried,
+      OperationScope scope, boolean download) {
+    while (true) {
+      scope.check();
+      HttpRequestBase request = requests.get();
+      SdkException error;
+      boolean retryable;
+      String reason;
+      long retryAfter = 0;
+      try {
+        StorageExchange exchange = download
+            ? executeStorage(request, scope, true, UrlUtils.expiresAt(request.getURI().toString()))
+            : executeStorage(request, scope);
+        CloseableHttpResponse response = exchange.response();
+        if (download && response.getFirstHeader("X-Files-Frontend-App") != null) {
+          exchange.close();
+          throw new ApiErrorException.ApiConnectionException(
+              "The download URL answered with the Files.com web application instead of the file's contents");
+        }
+        int status = response.getStatusLine().getStatusCode();
+        if (status < 400) {
+          return exchange.detach();
+        }
         try {
-          StorageExchange exchange = executeStorage(request, scope);
-          CloseableHttpResponse response = exchange.response();
-          int status = response.getStatusLine().getStatusCode();
-          if (status < 400) {
-            return exchange.detach();
-          }
-          try {
-            error = ApiErrors.forResponse(response, status);
-          } finally {
-            exchange.close();
-          }
-          scope.check();
-          retryable = status == 429 || (status >= 500 && status != 501);
-          reason = "HTTP status " + status;
-          if (status == 429 || status == 503) {
-            retryAfter = retryAfterMillis(response.getFirstHeader("Retry-After"));
-          }
-        } catch (IOException e) {
-          if (scope.isStopped()) {
-            throw scope.stopped(null);
-          }
-          error = connectionError(e);
-          retryable = isRetryable(e);
-          reason = describe(e);
+          error = ApiErrors.forResponse(response, status);
+        } finally {
+          exchange.close();
         }
-        int limit = retryLimit(maxRetries);
-        if (!retryable || retry >= limit) {
-          throw error;
+        scope.check();
+        retryable = status == 429 || (status >= 500 && status != 501);
+        reason = "HTTP status " + status;
+        if (status == 429 || status == 503) {
+          retryAfter = retryAfterMillis(response.getFirstHeader("Retry-After"));
         }
-        long wait = retryDelay(retry + 1, retryAfter, maxRetries);
-        log.warn("Retrying the {} request (retry {} of {}) in {} ms after {}", request.getMethod(), retry + 1, limit, wait, reason);
-        scope.sleep(wait);
+      } catch (IOException e) {
+        if (scope.isStopped()) {
+          throw scope.stopped(null);
+        }
+        error = connectionError(e);
+        retryable = isRetryable(e);
+        reason = describe(e);
       }
+      int retry = retried[0];
+      int limit = retryLimit(maxRetries);
+      if (!retryable || retry >= limit) {
+        throw error;
+      }
+      retried[0] = retry + 1;
+      long wait = retryDelay(retry + 1, retryAfter, maxRetries);
+      log.warn("Retrying the {} request (retry {} of {}) in {} ms after {}", request.getMethod(), retry + 1, limit, wait, reason);
+      scope.sleep(wait);
     }
   }
 
@@ -1159,23 +1252,33 @@ public final class ClientRuntime implements Closeable {
     final long retryAfterMillis;
     // Whether the request was sent in full, so the server may have acted on it.
     final boolean sent;
+    // Whether the server the request was sent to answered with a region mismatch, naming
+    // regionHost, which may be null, as the site's host.
+    final boolean regionMismatch;
+    final String regionHost;
 
     private Attempt(FilesResponse response, SdkException error, boolean retryable, String reason, long retryAfterMillis,
-        boolean sent) {
+        boolean sent, boolean regionMismatch, String regionHost) {
       this.response = response;
       this.error = error;
       this.retryable = retryable;
       this.reason = reason;
       this.retryAfterMillis = retryAfterMillis;
       this.sent = sent;
+      this.regionMismatch = regionMismatch;
+      this.regionHost = regionHost;
     }
 
     static Attempt succeeded(FilesResponse response) {
-      return new Attempt(response, null, false, null, 0, true);
+      return new Attempt(response, null, false, null, 0, true, false, null);
     }
 
     static Attempt failed(SdkException error, boolean retryable, String reason, long retryAfterMillis, boolean sent) {
-      return new Attempt(null, error, retryable, reason, retryAfterMillis, sent);
+      return new Attempt(null, error, retryable, reason, retryAfterMillis, sent, false, null);
+    }
+
+    static Attempt regionMismatch(SdkException error, String regionHost, String reason) {
+      return new Attempt(null, error, false, reason, 0, true, true, regionHost);
     }
   }
 

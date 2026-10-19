@@ -10,6 +10,7 @@ import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.UrlUtils;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URI;
 import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
@@ -121,6 +122,10 @@ final class Downloader {
   private final AtomicInteger retries = new AtomicInteger();
   // The URL the contents are fetched from, renewed when it is about to expire.
   private volatile String url;
+  // The URL a request for the whole file was refused for, as a URL a redirect led to had expired
+  // before its request head could be written: renewed before it is used again, though it may still be
+  // valid itself; null when there is none.
+  private volatile String refusedUrl;
   // The version the download is bound to, once its first answer has bound it.
   private volatile Version version;
   private volatile AttemptAdmission attempts;
@@ -140,6 +145,9 @@ final class Downloader {
   private long rangesRecorded;
   private long lastSnapshot;
   private volatile long resumedBytes;
+  // For a download to a stream whose first part was cut short after some of it was written: the
+  // attempts that part has used (establish), which the rest of it continues to count.
+  private int firstPartAttempts;
 
   Downloader(ClientRuntime runtime, File file, Path destination, DownloadOptions options) {
     this(runtime, file, destination, options, null);
@@ -189,6 +197,20 @@ final class Downloader {
       stage.publish(target, options.isReplaceExisting());
       return new DownloadResult(file, target, size, version != null, progress());
     }
+  }
+
+  // Runs the download into the caller's stream within scope, which covers the whole download, as run
+  // does: the bytes are written to out in order as they arrive, with no local copy of the file, and
+  // out is neither flushed nor closed (StreamStage). Returns once the last byte has been written; the
+  // result has no destination.
+  DownloadResult runTo(OutputStream out, OperationScope scope) throws IOException {
+    if (options.getScope() != null && options.getScope().isClosed()) {
+      throw new IllegalStateException("The transfer scope of the download of " + path + " is closed");
+    }
+    started = System.nanoTime();
+    long size = fetchToStream(new StreamStage(out, scope), scope);
+    scope.check();
+    return new DownloadResult(file, null, size, version != null, progress());
   }
 
   // Runs the download keeping its checkpoint: continues the partial download an earlier run
@@ -349,6 +371,123 @@ final class Downloader {
     return fetchWhole(stage, scope);
   }
 
+  // Fetches the file into the caller's stream (runTo), as fetch does, but in order and never asking
+  // again for bytes the stream holds: the parts of a bound download are fetched one at a time, on this
+  // thread (fetchRemainingInOrder); one that binds no version comes in one request (fetchWhole), and
+  // fails, rather than starting over, once the stream holds some of it.
+  private long fetchToStream(StreamStage stage, OperationScope scope) throws IOException {
+    long stated = file.getSize() != null ? file.getSize() : -1;
+    if (stated > options.getPartSize()) {
+      totalBytes = stated;
+      Version bound = establish(stage, scope);
+      if (bound != null) {
+        version = bound;
+        totalBytes = bound.size;
+        return fetchRemainingInOrder(stage, bound, scope);
+      }
+    }
+    return fetchWhole(stage, scope);
+  }
+
+  // Fetches what follows the first answer of a bound download into the stream: each part in order,
+  // from the first byte the stream does not hold, of the bound version (fetchRange checks the version,
+  // size and range of every answer before any of its bytes is written). A part is counted complete
+  // only once all of it has been written. In a scope whose compatible downloads share a target, each
+  // request is admitted by that target, as a part of theirs is, and what it finds out teaches the
+  // target, which the download's progress reports; one request at a time still.
+  private long fetchRemainingInOrder(StreamStage stage, Version bound, OperationScope scope) throws IOException {
+    long partSize = options.getPartSize();
+    int bufferBytes = copyBufferBytes(Math.min(PART_BUFFER_BYTES, partSize));
+    AttemptAdmission admission = sharedAdmission(settings());
+    if (admission != null) {
+      attempts = admission;
+    }
+    report(progress());
+    int used = firstPartAttempts;
+    for (long start = 0; start < bound.size; start += partSize) {
+      long length = Math.min(partSize, bound.size - start);
+      if (stage.delivered() >= start + length) {
+        // The first part, written whole by the first answer, which counted it.
+        continue;
+      }
+      Part part = new Part(start, length);
+      part.written = stage.delivered() - start;
+      fetchInOrder(part, bufferBytes, admission, stage, scope, used);
+      used = 0;
+      synchronized (lock) {
+        completedBytes += length;
+        completedParts++;
+        unreported++;
+      }
+      reportCompleted();
+    }
+    scope.check();
+    return bound.size;
+  }
+
+  // Fetches the part into the stream, from its first byte not yet written, until all of it has been,
+  // on this thread. Each request waits, as storageRequest does, for its copy buffer's space, its
+  // admission by the shared target, when there is one, a retry ahead of new parts, and its request and
+  // storage host slots, renewing a URL about to expire first; its buffer is made only once its space is
+  // held, and dropped when the request ends, before any wait to retry. A request's outcome, the bytes
+  // it wrote and its time less the time spent writing them teach the target that admitted it, as a
+  // part's do (fetchPart). A failed attempt that may be temporary is followed by one for the bytes not
+  // yet written, within the client's retry limit, counting the attempts already used; one refused
+  // because its URL expired before it could be sent uses an attempt too, with nothing measured. An
+  // answer with the whole file, rather than the range asked for, cannot be continued from where the
+  // stream is, and fails the download.
+  private void fetchInOrder(Part part, int bufferBytes, AttemptAdmission admission, StreamStage stage, OperationScope scope, int used)
+      throws IOException {
+    int attempt = used;
+    while (true) {
+      scope.check();
+      Attempt outcome;
+      try (StorageRequest storage = storageRequest(bufferBytes, admission, attempt > 0, scope)) {
+        attempt++;
+        byte[] buffer = new byte[storage.bufferBytes];
+        long[] writing = new long[1];
+        long before = part.written;
+        long sending = System.nanoTime();
+        // Its writes are marked on its admission, as a part's are (writeRange).
+        part.attempt = storage.admitted;
+        try {
+          outcome = fetchRange(part, storage.uri, buffer, stage, scope, writing);
+          storage.complete(outcome, part.written - before, System.nanoTime() - sending - writing[0]);
+        } catch (CredentialGuard.ExpiredUrl e) {
+          // Nothing was measured, or written: closing the request gives its admission and slots back as
+          // they are, and the URL is renewed before the next.
+          outcome = expiredBeforeSending(scope);
+        } finally {
+          part.attempt = null;
+        }
+      } catch (Unbound e) {
+        throw new ApiErrorException.ApiConnectionException("The storage server answered bytes " + (part.start + part.written) + "-"
+            + (part.start + part.length - 1) + " of the download of " + path
+            + " with the whole file, which cannot be continued from where the stream is");
+      }
+      if (outcome.error == null) {
+        return;
+      }
+      if (!outcome.retryable || attempt > maxRetries) {
+        throw outcome.error;
+      }
+      if (outcome.retryAfterMillis > MAX_RETRY_AFTER_MILLIS) {
+        log.info("Not retrying a part of the download of {}: the storage server's Retry-After asks for longer than the SDK waits", path);
+        throw outcome.error;
+      }
+      long delay = outcome.retryAfterMillis >= 0 ? outcome.retryAfterMillis : retryDelayMillis;
+      retries.incrementAndGet();
+      log.info("Retrying bytes {}-{} of the download of {} (retry {} of {}) in {} ms after {}", part.start + part.written,
+          part.start + part.length - 1, path, attempt, maxRetries, delay, outcome.reason);
+      scope.sleep(delay);
+    }
+  }
+
+  // The bytes the caller's stream holds; none for any other stage, which can start over.
+  private static long delivered(DownloadStage stage) {
+    return stage instanceof StreamStage ? ((StreamStage) stage).delivered() : 0;
+  }
+
   // A bound part was answered 200: the parts written so far are forgotten, and the file comes in one
   // request.
   private void unbound() {
@@ -451,6 +590,9 @@ final class Downloader {
         throw e.failure();
       } catch (IOException e) {
         attempt = connectionFailure(e, scope);
+      } catch (CredentialGuard.ExpiredUrl e) {
+        // Closing the request gave its slots back; the URL is renewed before the next.
+        attempt = expiredBeforeSending(scope);
       }
       waitToRetry(attempt, retry, scope);
     }
@@ -538,6 +680,8 @@ final class Downloader {
     for (int retry = 0; ; retry++) {
       scope.check();
       Attempt attempt;
+      // The version the answer binds, once its head has been checked.
+      Version bound = null;
       try (StorageRequest storage = storageRequest(bufferBytes, null, false, scope)) {
         String uri = storage.uri;
         CloseableHttpResponse response = storage.execute(request(uri, 0, length - 1, null), false);
@@ -558,6 +702,7 @@ final class Downloader {
             log.debug("The first answer for {} binds no version of it; downloading it in one request", path);
             return null;
           }
+          bound = new Version(etag, range.total, resourceOf(uri));
           byte[] buffer = new byte[bufferBytes];
           long written = copyRange(response.getEntity(), buffer, stage, 0, range.end + 1, scope, null, new long[1]);
           if (written == range.end + 1) {
@@ -565,7 +710,7 @@ final class Downloader {
               completedBytes += written;
               completedParts++;
             }
-            return new Version(etag, range.total, resourceOf(uri));
+            return bound;
           }
           attempt = Attempt.failed(new ApiErrorException.ApiConnectionException("The first part of the download of " + path + " ended after "
               + written + " of its " + (range.end + 1) + " bytes"), true, -1, "a short response");
@@ -578,6 +723,18 @@ final class Downloader {
         throw e.failure();
       } catch (IOException e) {
         attempt = connectionFailure(e, scope);
+      } catch (CredentialGuard.ExpiredUrl e) {
+        // Closing the request gave its slots back; the URL is renewed before the next.
+        attempt = expiredBeforeSending(scope);
+      }
+      if (bound != null && delivered(stage) > 0) {
+        // A stream holds the first bytes of the answer and cannot be given them again: after the usual
+        // wait, within the same attempts, the rest of the first part is asked for of the version the
+        // answer bound, from the first byte the stream does not hold (fetchRemainingInOrder), never from
+        // the start.
+        waitToRetry(attempt, retry, scope);
+        firstPartAttempts = retry + 1;
+        return bound;
       }
       waitToRetry(attempt, retry, scope);
     }
@@ -700,16 +857,25 @@ final class Downloader {
 
   // Fetches the part until all of it has been written, on one of the download's threads. A failed
   // attempt that may be temporary is followed by one for the part's bytes not yet written, within the
-  // client's retry limit.
+  // client's retry limit. A URL about to expire is renewed while the part holds no admission or slot,
+  // as the renewal needs a connection of its own; an attempt whose URL expired before its request head
+  // could be written, such as while it waited for a connection, is refused there (CredentialGuard),
+  // with nothing measured or written, and uses one of the part's attempts.
   private void fetchPart(Part part, int bufferBytes, DownloadStage stage, OperationScope stop) {
     byte[] buffer = new byte[bufferBytes];
     try {
       int attempt = 0;
       while (true) {
+        if (expiresSoon(url)) {
+          if (part.attempt != null) {
+            part.attempt.close();
+            part.attempt = null;
+          }
+          renewIfExpiring(stop);
+        }
         if (part.attempt == null) {
           part.attempt = admitAttempt(true, stop);
         }
-        renewIfExpiring(stop);
         String uri = url;
         part.attempt.hold(connectionSlot(uri, stop));
         if (!part.attempt.tryStart()) {
@@ -721,7 +887,21 @@ final class Downloader {
         long[] writing = new long[1];
         long before = part.written;
         long sending = System.nanoTime();
-        Attempt outcome = fetchRange(part, uri, buffer, stage, stop, writing);
+        Attempt outcome;
+        try {
+          outcome = fetchRange(part, uri, buffer, stage, stop, writing);
+        } catch (CredentialGuard.ExpiredUrl e) {
+          Attempt refused = expiredBeforeSending(stop);
+          // Nothing was measured: the attempt gives back its admission and its slots as they are.
+          part.attempt.close();
+          part.attempt = null;
+          if (attempt > maxRetries) {
+            throw refused.error;
+          }
+          log.info("The URL for bytes {}-{} of the download of {} expired before they could be asked for; renewing it",
+              part.start + part.written, part.start + part.length - 1, path);
+          continue;
+        }
         List<ConcurrencyController.Decision> decisions = part.attempt.complete(sample(outcome, part.written - before,
             System.nanoTime() - sending - writing[0]), log.isDebugEnabled());
         part.attempt = null;
@@ -776,7 +956,9 @@ final class Downloader {
     long from = part.start + part.written;
     long to = part.start + part.length - 1;
     HttpGet request = request(uri, from, to, bound.etag);
-    try (ClientRuntime.StorageExchange exchange = runtime.executeStorage(request, stop, false)) {
+    // Refused with CredentialGuard.ExpiredUrl, which the caller handles, if uri has expired by the time
+    // its request head would be written.
+    try (ClientRuntime.StorageExchange exchange = runtime.executeStorage(request, stop, false, UrlUtils.expiresAt(uri))) {
       CloseableHttpResponse response = exchange.response();
       refuseWebApplication(response);
       int status = response.getStatusLine().getStatusCode();
@@ -903,6 +1085,12 @@ final class Downloader {
         report(progress());
         return attempt.size;
       }
+      if (delivered(stage) > 0) {
+        // The caller's stream holds the first bytes of an answer that bound no version: they cannot be
+        // taken back, and the rest of the file cannot be asked for alone, so the download stops with
+        // this failure before any other request, rather than asking for the file again from its start.
+        throw attempt.error;
+      }
       waitToRetry(attempt, retry, scope);
     }
   }
@@ -936,7 +1124,15 @@ final class Downloader {
           outcome = failedStatus(response, status);
         } else {
           long expected = entity != null ? entity.getContentLength() : 0;
-          size = copy(entity, stage, scope, storage);
+          Long described = file.getSize();
+          if (described != null && expected > described) {
+            // The storage server says it holds more than Files.com described: nothing is written.
+            throw sizeMismatch(expected);
+          }
+          // Nothing past the described size is written, so a quota reserved for it holds, whatever
+          // length the answer gives, or none. An answer that says it holds less is read as any other:
+          // cut short, it is tried again; whole, its size is not the described one, and fails below.
+          size = copy(entity, stage, scope, storage, described != null ? described : -1);
           if (expected >= 0 && size != expected) {
             outcome = Attempt.failed(new ApiErrorException.ApiConnectionException("The download of " + path + " ended after " + size
                 + " of its " + expected + " bytes"), true, -1, "a short response");
@@ -950,6 +1146,13 @@ final class Downloader {
         throw e.failure();
       } catch (IOException e) {
         outcome = connectionFailure(e, scope);
+      } catch (CredentialGuard.ExpiredUrl e) {
+        // Nothing was measured, or written: closing the request gives its admission and slots back as
+        // they are. The whole file is asked for again, from its start, with a renewed URL. The head
+        // refused may be for a URL a redirect led to, which can expire before the download's own does,
+        // so the download's URL is renewed even if it has not expired (refusedUrl).
+        refusedUrl = storage.uri;
+        return expiredBeforeSending(scope);
       }
       storage.complete(outcome, size);
       return outcome;
@@ -960,6 +1163,13 @@ final class Downloader {
   // makes it durable; the request is marked as writing locally meanwhile. The request stays abortable
   // while the body is read, so stopping the download ends a read that waits.
   private long copy(HttpEntity entity, DownloadStage stage, OperationScope scope, StorageRequest storage) throws IOException {
+    return copy(entity, stage, scope, storage, -1);
+  }
+
+  // As above, but a body longer than limit, when it is not negative, fails the download before its
+  // bytes past limit are written; it is not tried again.
+  private long copy(HttpEntity entity, DownloadStage stage, OperationScope scope, StorageRequest storage, long limit)
+      throws IOException {
     try {
       stage.restart();
     } catch (IOException e) {
@@ -972,6 +1182,10 @@ final class Downloader {
         int count;
         while ((count = in.read(buffer)) >= 0) {
           scope.check();
+          if (limit >= 0 && count > limit - size) {
+            throw new ApiErrorException.ApiConnectionException("The download of " + path + " has more than the " + limit
+                + " bytes Files.com described it with");
+          }
           storage.writing(true);
           try {
             stage.write(buffer, count);
@@ -1053,6 +1267,18 @@ final class Downloader {
         ClientRuntime.isRetryable(e), -1, reason);
   }
 
+  // A request refused because its URL expired before its head could be written, such as while it
+  // waited for a connection (CredentialGuard.ExpiredUrl): nothing of it was written to the stage. It
+  // may be tried again, with a renewed URL, within the client's retry limit; the scope's own stop comes
+  // first.
+  private Attempt expiredBeforeSending(OperationScope scope) {
+    if (scope.isStopped()) {
+      throw scope.stopped(null);
+    }
+    return Attempt.failed(new ApiErrorException.ApiConnectionException("The download URL of " + path + " expired before it could be used"),
+        true, -1, "its URL expired before it could be used");
+  }
+
   // The file's contents have another size than Files.com described: downloading again cannot fix it.
   private ApiErrorException.ApiConnectionException sizeMismatch(long size) {
     return new ApiErrorException.ApiConnectionException("The download of " + path + " has " + size + " bytes, but Files.com described it with "
@@ -1064,14 +1290,16 @@ final class Downloader {
         + ", so the download was stopped and nothing was put in place");
   }
 
-  // Gives the download a new URL when its URL is about to expire: Files.com's download URL for the
-  // file again, which, once the download is bound, must name the same storage resource.
+  // Gives the download a new URL when its URL is about to expire, or a request for it was refused after
+  // a redirect (refusedUrl): Files.com's download URL for the file again, which, once the download is
+  // bound, must name the same storage resource, and must not have expired already; one still valid,
+  // however briefly, is used.
   private void renewIfExpiring(OperationScope scope) {
-    if (!expiresSoon(url)) {
+    if (!needsRenewal()) {
       return;
     }
     synchronized (renewLock) {
-      if (!expiresSoon(url)) {
+      if (!needsRenewal()) {
         return;
       }
       FilesResponse response = runtime.send(RequestMethods.GET, "/files/" + UrlUtils.encodeUrlPath(path), new HashMap<String, Object>(),
@@ -1085,8 +1313,18 @@ final class Downloader {
       if (bound != null && !bound.resource.equals(resourceOf(uri))) {
         throw changed("Files.com gave a download URL for another storage resource");
       }
+      Instant expires = UrlUtils.expiresAt(uri);
+      if (expires != null && !Instant.now().isBefore(expires)) {
+        throw new ApiErrorException.ApiConnectionException("Files.com gave a new download URL for " + path + " that had already expired");
+      }
       url = uri;
+      refusedUrl = null;
     }
+  }
+
+  private boolean needsRenewal() {
+    String current = url;
+    return expiresSoon(current) || (current != null && current.equals(refusedUrl));
   }
 
   private static boolean expiresSoon(String uri) {
@@ -1139,17 +1377,18 @@ final class Downloader {
 
   // Waits for what a storage request of the download that is not a bound part's attempt holds, in a
   // part's order: bufferBytes of buffer space (none for 0); its admission by the shared target, when
-  // there is one, a retry ahead of new parts; and a request slot of the limiter. Then it renews the URL
-  // if it is about to expire, and waits for a slot for the storage host from the transport, so that it
-  // waits there rather than for a connection from the pool. An admitted attempt that a pause or a
-  // lowered target overtook meanwhile gives its slots back and asks again.
+  // there is one, a retry ahead of new parts; and a request slot of the limiter. It renews the URL first
+  // if it is about to expire, while it holds none of these, as the renewal needs a connection of its
+  // own. Then it waits for a slot for the URL's storage host from the transport, so that it waits there
+  // rather than for a connection from the pool. An admitted attempt that a pause or a lowered target
+  // overtook meanwhile gives its slots back and asks again.
   private StorageRequest storageRequest(int bufferBytes, AttemptAdmission admission, boolean retry, OperationScope scope) {
+    renewIfExpiring(scope);
     FifoBudget.Grant buffer = bufferBytes > 0 ? limiter.bufferedBytes().acquire(bufferBytes, scope) : null;
     try {
       if (admission == null) {
         FifoBudget.Grant request = limiter.requests().acquire(1, scope);
         try {
-          renewIfExpiring(scope);
           String uri = url;
           return new StorageRequest(uri, bufferBytes, buffer, null, request, connectionSlot(uri, scope), scope);
         } catch (RuntimeException | Error e) {
@@ -1158,10 +1397,13 @@ final class Downloader {
         }
       }
       while (true) {
+        if (expiresSoon(url)) {
+          // Renewed holding no admission or slot; the buffer space holds no connection.
+          renewIfExpiring(scope);
+        }
         AttemptAdmission.Attempt admitted = admitAttempt(admission, retry, scope);
         String uri;
         try {
-          renewIfExpiring(scope);
           uri = url;
           admitted.hold(connectionSlot(uri, scope));
         } catch (RuntimeException | Error e) {
@@ -1211,10 +1453,11 @@ final class Downloader {
       this.scope = scope;
     }
 
-    // Sends the request and returns its response, which closing this closes.
+    // Sends the request and returns its response, which closing this closes. The request is refused with
+    // CredentialGuard.ExpiredUrl if uri has expired by the time its head would be written.
     CloseableHttpResponse execute(HttpGet get, boolean followRedirects) throws IOException {
       sending = System.nanoTime();
-      exchange = runtime.executeStorage(get, scope, followRedirects);
+      exchange = runtime.executeStorage(get, scope, followRedirects, UrlUtils.expiresAt(uri));
       return exchange.response();
     }
 
@@ -1234,9 +1477,14 @@ final class Downloader {
     // admitted it, if one did, and gives everything back.
     void complete(Attempt outcome, long bytes) {
       closeExchange();
+      complete(outcome, bytes, System.nanoTime() - sending - writingNanos);
+    }
+
+    // Ends the request with its outcome, as above, for a request its caller sent and closed itself
+    // (fetchRange): bytes it wrote, and nanos from sending it to its end less its time writing them.
+    void complete(Attempt outcome, long bytes, long nanos) {
       if (admitted != null) {
-        for (ConcurrencyController.Decision decision : admitted.complete(sample(outcome, bytes, System.nanoTime() - sending - writingNanos),
-            log.isDebugEnabled())) {
+        for (ConcurrencyController.Decision decision : admitted.complete(sample(outcome, bytes, nanos), log.isDebugEnabled())) {
           log.debug("Download of {}: {}", path, decision);
         }
       }
@@ -1487,6 +1735,71 @@ final class Downloader {
       if (buffer != null) {
         buffer.close();
       }
+    }
+  }
+
+  // The caller's stream as a download's stage (runTo): bytes are written to it only in order, each
+  // once, as they arrive. What it holds cannot be taken back, so it can start over only before it holds
+  // anything; the download decides not to ask for bytes again once it does (establish, fetchWhole), and
+  // this refusal is only the last guard. The stream is the caller's: it is never flushed or closed.
+  // Cancellation and the time limit are checked before and after each write; a write that does not
+  // return cannot be stopped. Used by one thread at a time.
+  private static final class StreamStage extends DownloadStage {
+    private final OutputStream out;
+    private final OperationScope scope;
+    private long delivered;
+
+    StreamStage(OutputStream out, OperationScope scope) {
+      this.out = out;
+      this.scope = scope;
+    }
+
+    // The bytes written to the stream.
+    long delivered() {
+      return delivered;
+    }
+
+    @Override
+    Identity identity() {
+      throw new UnsupportedOperationException("A download to a stream keeps no checkpoint");
+    }
+
+    @Override
+    void restart() throws IOException {
+      if (delivered > 0) {
+        throw new IOException("The stream already holds the first " + delivered + " bytes of the download, which cannot be taken back");
+      }
+    }
+
+    @Override
+    void write(byte[] bytes, int count) throws IOException {
+      writeAt(delivered, bytes, 0, count);
+    }
+
+    @Override
+    void writeAt(long position, byte[] bytes, int offset, int count) throws IOException {
+      if (position != delivered) {
+        throw new IOException("Bytes from " + position + " cannot be written to a stream that holds the first " + delivered);
+      }
+      scope.check();
+      out.write(bytes, offset, count);
+      delivered += count;
+      scope.check();
+    }
+
+    @Override
+    void force() {
+      // Not flushed: the stream is the caller's.
+    }
+
+    @Override
+    void publish(Path target, boolean replace) {
+      throw new UnsupportedOperationException("A download to a stream is not published");
+    }
+
+    @Override
+    public void close() {
+      // Not closed: the stream is the caller's.
     }
   }
 

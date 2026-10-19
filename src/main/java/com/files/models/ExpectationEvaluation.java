@@ -35,6 +35,11 @@ public class ExpectationEvaluation implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class ExpectationEvaluation implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code ExpectationEvaluation} with no attributes set.
+   */
   public ExpectationEvaluation() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code ExpectationEvaluation} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public ExpectationEvaluation(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code ExpectationEvaluation} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public ExpectationEvaluation(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,6 +103,11 @@ public class ExpectationEvaluation implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -93,6 +118,11 @@ public class ExpectationEvaluation implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
@@ -103,6 +133,11 @@ public class ExpectationEvaluation implements ModelInterface {
   @JsonProperty("expectation_id")
   public Long expectationId;
 
+  /**
+   * Gets {@link #expectationId}.
+   *
+   * @return the value of {@link #expectationId}
+   */
   public Long getExpectationId() {
     return expectationId;
   }
@@ -113,6 +148,11 @@ public class ExpectationEvaluation implements ModelInterface {
   @JsonProperty("status")
   public String status;
 
+  /**
+   * Gets {@link #status}.
+   *
+   * @return the value of {@link #status}
+   */
   public String getStatus() {
     return status;
   }
@@ -123,6 +163,11 @@ public class ExpectationEvaluation implements ModelInterface {
   @JsonProperty("opened_via")
   public String openedVia;
 
+  /**
+   * Gets {@link #openedVia}.
+   *
+   * @return the value of {@link #openedVia}
+   */
   public String getOpenedVia() {
     return openedVia;
   }
@@ -133,6 +178,11 @@ public class ExpectationEvaluation implements ModelInterface {
   @JsonProperty("opened_at")
   public Date openedAt;
 
+  /**
+   * Gets {@link #openedAt}.
+   *
+   * @return the value of {@link #openedAt}
+   */
   public Date getOpenedAt() {
     return openedAt;
   }
@@ -143,6 +193,11 @@ public class ExpectationEvaluation implements ModelInterface {
   @JsonProperty("window_start_at")
   public Date windowStartAt;
 
+  /**
+   * Gets {@link #windowStartAt}.
+   *
+   * @return the value of {@link #windowStartAt}
+   */
   public Date getWindowStartAt() {
     return windowStartAt;
   }
@@ -153,6 +208,11 @@ public class ExpectationEvaluation implements ModelInterface {
   @JsonProperty("window_end_at")
   public Date windowEndAt;
 
+  /**
+   * Gets {@link #windowEndAt}.
+   *
+   * @return the value of {@link #windowEndAt}
+   */
   public Date getWindowEndAt() {
     return windowEndAt;
   }
@@ -163,6 +223,11 @@ public class ExpectationEvaluation implements ModelInterface {
   @JsonProperty("deadline_at")
   public Date deadlineAt;
 
+  /**
+   * Gets {@link #deadlineAt}.
+   *
+   * @return the value of {@link #deadlineAt}
+   */
   public Date getDeadlineAt() {
     return deadlineAt;
   }
@@ -173,6 +238,11 @@ public class ExpectationEvaluation implements ModelInterface {
   @JsonProperty("late_acceptance_cutoff_at")
   public Date lateAcceptanceCutoffAt;
 
+  /**
+   * Gets {@link #lateAcceptanceCutoffAt}.
+   *
+   * @return the value of {@link #lateAcceptanceCutoffAt}
+   */
   public Date getLateAcceptanceCutoffAt() {
     return lateAcceptanceCutoffAt;
   }
@@ -183,6 +253,11 @@ public class ExpectationEvaluation implements ModelInterface {
   @JsonProperty("hard_close_at")
   public Date hardCloseAt;
 
+  /**
+   * Gets {@link #hardCloseAt}.
+   *
+   * @return the value of {@link #hardCloseAt}
+   */
   public Date getHardCloseAt() {
     return hardCloseAt;
   }
@@ -193,6 +268,11 @@ public class ExpectationEvaluation implements ModelInterface {
   @JsonProperty("closed_at")
   public Date closedAt;
 
+  /**
+   * Gets {@link #closedAt}.
+   *
+   * @return the value of {@link #closedAt}
+   */
   public Date getClosedAt() {
     return closedAt;
   }
@@ -203,6 +283,11 @@ public class ExpectationEvaluation implements ModelInterface {
   @JsonProperty("matched_files")
   public Object[] matchedFiles;
 
+  /**
+   * Gets {@link #matchedFiles}.
+   *
+   * @return the value of {@link #matchedFiles}
+   */
   public Object[] getMatchedFiles() {
     return matchedFiles;
   }
@@ -213,6 +298,11 @@ public class ExpectationEvaluation implements ModelInterface {
   @JsonProperty("missing_files")
   public Object[] missingFiles;
 
+  /**
+   * Gets {@link #missingFiles}.
+   *
+   * @return the value of {@link #missingFiles}
+   */
   public Object[] getMissingFiles() {
     return missingFiles;
   }
@@ -223,6 +313,11 @@ public class ExpectationEvaluation implements ModelInterface {
   @JsonProperty("criteria_errors")
   public String[] criteriaErrors;
 
+  /**
+   * Gets {@link #criteriaErrors}.
+   *
+   * @return the value of {@link #criteriaErrors}
+   */
   public String[] getCriteriaErrors() {
     return criteriaErrors;
   }
@@ -233,6 +328,11 @@ public class ExpectationEvaluation implements ModelInterface {
   @JsonProperty("summary")
   public Object summary;
 
+  /**
+   * Gets {@link #summary}.
+   *
+   * @return the value of {@link #summary}
+   */
   public Object getSummary() {
     return summary;
   }
@@ -243,6 +343,11 @@ public class ExpectationEvaluation implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -253,63 +358,124 @@ public class ExpectationEvaluation implements ModelInterface {
   @JsonProperty("updated_at")
   public Date updatedAt;
 
+  /**
+   * Gets {@link #updatedAt}.
+   *
+   * @return the value of {@link #updatedAt}
+   */
   public Date getUpdatedAt() {
     return updatedAt;
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `created_at` or `expectation_id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `expectation_id` and `workspace_id`. Valid field combinations are `[ workspace_id, expectation_id ]`.
+   * List Expectation Evaluations
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<ExpectationEvaluation> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Expectation Evaluations
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ExpectationEvaluation> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Expectation Evaluations
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `created_at` or `expectation_id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `expectation_id` and `workspace_id`. Valid field combinations are `[ workspace_id, expectation_id ]`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ExpectationEvaluation} records, in a {@code ListIterator}
+   */
   public static ListIterator<ExpectationEvaluation> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().expectationEvaluations().list(parameters, options);
   }
 
+  /**
+   * List Expectation Evaluations
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ExpectationEvaluation> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Expectation Evaluations
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ExpectationEvaluation> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Expectation Evaluation ID.
+   * Show Expectation Evaluation
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static ExpectationEvaluation find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Expectation Evaluation
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ExpectationEvaluation find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Expectation Evaluation
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ExpectationEvaluation find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Expectation Evaluation
+   *
+   * @param id Expectation Evaluation ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ExpectationEvaluation}
+   */
   public static ExpectationEvaluation find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().expectationEvaluations().find(id, parameters, options);
   }
 
+  /**
+   * Show Expectation Evaluation
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ExpectationEvaluation get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Expectation Evaluation
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ExpectationEvaluation get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }

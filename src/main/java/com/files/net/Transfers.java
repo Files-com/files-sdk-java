@@ -5,9 +5,11 @@ import com.files.exceptions.ApiErrorException;
 import com.files.models.File;
 import com.files.models.FileUploadPart;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.PathUtils;
 import com.files.util.UrlUtils;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.HashMap;
@@ -125,6 +127,141 @@ public final class Transfers {
    */
   public UploadResult upload(Path source, String destinationPath, UploadOptions options) throws IOException {
     return uploadFile(null, source, destinationPath != null ? destinationPath : source.getFileName().toString(), options);
+  }
+
+  /**
+   * Uploads the local file at {@code source} to Remote Server {@code remoteServerId}, under the
+   * file's own name, with the default options.
+   *
+   * @see #uploadToRemoteServer(Path, Long, String, UploadOptions)
+   */
+  public UploadResult uploadToRemoteServer(Path source, Long remoteServerId) throws IOException {
+    return uploadToRemoteServer(source, remoteServerId, null, UploadOptions.defaults());
+  }
+
+  /**
+   * Uploads the local file at {@code source} to {@code destinationPath} in Remote Server
+   * {@code remoteServerId}, with the default options.
+   *
+   * @see #uploadToRemoteServer(Path, Long, String, UploadOptions)
+   */
+  public UploadResult uploadToRemoteServer(Path source, Long remoteServerId, String destinationPath) throws IOException {
+    return uploadToRemoteServer(source, remoteServerId, destinationPath, UploadOptions.defaults());
+  }
+
+  /**
+   * Uploads the local file at {@code source} to {@code destinationPath} in Remote Server
+   * {@code remoteServerId}: the same upload, with the same requests and result, as
+   * {@link #upload(Path, String, UploadOptions)} to {@code _/RemoteServers/<remoteServerId>/<destinationPath>}.
+   *
+   * <p>The destination path is normalized as {@link PathUtils#normalize} describes: both slash kinds
+   * separate folders, and empty, {@code .} and {@code ..} components are dropped, so the file stays
+   * in the Remote Server's folder, in the folders the path names. An empty path names that folder
+   * itself.
+   *
+   * @param source the local file to upload
+   * @param remoteServerId the ID of the Remote Server
+   * @param destinationPath the path within the Remote Server; if null, the local file's name
+   * @param options the upload's options, as for {@link #upload(Path, String, UploadOptions)}
+   * @return the completed upload: the remote file Files.com completed, at
+   *     {@code _/RemoteServers/<remoteServerId>/<destinationPath>}, the size uploaded and the parts that carried it
+   * @throws IOException if the file cannot be opened or read, or changes during the upload
+   */
+  public UploadResult uploadToRemoteServer(Path source, Long remoteServerId, String destinationPath, UploadOptions options)
+      throws IOException {
+    return upload(source, underscoreDestinationPath("RemoteServers", remoteServerId, source, destinationPath), options);
+  }
+
+  /**
+   * Uploads the local file at {@code source} to Snapshot {@code snapshotId}, under the file's own
+   * name, with the default options.
+   *
+   * @see #uploadToSnapshot(Path, Long, String, UploadOptions)
+   */
+  public UploadResult uploadToSnapshot(Path source, Long snapshotId) throws IOException {
+    return uploadToSnapshot(source, snapshotId, null, UploadOptions.defaults());
+  }
+
+  /**
+   * Uploads the local file at {@code source} to {@code destinationPath} in Snapshot
+   * {@code snapshotId}, with the default options.
+   *
+   * @see #uploadToSnapshot(Path, Long, String, UploadOptions)
+   */
+  public UploadResult uploadToSnapshot(Path source, Long snapshotId, String destinationPath) throws IOException {
+    return uploadToSnapshot(source, snapshotId, destinationPath, UploadOptions.defaults());
+  }
+
+  /**
+   * Uploads the local file at {@code source} to {@code destinationPath} in Snapshot
+   * {@code snapshotId}: the same upload, with the same requests and result, as
+   * {@link #upload(Path, String, UploadOptions)} to {@code _/Snapshots/<snapshotId>/<destinationPath>}.
+   *
+   * <p>The destination path is normalized as {@link PathUtils#normalize} describes: both slash kinds
+   * separate folders, and empty, {@code .} and {@code ..} components are dropped, so the file stays
+   * in the Snapshot's folder, in the folders the path names. An empty path names that folder itself.
+   *
+   * @param source the local file to upload
+   * @param snapshotId the ID of the Snapshot
+   * @param destinationPath the path within the Snapshot; if null, the local file's name
+   * @param options the upload's options, as for {@link #upload(Path, String, UploadOptions)}
+   * @return the completed upload: the remote file Files.com completed, at
+   *     {@code _/Snapshots/<snapshotId>/<destinationPath>}, the size uploaded and the parts that carried it
+   * @throws IOException if the file cannot be opened or read, or changes during the upload
+   */
+  public UploadResult uploadToSnapshot(Path source, Long snapshotId, String destinationPath, UploadOptions options)
+      throws IOException {
+    return upload(source, underscoreDestinationPath("Snapshots", snapshotId, source, destinationPath), options);
+  }
+
+  /**
+   * Uploads the local file at {@code source} to Child Site {@code siteId}, under the file's own
+   * name, with the default options.
+   *
+   * @see #uploadToChildSite(Path, Long, String, UploadOptions)
+   */
+  public UploadResult uploadToChildSite(Path source, Long siteId) throws IOException {
+    return uploadToChildSite(source, siteId, null, UploadOptions.defaults());
+  }
+
+  /**
+   * Uploads the local file at {@code source} to {@code destinationPath} in Child Site
+   * {@code siteId}, with the default options.
+   *
+   * @see #uploadToChildSite(Path, Long, String, UploadOptions)
+   */
+  public UploadResult uploadToChildSite(Path source, Long siteId, String destinationPath) throws IOException {
+    return uploadToChildSite(source, siteId, destinationPath, UploadOptions.defaults());
+  }
+
+  /**
+   * Uploads the local file at {@code source} to {@code destinationPath} in Child Site
+   * {@code siteId}: the same upload, with the same requests and result, as
+   * {@link #upload(Path, String, UploadOptions)} to {@code _/Sites/<siteId>/<destinationPath>}.
+   *
+   * <p>The destination path is normalized as {@link PathUtils#normalize} describes: both slash kinds
+   * separate folders, and empty, {@code .} and {@code ..} components are dropped, so the file stays
+   * in the Child Site's folder, in the folders the path names. An empty path names that folder
+   * itself.
+   *
+   * @param source the local file to upload
+   * @param siteId the ID of the Child Site
+   * @param destinationPath the path within the Child Site; if null, the local file's name
+   * @param options the upload's options, as for {@link #upload(Path, String, UploadOptions)}
+   * @return the completed upload: the remote file Files.com completed, at
+   *     {@code _/Sites/<siteId>/<destinationPath>}, the size uploaded and the parts that carried it
+   * @throws IOException if the file cannot be opened or read, or changes during the upload
+   */
+  public UploadResult uploadToChildSite(Path source, Long siteId, String destinationPath, UploadOptions options)
+      throws IOException {
+    return upload(source, underscoreDestinationPath("Sites", siteId, source, destinationPath), options);
+  }
+
+  // The path a destination upload goes to: the destination path, or the local file's name when there
+  // is none, in the destination's underscore folder, normalized as File's destination helpers do.
+  private static String underscoreDestinationPath(String root, Long id, Path source, String destinationPath) {
+    String relativePath = destinationPath != null ? destinationPath : source.getFileName().toString();
+    return PathUtils.normalize("_/" + root + "/" + id.toString() + "/" + relativePath);
   }
 
   /**
@@ -317,6 +454,43 @@ public final class Transfers {
   }
 
   /**
+   * Downloads the remote file at {@code remotePath} to {@code out}, with the default options.
+   *
+   * @see #download(String, OutputStream, DownloadOptions)
+   */
+  public DownloadResult download(String remotePath, OutputStream out) throws IOException {
+    return download(remotePath, out, DownloadOptions.defaults());
+  }
+
+  /**
+   * Downloads the remote file at {@code remotePath} to {@code out}, a stream of yours: its
+   * description is requested first, then its contents, with this client and {@code options}, all
+   * within one call and its one time limit. The bytes are written to {@code out} in order as they
+   * arrive, through a buffer of bounded size, with no local copy of the file; the method returns once
+   * the last of them has been written. See {@link #download(File, OutputStream, DownloadOptions)}.
+   *
+   * @throws IllegalArgumentException if {@code options} keeps a checkpoint, which a stream cannot
+   *     hold; nothing is requested
+   */
+  public DownloadResult download(String remotePath, OutputStream out, DownloadOptions options) throws IOException {
+    if (remotePath == null || out == null) {
+      throw new IllegalArgumentException("The remote path and the stream are required");
+    }
+    DownloadOptions settings = options != null ? options : DownloadOptions.defaults();
+    refuseStreamCheckpoint(settings);
+    HashMap<String, Object> callOptions = settings.callOptions();
+    // One scope covers describing the file and downloading it, so its time limit is the whole
+    // download's.
+    try (OperationScope scope = runtime.open("The download of " + remotePath, callOptions)) {
+      FilesResponse response = runtime.send(RequestMethods.GET, "/files/" + UrlUtils.encodeUrlPath(remotePath), new HashMap<String, Object>(),
+          callOptions, scope, runtime.maxRetries(callOptions));
+      File file = runtime.readItem(response.getBody(), FILE);
+      runtime.bind(file, callOptions);
+      return new Downloader(runtime, requireDownloadUri(file), null, settings).runTo(out, scope);
+    }
+  }
+
+  /**
    * Downloads the file's contents, from its {@code download_uri}, to {@code destination}.
    *
    * <p>The contents are written to a new file in a directory of the download's own, created beside
@@ -406,6 +580,52 @@ public final class Transfers {
     }
   }
 
+  /**
+   * Downloads the file's contents, from its {@code download_uri}, to {@code out}, a stream of
+   * yours, with this client and {@code options}, as {@link #download(File, Path, DownloadOptions)}
+   * fetches them, within one call: its time limit and cancellation cover renewing the URL, every
+   * request and every write.
+   *
+   * <p>The bytes are written to {@code out} in order, as they arrive, through a buffer of bounded
+   * size; there is no local copy of the file. A file fetched in parts, bound to one version of it, is
+   * fetched one part at a time, in order, so {@link DownloadOptions.Builder#maxConcurrency} and the
+   * concurrency mode do not make it faster. In a {@link DownloadOptions.Builder#scope scope}, each of
+   * its requests after the first waits for the concurrency target the scope's compatible downloads
+   * share, and what it finds out teaches that target, as their parts do; its buffer's space comes from
+   * the limiter before the buffer is made, for that request only. When a part fails in a way that may
+   * be temporary, the bytes not yet written are asked for again, of the same version, within the
+   * client's retry limit; an answer of another version, size or range, or from Files.com's web
+   * application, fails the download before any more of it is written, and so does an answer with the
+   * whole file to a part. A file that comes in one request, unbound, is asked for again after a
+   * failure that may be temporary only while nothing of it has been written: once {@code out} holds
+   * some of it, a failure stops the download, as the bytes written cannot be taken back and the rest
+   * cannot be asked for alone. Nothing is ever written twice.
+   *
+   * <p>{@code out} is yours: it is never flushed or closed, whether the download succeeds or fails.
+   * If writing to it throws, the download stops with that {@code IOException}, without writing to it
+   * again, as it may have taken some of the bytes; the SDK's requests and resources are released.
+   * Cancellation and the time limit are checked before and after each write, but a write that does
+   * not return cannot be interrupted by the SDK.
+   *
+   * <p>The result's {@link DownloadResult#getDestination() destination} is null; its size and final
+   * progress count the bytes written, and are reported only once the last of them has been.
+   * {@link DownloadOptions.Builder#replaceExisting} applies only to a destination path and means
+   * nothing here: nothing in {@code out} is replaced or deleted.
+   *
+   * @throws IllegalArgumentException if {@code options} keeps a checkpoint, which a stream cannot
+   *     hold; nothing is requested
+   */
+  public DownloadResult download(File file, OutputStream out, DownloadOptions options) throws IOException {
+    if (file == null || out == null) {
+      throw new IllegalArgumentException("The file and the stream are required");
+    }
+    DownloadOptions settings = options != null ? options : DownloadOptions.defaults();
+    refuseStreamCheckpoint(settings);
+    try (OperationScope scope = runtime.open("The download of " + file.getPath(), settings.callOptions())) {
+      return new Downloader(runtime, requireDownloadUri(file), null, settings).runTo(out, scope);
+    }
+  }
+
   private DownloadCheckpoint openCheckpoint(DownloadOptions settings, String remotePath, Path destination) throws IOException {
     return settings.getCheckpointDirectory() == null ? null
         : DownloadCheckpoint.open(settings.getCheckpointDirectory(), downloadBinding(settings, remotePath, destination));
@@ -449,11 +669,69 @@ public final class Transfers {
     return file;
   }
 
+  // A stream cannot hold a checkpoint, which needs the partial file it records: refused before any
+  // request.
+  private static void refuseStreamCheckpoint(DownloadOptions settings) {
+    if (settings.getCheckpointDirectory() != null) {
+      throw new IllegalArgumentException("A download to a stream cannot keep a checkpoint");
+    }
+  }
+
   /**
-   * Opens the file's contents, from its {@code download_uri}, as a stream to read and close.
+   * Opens the file's contents, from its {@code download_uri}, as a stream to read and close, with
+   * the default options. See {@link #openDownload(File, DownloadOptions)}.
    */
   public FilesApacheHttpInputStream openDownload(File file) {
-    runtime.ensureOpen();
-    return runtime.openDownload(file.getDownloadUri());
+    return openDownload(file, DownloadOptions.defaults());
+  }
+
+  /**
+   * Opens the file's contents, from its {@code download_uri}, as a stream to read and close: the
+   * whole file, in one request, as the compatibility downloads do. Opening is a call with this client
+   * and {@code options}: a failure that may be temporary is retried until the response arrives,
+   * within the call's {@code max_retries} request option, or else the client's retry limit. A URL
+   * whose own expiry has come, before it is sent or while it waits to be, is renewed with Files.com's
+   * download URL for the file's path, requested with {@code options}, at most as many times as the
+   * retry limit; a file without a path cannot be renewed. Renewing the URL does not give the opening
+   * its retries again: it goes on with those it has left. An answer from Files.com's web application
+   * is refused before any of its body is returned.
+   *
+   * <p>The call ends once the stream is returned: the stream owns the response until you close it,
+   * and its reads are not part of the call, so they are neither cancelled nor retried by the SDK.
+   * Only {@code options}' request options, cancellation and time limit apply.
+   */
+  public FilesApacheHttpInputStream openDownload(File file, DownloadOptions options) {
+    if (file == null) {
+      throw new IllegalArgumentException("The file is required");
+    }
+    DownloadOptions settings = options != null ? options : DownloadOptions.defaults();
+    HashMap<String, Object> callOptions = settings.callOptions();
+    try (OperationScope scope = runtime.open("The download of " + file.getPath(), callOptions)) {
+      // The opening's storage retries, used and left, whatever URL each request is for.
+      int storageRetries = runtime.storageRetries(callOptions);
+      int[] retried = new int[1];
+      String url = file.getDownloadUri();
+      for (int renewals = 0; ; renewals++) {
+        if (url != null && !url.isEmpty() && !hasExpired(url)) {
+          try {
+            return runtime.openDownload(url, scope, storageRetries, retried);
+          } catch (CredentialGuard.ExpiredUrl e) {
+            // It expired before its request could be sent, such as while it waited for a connection.
+          }
+        }
+        if (file.getPath() == null || renewals >= runtime.maxRetries(callOptions)) {
+          throw new ApiErrorException.ApiConnectionException("The download URL of " + file.getPath() + " expired before it could be used");
+        }
+        FilesResponse response = runtime.send(RequestMethods.GET, "/files/" + UrlUtils.encodeUrlPath(file.getPath()),
+            new HashMap<String, Object>(), ClientRuntime.retainedOptions(callOptions), scope, runtime.maxRetries(callOptions));
+        url = runtime.readItem(response.getBody(), FILE).getDownloadUri();
+      }
+    }
+  }
+
+  // Whether the expiry the URL states, if it states one, has come.
+  private static boolean hasExpired(String url) {
+    Instant expires = UrlUtils.expiresAt(url);
+    return expires != null && !Instant.now().isBefore(expires);
   }
 }

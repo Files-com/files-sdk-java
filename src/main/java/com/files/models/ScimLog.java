@@ -34,6 +34,11 @@ public class ScimLog implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -57,14 +62,29 @@ public class ScimLog implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code ScimLog} with no attributes set.
+   */
   public ScimLog() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code ScimLog} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public ScimLog(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code ScimLog} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public ScimLog(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -82,6 +102,11 @@ public class ScimLog implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -92,6 +117,11 @@ public class ScimLog implements ModelInterface {
   @JsonProperty("created_at")
   public String createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public String getCreatedAt() {
     return createdAt;
   }
@@ -102,6 +132,11 @@ public class ScimLog implements ModelInterface {
   @JsonProperty("request_path")
   public String requestPath;
 
+  /**
+   * Gets {@link #requestPath}.
+   *
+   * @return the value of {@link #requestPath}
+   */
   public String getRequestPath() {
     return requestPath;
   }
@@ -112,6 +147,11 @@ public class ScimLog implements ModelInterface {
   @JsonProperty("request_method")
   public String requestMethod;
 
+  /**
+   * Gets {@link #requestMethod}.
+   *
+   * @return the value of {@link #requestMethod}
+   */
   public String getRequestMethod() {
     return requestMethod;
   }
@@ -122,6 +162,11 @@ public class ScimLog implements ModelInterface {
   @JsonProperty("http_response_code")
   public String httpResponseCode;
 
+  /**
+   * Gets {@link #httpResponseCode}.
+   *
+   * @return the value of {@link #httpResponseCode}
+   */
   public String getHttpResponseCode() {
     return httpResponseCode;
   }
@@ -132,6 +177,11 @@ public class ScimLog implements ModelInterface {
   @JsonProperty("user_agent")
   public String userAgent;
 
+  /**
+   * Gets {@link #userAgent}.
+   *
+   * @return the value of {@link #userAgent}
+   */
   public String getUserAgent() {
     return userAgent;
   }
@@ -142,6 +192,11 @@ public class ScimLog implements ModelInterface {
   @JsonProperty("request_json")
   public String requestJson;
 
+  /**
+   * Gets {@link #requestJson}.
+   *
+   * @return the value of {@link #requestJson}
+   */
   public String getRequestJson() {
     return requestJson;
   }
@@ -152,62 +207,123 @@ public class ScimLog implements ModelInterface {
   @JsonProperty("response_json")
   public String responseJson;
 
+  /**
+   * Gets {@link #responseJson}.
+   *
+   * @return the value of {@link #responseJson}
+   */
   public String getResponseJson() {
     return responseJson;
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
+   * List Scim Logs
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<ScimLog> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Scim Logs
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ScimLog> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Scim Logs
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ScimLog} records, in a {@code ListIterator}
+   */
   public static ListIterator<ScimLog> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().scimLogs().list(parameters, options);
   }
 
+  /**
+   * List Scim Logs
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ScimLog> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Scim Logs
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ScimLog> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Scim Log ID.
+   * Show Scim Log
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static ScimLog find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Scim Log
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ScimLog find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Scim Log
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ScimLog find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Scim Log
+   *
+   * @param id Scim Log ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ScimLog}
+   */
   public static ScimLog find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().scimLogs().find(id, parameters, options);
   }
 
+  /**
+   * Show Scim Log
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ScimLog get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Scim Log
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ScimLog get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }

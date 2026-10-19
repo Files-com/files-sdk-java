@@ -174,12 +174,9 @@
 
 ## List Automations
 
-```
-ListIterator<Automation> automation = Automation.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<Automation> automations = Automation.list(parameters, null);
 ```
 
 ### Parameters
@@ -198,12 +195,9 @@ ListIterator<Automation> automation = Automation.list(
 
 ## Show Automation
 
-```
-Automation automation = Automation.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Automation automation = Automation.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -215,12 +209,9 @@ Automation automation = Automation.find(
 
 ## Show the Automation v2 authoring schema and active node catalog
 
-```
-AutomationAuthoringSchema automation = Automation.getAuthoringSchema(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+AutomationAuthoringSchema automationAuthoringSchema = Automation.getAuthoringSchema(parameters, null);
 ```
 
 
@@ -228,12 +219,73 @@ AutomationAuthoringSchema automation = Automation.getAuthoringSchema(
 
 ## Create Automation
 
-```
-Automation automation = Automation.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("source", "example");
+parameters.put("destinations", new String[] {"folder_a/file_a.txt", "folder_b/", "./relative-folder/"});
+parameters.put("destination_replace_from", "example");
+parameters.put("destination_replace_to", "example");
+parameters.put("interval", "year");
+parameters.put("path", "example");
+parameters.put("sync_ids", new Object[] {1, 2});
+parameters.put("user_ids", new Object[] {1, 2});
+parameters.put("group_ids", new Object[] {1, 2});
+parameters.put("schedule_id", 1L);
+parameters.put("schedule_days_of_week", new Long[] {0L, 1L, 3L});
+parameters.put("schedule_times_of_day", new String[] {"7:30", "11:30"});
+parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
+parameters.put("holiday_region", "us_dc");
+parameters.put("always_overwrite_size_matching_files", true);
+parameters.put("always_serialize_jobs", true);
+parameters.put("description", "example");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("schema_version", 1);
+HashMap<String, Object> map2 = new HashMap<>();
+map2.put("id", "trigger");
+map2.put("type", "trigger_manual");
+HashMap<String, Object> map3 = new HashMap<>();
+map3.put("id", "create_reports");
+map3.put("type", "create_folder");
+HashMap<String, Object> map4 = new HashMap<>();
+map4.put("destinations", new Object[] {"reports/"});
+map3.put("config", map4);
+map1.put("nodes", new Object[] {map2, map3});
+HashMap<String, Object> map5 = new HashMap<>();
+map5.put("from", "trigger");
+map5.put("to", "create_reports");
+map1.put("edges", new Object[] {map5});
+parameters.put("definition", map1);
+parameters.put("disabled", true);
+parameters.put("exclude_pattern", "path/to/exclude/*");
+HashMap<String, Object> map6 = new HashMap<>();
+map6.put("name", "users.json");
+map6.put("url", "http://example.com/users");
+map6.put("method", "POST");
+HashMap<String, Object> map7 = new HashMap<>();
+map7.put("Content-Type", "application/json");
+map6.put("headers", map7);
+HashMap<String, Object> map8 = new HashMap<>();
+map8.put("group", "support");
+map6.put("content", map8);
+parameters.put("import_urls", new Object[] {map6});
+parameters.put("flatten_destination_structure", true);
+parameters.put("ignore_locked_folders", true);
+parameters.put("legacy_folder_matching", false);
+parameters.put("name", "example");
+parameters.put("overwrite_files", true);
+parameters.put("path_time_zone", "Eastern Time (US & Canada)");
+parameters.put("retry_on_failure_interval_in_minutes", 60L);
+parameters.put("retry_on_failure_number_of_attempts", 10L);
+parameters.put("trigger", "daily");
+parameters.put("trigger_actions", new String[] {"create"});
+HashMap<String, Object> map9 = new HashMap<>();
+map9.put("limit", "1");
+parameters.put("value", map9);
+parameters.put("recurring_day", 25L);
+parameters.put("recurring_days", new Long[] {1L, 15L});
+parameters.put("automation", "create_folder");
+parameters.put("workspace_id", 0L);
+Automation automation = Automation.create(parameters, null);
 ```
 
 ### Parameters
@@ -280,12 +332,9 @@ Automation automation = Automation.create(
 
 ## Upgrade a legacy Automation to Automation v2
 
-```
-Automation automation = Automation.upgrade(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Automation automation = Automation.upgrade(1L, parameters, null);
 ```
 
 ### Parameters
@@ -297,12 +346,16 @@ Automation automation = Automation.upgrade(
 
 ## Manually Run Automation
 
-```
-void automation = Automation.manualRun(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("file", "incoming/report.csv");
+HashMap<String, Object> map2 = new HashMap<>();
+HashMap<String, Object> map3 = new HashMap<>();
+map3.put("customer", "Acme");
+map2.put("data", map3);
+parameters.put("items", new Object[] {map1, map2});
+Automation.manualRun(1L, parameters, null);
 ```
 
 ### Parameters
@@ -315,12 +368,72 @@ void automation = Automation.manualRun(
 
 ## Update Automation
 
-```
-Automation automation = Automation.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("source", "example");
+parameters.put("destinations", new String[] {"folder_a/file_a.txt", "folder_b/", "./relative-folder/"});
+parameters.put("destination_replace_from", "example");
+parameters.put("destination_replace_to", "example");
+parameters.put("interval", "year");
+parameters.put("path", "example");
+parameters.put("sync_ids", new Object[] {1, 2});
+parameters.put("user_ids", new Object[] {1, 2});
+parameters.put("group_ids", new Object[] {1, 2});
+parameters.put("schedule_id", 1L);
+parameters.put("schedule_days_of_week", new Long[] {0L, 1L, 3L});
+parameters.put("schedule_times_of_day", new String[] {"7:30", "11:30"});
+parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
+parameters.put("holiday_region", "us_dc");
+parameters.put("always_overwrite_size_matching_files", true);
+parameters.put("always_serialize_jobs", true);
+parameters.put("description", "example");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("schema_version", 1);
+HashMap<String, Object> map2 = new HashMap<>();
+map2.put("id", "trigger");
+map2.put("type", "trigger_manual");
+HashMap<String, Object> map3 = new HashMap<>();
+map3.put("id", "create_reports");
+map3.put("type", "create_folder");
+HashMap<String, Object> map4 = new HashMap<>();
+map4.put("destinations", new Object[] {"reports/"});
+map3.put("config", map4);
+map1.put("nodes", new Object[] {map2, map3});
+HashMap<String, Object> map5 = new HashMap<>();
+map5.put("from", "trigger");
+map5.put("to", "create_reports");
+map1.put("edges", new Object[] {map5});
+parameters.put("definition", map1);
+parameters.put("disabled", true);
+parameters.put("exclude_pattern", "path/to/exclude/*");
+HashMap<String, Object> map6 = new HashMap<>();
+map6.put("name", "users.json");
+map6.put("url", "http://example.com/users");
+map6.put("method", "POST");
+HashMap<String, Object> map7 = new HashMap<>();
+map7.put("Content-Type", "application/json");
+map6.put("headers", map7);
+HashMap<String, Object> map8 = new HashMap<>();
+map8.put("group", "support");
+map6.put("content", map8);
+parameters.put("import_urls", new Object[] {map6});
+parameters.put("flatten_destination_structure", true);
+parameters.put("ignore_locked_folders", true);
+parameters.put("legacy_folder_matching", false);
+parameters.put("name", "example");
+parameters.put("overwrite_files", true);
+parameters.put("path_time_zone", "Eastern Time (US & Canada)");
+parameters.put("retry_on_failure_interval_in_minutes", 60L);
+parameters.put("retry_on_failure_number_of_attempts", 10L);
+parameters.put("trigger", "daily");
+parameters.put("trigger_actions", new String[] {"create"});
+HashMap<String, Object> map9 = new HashMap<>();
+map9.put("limit", "1");
+parameters.put("value", map9);
+parameters.put("recurring_day", 25L);
+parameters.put("recurring_days", new Long[] {1L, 15L});
+parameters.put("automation", "create_folder");
+Automation automation = Automation.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -367,12 +480,9 @@ Automation automation = Automation.update(
 
 ## Delete Automation
 
-```
-void automation = Automation.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Automation.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -384,12 +494,10 @@ void automation = Automation.delete(
 
 ## Upgrade a legacy Automation to Automation v2
 
-```
-Automation automation = Automation.find(id);
-
+```java
+Automation automation = Automation.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
-automation.upgrade(parameters);
+Automation result = automation.upgrade(parameters);
 ```
 
 ### Parameters
@@ -401,12 +509,16 @@ automation.upgrade(parameters);
 
 ## Manually Run Automation
 
-```
-Automation automation = Automation.find(id);
-
+```java
+Automation automation = Automation.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("items", [{"file":"incoming/report.csv"},{"data":{"customer":"Acme"}}]);
-
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("file", "incoming/report.csv");
+HashMap<String, Object> map2 = new HashMap<>();
+HashMap<String, Object> map3 = new HashMap<>();
+map3.put("customer", "Acme");
+map2.put("data", map3);
+parameters.put("items", new Object[] {map1, map2});
 automation.manualRun(parameters);
 ```
 
@@ -420,47 +532,73 @@ automation.manualRun(parameters);
 
 ## Update Automation
 
-```
-Automation automation = Automation.find(id);
-
+```java
+Automation automation = Automation.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("source", "example");
-parameters.put("destinations", ["folder_a/file_a.txt","folder_b/","./relative-folder/"]);
+parameters.put("destinations", new String[] {"folder_a/file_a.txt", "folder_b/", "./relative-folder/"});
 parameters.put("destination_replace_from", "example");
 parameters.put("destination_replace_to", "example");
 parameters.put("interval", "year");
 parameters.put("path", "example");
-parameters.put("sync_ids", [1,2]);
-parameters.put("user_ids", [1,2]);
-parameters.put("group_ids", [1,2]);
-parameters.put("schedule_id", 1);
-parameters.put("schedule_days_of_week", [0,1,3]);
-parameters.put("schedule_times_of_day", ["7:30","11:30"]);
+parameters.put("sync_ids", new Object[] {1, 2});
+parameters.put("user_ids", new Object[] {1, 2});
+parameters.put("group_ids", new Object[] {1, 2});
+parameters.put("schedule_id", 1L);
+parameters.put("schedule_days_of_week", new Long[] {0L, 1L, 3L});
+parameters.put("schedule_times_of_day", new String[] {"7:30", "11:30"});
 parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
 parameters.put("holiday_region", "us_dc");
 parameters.put("always_overwrite_size_matching_files", true);
 parameters.put("always_serialize_jobs", true);
 parameters.put("description", "example");
-parameters.put("definition", {"schema_version":1,"nodes":[{"id":"trigger","type":"trigger_manual"},{"id":"create_reports","type":"create_folder","config":{"destinations":["reports/"]}}],"edges":[{"from":"trigger","to":"create_reports"}]});
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("schema_version", 1);
+HashMap<String, Object> map2 = new HashMap<>();
+map2.put("id", "trigger");
+map2.put("type", "trigger_manual");
+HashMap<String, Object> map3 = new HashMap<>();
+map3.put("id", "create_reports");
+map3.put("type", "create_folder");
+HashMap<String, Object> map4 = new HashMap<>();
+map4.put("destinations", new Object[] {"reports/"});
+map3.put("config", map4);
+map1.put("nodes", new Object[] {map2, map3});
+HashMap<String, Object> map5 = new HashMap<>();
+map5.put("from", "trigger");
+map5.put("to", "create_reports");
+map1.put("edges", new Object[] {map5});
+parameters.put("definition", map1);
 parameters.put("disabled", true);
 parameters.put("exclude_pattern", "path/to/exclude/*");
-parameters.put("import_urls", [{"name":"users.json","url":"http://example.com/users","method":"POST","headers":{"Content-Type":"application/json"},"content":{"group":"support"}}]);
+HashMap<String, Object> map6 = new HashMap<>();
+map6.put("name", "users.json");
+map6.put("url", "http://example.com/users");
+map6.put("method", "POST");
+HashMap<String, Object> map7 = new HashMap<>();
+map7.put("Content-Type", "application/json");
+map6.put("headers", map7);
+HashMap<String, Object> map8 = new HashMap<>();
+map8.put("group", "support");
+map6.put("content", map8);
+parameters.put("import_urls", new Object[] {map6});
 parameters.put("flatten_destination_structure", true);
 parameters.put("ignore_locked_folders", true);
 parameters.put("legacy_folder_matching", false);
 parameters.put("name", "example");
 parameters.put("overwrite_files", true);
 parameters.put("path_time_zone", "Eastern Time (US & Canada)");
-parameters.put("retry_on_failure_interval_in_minutes", 60);
-parameters.put("retry_on_failure_number_of_attempts", 10);
+parameters.put("retry_on_failure_interval_in_minutes", 60L);
+parameters.put("retry_on_failure_number_of_attempts", 10L);
 parameters.put("trigger", "daily");
-parameters.put("trigger_actions", ["create"]);
-parameters.put("value", {"limit":"1"});
-parameters.put("recurring_day", 25);
-parameters.put("recurring_days", [1,15]);
+parameters.put("trigger_actions", new String[] {"create"});
+HashMap<String, Object> map9 = new HashMap<>();
+map9.put("limit", "1");
+parameters.put("value", map9);
+parameters.put("recurring_day", 25L);
+parameters.put("recurring_days", new Long[] {1L, 15L});
 parameters.put("automation", "create_folder");
-
-automation.update(parameters);
+Automation result = automation.update(parameters);
 ```
 
 ### Parameters
@@ -507,11 +645,9 @@ automation.update(parameters);
 
 ## Delete Automation
 
-```
-Automation automation = Automation.find(id);
-
+```java
+Automation automation = Automation.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 automation.delete(parameters);
 ```
 

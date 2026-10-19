@@ -25,22 +25,39 @@ public final class BundleNotificationOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `bundle_id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `bundle_id`.
-   *   bundle_id - int64 - Bundle ID
+   * List Share Link Notifications
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<BundleNotification> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Share Link Notifications
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<BundleNotification> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Share Link Notifications
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `bundle_id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `bundle_id`.</li>
+   * <li>{@code bundle_id} (Long): Bundle ID</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code BundleNotification} records, in a {@code ListIterator}
+   */
   public ListIterator<BundleNotification> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -74,30 +91,59 @@ public final class BundleNotificationOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Share Link Notifications
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<BundleNotification> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Share Link Notifications
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<BundleNotification> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Bundle Notification ID.
+   * Show Share Link Notification
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public BundleNotification find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Share Link Notification
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public BundleNotification find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Share Link Notification
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public BundleNotification find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Share Link Notification
+   *
+   * @param id Bundle Notification ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code BundleNotification}
+   */
   public BundleNotification find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -119,30 +165,57 @@ public final class BundleNotificationOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Share Link Notification
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public BundleNotification get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Share Link Notification
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public BundleNotification get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   bundle_id (required) - int64 - Bundle ID to notify on
-   *   notify_user_id - int64 - The id of the user to notify.
-   *   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
-   *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
+   * Create Share Link Notification
+   *
+   * @see #create(HashMap, HashMap)
    */
   public BundleNotification create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Share Link Notification
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public BundleNotification create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Share Link Notification
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code bundle_id} (Long): Required. Bundle ID to notify on</li>
+   * <li>{@code notify_user_id} (Long): The id of the user to notify.</li>
+   * <li>{@code notify_on_registration} (Boolean): Triggers bundle notification when a registration action occurs for it.</li>
+   * <li>{@code notify_on_upload} (Boolean): Triggers bundle notification when a upload action occurs for it.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code BundleNotification}
+   */
   public BundleNotification create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -177,22 +250,45 @@ public final class BundleNotificationOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   notify_on_registration - boolean - Triggers bundle notification when a registration action occurs for it.
-   *   notify_on_upload - boolean - Triggers bundle notification when a upload action occurs for it.
+   * Update Share Link Notification
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public BundleNotification update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Share Link Notification
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public BundleNotification update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Share Link Notification
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public BundleNotification update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Share Link Notification
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code notify_on_registration} (Boolean): Triggers bundle notification when a registration action occurs for it.</li>
+   * <li>{@code notify_on_upload} (Boolean): Triggers bundle notification when a upload action occurs for it.</li>
+   * </ul>
+   *
+   * @param id Bundle Notification ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code BundleNotification}
+   */
   public BundleNotification update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -223,19 +319,39 @@ public final class BundleNotificationOperations extends ResourceOperations {
   }
 
   /**
+   * Delete Share Link Notification
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Share Link Notification
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Share Link Notification
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Share Link Notification
+   *
+   * @param id Bundle Notification ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -256,10 +372,20 @@ public final class BundleNotificationOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Share Link Notification
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Share Link Notification
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

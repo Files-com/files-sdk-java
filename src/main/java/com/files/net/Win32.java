@@ -125,6 +125,8 @@ final class Win32 {
 
     static native boolean SetEndOfFile(Pointer file);
 
+    static native boolean GetFileSizeEx(Pointer file, Pointer size);
+
     static native boolean GetFileInformationByHandleEx(Pointer file, int informationClass, Pointer information, int size);
 
     static native boolean SetFileInformationByHandle(Pointer file, int informationClass, Pointer information, int size);

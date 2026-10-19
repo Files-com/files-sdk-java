@@ -47,12 +47,9 @@
 
 ## List Behaviors
 
-```
-ListIterator<Behavior> behavior = Behavior.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<Behavior> behaviors = Behavior.list(parameters, null);
 ```
 
 ### Parameters
@@ -67,12 +64,9 @@ ListIterator<Behavior> behavior = Behavior.list(
 
 ## Show Behavior
 
-```
-Behavior behavior = Behavior.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Behavior behavior = Behavior.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -84,12 +78,10 @@ Behavior behavior = Behavior.find(
 
 ## List Behaviors by Path
 
-```
-ListIterator<Behavior> behavior = Behavior.listFor(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("ancestor_behaviors", false);
+ListIterator<Behavior> behaviors = Behavior.listFor("path", parameters, null);
 ```
 
 ### Parameters
@@ -106,12 +98,20 @@ ListIterator<Behavior> behavior = Behavior.listFor(
 
 ## Create Behavior
 
-```
-Behavior behavior = Behavior.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("urls", new Object[] {"https://example.com/webhook"});
+map1.put("method", "POST");
+map1.put("encoding", "JSON");
+parameters.put("value", map1);
+parameters.put("disable_parent_folder_behavior", true);
+parameters.put("recursive", false);
+parameters.put("name", "example");
+parameters.put("description", "example");
+parameters.put("path", "path");
+parameters.put("behavior", "webhook");
+Behavior behavior = Behavior.create(parameters, null);
 ```
 
 ### Parameters
@@ -130,12 +130,18 @@ Behavior behavior = Behavior.create(
 
 ## Test Webhook
 
-```
-void behavior = Behavior.webhookTest(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("url", "https://www.site.com/...");
+parameters.put("method", "GET");
+parameters.put("encoding", "RAW");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("x-test-header", "testvalue");
+parameters.put("headers", map1);
+HashMap<String, Object> map2 = new HashMap<>();
+map2.put("test-param", "testvalue");
+parameters.put("body", map2);
+Behavior.webhookTest(parameters, null);
 ```
 
 ### Parameters
@@ -152,12 +158,19 @@ void behavior = Behavior.webhookTest(
 
 ## Update Behavior
 
-```
-Behavior behavior = Behavior.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("urls", new Object[] {"https://example.com/webhook"});
+map1.put("method", "POST");
+map1.put("encoding", "JSON");
+parameters.put("value", map1);
+parameters.put("disable_parent_folder_behavior", true);
+parameters.put("recursive", false);
+parameters.put("name", "example");
+parameters.put("description", "example");
+parameters.put("attachment_delete", false);
+Behavior behavior = Behavior.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -176,12 +189,9 @@ Behavior behavior = Behavior.update(
 
 ## Delete Behavior
 
-```
-void behavior = Behavior.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Behavior.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -193,18 +203,20 @@ void behavior = Behavior.delete(
 
 ## Update Behavior
 
-```
-Behavior behavior = Behavior.find(id);
-
+```java
+Behavior behavior = Behavior.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("value", {"urls":["https://example.com/webhook"],"method":"POST","encoding":"JSON"});
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("urls", new Object[] {"https://example.com/webhook"});
+map1.put("method", "POST");
+map1.put("encoding", "JSON");
+parameters.put("value", map1);
 parameters.put("disable_parent_folder_behavior", true);
 parameters.put("recursive", false);
 parameters.put("name", "example");
 parameters.put("description", "example");
 parameters.put("attachment_delete", false);
-
-behavior.update(parameters);
+Behavior result = behavior.update(parameters);
 ```
 
 ### Parameters
@@ -223,11 +235,9 @@ behavior.update(parameters);
 
 ## Delete Behavior
 
-```
-Behavior behavior = Behavior.find(id);
-
+```java
+Behavior behavior = Behavior.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 behavior.delete(parameters);
 ```
 

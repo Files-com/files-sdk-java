@@ -31,12 +31,9 @@
 
 ## List Email Incoming Messages
 
-```
-ListIterator<EmailIncomingMessage> emailIncomingMessage = EmailIncomingMessage.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<EmailIncomingMessage> emailIncomingMessages = EmailIncomingMessage.list(parameters, null);
 ```
 
 ### Parameters

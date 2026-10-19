@@ -23,12 +23,9 @@
 
 ## List IP Addresses associated with the current site
 
-```
-ListIterator<IpAddress> ipAddress = IpAddress.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<IpAddress> ipAddresses = IpAddress.list(parameters, null);
 ```
 
 ### Parameters
@@ -41,12 +38,9 @@ ListIterator<IpAddress> ipAddress = IpAddress.list(
 
 ## List all possible public SmartFile IP addresses
 
-```
-PublicIpAddress ipAddress = IpAddress.getSmartfileReserved(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+PublicIpAddress publicIpAddress = IpAddress.getSmartfileReserved(parameters, null);
 ```
 
 ### Parameters
@@ -59,12 +53,9 @@ PublicIpAddress ipAddress = IpAddress.getSmartfileReserved(
 
 ## List all possible public ExaVault IP addresses
 
-```
-PublicIpAddress ipAddress = IpAddress.getExavaultReserved(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+PublicIpAddress publicIpAddress = IpAddress.getExavaultReserved(parameters, null);
 ```
 
 ### Parameters
@@ -77,12 +68,9 @@ PublicIpAddress ipAddress = IpAddress.getExavaultReserved(
 
 ## List all possible public IP addresses
 
-```
-PublicIpAddress ipAddress = IpAddress.getReserved(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+PublicIpAddress publicIpAddress = IpAddress.getReserved(parameters, null);
 ```
 
 ### Parameters

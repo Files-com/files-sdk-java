@@ -36,6 +36,11 @@ public class Workspace implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -59,14 +64,29 @@ public class Workspace implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code Workspace} with no attributes set.
+   */
   public Workspace() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code Workspace} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public Workspace(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code Workspace} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public Workspace(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -84,10 +104,20 @@ public class Workspace implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -98,18 +128,34 @@ public class Workspace implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
 
   /**
    * Updates this Workspace. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   name - string - Workspace name
+   * <p>Update Workspace
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Workspace name</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code Workspace}
    */
   public Workspace update(HashMap<String, Object> parameters) throws IOException {
     Workspace updated = filesClient().workspaces().update(this.id, parameters, this.options);
@@ -118,11 +164,19 @@ public class Workspace implements ModelInterface {
   }
 
   /**
+   * Delete Workspace
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().workspaces().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Workspace
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -156,123 +210,249 @@ public class Workspace implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `name`.
-   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
+   * List Workspaces
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<Workspace> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Workspaces
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Workspace> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Workspaces
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `name`.</li>
+   * <li>{@code filter_prefix} (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Workspace} records, in a {@code ListIterator}
+   */
   public static ListIterator<Workspace> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().workspaces().list(parameters, options);
   }
 
+  /**
+   * List Workspaces
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Workspace> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Workspaces
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Workspace> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Workspace ID.
+   * Show Workspace
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static Workspace find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Workspace
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Workspace find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Workspace
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Workspace find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Workspace
+   *
+   * @param id Workspace ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Workspace}
+   */
   public static Workspace find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().workspaces().find(id, parameters, options);
   }
 
+  /**
+   * Show Workspace
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Workspace get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Workspace
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Workspace get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   name - string - Workspace name
+   * Create Workspace
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static Workspace create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Workspace
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static Workspace create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Workspace
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Workspace name</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Workspace}
+   */
   public static Workspace create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().workspaces().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   name - string - Workspace name
+   * Update Workspace
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static Workspace update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Workspace
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static Workspace update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Workspace
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static Workspace update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Workspace
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Workspace name</li>
+   * </ul>
+   *
+   * @param id Workspace ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Workspace}
+   */
   public static Workspace update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().workspaces().update(id, parameters, options);
   }
 
 
   /**
+   * Delete Workspace
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Workspace
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Workspace
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Workspace
+   *
+   * @param id Workspace ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().workspaces().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Workspace
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Workspace
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

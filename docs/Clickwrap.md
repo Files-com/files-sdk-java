@@ -25,12 +25,9 @@
 
 ## List Clickwraps
 
-```
-ListIterator<Clickwrap> clickwrap = Clickwrap.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<Clickwrap> clickwraps = Clickwrap.list(parameters, null);
 ```
 
 ### Parameters
@@ -44,12 +41,9 @@ ListIterator<Clickwrap> clickwrap = Clickwrap.list(
 
 ## Show Clickwrap
 
-```
-Clickwrap clickwrap = Clickwrap.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Clickwrap clickwrap = Clickwrap.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -61,77 +55,37 @@ Clickwrap clickwrap = Clickwrap.find(
 
 ## Create Clickwrap
 
-```
-Clickwrap clickwrap = Clickwrap.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `name` (String): Name of the Clickwrap agreement (used when selecting from multiple Clickwrap agreements.)
-* `body` (String): Body text of Clickwrap (supports Markdown formatting).
-* `use_with_bundles` (String): Use this Clickwrap for Bundles?
-* `use_with_inboxes` (String): Use this Clickwrap for Inboxes?
-* `use_with_users` (String): Use this Clickwrap for Users?  Values: `none`, `require` (new user signup via email invitation only), `require_all_users_once` (show to all users at their next web login; once accepted, not shown again), `require_all_users_always` (show to all users on every web login).
-
-
----
-
-## Update Clickwrap
-
-```
-Clickwrap clickwrap = Clickwrap.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Clickwrap ID.
-* `name` (String): Name of the Clickwrap agreement (used when selecting from multiple Clickwrap agreements.)
-* `body` (String): Body text of Clickwrap (supports Markdown formatting).
-* `use_with_bundles` (String): Use this Clickwrap for Bundles?
-* `use_with_inboxes` (String): Use this Clickwrap for Inboxes?
-* `use_with_users` (String): Use this Clickwrap for Users?  Values: `none`, `require` (new user signup via email invitation only), `require_all_users_once` (show to all users at their next web login; once accepted, not shown again), `require_all_users_always` (show to all users on every web login).
-
-
----
-
-## Delete Clickwrap
-
-```
-void clickwrap = Clickwrap.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Clickwrap ID.
-
-
----
-
-## Update Clickwrap
-
-```
-Clickwrap clickwrap = Clickwrap.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "Example Site NDA for Files.com Use");
 parameters.put("body", "[Legal body text]");
 parameters.put("use_with_bundles", "example");
 parameters.put("use_with_inboxes", "example");
 parameters.put("use_with_users", "example");
+Clickwrap clickwrap = Clickwrap.create(parameters, null);
+```
 
-clickwrap.update(parameters);
+### Parameters
+
+* `name` (String): Name of the Clickwrap agreement (used when selecting from multiple Clickwrap agreements.)
+* `body` (String): Body text of Clickwrap (supports Markdown formatting).
+* `use_with_bundles` (String): Use this Clickwrap for Bundles?
+* `use_with_inboxes` (String): Use this Clickwrap for Inboxes?
+* `use_with_users` (String): Use this Clickwrap for Users?  Values: `none`, `require` (new user signup via email invitation only), `require_all_users_once` (show to all users at their next web login; once accepted, not shown again), `require_all_users_always` (show to all users on every web login).
+
+
+---
+
+## Update Clickwrap
+
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "Example Site NDA for Files.com Use");
+parameters.put("body", "[Legal body text]");
+parameters.put("use_with_bundles", "example");
+parameters.put("use_with_inboxes", "example");
+parameters.put("use_with_users", "example");
+Clickwrap clickwrap = Clickwrap.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -148,11 +102,48 @@ clickwrap.update(parameters);
 
 ## Delete Clickwrap
 
-```
-Clickwrap clickwrap = Clickwrap.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
+Clickwrap.delete(1L, parameters, null);
+```
 
+### Parameters
+
+* `id` (Long): Required - Clickwrap ID.
+
+
+---
+
+## Update Clickwrap
+
+```java
+Clickwrap clickwrap = Clickwrap.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "Example Site NDA for Files.com Use");
+parameters.put("body", "[Legal body text]");
+parameters.put("use_with_bundles", "example");
+parameters.put("use_with_inboxes", "example");
+parameters.put("use_with_users", "example");
+Clickwrap result = clickwrap.update(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - Clickwrap ID.
+* `name` (String): Name of the Clickwrap agreement (used when selecting from multiple Clickwrap agreements.)
+* `body` (String): Body text of Clickwrap (supports Markdown formatting).
+* `use_with_bundles` (String): Use this Clickwrap for Bundles?
+* `use_with_inboxes` (String): Use this Clickwrap for Inboxes?
+* `use_with_users` (String): Use this Clickwrap for Users?  Values: `none`, `require` (new user signup via email invitation only), `require_all_users_once` (show to all users at their next web login; once accepted, not shown again), `require_all_users_always` (show to all users on every web login).
+
+
+---
+
+## Delete Clickwrap
+
+```java
+Clickwrap clickwrap = Clickwrap.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
 clickwrap.delete(parameters);
 ```
 

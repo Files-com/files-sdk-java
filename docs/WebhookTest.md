@@ -33,12 +33,22 @@
 
 ## Create Webhook Test
 
-```
-WebhookTest webhookTest = WebhookTest.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("url", "https://www.site.com/...");
+parameters.put("method", "GET");
+parameters.put("encoding", "RAW");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("x-test-header", "testvalue");
+parameters.put("headers", map1);
+HashMap<String, Object> map2 = new HashMap<>();
+map2.put("test-param", "testvalue");
+parameters.put("body", map2);
+parameters.put("raw_body", "test body");
+parameters.put("file_as_body", false);
+parameters.put("file_form_field", "upload_file_data");
+parameters.put("use_dedicated_ips", false);
+WebhookTest webhookTest = WebhookTest.create(parameters, null);
 ```
 
 ### Parameters

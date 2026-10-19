@@ -47,12 +47,11 @@
 
 ## List Groups
 
-```
-ListIterator<Group> group = Group.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("include_parent_site_groups", false);
+parameters.put("include_default_workspace_groups", false);
+ListIterator<Group> groups = Group.list(parameters, null);
 ```
 
 ### Parameters
@@ -71,12 +70,9 @@ ListIterator<Group> group = Group.list(
 
 ## Show Group
 
-```
-Group group = Group.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Group group = Group.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -88,12 +84,23 @@ Group group = Group.find(
 
 ## Create Group
 
-```
-Group group = Group.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("notes", "example");
+parameters.put("user_ids", "1");
+parameters.put("admin_ids", "1");
+parameters.put("ai_assistant_personality_id", 1L);
+parameters.put("ftp_permission", true);
+parameters.put("sftp_permission", true);
+parameters.put("dav_permission", true);
+parameters.put("restapi_permission", true);
+parameters.put("s3_compatible_endpoint_permission", true);
+parameters.put("desktop_configuration_profile_id", 1L);
+parameters.put("integration_centric_profile_id", 1L);
+parameters.put("allowed_ips", "10.0.0.0/8\n127.0.0.1");
+parameters.put("name", "name");
+parameters.put("workspace_id", 0L);
+Group group = Group.create(parameters, null);
 ```
 
 ### Parameters
@@ -118,12 +125,22 @@ Group group = Group.create(
 
 ## Update Group
 
-```
-Group group = Group.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("notes", "example");
+parameters.put("user_ids", "1");
+parameters.put("admin_ids", "1");
+parameters.put("ai_assistant_personality_id", 1L);
+parameters.put("ftp_permission", true);
+parameters.put("sftp_permission", true);
+parameters.put("dav_permission", true);
+parameters.put("restapi_permission", true);
+parameters.put("s3_compatible_endpoint_permission", true);
+parameters.put("desktop_configuration_profile_id", 1L);
+parameters.put("integration_centric_profile_id", 1L);
+parameters.put("allowed_ips", "10.0.0.0/8\n127.0.0.1");
+parameters.put("name", "owners");
+Group group = Group.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -148,12 +165,9 @@ Group group = Group.update(
 
 ## Delete Group
 
-```
-void group = Group.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Group.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -165,25 +179,23 @@ void group = Group.delete(
 
 ## Update Group
 
-```
-Group group = Group.find(id);
-
+```java
+Group group = Group.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("notes", "example");
 parameters.put("user_ids", "1");
 parameters.put("admin_ids", "1");
-parameters.put("ai_assistant_personality_id", 1);
+parameters.put("ai_assistant_personality_id", 1L);
 parameters.put("ftp_permission", true);
 parameters.put("sftp_permission", true);
 parameters.put("dav_permission", true);
 parameters.put("restapi_permission", true);
 parameters.put("s3_compatible_endpoint_permission", true);
-parameters.put("desktop_configuration_profile_id", 1);
-parameters.put("integration_centric_profile_id", 1);
+parameters.put("desktop_configuration_profile_id", 1L);
+parameters.put("integration_centric_profile_id", 1L);
 parameters.put("allowed_ips", "10.0.0.0/8\n127.0.0.1");
 parameters.put("name", "owners");
-
-group.update(parameters);
+Group result = group.update(parameters);
 ```
 
 ### Parameters
@@ -208,11 +220,9 @@ group.update(parameters);
 
 ## Delete Group
 
-```
-Group group = Group.find(id);
-
+```java
+Group group = Group.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 group.delete(parameters);
 ```
 

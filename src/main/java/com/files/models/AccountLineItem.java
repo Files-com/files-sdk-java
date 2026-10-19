@@ -35,6 +35,11 @@ public class AccountLineItem implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class AccountLineItem implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code AccountLineItem} with no attributes set.
+   */
   public AccountLineItem() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code AccountLineItem} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public AccountLineItem(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code AccountLineItem} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public AccountLineItem(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,6 +103,11 @@ public class AccountLineItem implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -94,6 +119,11 @@ public class AccountLineItem implements ModelInterface {
   @JsonProperty("amount")
   public BigDecimal amount;
 
+  /**
+   * Gets {@link #amount}.
+   *
+   * @return the value of {@link #amount}
+   */
   public BigDecimal getAmount() {
     return amount;
   }
@@ -105,6 +135,11 @@ public class AccountLineItem implements ModelInterface {
   @JsonProperty("balance")
   public BigDecimal balance;
 
+  /**
+   * Gets {@link #balance}.
+   *
+   * @return the value of {@link #balance}
+   */
   public BigDecimal getBalance() {
     return balance;
   }
@@ -115,6 +150,11 @@ public class AccountLineItem implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -125,6 +165,11 @@ public class AccountLineItem implements ModelInterface {
   @JsonProperty("currency")
   public String currency;
 
+  /**
+   * Gets {@link #currency}.
+   *
+   * @return the value of {@link #currency}
+   */
   public String getCurrency() {
     return currency;
   }
@@ -135,6 +180,11 @@ public class AccountLineItem implements ModelInterface {
   @JsonProperty("download_uri")
   public String downloadUri;
 
+  /**
+   * Gets {@link #downloadUri}.
+   *
+   * @return the value of {@link #downloadUri}
+   */
   public String getDownloadUri() {
     return downloadUri;
   }
@@ -145,6 +195,11 @@ public class AccountLineItem implements ModelInterface {
   @JsonProperty("invoice_line_items")
   public InvoiceLineItem[] invoiceLineItems;
 
+  /**
+   * Gets {@link #invoiceLineItems}.
+   *
+   * @return the value of {@link #invoiceLineItems}
+   */
   public InvoiceLineItem[] getInvoiceLineItems() {
     return invoiceLineItems;
   }
@@ -155,6 +210,11 @@ public class AccountLineItem implements ModelInterface {
   @JsonProperty("method")
   public String method;
 
+  /**
+   * Gets {@link #method}.
+   *
+   * @return the value of {@link #method}
+   */
   public String getMethod() {
     return method;
   }
@@ -165,6 +225,11 @@ public class AccountLineItem implements ModelInterface {
   @JsonProperty("payment_line_items")
   public PaymentLineItem[] paymentLineItems;
 
+  /**
+   * Gets {@link #paymentLineItems}.
+   *
+   * @return the value of {@link #paymentLineItems}
+   */
   public PaymentLineItem[] getPaymentLineItems() {
     return paymentLineItems;
   }
@@ -175,6 +240,11 @@ public class AccountLineItem implements ModelInterface {
   @JsonProperty("payment_reversed_at")
   public Date paymentReversedAt;
 
+  /**
+   * Gets {@link #paymentReversedAt}.
+   *
+   * @return the value of {@link #paymentReversedAt}
+   */
   public Date getPaymentReversedAt() {
     return paymentReversedAt;
   }
@@ -185,6 +255,11 @@ public class AccountLineItem implements ModelInterface {
   @JsonProperty("payment_type")
   public String paymentType;
 
+  /**
+   * Gets {@link #paymentType}.
+   *
+   * @return the value of {@link #paymentType}
+   */
   public String getPaymentType() {
     return paymentType;
   }
@@ -195,6 +270,11 @@ public class AccountLineItem implements ModelInterface {
   @JsonProperty("site_name")
   public String siteName;
 
+  /**
+   * Gets {@link #siteName}.
+   *
+   * @return the value of {@link #siteName}
+   */
   public String getSiteName() {
     return siteName;
   }
@@ -205,6 +285,11 @@ public class AccountLineItem implements ModelInterface {
   @JsonProperty("type")
   public String type;
 
+  /**
+   * Gets {@link #type}.
+   *
+   * @return the value of {@link #type}
+   */
   public String getType() {
     return type;
   }

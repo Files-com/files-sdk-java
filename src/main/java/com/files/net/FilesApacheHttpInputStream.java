@@ -57,13 +57,35 @@ public class FilesApacheHttpInputStream extends FilesInputStream implements Clos
     return upstreamInputStream.available();
   }
 
+  // Closes the body, then the response itself when it can be closed, as one the SDK opened can, so
+  // that what it holds is released even when closing the body fails. The first failure is the one
+  // thrown; a later one is kept with it.
   @Override
   public void close() throws IOException {
-    if (upstreamInputStream != null) {
-      upstreamInputStream.close();
-    }
-    if (response.getEntity() != null) {
-      response.getEntity().getContent().close();
+    Throwable first = null;
+    try {
+      if (upstreamInputStream != null) {
+        upstreamInputStream.close();
+      }
+      if (response.getEntity() != null) {
+        response.getEntity().getContent().close();
+      }
+    } catch (IOException | RuntimeException | Error e) {
+      first = e;
+      throw e;
+    } finally {
+      if (response instanceof Closeable) {
+        try {
+          ((Closeable) response).close();
+        } catch (IOException | RuntimeException | Error e) {
+          if (first == null) {
+            throw e;
+          }
+          if (first != e) {
+            first.addSuppressed(e);
+          }
+        }
+      }
     }
   }
 

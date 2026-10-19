@@ -58,12 +58,12 @@
 
 ## List Bundle Actions
 
-```
-ListIterator<BundleAction> bundleAction = BundleAction.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("bundle_id", 1L);
+parameters.put("bundle_registration_id", 1L);
+ListIterator<BundleAction> bundleActions = BundleAction.list(parameters, null);
 ```
 
 ### Parameters

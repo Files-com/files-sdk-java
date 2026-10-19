@@ -41,12 +41,9 @@
 
 ## List Action Logs
 
-```
-ListIterator<ActionLog> actionLog = ActionLog.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<ActionLog> actionLogs = ActionLog.list(parameters, null);
 ```
 
 ### Parameters

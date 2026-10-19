@@ -23,21 +23,40 @@ public final class ActionNotificationExportOperations extends ResourceOperations
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Action Notification Export ID.
+   * Show Action Notification Export
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public ActionNotificationExport find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Action Notification Export
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ActionNotificationExport find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Action Notification Export
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ActionNotificationExport find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Action Notification Export
+   *
+   * @param id Action Notification Export ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ActionNotificationExport}
+   */
   public ActionNotificationExport find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -59,36 +78,63 @@ public final class ActionNotificationExportOperations extends ResourceOperations
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Action Notification Export
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ActionNotificationExport get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Action Notification Export
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ActionNotificationExport get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   workspace_id - int64 - Workspace whose logs are exported. Set to `0` for the default workspace. A null value means a site-wide export.
-   *   start_at - string - Start date/time of export range.
-   *   end_at - string - End date/time of export range.
-   *   query_message - string - Error message associated with the request, if any.
-   *   query_request_method - string - The HTTP request method used by the webhook.
-   *   query_request_url - string - The target webhook URL.
-   *   query_status - string - The HTTP status returned from the server in response to the webhook request.
-   *   query_success - boolean - true if the webhook request succeeded (i.e. returned a 200 or 204 response status). false otherwise.
-   *   query_path - string - Return notifications that were triggered by actions on this specific path.
-   *   query_folder - string - Return notifications that were triggered by actions in this folder.
+   * Create Action Notification Export
+   *
+   * @see #create(HashMap, HashMap)
    */
   public ActionNotificationExport create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Action Notification Export
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public ActionNotificationExport create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Action Notification Export
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code workspace_id} (Long): Workspace whose logs are exported. Set to `0` for the default workspace. A null value means a site-wide export.</li>
+   * <li>{@code start_at} (String): Start date/time of export range.</li>
+   * <li>{@code end_at} (String): End date/time of export range.</li>
+   * <li>{@code query_message} (String): Error message associated with the request, if any.</li>
+   * <li>{@code query_request_method} (String): The HTTP request method used by the webhook.</li>
+   * <li>{@code query_request_url} (String): The target webhook URL.</li>
+   * <li>{@code query_status} (String): The HTTP status returned from the server in response to the webhook request.</li>
+   * <li>{@code query_success} (Boolean): true if the webhook request succeeded (i.e. returned a 200 or 204 response status). false otherwise.</li>
+   * <li>{@code query_path} (String): Return notifications that were triggered by actions on this specific path.</li>
+   * <li>{@code query_folder} (String): Return notifications that were triggered by actions in this folder.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ActionNotificationExport}
+   */
   public ActionNotificationExport create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);

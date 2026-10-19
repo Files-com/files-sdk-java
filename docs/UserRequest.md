@@ -23,12 +23,9 @@
 
 ## List User Requests
 
-```
-ListIterator<UserRequest> userRequest = UserRequest.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<UserRequest> userRequests = UserRequest.list(parameters, null);
 ```
 
 ### Parameters
@@ -41,12 +38,9 @@ ListIterator<UserRequest> userRequest = UserRequest.list(
 
 ## Show User Request
 
-```
-UserRequest userRequest = UserRequest.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+UserRequest userRequest = UserRequest.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -58,12 +52,13 @@ UserRequest userRequest = UserRequest.find(
 
 ## Create User Request
 
-```
-UserRequest userRequest = UserRequest.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "name");
+parameters.put("email", "email");
+parameters.put("details", "details");
+parameters.put("company", "Acme Inc.");
+UserRequest userRequest = UserRequest.create(parameters, null);
 ```
 
 ### Parameters
@@ -78,12 +73,9 @@ UserRequest userRequest = UserRequest.create(
 
 ## Delete User Request
 
-```
-void userRequest = UserRequest.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+UserRequest.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -95,11 +87,9 @@ void userRequest = UserRequest.delete(
 
 ## Delete User Request
 
-```
-UserRequest userRequest = UserRequest.find(id);
-
+```java
+UserRequest userRequest = UserRequest.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 userRequest.delete(parameters);
 ```
 

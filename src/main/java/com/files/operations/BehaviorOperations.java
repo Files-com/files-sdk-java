@@ -26,20 +26,37 @@ public final class BehaviorOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `clickwrap_id`, `form_field_set_id`, `impacts_ui`, `remote_server_id` or `behavior`. Valid field combinations are `[ impacts_ui, behavior ]` and `[ behavior, remote_server_id ]`.
+   * List Behaviors
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<Behavior> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Behaviors
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Behavior> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Behaviors
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `clickwrap_id`, `form_field_set_id`, `impacts_ui`, `remote_server_id` or `behavior`. Valid field combinations are `[ impacts_ui, behavior ]` and `[ behavior, remote_server_id ]`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Behavior} records, in a {@code ListIterator}
+   */
   public ListIterator<Behavior> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -65,30 +82,59 @@ public final class BehaviorOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Behaviors
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Behavior> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Behaviors
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Behavior> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Behavior ID.
+   * Show Behavior
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public Behavior find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Behavior
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Behavior find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Behavior
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Behavior find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Behavior
+   *
+   * @param id Behavior ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Behavior}
+   */
   public Behavior find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -110,35 +156,67 @@ public final class BehaviorOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Behavior
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Behavior get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Behavior
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Behavior get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`. Valid field combinations are `[ impacts_ui, behavior ]`.
-   *   path (required) - string - Path to operate on.
-   *   ancestor_behaviors - boolean - If `true`, behaviors above this path are shown.
+   * List Behaviors by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
    */
   public ListIterator<Behavior> listFor() throws RuntimeException {
     return listFor(null, null, null);
   }
 
+  /**
+   * List Behaviors by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
   public ListIterator<Behavior> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return listFor(path, parameters, null);
   }
 
+  /**
+   * List Behaviors by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
   public ListIterator<Behavior> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return listFor(null, parameters, options);
   }
 
+  /**
+   * List Behaviors by Path
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`. Valid field combinations are `[ impacts_ui, behavior ]`.</li>
+   * <li>{@code ancestor_behaviors} (Boolean): If `true`, behaviors above this path are shown.</li>
+   * </ul>
+   *
+   * @param path Path to operate on.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Behavior} records, in a {@code ListIterator}
+   */
   public ListIterator<Behavior> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -181,24 +259,41 @@ public final class BehaviorOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   value - object - This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.
-   *   attachment_file - file - Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
-   *   disable_parent_folder_behavior - boolean - If true, disables the inherited behavior for this folder and its children. Valid only for behavior types that child folders may override, and requires recursive to be true. Rejected for all other behavior types.
-   *   recursive - boolean - Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
-   *   name - string - Name for this behavior.
-   *   description - string - Description for this behavior.
-   *   path (required) - string - Path where this behavior should apply.
-   *   behavior (required) - string - Behavior type.
+   * Create Behavior
+   *
+   * @see #create(HashMap, HashMap)
    */
   public Behavior create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Behavior
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public Behavior create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Behavior
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code value} (Object): This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.</li>
+   * <li>{@code attachment_file} (byte[] or Attachment): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.</li>
+   * <li>{@code disable_parent_folder_behavior} (Boolean): If true, disables the inherited behavior for this folder and its children. Valid only for behavior types that child folders may override, and requires recursive to be true. Rejected for all other behavior types.</li>
+   * <li>{@code recursive} (Boolean): Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.</li>
+   * <li>{@code name} (String): Name for this behavior.</li>
+   * <li>{@code description} (String): Description for this behavior.</li>
+   * <li>{@code path} (String): Required. Path where this behavior should apply.</li>
+   * <li>{@code behavior} (String): Required. Behavior type.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Behavior}
+   */
   public Behavior create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -254,22 +349,38 @@ public final class BehaviorOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   url (required) - string - URL for testing the webhook.
-   *   method - string - HTTP request method (GET or POST).
-   *   encoding - string - Encoding type for the webhook payload. Can be JSON, XML, or RAW (form data).
-   *   headers - object - Additional request headers to send via HTTP.
-   *   body - object - Additional body parameters to include in the webhook payload.
-   *   action - string - Action for test body.
+   * Test Webhook
+   *
+   * @see #webhookTest(HashMap, HashMap)
    */
   public void webhookTest() throws RuntimeException {
     webhookTest(null, null);
   }
 
+  /**
+   * Test Webhook
+   *
+   * @see #webhookTest(HashMap, HashMap)
+   */
   public void webhookTest(HashMap<String, Object> parameters) throws RuntimeException {
     webhookTest(parameters, null);
   }
 
+  /**
+   * Test Webhook
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code url} (String): Required. URL for testing the webhook.</li>
+   * <li>{@code method} (String): HTTP request method (GET or POST).</li>
+   * <li>{@code encoding} (String): Encoding type for the webhook payload. Can be JSON, XML, or RAW (form data).</li>
+   * <li>{@code headers} (Object): Additional request headers to send via HTTP.</li>
+   * <li>{@code body} (Object): Additional body parameters to include in the webhook payload.</li>
+   * <li>{@code action} (String): Action for test body.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void webhookTest(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -307,27 +418,50 @@ public final class BehaviorOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   value - object - This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.
-   *   attachment_file - file - Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
-   *   disable_parent_folder_behavior - boolean - If true, disables the inherited behavior for this folder and its children. Valid only for behavior types that child folders may override, and requires recursive to be true. Rejected for all other behavior types.
-   *   recursive - boolean - Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
-   *   name - string - Name for this behavior.
-   *   description - string - Description for this behavior.
-   *   attachment_delete - boolean - If `true`, delete the file stored in `attachment`.
+   * Update Behavior
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public Behavior update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Behavior
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public Behavior update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Behavior
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public Behavior update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Behavior
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code value} (Object): This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.</li>
+   * <li>{@code attachment_file} (byte[] or Attachment): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.</li>
+   * <li>{@code disable_parent_folder_behavior} (Boolean): If true, disables the inherited behavior for this folder and its children. Valid only for behavior types that child folders may override, and requires recursive to be true. Rejected for all other behavior types.</li>
+   * <li>{@code recursive} (Boolean): Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.</li>
+   * <li>{@code name} (String): Name for this behavior.</li>
+   * <li>{@code description} (String): Description for this behavior.</li>
+   * <li>{@code attachment_delete} (Boolean): If `true`, delete the file stored in `attachment`.</li>
+   * </ul>
+   *
+   * @param id Behavior ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Behavior}
+   */
   public Behavior update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -383,19 +517,39 @@ public final class BehaviorOperations extends ResourceOperations {
   }
 
   /**
+   * Delete Behavior
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Behavior
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Behavior
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Behavior
+   *
+   * @param id Behavior ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -416,10 +570,20 @@ public final class BehaviorOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Behavior
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Behavior
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

@@ -153,6 +153,25 @@ abstract class DownloadStage implements AutoCloseable {
   // threads at once; each call's bytes are written whole, at their own position.
   abstract void writeAt(long position, byte[] bytes, int offset, int count) throws IOException;
 
+  // Reads at most count bytes, at least one, of the file at position into bytes from offset, through
+  // the handle that created it, never by name: how many it read, or -1 at or past the file's end.
+  // Only a stage whose file a channel reads (NativeFileStage) needs it; the default refuses.
+  int readAt(long position, byte[] bytes, int offset, int count) throws IOException {
+    throw new UnsupportedOperationException("This download stage's file cannot be read");
+  }
+
+  // The file's size, as its handle reports it now: after a write that failed part way, it may count
+  // bytes that write changed. The default refuses, as readAt's does.
+  long size() throws IOException {
+    throw new UnsupportedOperationException("This download stage's file has no size to report");
+  }
+
+  // Shortens the file, through its handle, to length bytes; a file no longer than that is left as it
+  // is, never grown. The default refuses, as readAt's does.
+  void truncate(long length) throws IOException {
+    throw new UnsupportedOperationException("This download stage's file cannot be truncated");
+  }
+
   // Makes the written bytes durable.
   abstract void force() throws IOException;
 

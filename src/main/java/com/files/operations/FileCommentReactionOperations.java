@@ -23,19 +23,36 @@ public final class FileCommentReactionOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   file_comment_id (required) - int64 - ID of file comment to attach reaction to.
-   *   emoji (required) - string - Emoji to react with.
+   * Create File Comment Reaction
+   *
+   * @see #create(HashMap, HashMap)
    */
   public FileCommentReaction create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create File Comment Reaction
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public FileCommentReaction create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create File Comment Reaction
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code file_comment_id} (Long): Required. ID of file comment to attach reaction to.</li>
+   * <li>{@code emoji} (String): Required. Emoji to react with.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code FileCommentReaction}
+   */
   public FileCommentReaction create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -66,19 +83,39 @@ public final class FileCommentReactionOperations extends ResourceOperations {
   }
 
   /**
+   * Delete File Comment Reaction
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete File Comment Reaction
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete File Comment Reaction
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete File Comment Reaction
+   *
+   * @param id File Comment Reaction ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -99,10 +136,20 @@ public final class FileCommentReactionOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete File Comment Reaction
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete File Comment Reaction
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

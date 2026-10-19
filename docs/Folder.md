@@ -102,12 +102,15 @@
 
 ## List Folders by Path
 
-```
-ListIterator<File> folder = Folder.listFor(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("search", "some-partial-filename");
+parameters.put("search_custom_metadata_key", "some-metadata-key");
+parameters.put("search_all", false);
+parameters.put("with_previews", false);
+parameters.put("with_priority_color", false);
+parameters.put("type", "file");
+ListIterator<File> files = Folder.listFor("path", parameters, null);
 ```
 
 ### Parameters
@@ -130,12 +133,11 @@ ListIterator<File> folder = Folder.listFor(
 
 ## Create Folder
 
-```
-Folder folder = Folder.create(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("mkdir_parents", false);
+parameters.put("provided_mtime", "2000-01-01T01:00:00Z");
+Folder folder = Folder.create("path", parameters, null);
 ```
 
 ### Parameters

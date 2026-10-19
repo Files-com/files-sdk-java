@@ -34,6 +34,11 @@ public class ActionNotificationExportResult implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -57,14 +62,29 @@ public class ActionNotificationExportResult implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code ActionNotificationExportResult} with no attributes set.
+   */
   public ActionNotificationExportResult() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code ActionNotificationExportResult} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public ActionNotificationExportResult(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code ActionNotificationExportResult} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public ActionNotificationExportResult(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -82,6 +102,11 @@ public class ActionNotificationExportResult implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -92,6 +117,11 @@ public class ActionNotificationExportResult implements ModelInterface {
   @JsonProperty("created_at")
   public Long createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Long getCreatedAt() {
     return createdAt;
   }
@@ -102,6 +132,11 @@ public class ActionNotificationExportResult implements ModelInterface {
   @JsonProperty("status")
   public Long status;
 
+  /**
+   * Gets {@link #status}.
+   *
+   * @return the value of {@link #status}
+   */
   public Long getStatus() {
     return status;
   }
@@ -112,6 +147,11 @@ public class ActionNotificationExportResult implements ModelInterface {
   @JsonProperty("message")
   public String message;
 
+  /**
+   * Gets {@link #message}.
+   *
+   * @return the value of {@link #message}
+   */
   public String getMessage() {
     return message;
   }
@@ -122,6 +162,11 @@ public class ActionNotificationExportResult implements ModelInterface {
   @JsonProperty("success")
   public Boolean success;
 
+  /**
+   * Gets {@link #success}.
+   *
+   * @return the value of {@link #success}
+   */
   public Boolean getSuccess() {
     return success;
   }
@@ -132,6 +177,11 @@ public class ActionNotificationExportResult implements ModelInterface {
   @JsonProperty("request_headers")
   public String requestHeaders;
 
+  /**
+   * Gets {@link #requestHeaders}.
+   *
+   * @return the value of {@link #requestHeaders}
+   */
   public String getRequestHeaders() {
     return requestHeaders;
   }
@@ -142,6 +192,11 @@ public class ActionNotificationExportResult implements ModelInterface {
   @JsonProperty("request_method")
   public String requestMethod;
 
+  /**
+   * Gets {@link #requestMethod}.
+   *
+   * @return the value of {@link #requestMethod}
+   */
   public String getRequestMethod() {
     return requestMethod;
   }
@@ -152,6 +207,11 @@ public class ActionNotificationExportResult implements ModelInterface {
   @JsonProperty("request_url")
   public String requestUrl;
 
+  /**
+   * Gets {@link #requestUrl}.
+   *
+   * @return the value of {@link #requestUrl}
+   */
   public String getRequestUrl() {
     return requestUrl;
   }
@@ -162,6 +222,11 @@ public class ActionNotificationExportResult implements ModelInterface {
   @JsonProperty("path")
   public String path;
 
+  /**
+   * Gets {@link #path}.
+   *
+   * @return the value of {@link #path}
+   */
   public String getPath() {
     return path;
   }
@@ -172,35 +237,67 @@ public class ActionNotificationExportResult implements ModelInterface {
   @JsonProperty("folder")
   public String folder;
 
+  /**
+   * Gets {@link #folder}.
+   *
+   * @return the value of {@link #folder}
+   */
   public String getFolder() {
     return folder;
   }
 
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   action_notification_export_id (required) - int64 - ID of the associated action notification export.
+   * List Action Notification Export Results
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<ActionNotificationExportResult> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Action Notification Export Results
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ActionNotificationExportResult> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Action Notification Export Results
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code action_notification_export_id} (Long): Required. ID of the associated action notification export.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ActionNotificationExportResult} records, in a {@code ListIterator}
+   */
   public static ListIterator<ActionNotificationExportResult> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().actionNotificationExportResults().list(parameters, options);
   }
 
+  /**
+   * List Action Notification Export Results
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ActionNotificationExportResult> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Action Notification Export Results
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ActionNotificationExportResult> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }

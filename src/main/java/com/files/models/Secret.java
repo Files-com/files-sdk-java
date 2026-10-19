@@ -37,6 +37,11 @@ public class Secret implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -60,14 +65,29 @@ public class Secret implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code Secret} with no attributes set.
+   */
   public Secret() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code Secret} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public Secret(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code Secret} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public Secret(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -85,10 +105,20 @@ public class Secret implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -99,10 +129,20 @@ public class Secret implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
 
+  /**
+   * Sets {@link #workspaceId}.
+   *
+   * @param workspaceId the new value
+   */
   public void setWorkspaceId(Long workspaceId) {
     this.workspaceId = workspaceId;
   }
@@ -113,10 +153,20 @@ public class Secret implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -127,10 +177,20 @@ public class Secret implements ModelInterface {
   @JsonProperty("description")
   public String description;
 
+  /**
+   * Gets {@link #description}.
+   *
+   * @return the value of {@link #description}
+   */
   public String getDescription() {
     return description;
   }
 
+  /**
+   * Sets {@link #description}.
+   *
+   * @param description the new value
+   */
   public void setDescription(String description) {
     this.description = description;
   }
@@ -141,10 +201,20 @@ public class Secret implements ModelInterface {
   @JsonProperty("secret_type")
   public String secretType;
 
+  /**
+   * Gets {@link #secretType}.
+   *
+   * @return the value of {@link #secretType}
+   */
   public String getSecretType() {
     return secretType;
   }
 
+  /**
+   * Sets {@link #secretType}.
+   *
+   * @param secretType the new value
+   */
   public void setSecretType(String secretType) {
     this.secretType = secretType;
   }
@@ -155,10 +225,20 @@ public class Secret implements ModelInterface {
   @JsonProperty("metadata")
   public Object metadata;
 
+  /**
+   * Gets {@link #metadata}.
+   *
+   * @return the value of {@link #metadata}
+   */
   public Object getMetadata() {
     return metadata;
   }
 
+  /**
+   * Sets {@link #metadata}.
+   *
+   * @param metadata the new value
+   */
   public void setMetadata(Object metadata) {
     this.metadata = metadata;
   }
@@ -169,10 +249,20 @@ public class Secret implements ModelInterface {
   @JsonProperty("value_field_names")
   public String[] valueFieldNames;
 
+  /**
+   * Gets {@link #valueFieldNames}.
+   *
+   * @return the value of {@link #valueFieldNames}
+   */
   public String[] getValueFieldNames() {
     return valueFieldNames;
   }
 
+  /**
+   * Sets {@link #valueFieldNames}.
+   *
+   * @param valueFieldNames the new value
+   */
   public void setValueFieldNames(String[] valueFieldNames) {
     this.valueFieldNames = valueFieldNames;
   }
@@ -183,6 +273,11 @@ public class Secret implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -193,17 +288,28 @@ public class Secret implements ModelInterface {
   @JsonProperty("updated_at")
   public Date updatedAt;
 
+  /**
+   * Gets {@link #updatedAt}.
+   *
+   * @return the value of {@link #updatedAt}
+   */
   public Date getUpdatedAt() {
     return updatedAt;
   }
 
   /**
    * Updates this Secret. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   name - string - Secret name.
-   *   description - string - Internal description for your reference.
-   *   secret_type - string - Secret type.
-   *   metadata - object - Non-secret metadata for the Secret type.
+   * <p>Update Secret
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Secret name.</li>
+   * <li>{@code description} (String): Internal description for your reference.</li>
+   * <li>{@code secret_type} (String): Secret type.</li>
+   * <li>{@code metadata} (Object): Non-secret metadata for the Secret type.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code Secret}
    */
   public Secret update(HashMap<String, Object> parameters) throws IOException {
     Secret updated = filesClient().secrets().update(this.id, parameters, this.options);
@@ -212,11 +318,19 @@ public class Secret implements ModelInterface {
   }
 
   /**
+   * Delete Secret
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().secrets().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Secret
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -257,130 +371,256 @@ public class Secret implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name` or `secret_type`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`, `name` or `secret_type`. Valid field combinations are `[ workspace_id, name ]`, `[ workspace_id, secret_type ]`, `[ secret_type, name ]` or `[ workspace_id, secret_type, name ]`.
-   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
+   * List Secrets
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<Secret> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Secrets
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Secret> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Secrets
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name` or `secret_type`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`, `name` or `secret_type`. Valid field combinations are `[ workspace_id, name ]`, `[ workspace_id, secret_type ]`, `[ secret_type, name ]` or `[ workspace_id, secret_type, name ]`.</li>
+   * <li>{@code filter_prefix} (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Secret} records, in a {@code ListIterator}
+   */
   public static ListIterator<Secret> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().secrets().list(parameters, options);
   }
 
+  /**
+   * List Secrets
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Secret> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Secrets
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Secret> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Secret ID.
+   * Show Secret
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static Secret find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Secret
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Secret find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Secret
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Secret find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Secret
+   *
+   * @param id Secret ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Secret}
+   */
   public static Secret find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().secrets().find(id, parameters, options);
   }
 
+  /**
+   * Show Secret
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Secret get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Secret
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Secret get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   name (required) - string - Secret name.
-   *   description - string - Internal description for your reference.
-   *   secret_type (required) - string - Secret type.
-   *   metadata - object - Non-secret metadata for the Secret type.
-   *   workspace_id - int64 - Workspace ID. 0 means the default workspace.
+   * Create Secret
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static Secret create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Secret
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static Secret create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Secret
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Required. Secret name.</li>
+   * <li>{@code description} (String): Internal description for your reference.</li>
+   * <li>{@code secret_type} (String): Required. Secret type.</li>
+   * <li>{@code metadata} (Object): Non-secret metadata for the Secret type.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. 0 means the default workspace.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Secret}
+   */
   public static Secret create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().secrets().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   name - string - Secret name.
-   *   description - string - Internal description for your reference.
-   *   secret_type - string - Secret type.
-   *   metadata - object - Non-secret metadata for the Secret type.
+   * Update Secret
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static Secret update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Secret
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static Secret update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Secret
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static Secret update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Secret
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Secret name.</li>
+   * <li>{@code description} (String): Internal description for your reference.</li>
+   * <li>{@code secret_type} (String): Secret type.</li>
+   * <li>{@code metadata} (Object): Non-secret metadata for the Secret type.</li>
+   * </ul>
+   *
+   * @param id Secret ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Secret}
+   */
   public static Secret update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().secrets().update(id, parameters, options);
   }
 
 
   /**
+   * Delete Secret
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Secret
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Secret
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Secret
+   *
+   * @param id Secret ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().secrets().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Secret
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Secret
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

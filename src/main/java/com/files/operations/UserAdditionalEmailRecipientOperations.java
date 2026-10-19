@@ -25,22 +25,39 @@ public final class UserAdditionalEmailRecipientOperations extends ResourceOperat
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `email`, `user_id` or `workspace_id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `email`, `workspace_id` or `user_id`. Valid field combinations are `[ workspace_id, email ]`, `[ user_id, email ]`, `[ workspace_id, user_id ]` or `[ workspace_id, user_id, email ]`.
-   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `email`.
+   * List User Additional Email Recipients
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<UserAdditionalEmailRecipient> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List User Additional Email Recipients
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<UserAdditionalEmailRecipient> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List User Additional Email Recipients
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `email`, `user_id` or `workspace_id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `email`, `workspace_id` or `user_id`. Valid field combinations are `[ workspace_id, email ]`, `[ user_id, email ]`, `[ workspace_id, user_id ]` or `[ workspace_id, user_id, email ]`.</li>
+   * <li>{@code filter_prefix} (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `email`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code UserAdditionalEmailRecipient} records, in a {@code ListIterator}
+   */
   public ListIterator<UserAdditionalEmailRecipient> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -74,30 +91,59 @@ public final class UserAdditionalEmailRecipientOperations extends ResourceOperat
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List User Additional Email Recipients
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<UserAdditionalEmailRecipient> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List User Additional Email Recipients
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<UserAdditionalEmailRecipient> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - User Additional Email Recipient ID.
+   * Show User Additional Email Recipient
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public UserAdditionalEmailRecipient find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show User Additional Email Recipient
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public UserAdditionalEmailRecipient find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show User Additional Email Recipient
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public UserAdditionalEmailRecipient find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show User Additional Email Recipient
+   *
+   * @param id User Additional Email Recipient ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code UserAdditionalEmailRecipient}
+   */
   public UserAdditionalEmailRecipient find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -119,27 +165,54 @@ public final class UserAdditionalEmailRecipientOperations extends ResourceOperat
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show User Additional Email Recipient
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public UserAdditionalEmailRecipient get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show User Additional Email Recipient
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public UserAdditionalEmailRecipient get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   email (required) - string - Additional email recipient address
+   * Create User Additional Email Recipient
+   *
+   * @see #create(HashMap, HashMap)
    */
   public UserAdditionalEmailRecipient create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create User Additional Email Recipient
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public UserAdditionalEmailRecipient create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create User Additional Email Recipient
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code email} (String): Required. Additional email recipient address</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code UserAdditionalEmailRecipient}
+   */
   public UserAdditionalEmailRecipient create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -162,21 +235,44 @@ public final class UserAdditionalEmailRecipientOperations extends ResourceOperat
   }
 
   /**
-   * Parameters:
-   *   email - string - Additional email recipient address
+   * Update User Additional Email Recipient
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public UserAdditionalEmailRecipient update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update User Additional Email Recipient
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public UserAdditionalEmailRecipient update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update User Additional Email Recipient
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public UserAdditionalEmailRecipient update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update User Additional Email Recipient
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code email} (String): Additional email recipient address</li>
+   * </ul>
+   *
+   * @param id User Additional Email Recipient ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code UserAdditionalEmailRecipient}
+   */
   public UserAdditionalEmailRecipient update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -203,19 +299,39 @@ public final class UserAdditionalEmailRecipientOperations extends ResourceOperat
   }
 
   /**
+   * Delete User Additional Email Recipient
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete User Additional Email Recipient
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete User Additional Email Recipient
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete User Additional Email Recipient
+   *
+   * @param id User Additional Email Recipient ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -236,10 +352,20 @@ public final class UserAdditionalEmailRecipientOperations extends ResourceOperat
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete User Additional Email Recipient
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete User Additional Email Recipient
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

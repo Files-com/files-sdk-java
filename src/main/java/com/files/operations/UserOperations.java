@@ -26,29 +26,46 @@ public final class UserOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `workspace_id`, `company`, `name`, `disabled`, `authenticate_until`, `username`, `email`, `site_admin`, `last_desktop_login_at`, `last_login_at`, `password_validity_days` or `ssl_required`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `username`, `name`, `email`, `company`, `site_admin`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until`, `not_site_admin`, `disabled`, `partner_id`, `primary_group_id` or `workspace_id`. Valid field combinations are `[ site_admin, username ]`, `[ not_site_admin, username ]`, `[ workspace_id, username ]`, `[ company, name ]`, `[ workspace_id, name ]`, `[ workspace_id, email ]`, `[ workspace_id, company ]`, `[ workspace_id, site_admin ]`, `[ workspace_id, not_site_admin ]`, `[ workspace_id, disabled ]`, `[ workspace_id, partner_id ]`, `[ workspace_id, site_admin, username ]`, `[ workspace_id, not_site_admin, username ]`, `[ workspace_id, disabled, username ]`, `[ workspace_id, partner_id, username ]` or `[ workspace_id, company, name ]`.
-   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
-   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
-   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `username`, `name`, `email` or `company`. Valid field combinations are `[ company, name ]`.
-   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
-   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.
-   *   ids - string - comma-separated list of User IDs
-   *   include_parent_site_users - boolean - Include users from the parent site.
-   *   include_default_workspace_users - boolean - When scoped to a Custom Workspace, include Default Workspace users who have permissions in that Workspace. Available to Site Administrators, and to Workspace Administrators and Folder Admins in that Workspace when the site shares its Default Workspace directory with Workspaces.
-   *   search - string - Searches for partial matches of name, username, or email.
+   * List Users
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<User> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Users
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<User> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Users
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `workspace_id`, `company`, `name`, `disabled`, `authenticate_until`, `username`, `email`, `site_admin`, `last_desktop_login_at`, `last_login_at`, `password_validity_days` or `ssl_required`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `username`, `name`, `email`, `company`, `site_admin`, `password_validity_days`, `ssl_required`, `last_login_at`, `authenticate_until`, `not_site_admin`, `disabled`, `partner_id`, `primary_group_id` or `workspace_id`. Valid field combinations are `[ site_admin, username ]`, `[ not_site_admin, username ]`, `[ workspace_id, username ]`, `[ company, name ]`, `[ workspace_id, name ]`, `[ workspace_id, email ]`, `[ workspace_id, company ]`, `[ workspace_id, site_admin ]`, `[ workspace_id, not_site_admin ]`, `[ workspace_id, disabled ]`, `[ workspace_id, partner_id ]`, `[ workspace_id, site_admin, username ]`, `[ workspace_id, not_site_admin, username ]`, `[ workspace_id, disabled, username ]`, `[ workspace_id, partner_id, username ]` or `[ workspace_id, company, name ]`.</li>
+   * <li>{@code filter_gt} (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.</li>
+   * <li>{@code filter_gteq} (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.</li>
+   * <li>{@code filter_prefix} (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `username`, `name`, `email` or `company`. Valid field combinations are `[ company, name ]`.</li>
+   * <li>{@code filter_lt} (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.</li>
+   * <li>{@code filter_lteq} (Object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `password_validity_days`, `last_login_at` or `authenticate_until`.</li>
+   * <li>{@code ids} (String): comma-separated list of User IDs</li>
+   * <li>{@code include_parent_site_users} (Boolean): Include users from the parent site.</li>
+   * <li>{@code include_default_workspace_users} (Boolean): When scoped to a Custom Workspace, include Default Workspace users who have permissions in that Workspace. Available to Site Administrators, and to Workspace Administrators and Folder Admins in that Workspace when the site shares its Default Workspace directory with Workspaces.</li>
+   * <li>{@code search} (String): Searches for partial matches of name, username, or email.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code User} records, in a {@code ListIterator}
+   */
   public ListIterator<User> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -110,30 +127,59 @@ public final class UserOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Users
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<User> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Users
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<User> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - User ID.
+   * Show User
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public User find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show User
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public User find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show User
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public User find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show User
+   *
+   * @param id User ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code User}
+   */
   public User find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -155,94 +201,121 @@ public final class UserOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show User
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public User get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show User
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public User get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   avatar_file - file - An image file for your user avatar.
-   *   avatar_delete - boolean - If true, the avatar will be deleted.
-   *   change_password - string - Used for changing a password on an existing user.
-   *   change_password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
-   *   email - string - User's email.
-   *   grant_permission - string - Permission to grant on the User Root upon creation, or on the Workspace root when the User Root is blank. For the Default Workspace, a blank User Root uses the site root. `admin` on a Custom Workspace's root grants Workspace Administrator access; on a subfolder it grants Folder Admin access. Can be blank or `admin`, `full`, `read`, `write`, `list`, `read+write`, `list+write`, or `history`.
-   *   group_id - int64 - Group ID to associate this user with.
-   *   group_ids - string - A list of group ids to associate this user with.  Comma delimited.
-   *   imported_password_hash - string - Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
-   *   password - string - User password.
-   *   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
-   *   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
-   *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned directly to this user, if any.
-   *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
-   *   attachments_permission - boolean - DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
-   *   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
-   *   authentication_method - string - How is this user authenticated?
-   *   billing_permission - boolean - Allow this user to perform operations on the account, payments, and invoices?
-   *   bypass_user_lifecycle_rules - boolean - Exempt this user from user lifecycle rules?
-   *   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
-   *   dav_permission - boolean - Can the user connect with WebDAV?
-   *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
-   *   default_workspace_id - int64 - Workspace ID the user should land in by default when more than one Workspace is available.
-   *   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
-   *   filesystem_layout - string - File system layout
-   *   ftp_permission - boolean - Can the user access with FTP/FTPS?
-   *   header_text - string - Text to display to the user in the header of the UI
-   *   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned directly to this user, if any.
-   *   language - string - Preferred language
-   *   notification_daily_send_time - int64 - Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
-   *   name - string - User's full name
-   *   company - string - User's company
-   *   notes - string - Any internal notes on the user
-   *   office_integration_enabled - boolean - Enable integration with Office for the web?
-   *   partner_admin - boolean - Is this user a Partner administrator?
-   *   partner_id - int64 - Partner ID if this user belongs to a Partner
-   *   password_validity_days - int64 - Number of days to allow user to use the same password
-   *   primary_group_id - int64 - Primary group ID for Group Admin scoping
-   *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
-   *   receive_admin_alerts - boolean - Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.
-   *   notify_on_all_site_warnings - boolean - Should the user receive site warnings via email?
-   *   notify_on_all_sso_failures - boolean - Should the user receive sso/scim/ldap configuration/sync failures via email?
-   *   notify_on_all_user_security_events - boolean - Should the user receive user security events via email?
-   *   notify_on_all_pending_work_failures - boolean - Should the user receive pending work failures via email?
-   *   notify_on_all_siem_http_destination_failures - boolean - Should the user receive siem failures via email?
-   *   notify_on_all_sync_failures - boolean - Should the user receive sync failures via email?
-   *   notify_on_all_automation_failures - boolean - Should the user receive automation failures via email?
-   *   notify_on_all_expectation_failures - boolean - Should the user receive expectation failures and misses via email?
-   *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
-   *   require_password_change - boolean - Is a password change required upon next user login?
-   *   responsible_group_id - int64 - ID of the internal Group responsible for this Partner User, overriding the Partner default.
-   *   responsible_user_id - int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
-   *   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
-   *   s3_compatible_endpoint_permission - boolean - Can the user access the S3-compatible endpoint? Defaults to true.
-   *   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
-   *   sftp_permission - boolean - Can the user access with SFTP?
-   *   site_admin - boolean - Is the user an administrator for this site?
-   *   skip_welcome_screen - boolean - Skip Welcome page in the UI?
-   *   ssl_required - string - SSL required setting
-   *   sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
-   *   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
-   *   require_2fa - string - 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
-   *   tags - string - Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
-   *   time_zone - string - User time zone
-   *   user_root - string - If filesystem layout is user_root, this path is the root path the user is fixed to for all interfaces. If the filesystem layout is site_root or partner_root, this acts as a root folder only for FTP and SFTP (SFTP applicability also requires a site-wide setting to be set). For partner_root layout, this path is relative to the Partner root folder for all callers and blank opts out of an additional protocol root. In this situation, this path is not applied to the API, Desktop, or Web interface.
-   *   user_home - string - Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
-   *   workspace_admin - boolean - Whether the user is an administrator of their own Custom Workspace. Does not reflect administration granted through Permissions.
-   *   username (required) - string - User's username
-   *   workspace_id - int64 - ID of the Workspace the user belongs to. 0 is the Default Workspace.
+   * Create User
+   *
+   * @see #create(HashMap, HashMap)
    */
   public User create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create User
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public User create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create User
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code avatar_file} (byte[] or Attachment): An image file for your user avatar.</li>
+   * <li>{@code avatar_delete} (Boolean): If true, the avatar will be deleted.</li>
+   * <li>{@code change_password} (String): Used for changing a password on an existing user.</li>
+   * <li>{@code change_password_confirmation} (String): Optional, but if provided, we will ensure that it matches the value sent in `change_password`.</li>
+   * <li>{@code email} (String): User's email.</li>
+   * <li>{@code grant_permission} (String): Permission to grant on the User Root upon creation, or on the Workspace root when the User Root is blank. For the Default Workspace, a blank User Root uses the site root. `admin` on a Custom Workspace's root grants Workspace Administrator access; on a subfolder it grants Folder Admin access. Can be blank or `admin`, `full`, `read`, `write`, `list`, `read+write`, `list+write`, or `history`.</li>
+   * <li>{@code group_id} (Long): Group ID to associate this user with.</li>
+   * <li>{@code group_ids} (String): A list of group ids to associate this user with.  Comma delimited.</li>
+   * <li>{@code imported_password_hash} (String): Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.</li>
+   * <li>{@code password} (String): User password.</li>
+   * <li>{@code password_confirmation} (String): Optional, but if provided, we will ensure that it matches the value sent in `password`.</li>
+   * <li>{@code announcements_read} (Boolean): Signifies that the user has read all the announcements in the UI.</li>
+   * <li>{@code ai_assistant_personality_id} (Long): AI Assistant Personality ID assigned directly to this user, if any.</li>
+   * <li>{@code allowed_ips} (String): A list of allowed IPs if applicable.  Newline delimited</li>
+   * <li>{@code attachments_permission} (Boolean): DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.</li>
+   * <li>{@code authenticate_until} (String): Scheduled Date/Time at which user will be deactivated</li>
+   * <li>{@code authentication_method} (String): How is this user authenticated?</li>
+   * <li>{@code billing_permission} (Boolean): Allow this user to perform operations on the account, payments, and invoices?</li>
+   * <li>{@code bypass_user_lifecycle_rules} (Boolean): Exempt this user from user lifecycle rules?</li>
+   * <li>{@code bypass_site_allowed_ips} (Boolean): Allow this user to skip site-wide IP blacklists?</li>
+   * <li>{@code dav_permission} (Boolean): Can the user connect with WebDAV?</li>
+   * <li>{@code desktop_configuration_profile_id} (Long): Desktop Configuration Profile ID assigned directly to this user, if any.</li>
+   * <li>{@code default_workspace_id} (Long): Workspace ID the user should land in by default when more than one Workspace is available.</li>
+   * <li>{@code disabled} (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.</li>
+   * <li>{@code filesystem_layout} (String): File system layout</li>
+   * <li>{@code ftp_permission} (Boolean): Can the user access with FTP/FTPS?</li>
+   * <li>{@code header_text} (String): Text to display to the user in the header of the UI</li>
+   * <li>{@code integration_centric_profile_id} (Long): Integration Centric Profile ID assigned directly to this user, if any.</li>
+   * <li>{@code language} (String): Preferred language</li>
+   * <li>{@code notification_daily_send_time} (Long): Hour of the day at which daily notifications should be sent. Can be in range 0 to 23</li>
+   * <li>{@code name} (String): User's full name</li>
+   * <li>{@code company} (String): User's company</li>
+   * <li>{@code notes} (String): Any internal notes on the user</li>
+   * <li>{@code office_integration_enabled} (Boolean): Enable integration with Office for the web?</li>
+   * <li>{@code partner_admin} (Boolean): Is this user a Partner administrator?</li>
+   * <li>{@code partner_id} (Long): Partner ID if this user belongs to a Partner</li>
+   * <li>{@code password_validity_days} (Long): Number of days to allow user to use the same password</li>
+   * <li>{@code primary_group_id} (Long): Primary group ID for Group Admin scoping</li>
+   * <li>{@code readonly_site_admin} (Boolean): Is the user an allowed to view all (non-billing) site configuration for this site?</li>
+   * <li>{@code receive_admin_alerts} (Boolean): Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.</li>
+   * <li>{@code notify_on_all_site_warnings} (Boolean): Should the user receive site warnings via email?</li>
+   * <li>{@code notify_on_all_sso_failures} (Boolean): Should the user receive sso/scim/ldap configuration/sync failures via email?</li>
+   * <li>{@code notify_on_all_user_security_events} (Boolean): Should the user receive user security events via email?</li>
+   * <li>{@code notify_on_all_pending_work_failures} (Boolean): Should the user receive pending work failures via email?</li>
+   * <li>{@code notify_on_all_siem_http_destination_failures} (Boolean): Should the user receive siem failures via email?</li>
+   * <li>{@code notify_on_all_sync_failures} (Boolean): Should the user receive sync failures via email?</li>
+   * <li>{@code notify_on_all_automation_failures} (Boolean): Should the user receive automation failures via email?</li>
+   * <li>{@code notify_on_all_expectation_failures} (Boolean): Should the user receive expectation failures and misses via email?</li>
+   * <li>{@code require_login_by} (String): Require user to login by specified date otherwise it will be disabled.</li>
+   * <li>{@code require_password_change} (Boolean): Is a password change required upon next user login?</li>
+   * <li>{@code responsible_group_id} (Long): ID of the internal Group responsible for this Partner User, overriding the Partner default.</li>
+   * <li>{@code responsible_user_id} (Long): ID of the internal User responsible for this Partner User, overriding the Partner default.</li>
+   * <li>{@code restapi_permission} (Boolean): Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)</li>
+   * <li>{@code s3_compatible_endpoint_permission} (Boolean): Can the user access the S3-compatible endpoint? Defaults to true.</li>
+   * <li>{@code self_managed} (Boolean): Does this user manage it's own credentials or is it a shared/bot user?</li>
+   * <li>{@code sftp_permission} (Boolean): Can the user access with SFTP?</li>
+   * <li>{@code site_admin} (Boolean): Is the user an administrator for this site?</li>
+   * <li>{@code skip_welcome_screen} (Boolean): Skip Welcome page in the UI?</li>
+   * <li>{@code ssl_required} (String): SSL required setting</li>
+   * <li>{@code sso_strategy_id} (Long): SSO (Single Sign On) strategy ID for the user, if applicable.</li>
+   * <li>{@code subscribe_to_newsletter} (Boolean): Is the user subscribed to the newsletter?</li>
+   * <li>{@code require_2fa} (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.</li>
+   * <li>{@code tags} (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.</li>
+   * <li>{@code time_zone} (String): User time zone</li>
+   * <li>{@code user_root} (String): If filesystem layout is user_root, this path is the root path the user is fixed to for all interfaces. If the filesystem layout is site_root or partner_root, this acts as a root folder only for FTP and SFTP (SFTP applicability also requires a site-wide setting to be set). For partner_root layout, this path is relative to the Partner root folder for all callers and blank opts out of an additional protocol root. In this situation, this path is not applied to the API, Desktop, or Web interface.</li>
+   * <li>{@code user_home} (String): Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.</li>
+   * <li>{@code workspace_admin} (Boolean): Whether the user is an administrator of their own Custom Workspace. Does not reflect administration granted through Permissions.</li>
+   * <li>{@code username} (String): Required. User's username</li>
+   * <li>{@code workspace_id} (Long): ID of the Workspace the user belongs to. 0 is the Default Workspace.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code User}
+   */
   public User create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -539,19 +612,38 @@ public final class UserOperations extends ResourceOperations {
 
   /**
    * Unlock user who has been locked out due to failed logins
+   *
+   * @see #unlock(Long, HashMap, HashMap)
    */
   public void unlock() throws RuntimeException {
     unlock(null, null, null);
   }
 
+  /**
+   * Unlock user who has been locked out due to failed logins
+   *
+   * @see #unlock(Long, HashMap, HashMap)
+   */
   public void unlock(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     unlock(id, parameters, null);
   }
 
+  /**
+   * Unlock user who has been locked out due to failed logins
+   *
+   * @see #unlock(Long, HashMap, HashMap)
+   */
   public void unlock(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     unlock(null, parameters, options);
   }
 
+  /**
+   * Unlock user who has been locked out due to failed logins
+   *
+   * @param id User ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void unlock(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -574,19 +666,38 @@ public final class UserOperations extends ResourceOperations {
 
   /**
    * Resend user welcome email
+   *
+   * @see #resendWelcomeEmail(Long, HashMap, HashMap)
    */
   public void resendWelcomeEmail() throws RuntimeException {
     resendWelcomeEmail(null, null, null);
   }
 
+  /**
+   * Resend user welcome email
+   *
+   * @see #resendWelcomeEmail(Long, HashMap, HashMap)
+   */
   public void resendWelcomeEmail(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     resendWelcomeEmail(id, parameters, null);
   }
 
+  /**
+   * Resend user welcome email
+   *
+   * @see #resendWelcomeEmail(Long, HashMap, HashMap)
+   */
   public void resendWelcomeEmail(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     resendWelcomeEmail(null, parameters, options);
   }
 
+  /**
+   * Resend user welcome email
+   *
+   * @param id User ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void resendWelcomeEmail(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -609,19 +720,38 @@ public final class UserOperations extends ResourceOperations {
 
   /**
    * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
+   *
+   * @see #user2faReset(Long, HashMap, HashMap)
    */
   public void user2faReset() throws RuntimeException {
     user2faReset(null, null, null);
   }
 
+  /**
+   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
+   *
+   * @see #user2faReset(Long, HashMap, HashMap)
+   */
   public void user2faReset(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     user2faReset(id, parameters, null);
   }
 
+  /**
+   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
+   *
+   * @see #user2faReset(Long, HashMap, HashMap)
+   */
   public void user2faReset(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     user2faReset(null, parameters, options);
   }
 
+  /**
+   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
+   *
+   * @param id User ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void user2faReset(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -643,91 +773,114 @@ public final class UserOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   avatar_file - file - An image file for your user avatar.
-   *   avatar_delete - boolean - If true, the avatar will be deleted.
-   *   change_password - string - Used for changing a password on an existing user.
-   *   change_password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
-   *   email - string - User's email.
-   *   grant_permission - string - Permission to grant on the User Root upon creation, or on the Workspace root when the User Root is blank. For the Default Workspace, a blank User Root uses the site root. `admin` on a Custom Workspace's root grants Workspace Administrator access; on a subfolder it grants Folder Admin access. Can be blank or `admin`, `full`, `read`, `write`, `list`, `read+write`, `list+write`, or `history`.
-   *   group_id - int64 - Group ID to associate this user with.
-   *   group_ids - string - A list of group ids to associate this user with.  Comma delimited.
-   *   imported_password_hash - string - Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
-   *   password - string - User password.
-   *   password_confirmation - string - Optional, but if provided, we will ensure that it matches the value sent in `password`.
-   *   announcements_read - boolean - Signifies that the user has read all the announcements in the UI.
-   *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned directly to this user, if any.
-   *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
-   *   attachments_permission - boolean - DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
-   *   authenticate_until - string - Scheduled Date/Time at which user will be deactivated
-   *   authentication_method - string - How is this user authenticated?
-   *   billing_permission - boolean - Allow this user to perform operations on the account, payments, and invoices?
-   *   bypass_user_lifecycle_rules - boolean - Exempt this user from user lifecycle rules?
-   *   bypass_site_allowed_ips - boolean - Allow this user to skip site-wide IP blacklists?
-   *   dav_permission - boolean - Can the user connect with WebDAV?
-   *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned directly to this user, if any.
-   *   default_workspace_id - int64 - Workspace ID the user should land in by default when more than one Workspace is available.
-   *   disabled - boolean - Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
-   *   filesystem_layout - string - File system layout
-   *   ftp_permission - boolean - Can the user access with FTP/FTPS?
-   *   header_text - string - Text to display to the user in the header of the UI
-   *   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned directly to this user, if any.
-   *   language - string - Preferred language
-   *   notification_daily_send_time - int64 - Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
-   *   name - string - User's full name
-   *   company - string - User's company
-   *   notes - string - Any internal notes on the user
-   *   office_integration_enabled - boolean - Enable integration with Office for the web?
-   *   partner_admin - boolean - Is this user a Partner administrator?
-   *   partner_id - int64 - Partner ID if this user belongs to a Partner
-   *   password_validity_days - int64 - Number of days to allow user to use the same password
-   *   primary_group_id - int64 - Primary group ID for Group Admin scoping
-   *   readonly_site_admin - boolean - Is the user an allowed to view all (non-billing) site configuration for this site?
-   *   receive_admin_alerts - boolean - Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.
-   *   notify_on_all_site_warnings - boolean - Should the user receive site warnings via email?
-   *   notify_on_all_sso_failures - boolean - Should the user receive sso/scim/ldap configuration/sync failures via email?
-   *   notify_on_all_user_security_events - boolean - Should the user receive user security events via email?
-   *   notify_on_all_pending_work_failures - boolean - Should the user receive pending work failures via email?
-   *   notify_on_all_siem_http_destination_failures - boolean - Should the user receive siem failures via email?
-   *   notify_on_all_sync_failures - boolean - Should the user receive sync failures via email?
-   *   notify_on_all_automation_failures - boolean - Should the user receive automation failures via email?
-   *   notify_on_all_expectation_failures - boolean - Should the user receive expectation failures and misses via email?
-   *   require_login_by - string - Require user to login by specified date otherwise it will be disabled.
-   *   require_password_change - boolean - Is a password change required upon next user login?
-   *   responsible_group_id - int64 - ID of the internal Group responsible for this Partner User, overriding the Partner default.
-   *   responsible_user_id - int64 - ID of the internal User responsible for this Partner User, overriding the Partner default.
-   *   restapi_permission - boolean - Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
-   *   s3_compatible_endpoint_permission - boolean - Can the user access the S3-compatible endpoint? Defaults to true.
-   *   self_managed - boolean - Does this user manage it's own credentials or is it a shared/bot user?
-   *   sftp_permission - boolean - Can the user access with SFTP?
-   *   site_admin - boolean - Is the user an administrator for this site?
-   *   skip_welcome_screen - boolean - Skip Welcome page in the UI?
-   *   ssl_required - string - SSL required setting
-   *   sso_strategy_id - int64 - SSO (Single Sign On) strategy ID for the user, if applicable.
-   *   subscribe_to_newsletter - boolean - Is the user subscribed to the newsletter?
-   *   require_2fa - string - 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
-   *   tags - string - Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
-   *   time_zone - string - User time zone
-   *   user_root - string - If filesystem layout is user_root, this path is the root path the user is fixed to for all interfaces. If the filesystem layout is site_root or partner_root, this acts as a root folder only for FTP and SFTP (SFTP applicability also requires a site-wide setting to be set). For partner_root layout, this path is relative to the Partner root folder for all callers and blank opts out of an additional protocol root. In this situation, this path is not applied to the API, Desktop, or Web interface.
-   *   user_home - string - Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
-   *   workspace_admin - boolean - Whether the user is an administrator of their own Custom Workspace. Does not reflect administration granted through Permissions.
-   *   username - string - User's username
-   *   workspace_id - int64 - Workspace ID. Only Site Administrators can change this field. Values supplied by Workspace Administrators, Group Administrators, or other non-Site Administrators using `/user` are ignored.
-   *   clear_2fa - boolean - If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
-   *   convert_to_partner_user - boolean - Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
+   * Update User
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public User update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update User
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public User update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update User
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public User update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update User
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code avatar_file} (byte[] or Attachment): An image file for your user avatar.</li>
+   * <li>{@code avatar_delete} (Boolean): If true, the avatar will be deleted.</li>
+   * <li>{@code change_password} (String): Used for changing a password on an existing user.</li>
+   * <li>{@code change_password_confirmation} (String): Optional, but if provided, we will ensure that it matches the value sent in `change_password`.</li>
+   * <li>{@code email} (String): User's email.</li>
+   * <li>{@code grant_permission} (String): Permission to grant on the User Root upon creation, or on the Workspace root when the User Root is blank. For the Default Workspace, a blank User Root uses the site root. `admin` on a Custom Workspace's root grants Workspace Administrator access; on a subfolder it grants Folder Admin access. Can be blank or `admin`, `full`, `read`, `write`, `list`, `read+write`, `list+write`, or `history`.</li>
+   * <li>{@code group_id} (Long): Group ID to associate this user with.</li>
+   * <li>{@code group_ids} (String): A list of group ids to associate this user with.  Comma delimited.</li>
+   * <li>{@code imported_password_hash} (String): Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.</li>
+   * <li>{@code password} (String): User password.</li>
+   * <li>{@code password_confirmation} (String): Optional, but if provided, we will ensure that it matches the value sent in `password`.</li>
+   * <li>{@code announcements_read} (Boolean): Signifies that the user has read all the announcements in the UI.</li>
+   * <li>{@code ai_assistant_personality_id} (Long): AI Assistant Personality ID assigned directly to this user, if any.</li>
+   * <li>{@code allowed_ips} (String): A list of allowed IPs if applicable.  Newline delimited</li>
+   * <li>{@code attachments_permission} (Boolean): DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.</li>
+   * <li>{@code authenticate_until} (String): Scheduled Date/Time at which user will be deactivated</li>
+   * <li>{@code authentication_method} (String): How is this user authenticated?</li>
+   * <li>{@code billing_permission} (Boolean): Allow this user to perform operations on the account, payments, and invoices?</li>
+   * <li>{@code bypass_user_lifecycle_rules} (Boolean): Exempt this user from user lifecycle rules?</li>
+   * <li>{@code bypass_site_allowed_ips} (Boolean): Allow this user to skip site-wide IP blacklists?</li>
+   * <li>{@code dav_permission} (Boolean): Can the user connect with WebDAV?</li>
+   * <li>{@code desktop_configuration_profile_id} (Long): Desktop Configuration Profile ID assigned directly to this user, if any.</li>
+   * <li>{@code default_workspace_id} (Long): Workspace ID the user should land in by default when more than one Workspace is available.</li>
+   * <li>{@code disabled} (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.</li>
+   * <li>{@code filesystem_layout} (String): File system layout</li>
+   * <li>{@code ftp_permission} (Boolean): Can the user access with FTP/FTPS?</li>
+   * <li>{@code header_text} (String): Text to display to the user in the header of the UI</li>
+   * <li>{@code integration_centric_profile_id} (Long): Integration Centric Profile ID assigned directly to this user, if any.</li>
+   * <li>{@code language} (String): Preferred language</li>
+   * <li>{@code notification_daily_send_time} (Long): Hour of the day at which daily notifications should be sent. Can be in range 0 to 23</li>
+   * <li>{@code name} (String): User's full name</li>
+   * <li>{@code company} (String): User's company</li>
+   * <li>{@code notes} (String): Any internal notes on the user</li>
+   * <li>{@code office_integration_enabled} (Boolean): Enable integration with Office for the web?</li>
+   * <li>{@code partner_admin} (Boolean): Is this user a Partner administrator?</li>
+   * <li>{@code partner_id} (Long): Partner ID if this user belongs to a Partner</li>
+   * <li>{@code password_validity_days} (Long): Number of days to allow user to use the same password</li>
+   * <li>{@code primary_group_id} (Long): Primary group ID for Group Admin scoping</li>
+   * <li>{@code readonly_site_admin} (Boolean): Is the user an allowed to view all (non-billing) site configuration for this site?</li>
+   * <li>{@code receive_admin_alerts} (Boolean): Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.</li>
+   * <li>{@code notify_on_all_site_warnings} (Boolean): Should the user receive site warnings via email?</li>
+   * <li>{@code notify_on_all_sso_failures} (Boolean): Should the user receive sso/scim/ldap configuration/sync failures via email?</li>
+   * <li>{@code notify_on_all_user_security_events} (Boolean): Should the user receive user security events via email?</li>
+   * <li>{@code notify_on_all_pending_work_failures} (Boolean): Should the user receive pending work failures via email?</li>
+   * <li>{@code notify_on_all_siem_http_destination_failures} (Boolean): Should the user receive siem failures via email?</li>
+   * <li>{@code notify_on_all_sync_failures} (Boolean): Should the user receive sync failures via email?</li>
+   * <li>{@code notify_on_all_automation_failures} (Boolean): Should the user receive automation failures via email?</li>
+   * <li>{@code notify_on_all_expectation_failures} (Boolean): Should the user receive expectation failures and misses via email?</li>
+   * <li>{@code require_login_by} (String): Require user to login by specified date otherwise it will be disabled.</li>
+   * <li>{@code require_password_change} (Boolean): Is a password change required upon next user login?</li>
+   * <li>{@code responsible_group_id} (Long): ID of the internal Group responsible for this Partner User, overriding the Partner default.</li>
+   * <li>{@code responsible_user_id} (Long): ID of the internal User responsible for this Partner User, overriding the Partner default.</li>
+   * <li>{@code restapi_permission} (Boolean): Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)</li>
+   * <li>{@code s3_compatible_endpoint_permission} (Boolean): Can the user access the S3-compatible endpoint? Defaults to true.</li>
+   * <li>{@code self_managed} (Boolean): Does this user manage it's own credentials or is it a shared/bot user?</li>
+   * <li>{@code sftp_permission} (Boolean): Can the user access with SFTP?</li>
+   * <li>{@code site_admin} (Boolean): Is the user an administrator for this site?</li>
+   * <li>{@code skip_welcome_screen} (Boolean): Skip Welcome page in the UI?</li>
+   * <li>{@code ssl_required} (String): SSL required setting</li>
+   * <li>{@code sso_strategy_id} (Long): SSO (Single Sign On) strategy ID for the user, if applicable.</li>
+   * <li>{@code subscribe_to_newsletter} (Boolean): Is the user subscribed to the newsletter?</li>
+   * <li>{@code require_2fa} (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.</li>
+   * <li>{@code tags} (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.</li>
+   * <li>{@code time_zone} (String): User time zone</li>
+   * <li>{@code user_root} (String): If filesystem layout is user_root, this path is the root path the user is fixed to for all interfaces. If the filesystem layout is site_root or partner_root, this acts as a root folder only for FTP and SFTP (SFTP applicability also requires a site-wide setting to be set). For partner_root layout, this path is relative to the Partner root folder for all callers and blank opts out of an additional protocol root. In this situation, this path is not applied to the API, Desktop, or Web interface.</li>
+   * <li>{@code user_home} (String): Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.</li>
+   * <li>{@code workspace_admin} (Boolean): Whether the user is an administrator of their own Custom Workspace. Does not reflect administration granted through Permissions.</li>
+   * <li>{@code username} (String): User's username</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. Only Site Administrators can change this field. Values supplied by Workspace Administrators, Group Administrators, or other non-Site Administrators using `/user` are ignored.</li>
+   * <li>{@code clear_2fa} (Boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.</li>
+   * <li>{@code convert_to_partner_user} (Boolean): Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.</li>
+   * </ul>
+   *
+   * @param id User ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code User}
+   */
   public User update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -1039,21 +1192,43 @@ public final class UserOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   new_owner_id - int64 - Provide a User ID here to transfer ownership of certain resources such as Automations and Share Links (Bundles) to that new user.
+   * Delete User
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete User
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete User
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete User
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code new_owner_id} (Long): Provide a User ID here to transfer ownership of certain resources such as Automations and Share Links (Bundles) to that new user.</li>
+   * </ul>
+   *
+   * @param id User ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -1078,10 +1253,20 @@ public final class UserOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete User
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete User
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

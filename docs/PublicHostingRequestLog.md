@@ -35,12 +35,9 @@
 
 ## List Public Hosting Request Logs
 
-```
-ListIterator<PublicHostingRequestLog> publicHostingRequestLog = PublicHostingRequestLog.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<PublicHostingRequestLog> publicHostingRequestLogs = PublicHostingRequestLog.list(parameters, null);
 ```
 
 ### Parameters

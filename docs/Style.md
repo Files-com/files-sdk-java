@@ -27,12 +27,9 @@
 
 ## Show Style
 
-```
-Style style = Style.find(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Style style = Style.find("path", parameters, null);
 ```
 
 ### Parameters
@@ -44,49 +41,10 @@ Style style = Style.find(
 
 ## Update Style
 
-```
-Style style = Style.update(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `path` (String): Required - Style path.
-* `file` (byte[] or Attachment): Logo for custom branding. Required when creating a new style.
-* `logo_click_href` (String): URL to open when a public visitor clicks the logo.
-
-
----
-
-## Delete Style
-
-```
-void style = Style.delete(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `path` (String): Required - Style path.
-
-
----
-
-## Update Style
-
-```
-Style style = Style.find(path);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("logo_click_href", "https://www.example.com");
-
-style.update(parameters);
+Style style = Style.update("path", parameters, null);
 ```
 
 ### Parameters
@@ -100,11 +58,41 @@ style.update(parameters);
 
 ## Delete Style
 
-```
-Style style = Style.find(path);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
+Style.delete("path", parameters, null);
+```
 
+### Parameters
+
+* `path` (String): Required - Style path.
+
+
+---
+
+## Update Style
+
+```java
+Style style = Style.find("path", null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("logo_click_href", "https://www.example.com");
+Style result = style.update(parameters);
+```
+
+### Parameters
+
+* `path` (String): Required - Style path.
+* `file` (byte[] or Attachment): Logo for custom branding. Required when creating a new style.
+* `logo_click_href` (String): URL to open when a public visitor clicks the logo.
+
+
+---
+
+## Delete Style
+
+```java
+Style style = Style.find("path", null, null);
+HashMap<String, Object> parameters = new HashMap<>();
 style.delete(parameters);
 ```
 

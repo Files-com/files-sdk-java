@@ -91,7 +91,7 @@
 * `provision_readonly_site_admin_groups` / `provisionReadonlySiteAdminGroups`  (string): Comma-separated list of group names whose members will be created as Read-Only Site Admins.
 * `provision_site_admin_groups` / `provisionSiteAdminGroups`  (string): Comma-separated list of group names whose members will be created as Site Admins.
 * `provision_group_admin_groups` / `provisionGroupAdminGroups`  (string): Comma-separated list of group names whose members will be provisioned as Group Admins.
-* `provision_attachments_permission` / `provisionAttachmentsPermission`  (boolean): 
+* `provision_attachments_permission` / `provisionAttachmentsPermission`  (boolean): Deprecated default for the attachments_permission value on auto-provisioned users.
 * `provision_dav_permission` / `provisionDavPermission`  (boolean): Auto-provisioned users get WebDAV permission?
 * `provision_ftp_permission` / `provisionFtpPermission`  (boolean): Auto-provisioned users get FTP permission?
 * `provision_sftp_permission` / `provisionSftpPermission`  (boolean): Auto-provisioned users get SFTP permission?
@@ -119,12 +119,9 @@
 
 ## List SSO Strategies
 
-```
-ListIterator<SsoStrategy> ssoStrategy = SsoStrategy.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<SsoStrategy> ssoStrategies = SsoStrategy.list(parameters, null);
 ```
 
 ### Parameters
@@ -138,45 +135,37 @@ ListIterator<SsoStrategy> ssoStrategy = SsoStrategy.list(
 
 ## Show SSO Strategy
 
-```
-SsoStrategy ssoStrategy = SsoStrategy.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Sso Strategy ID.
-
-
----
-
-## Synchronize provisioning data with the SSO remote server
-
-```
-void ssoStrategy = SsoStrategy.sync(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Sso Strategy ID.
-
-
----
-
-## Synchronize provisioning data with the SSO remote server
-
-```
-SsoStrategy ssoStrategy = SsoStrategy.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
+SsoStrategy ssoStrategy = SsoStrategy.find(1L, parameters, null);
+```
 
+### Parameters
+
+* `id` (Long): Required - Sso Strategy ID.
+
+
+---
+
+## Synchronize provisioning data with the SSO remote server
+
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+SsoStrategy.sync(1L, parameters, null);
+```
+
+### Parameters
+
+* `id` (Long): Required - Sso Strategy ID.
+
+
+---
+
+## Synchronize provisioning data with the SSO remote server
+
+```java
+SsoStrategy ssoStrategy = SsoStrategy.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
 ssoStrategy.sync(parameters);
 ```
 

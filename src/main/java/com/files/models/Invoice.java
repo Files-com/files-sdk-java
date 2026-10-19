@@ -36,6 +36,11 @@ public class Invoice implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -59,14 +64,29 @@ public class Invoice implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code Invoice} with no attributes set.
+   */
   public Invoice() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code Invoice} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public Invoice(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code Invoice} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public Invoice(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -84,6 +104,11 @@ public class Invoice implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -95,6 +120,11 @@ public class Invoice implements ModelInterface {
   @JsonProperty("amount")
   public BigDecimal amount;
 
+  /**
+   * Gets {@link #amount}.
+   *
+   * @return the value of {@link #amount}
+   */
   public BigDecimal getAmount() {
     return amount;
   }
@@ -106,6 +136,11 @@ public class Invoice implements ModelInterface {
   @JsonProperty("balance")
   public BigDecimal balance;
 
+  /**
+   * Gets {@link #balance}.
+   *
+   * @return the value of {@link #balance}
+   */
   public BigDecimal getBalance() {
     return balance;
   }
@@ -116,6 +151,11 @@ public class Invoice implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -126,6 +166,11 @@ public class Invoice implements ModelInterface {
   @JsonProperty("currency")
   public String currency;
 
+  /**
+   * Gets {@link #currency}.
+   *
+   * @return the value of {@link #currency}
+   */
   public String getCurrency() {
     return currency;
   }
@@ -136,6 +181,11 @@ public class Invoice implements ModelInterface {
   @JsonProperty("download_uri")
   public String downloadUri;
 
+  /**
+   * Gets {@link #downloadUri}.
+   *
+   * @return the value of {@link #downloadUri}
+   */
   public String getDownloadUri() {
     return downloadUri;
   }
@@ -146,6 +196,11 @@ public class Invoice implements ModelInterface {
   @JsonProperty("invoice_line_items")
   public InvoiceLineItem[] invoiceLineItems;
 
+  /**
+   * Gets {@link #invoiceLineItems}.
+   *
+   * @return the value of {@link #invoiceLineItems}
+   */
   public InvoiceLineItem[] getInvoiceLineItems() {
     return invoiceLineItems;
   }
@@ -156,6 +211,11 @@ public class Invoice implements ModelInterface {
   @JsonProperty("method")
   public String method;
 
+  /**
+   * Gets {@link #method}.
+   *
+   * @return the value of {@link #method}
+   */
   public String getMethod() {
     return method;
   }
@@ -166,6 +226,11 @@ public class Invoice implements ModelInterface {
   @JsonProperty("payment_line_items")
   public PaymentLineItem[] paymentLineItems;
 
+  /**
+   * Gets {@link #paymentLineItems}.
+   *
+   * @return the value of {@link #paymentLineItems}
+   */
   public PaymentLineItem[] getPaymentLineItems() {
     return paymentLineItems;
   }
@@ -176,6 +241,11 @@ public class Invoice implements ModelInterface {
   @JsonProperty("payment_reversed_at")
   public Date paymentReversedAt;
 
+  /**
+   * Gets {@link #paymentReversedAt}.
+   *
+   * @return the value of {@link #paymentReversedAt}
+   */
   public Date getPaymentReversedAt() {
     return paymentReversedAt;
   }
@@ -186,6 +256,11 @@ public class Invoice implements ModelInterface {
   @JsonProperty("payment_type")
   public String paymentType;
 
+  /**
+   * Gets {@link #paymentType}.
+   *
+   * @return the value of {@link #paymentType}
+   */
   public String getPaymentType() {
     return paymentType;
   }
@@ -196,6 +271,11 @@ public class Invoice implements ModelInterface {
   @JsonProperty("site_name")
   public String siteName;
 
+  /**
+   * Gets {@link #siteName}.
+   *
+   * @return the value of {@link #siteName}
+   */
   public String getSiteName() {
     return siteName;
   }
@@ -206,61 +286,122 @@ public class Invoice implements ModelInterface {
   @JsonProperty("type")
   public String type;
 
+  /**
+   * Gets {@link #type}.
+   *
+   * @return the value of {@link #type}
+   */
   public String getType() {
     return type;
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   * List Invoices
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<AccountLineItem> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Invoices
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<AccountLineItem> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Invoices
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AccountLineItem} records, in a {@code ListIterator}
+   */
   public static ListIterator<AccountLineItem> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().invoices().list(parameters, options);
   }
 
+  /**
+   * List Invoices
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<AccountLineItem> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Invoices
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<AccountLineItem> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Invoice ID.
+   * Show Invoice
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static AccountLineItem find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Invoice
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static AccountLineItem find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Invoice
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static AccountLineItem find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Invoice
+   *
+   * @param id Invoice ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AccountLineItem}
+   */
   public static AccountLineItem find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().invoices().find(id, parameters, options);
   }
 
+  /**
+   * Show Invoice
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static AccountLineItem get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Invoice
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static AccountLineItem get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }

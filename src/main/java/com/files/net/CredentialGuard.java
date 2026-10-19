@@ -1,9 +1,13 @@
 package com.files.net;
 
+import com.files.util.UrlUtils;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.UnknownHostException;
+import java.time.Instant;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import javax.net.ssl.SSLSession;
@@ -45,18 +49,35 @@ final class CredentialGuard {
 
   // Requests sent on this thread until the result is closed may carry credentials to apiRoot.
   static Exchange forApi(URI apiRoot) {
-    return new Exchange(apiRoot);
+    return new Exchange(apiRoot, null, null);
   }
 
   // Requests sent on this thread until the result is closed carry no credentials.
   static Exchange forStorage() {
-    return new Exchange(null);
+    return new Exchange(null, null, null);
+  }
+
+  // As forStorage, for a request to a signed storage URL known to expire at expiresAt, or null when
+  // that is not known. A request head about to be written for url itself once that time has come is
+  // refused with ExpiredUrl: after any wait for a connection, and before any of it is written. A head
+  // for another URL, such as one a redirect leads to, is refused the same way once the expiry that URL
+  // states itself has come, whether or not url's own has.
+  static Exchange forStorage(URI url, Instant expiresAt) {
+    return new Exchange(null, url, expiresAt);
   }
 
   // Removes the credentials from a request head about to be written to a connection to target,
-  // unless the current exchange allows them there.
+  // unless the current exchange allows them there. Refuses it instead when it is for a signed URL
+  // that has expired (forStorage). The refusal only throws: the connection held now is given up as
+  // the request fails, and the transfer renews the URL once it holds none.
   static void beforeSend(HttpRequest request, HttpHost target) {
     Exchange exchange = CURRENT.get();
+    if (exchange != null && exchange.url != null) {
+      Instant expiresAt = expiresAt(exchange, request, target);
+      if (expiresAt != null && !Instant.now().isBefore(expiresAt)) {
+        throw new ExpiredUrl(exchange.mayHaveSent);
+      }
+    }
     if (exchange != null && exchange.apiRoot != null && !sameOrigin(exchange.apiRoot, target)) {
       exchange.left = true;
     }
@@ -67,13 +88,85 @@ final class CredentialGuard {
     }
   }
 
+  // When the URL a request head about to be written to target is for stops being usable: the
+  // exchange's own expiry when the head is for the exchange's URL itself; otherwise, as after a
+  // redirect to another URL, the expiry that URL states itself, or null when it states none. The
+  // request line is read as written, never rewritten.
+  private static Instant expiresAt(Exchange exchange, HttpRequest request, HttpHost target) {
+    String requestTarget = request.getRequestLine().getUri();
+    if (requestTarget == null) {
+      return null;
+    }
+    if (isExchangeUrl(exchange, requestTarget, target)) {
+      return exchange.expiresAt;
+    }
+    return UrlUtils.expiresAt(requestTarget);
+  }
+
+  // Whether a request head with requestTarget, written to target, is for the exchange's URL: the same
+  // origin, and the same path and query, compared as written, whether the request line holds them
+  // alone (origin form) or after the scheme and authority (absolute form, as to a proxy).
+  private static boolean isExchangeUrl(Exchange exchange, String requestTarget, HttpHost target) {
+    if (!sameOrigin(exchange.url, target)) {
+      return false;
+    }
+    if (requestTarget.startsWith("/")) {
+      return requestTarget.equals(exchange.requestTarget);
+    }
+    URI absolute;
+    try {
+      absolute = new URI(requestTarget);
+    } catch (URISyntaxException e) {
+      return false;
+    }
+    return absolute.isAbsolute() && sameOrigin(absolute, target) && requestTarget(absolute).equals(exchange.requestTarget);
+  }
+
+  // The request target, in origin form, of a request for url: its path and query exactly as written,
+  // and / for an empty path.
+  private static String requestTarget(URI url) {
+    String path = url.getRawPath() == null || url.getRawPath().isEmpty() ? "/" : url.getRawPath();
+    return url.getRawQuery() == null ? path : path + "?" + url.getRawQuery();
+  }
+
+  // Whether target has apiRoot's origin: its scheme, host and port, a port left out being its
+  // scheme's default. The SDK's one origin rule, for credentials here and for where a region mismatch
+  // may come from (ClientRuntime). An IPv6 address is the same host however it is written.
   static boolean sameOrigin(URI apiRoot, HttpHost target) {
     return target != null
         && apiRoot.getScheme() != null
         && apiRoot.getHost() != null
         && apiRoot.getScheme().equalsIgnoreCase(target.getSchemeName())
-        && apiRoot.getHost().equalsIgnoreCase(target.getHostName())
+        && sameHost(apiRoot.getHost(), target.getHostName())
         && effectivePort(apiRoot.getScheme(), apiRoot.getPort()) == effectivePort(target.getSchemeName(), target.getPort());
+  }
+
+  // Whether two hosts are the same: the same name, ignoring case, or the same IPv6 address, each with
+  // or without brackets and written in any of its forms, such as [::1] and [0:0:0:0:0:0:0:1]. Only
+  // addresses are compared, never names: InetAddress.getByName reads an address in brackets without
+  // looking anything up, and fails for anything else in brackets. An address with a zone, such as
+  // fe80::1%eth0, must be written the same way.
+  private static boolean sameHost(String first, String second) {
+    if (first == null || second == null) {
+      return false;
+    }
+    String a = withoutBrackets(first);
+    String b = withoutBrackets(second);
+    if (a.equalsIgnoreCase(b)) {
+      return true;
+    }
+    if (!a.contains(":") || !b.contains(":") || a.contains("%") || b.contains("%")) {
+      return false;
+    }
+    try {
+      return InetAddress.getByName("[" + a + "]").equals(InetAddress.getByName("[" + b + "]"));
+    } catch (UnknownHostException e) {
+      return false;
+    }
+  }
+
+  private static String withoutBrackets(String host) {
+    return host.length() > 1 && host.startsWith("[") && host.endsWith("]") ? host.substring(1, host.length() - 1) : host;
   }
 
   private static int effectivePort(String scheme, int port) {
@@ -86,11 +179,24 @@ final class CredentialGuard {
   // Where the credentials of the requests on this thread may go, from creation until closed.
   static final class Exchange implements AutoCloseable {
     private final URI apiRoot;
+    // A signed storage URL and when it is known to expire, or null; requests for that URL itself are
+    // refused from then on, and requests for any other, after a redirect, once the expiry it states
+    // has come (beforeSend). requestTarget is the URL's path and query as a request line holds them.
+    private final URI url;
+    private final Instant expiresAt;
+    private final String requestTarget;
     private final Exchange previous;
     private boolean left;
+    // Whether a request head of the exchange may have been written: set before each is handed to a
+    // connection, and never cleared, so a refusal after a redirect is not taken as nothing sent.
+    private boolean mayHaveSent;
 
-    private Exchange(URI apiRoot) {
+    private Exchange(URI apiRoot, URI url, Instant expiresAt) {
       this.apiRoot = apiRoot;
+      this.url = url;
+      this.expiresAt = expiresAt;
+      // As a request line carries it: in ASCII, its other characters percent-encoded.
+      this.requestTarget = url != null ? CredentialGuard.requestTarget(URI.create(url.toASCIIString())) : null;
       this.previous = CURRENT.get();
       CURRENT.set(this);
     }
@@ -102,6 +208,31 @@ final class CredentialGuard {
       } else {
         CURRENT.set(previous);
       }
+    }
+  }
+
+  // Records that a request head of the current exchange is about to be written.
+  private static void writing() {
+    Exchange exchange = CURRENT.get();
+    if (exchange != null) {
+      exchange.mayHaveSent = true;
+    }
+  }
+
+  // A request to a signed storage URL refused as its head was about to be written, because the URL
+  // had expired by then, such as while the request waited for a connection from the pool. It passes
+  // through the HTTP client, which gives up the connection, to the transfer that sent the request,
+  // which renews the URL once it holds no connection or slot. mayHaveSent tells whether an earlier
+  // head of the same exchange, such as one before a redirect, may have been written; otherwise
+  // nothing of the request was.
+  static final class ExpiredUrl extends RuntimeException {
+    private static final long serialVersionUID = 1L;
+
+    final boolean mayHaveSent;
+
+    ExpiredUrl(boolean mayHaveSent) {
+      super("The storage URL expired before its request could be sent", null, false, false);
+      this.mayHaveSent = mayHaveSent;
     }
   }
 
@@ -188,6 +319,7 @@ final class CredentialGuard {
     @Override
     public void sendRequestHeader(HttpRequest request) throws HttpException, IOException {
       beforeSend(request, target);
+      writing();
       connection.sendRequestHeader(request);
     }
 

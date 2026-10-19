@@ -45,12 +45,9 @@
 
 ## List Automation Logs
 
-```
-ListIterator<AutomationLog> automationLog = AutomationLog.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<AutomationLog> automationLogs = AutomationLog.list(parameters, null);
 ```
 
 ### Parameters

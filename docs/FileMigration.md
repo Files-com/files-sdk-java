@@ -22,7 +22,7 @@
 * `dest_path` / `destPath`  (string): Destination path
 * `failure_message` / `failureMessage`  (string): Reason for the failure, if applicable.
 * `files_moved` / `filesMoved`  (int64): Number of files processed
-* `files_total` / `filesTotal`  (int64): 
+* `files_total` / `filesTotal`  (int64): Deprecated total file count for a regional migration; other migration types return zero.
 * `operation` / `operation`  (string): The type of operation
 * `region` / `region`  (string): Region
 * `status` / `status`  (string): Status
@@ -33,12 +33,9 @@
 
 ## Show File Migration
 
-```
-FileMigration fileMigration = FileMigration.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+FileMigration fileMigration = FileMigration.find(1L, parameters, null);
 ```
 
 ### Parameters

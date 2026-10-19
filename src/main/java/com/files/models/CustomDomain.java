@@ -37,6 +37,11 @@ public class CustomDomain implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -60,14 +65,29 @@ public class CustomDomain implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code CustomDomain} with no attributes set.
+   */
   public CustomDomain() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code CustomDomain} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public CustomDomain(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code CustomDomain} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public CustomDomain(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -85,10 +105,20 @@ public class CustomDomain implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -99,10 +129,20 @@ public class CustomDomain implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
 
+  /**
+   * Sets {@link #workspaceId}.
+   *
+   * @param workspaceId the new value
+   */
   public void setWorkspaceId(Long workspaceId) {
     this.workspaceId = workspaceId;
   }
@@ -113,10 +153,20 @@ public class CustomDomain implements ModelInterface {
   @JsonProperty("available_to_all_workspaces")
   public Boolean availableToAllWorkspaces;
 
+  /**
+   * Gets {@link #availableToAllWorkspaces}.
+   *
+   * @return the value of {@link #availableToAllWorkspaces}
+   */
   public Boolean getAvailableToAllWorkspaces() {
     return availableToAllWorkspaces;
   }
 
+  /**
+   * Sets {@link #availableToAllWorkspaces}.
+   *
+   * @param availableToAllWorkspaces the new value
+   */
   public void setAvailableToAllWorkspaces(Boolean availableToAllWorkspaces) {
     this.availableToAllWorkspaces = availableToAllWorkspaces;
   }
@@ -127,10 +177,20 @@ public class CustomDomain implements ModelInterface {
   @JsonProperty("outbound_ip_addresses")
   public String[] outboundIpAddresses;
 
+  /**
+   * Gets {@link #outboundIpAddresses}.
+   *
+   * @return the value of {@link #outboundIpAddresses}
+   */
   public String[] getOutboundIpAddresses() {
     return outboundIpAddresses;
   }
 
+  /**
+   * Sets {@link #outboundIpAddresses}.
+   *
+   * @param outboundIpAddresses the new value
+   */
   public void setOutboundIpAddresses(String[] outboundIpAddresses) {
     this.outboundIpAddresses = outboundIpAddresses;
   }
@@ -141,10 +201,20 @@ public class CustomDomain implements ModelInterface {
   @JsonProperty("domain")
   public String domain;
 
+  /**
+   * Gets {@link #domain}.
+   *
+   * @return the value of {@link #domain}
+   */
   public String getDomain() {
     return domain;
   }
 
+  /**
+   * Sets {@link #domain}.
+   *
+   * @param domain the new value
+   */
   public void setDomain(String domain) {
     this.domain = domain;
   }
@@ -155,10 +225,20 @@ public class CustomDomain implements ModelInterface {
   @JsonProperty("destination")
   public String destination;
 
+  /**
+   * Gets {@link #destination}.
+   *
+   * @return the value of {@link #destination}
+   */
   public String getDestination() {
     return destination;
   }
 
+  /**
+   * Sets {@link #destination}.
+   *
+   * @param destination the new value
+   */
   public void setDestination(String destination) {
     this.destination = destination;
   }
@@ -169,10 +249,20 @@ public class CustomDomain implements ModelInterface {
   @JsonProperty("dns_status")
   public String dnsStatus;
 
+  /**
+   * Gets {@link #dnsStatus}.
+   *
+   * @return the value of {@link #dnsStatus}
+   */
   public String getDnsStatus() {
     return dnsStatus;
   }
 
+  /**
+   * Sets {@link #dnsStatus}.
+   *
+   * @param dnsStatus the new value
+   */
   public void setDnsStatus(String dnsStatus) {
     this.dnsStatus = dnsStatus;
   }
@@ -183,10 +273,20 @@ public class CustomDomain implements ModelInterface {
   @JsonProperty("ssl_certificate_id")
   public Long sslCertificateId;
 
+  /**
+   * Gets {@link #sslCertificateId}.
+   *
+   * @return the value of {@link #sslCertificateId}
+   */
   public Long getSslCertificateId() {
     return sslCertificateId;
   }
 
+  /**
+   * Sets {@link #sslCertificateId}.
+   *
+   * @param sslCertificateId the new value
+   */
   public void setSslCertificateId(Long sslCertificateId) {
     this.sslCertificateId = sslCertificateId;
   }
@@ -197,10 +297,20 @@ public class CustomDomain implements ModelInterface {
   @JsonProperty("brick_managed")
   public Boolean brickManaged;
 
+  /**
+   * Gets {@link #brickManaged}.
+   *
+   * @return the value of {@link #brickManaged}
+   */
   public Boolean getBrickManaged() {
     return brickManaged;
   }
 
+  /**
+   * Sets {@link #brickManaged}.
+   *
+   * @param brickManaged the new value
+   */
   public void setBrickManaged(Boolean brickManaged) {
     this.brickManaged = brickManaged;
   }
@@ -211,10 +321,20 @@ public class CustomDomain implements ModelInterface {
   @JsonProperty("folder_behavior_id")
   public Long folderBehaviorId;
 
+  /**
+   * Gets {@link #folderBehaviorId}.
+   *
+   * @return the value of {@link #folderBehaviorId}
+   */
   public Long getFolderBehaviorId() {
     return folderBehaviorId;
   }
 
+  /**
+   * Sets {@link #folderBehaviorId}.
+   *
+   * @param folderBehaviorId the new value
+   */
   public void setFolderBehaviorId(Long folderBehaviorId) {
     this.folderBehaviorId = folderBehaviorId;
   }
@@ -225,10 +345,20 @@ public class CustomDomain implements ModelInterface {
   @JsonProperty("ip_addresses")
   public String[] ipAddresses;
 
+  /**
+   * Gets {@link #ipAddresses}.
+   *
+   * @return the value of {@link #ipAddresses}
+   */
   public String[] getIpAddresses() {
     return ipAddresses;
   }
 
+  /**
+   * Sets {@link #ipAddresses}.
+   *
+   * @param ipAddresses the new value
+   */
   public void setIpAddresses(String[] ipAddresses) {
     this.ipAddresses = ipAddresses;
   }
@@ -239,6 +369,11 @@ public class CustomDomain implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -249,19 +384,30 @@ public class CustomDomain implements ModelInterface {
   @JsonProperty("updated_at")
   public Date updatedAt;
 
+  /**
+   * Gets {@link #updatedAt}.
+   *
+   * @return the value of {@link #updatedAt}
+   */
   public Date getUpdatedAt() {
     return updatedAt;
   }
 
   /**
    * Updates this CustomDomain. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   available_to_all_workspaces - boolean - Allow all workspaces to use this default-workspace Custom Domain.
-   *   workspace_id - int64 - Workspace ID (0 for the default workspace).
-   *   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
-   *   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
-   *   ssl_certificate_id - int64 - Current SSL certificate ID.
-   *   domain - string - Customer-owned domain name.
+   * <p>Update Custom Domain
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code available_to_all_workspaces} (Boolean): Allow all workspaces to use this default-workspace Custom Domain.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID (0 for the default workspace).</li>
+   * <li>{@code destination} (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.</li>
+   * <li>{@code folder_behavior_id} (Long): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.</li>
+   * <li>{@code ssl_certificate_id} (Long): Current SSL certificate ID.</li>
+   * <li>{@code domain} (String): Customer-owned domain name.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code CustomDomain}
    */
   public CustomDomain update(HashMap<String, Object> parameters) throws IOException {
     CustomDomain updated = filesClient().customDomains().update(this.id, parameters, this.options);
@@ -270,11 +416,19 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
+   * Delete Custom Domain
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().customDomains().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Custom Domain
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -319,154 +473,302 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `id` or `available_to_all_workspaces`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
+   * List Custom Domains
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<CustomDomain> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Custom Domains
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<CustomDomain> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Custom Domains
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `id` or `available_to_all_workspaces`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code CustomDomain} records, in a {@code ListIterator}
+   */
   public static ListIterator<CustomDomain> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().customDomains().list(parameters, options);
   }
 
+  /**
+   * List Custom Domains
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<CustomDomain> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Custom Domains
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<CustomDomain> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Custom Domain ID.
+   * Show Custom Domain
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static CustomDomain find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Custom Domain
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static CustomDomain find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Custom Domain
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static CustomDomain find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Custom Domain
+   *
+   * @param id Custom Domain ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code CustomDomain}
+   */
   public static CustomDomain find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().customDomains().find(id, parameters, options);
   }
 
+  /**
+   * Show Custom Domain
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static CustomDomain get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Custom Domain
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static CustomDomain get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Custom Domain ID.
-   *   count (required) - int64 - Number of dedicated IP addresses to allocate.
+   * Allocate dedicated IP addresses to this Custom Domain
+   *
+   * @see #createAllocateIp(Long, HashMap, HashMap)
    */
   public static CustomDomain createAllocateIp() throws RuntimeException {
     return createAllocateIp(null, null, null);
   }
 
+  /**
+   * Allocate dedicated IP addresses to this Custom Domain
+   *
+   * @see #createAllocateIp(Long, HashMap, HashMap)
+   */
   public static CustomDomain createAllocateIp(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return createAllocateIp(id, parameters, null);
   }
 
+  /**
+   * Allocate dedicated IP addresses to this Custom Domain
+   *
+   * @see #createAllocateIp(Long, HashMap, HashMap)
+   */
   public static CustomDomain createAllocateIp(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return createAllocateIp(null, parameters, options);
   }
 
+  /**
+   * Allocate dedicated IP addresses to this Custom Domain
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code count} (Long): Required. Number of dedicated IP addresses to allocate.</li>
+   * </ul>
+   *
+   * @param id Custom Domain ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code CustomDomain}
+   */
   public static CustomDomain createAllocateIp(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().customDomains().createAllocateIp(id, parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   available_to_all_workspaces - boolean - Allow all workspaces to use this default-workspace Custom Domain.
-   *   workspace_id - int64 - Workspace ID (0 for the default workspace).
-   *   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
-   *   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
-   *   ssl_certificate_id - int64 - Current SSL certificate ID.
-   *   domain (required) - string - Customer-owned domain name.
+   * Create Custom Domain
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static CustomDomain create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Custom Domain
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static CustomDomain create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Custom Domain
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code available_to_all_workspaces} (Boolean): Allow all workspaces to use this default-workspace Custom Domain.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID (0 for the default workspace).</li>
+   * <li>{@code destination} (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.</li>
+   * <li>{@code folder_behavior_id} (Long): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.</li>
+   * <li>{@code ssl_certificate_id} (Long): Current SSL certificate ID.</li>
+   * <li>{@code domain} (String): Required. Customer-owned domain name.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code CustomDomain}
+   */
   public static CustomDomain create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().customDomains().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   available_to_all_workspaces - boolean - Allow all workspaces to use this default-workspace Custom Domain.
-   *   workspace_id - int64 - Workspace ID (0 for the default workspace).
-   *   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
-   *   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
-   *   ssl_certificate_id - int64 - Current SSL certificate ID.
-   *   domain - string - Customer-owned domain name.
+   * Update Custom Domain
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static CustomDomain update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Custom Domain
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static CustomDomain update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Custom Domain
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static CustomDomain update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Custom Domain
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code available_to_all_workspaces} (Boolean): Allow all workspaces to use this default-workspace Custom Domain.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID (0 for the default workspace).</li>
+   * <li>{@code destination} (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.</li>
+   * <li>{@code folder_behavior_id} (Long): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.</li>
+   * <li>{@code ssl_certificate_id} (Long): Current SSL certificate ID.</li>
+   * <li>{@code domain} (String): Customer-owned domain name.</li>
+   * </ul>
+   *
+   * @param id Custom Domain ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code CustomDomain}
+   */
   public static CustomDomain update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().customDomains().update(id, parameters, options);
   }
 
 
   /**
+   * Delete Custom Domain
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Custom Domain
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Custom Domain
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Custom Domain
+   *
+   * @param id Custom Domain ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().customDomains().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Custom Domain
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Custom Domain
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

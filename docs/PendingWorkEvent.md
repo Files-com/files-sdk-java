@@ -31,12 +31,9 @@
 
 ## List Pending Work Events
 
-```
-ListIterator<PendingWorkEvent> pendingWorkEvent = PendingWorkEvent.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<PendingWorkEvent> pendingWorkEvents = PendingWorkEvent.list(parameters, null);
 ```
 
 ### Parameters
@@ -55,12 +52,9 @@ ListIterator<PendingWorkEvent> pendingWorkEvent = PendingWorkEvent.list(
 
 ## Show Pending Work Event
 
-```
-PendingWorkEvent pendingWorkEvent = PendingWorkEvent.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+PendingWorkEvent pendingWorkEvent = PendingWorkEvent.find(1L, parameters, null);
 ```
 
 ### Parameters

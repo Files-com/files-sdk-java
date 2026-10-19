@@ -53,12 +53,10 @@
 
 ## List Form Field Sets
 
-```
-ListIterator<FormFieldSet> formFieldSet = FormFieldSet.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+ListIterator<FormFieldSet> formFieldSets = FormFieldSet.list(parameters, null);
 ```
 
 ### Parameters
@@ -72,12 +70,9 @@ ListIterator<FormFieldSet> formFieldSet = FormFieldSet.list(
 
 ## Show Form Field Set
 
-```
-FormFieldSet formFieldSet = FormFieldSet.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+FormFieldSet formFieldSet = FormFieldSet.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -89,12 +84,25 @@ FormFieldSet formFieldSet = FormFieldSet.find(
 
 ## Create Form Field Set
 
-```
-FormFieldSet formFieldSet = FormFieldSet.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("title", "Sample Form Title");
+parameters.put("require_complete_metadata_capture", false);
+parameters.put("workspace_id", 1L);
+parameters.put("skip_email", false);
+parameters.put("skip_name", false);
+parameters.put("skip_company", false);
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("label", "Sample Label");
+map1.put("required", true);
+map1.put("help_text", "Help Text");
+map1.put("field_type", "text");
+map1.put("options_for_select", new Object[] {"red", "green", "blue"});
+map1.put("default_option", "red");
+map1.put("form_field_set_id", 1);
+parameters.put("form_fields", new Object[] {map1});
+FormFieldSet formFieldSet = FormFieldSet.create(parameters, null);
 ```
 
 ### Parameters
@@ -113,12 +121,25 @@ FormFieldSet formFieldSet = FormFieldSet.create(
 
 ## Update Form Field Set
 
-```
-FormFieldSet formFieldSet = FormFieldSet.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("title", "Sample Form Title");
+parameters.put("require_complete_metadata_capture", false);
+parameters.put("workspace_id", 1L);
+parameters.put("skip_email", false);
+parameters.put("skip_name", false);
+parameters.put("skip_company", false);
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("id", 1);
+map1.put("label", "Sample Label");
+map1.put("required", true);
+map1.put("help_text", "Help Text");
+map1.put("field_type", "text");
+map1.put("options_for_select", new Object[] {"red", "green", "blue"});
+map1.put("default_option", "red");
+map1.put("form_field_set_id", 1);
+parameters.put("form_fields", new Object[] {map1});
+FormFieldSet formFieldSet = FormFieldSet.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -137,12 +158,9 @@ FormFieldSet formFieldSet = FormFieldSet.update(
 
 ## Delete Form Field Set
 
-```
-void formFieldSet = FormFieldSet.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+FormFieldSet.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -154,19 +172,26 @@ void formFieldSet = FormFieldSet.delete(
 
 ## Update Form Field Set
 
-```
-FormFieldSet formFieldSet = FormFieldSet.find(id);
-
+```java
+FormFieldSet formFieldSet = FormFieldSet.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("title", "Sample Form Title");
 parameters.put("require_complete_metadata_capture", false);
-parameters.put("workspace_id", 1);
+parameters.put("workspace_id", 1L);
 parameters.put("skip_email", false);
 parameters.put("skip_name", false);
 parameters.put("skip_company", false);
-parameters.put("form_fields", [{"id":1,"label":"Sample Label","required":true,"help_text":"Help Text","field_type":"text","options_for_select":["red","green","blue"],"default_option":"red","form_field_set_id":1}]);
-
-formFieldSet.update(parameters);
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("id", 1);
+map1.put("label", "Sample Label");
+map1.put("required", true);
+map1.put("help_text", "Help Text");
+map1.put("field_type", "text");
+map1.put("options_for_select", new Object[] {"red", "green", "blue"});
+map1.put("default_option", "red");
+map1.put("form_field_set_id", 1);
+parameters.put("form_fields", new Object[] {map1});
+FormFieldSet result = formFieldSet.update(parameters);
 ```
 
 ### Parameters
@@ -185,11 +210,9 @@ formFieldSet.update(parameters);
 
 ## Delete Form Field Set
 
-```
-FormFieldSet formFieldSet = FormFieldSet.find(id);
-
+```java
+FormFieldSet formFieldSet = FormFieldSet.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 formFieldSet.delete(parameters);
 ```
 

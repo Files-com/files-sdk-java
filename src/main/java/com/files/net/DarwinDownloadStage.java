@@ -328,6 +328,44 @@ final class DarwinDownloadStage extends DownloadStage {
     size = Math.max(size, position + count);
   }
 
+  // Through the same native buffer, so one read or write at a time; positional, as writes are.
+  @Override
+  synchronized int readAt(long position, byte[] bytes, int offset, int count) throws IOException {
+    int length = Math.min(BUFFER_BYTES, count);
+    while (true) {
+      long read = Darwin.pread(fileFd, buffer, length, position);
+      if (read < 0) {
+        int error = Darwin.errno();
+        if (error == Darwin.EINTR) {
+          continue;
+        }
+        throw Darwin.exception(directory.resolve(NAME).toString(), error);
+      }
+      if (read == 0) {
+        return -1;
+      }
+      buffer.read(0, bytes, offset, (int) read);
+      return (int) read;
+    }
+  }
+
+  // The descriptor's size, not size: that is only the end of the bytes written whole.
+  @Override
+  synchronized long size() throws IOException {
+    return Darwin.fstat(fileFd).size;
+  }
+
+  @Override
+  synchronized void truncate(long length) throws IOException {
+    if (length >= size()) {
+      return;
+    }
+    if (Darwin.ftruncate(fileFd, length) != 0) {
+      throw Darwin.exception(directory.resolve(NAME).toString(), Darwin.errno());
+    }
+    size = Math.min(size, length);
+  }
+
   // As FileChannel.force(true) does on macOS (Darwin.force).
   @Override
   void force() throws IOException {

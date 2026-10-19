@@ -23,12 +23,10 @@
 
 ## List User SFTP Client Uses
 
-```
-ListIterator<UserSftpClientUse> userSftpClientUse = UserSftpClientUse.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+ListIterator<UserSftpClientUse> userSftpClientUses = UserSftpClientUse.list(parameters, null);
 ```
 
 ### Parameters

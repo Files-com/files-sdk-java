@@ -25,26 +25,43 @@ public final class PermissionOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `group_id`, `path`, `user_id`, `partner_id` or `id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `group_id`, `partner_id` or `user_id`. Valid field combinations are `[ group_id, path ]`, `[ partner_id, path ]`, `[ user_id, path ]`, `[ user_id, group_id ]`, `[ user_id, group_id, path ]`, `[ user_id, group_id, partner_id ]` or `[ user_id, group_id, partner_id, path ]`.
-   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
-   *   path - string - Permission path.  If provided, will scope all permissions(including upward) to this path.
-   *   include_groups - boolean - If searching by user or group, also include user's permissions that are inherited from its groups?
-   *   group_id - string
-   *   partner_id - string
-   *   user_id - string
+   * List Permissions
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<Permission> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Permissions
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Permission> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Permissions
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `group_id`, `path`, `user_id`, `partner_id` or `id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `group_id`, `partner_id` or `user_id`. Valid field combinations are `[ group_id, path ]`, `[ partner_id, path ]`, `[ user_id, path ]`, `[ user_id, group_id ]`, `[ user_id, group_id, path ]`, `[ user_id, group_id, partner_id ]` or `[ user_id, group_id, partner_id, path ]`.</li>
+   * <li>{@code filter_prefix} (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.</li>
+   * <li>{@code path} (String): Permission path.  If provided, will scope all permissions(including upward) to this path.</li>
+   * <li>{@code include_groups} (Boolean): If searching by user or group, also include user's permissions that are inherited from its groups?</li>
+   * <li>{@code group_id} (String): </li>
+   * <li>{@code partner_id} (String): </li>
+   * <li>{@code user_id} (String): </li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Permission} records, in a {@code ListIterator}
+   */
   public ListIterator<Permission> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -94,35 +111,62 @@ public final class PermissionOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Permissions
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Permission> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Permissions
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Permission> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   path (required) - string - Folder path
-   *   group_id - int64 - Group ID. Provide `group_name` or `group_id`
-   *   group_ids - string - Group IDs when the Permission requires membership in every listed group. If sent as a string, it should be comma-delimited.
-   *   permission - string - Permission type.  Can be `admin`, `full`, `readonly`, `writeonly`, `list`, or `history`
-   *   recursive - boolean - Apply to subfolders recursively? Must be true for `admin` Permissions.
-   *   partner_id - int64 - Partner ID if this Permission belongs to a partner.
-   *   user_id - int64 - User ID.  Provide `username` or `user_id`
-   *   username - string - User username.  Provide `username` or `user_id`
-   *   group_name - string - Group name.  Provide `group_name` or `group_id`
-   *   site_id - int64 - Site ID. If not provided, will default to current site. Used when creating a permission for a child site.
+   * Create Permission
+   *
+   * @see #create(HashMap, HashMap)
    */
   public Permission create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Permission
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public Permission create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Permission
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code path} (String): Required. Folder path</li>
+   * <li>{@code group_id} (Long): Group ID. Provide `group_name` or `group_id`</li>
+   * <li>{@code group_ids} (String): Group IDs when the Permission requires membership in every listed group. If sent as a string, it should be comma-delimited.</li>
+   * <li>{@code permission} (String): Permission type.  Can be `admin`, `full`, `readonly`, `writeonly`, `list`, or `history`</li>
+   * <li>{@code recursive} (Boolean): Apply to subfolders recursively? Must be true for `admin` Permissions.</li>
+   * <li>{@code partner_id} (Long): Partner ID if this Permission belongs to a partner.</li>
+   * <li>{@code user_id} (Long): User ID.  Provide `username` or `user_id`</li>
+   * <li>{@code username} (String): User username.  Provide `username` or `user_id`</li>
+   * <li>{@code group_name} (String): Group name.  Provide `group_name` or `group_id`</li>
+   * <li>{@code site_id} (Long): Site ID. If not provided, will default to current site. Used when creating a permission for a child site.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Permission}
+   */
   public Permission create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -177,19 +221,39 @@ public final class PermissionOperations extends ResourceOperations {
   }
 
   /**
+   * Delete Permission
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Permission
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Permission
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Permission
+   *
+   * @param id Permission ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -210,10 +274,20 @@ public final class PermissionOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Permission
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Permission
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

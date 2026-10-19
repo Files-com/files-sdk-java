@@ -35,6 +35,11 @@ public class PaymentLineItem implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class PaymentLineItem implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code PaymentLineItem} with no attributes set.
+   */
   public PaymentLineItem() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code PaymentLineItem} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public PaymentLineItem(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code PaymentLineItem} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public PaymentLineItem(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -84,6 +104,11 @@ public class PaymentLineItem implements ModelInterface {
   @JsonProperty("amount")
   public BigDecimal amount;
 
+  /**
+   * Gets {@link #amount}.
+   *
+   * @return the value of {@link #amount}
+   */
   public BigDecimal getAmount() {
     return amount;
   }
@@ -94,6 +119,11 @@ public class PaymentLineItem implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -104,6 +134,11 @@ public class PaymentLineItem implements ModelInterface {
   @JsonProperty("invoice_id")
   public Long invoiceId;
 
+  /**
+   * Gets {@link #invoiceId}.
+   *
+   * @return the value of {@link #invoiceId}
+   */
   public Long getInvoiceId() {
     return invoiceId;
   }
@@ -114,6 +149,11 @@ public class PaymentLineItem implements ModelInterface {
   @JsonProperty("payment_id")
   public Long paymentId;
 
+  /**
+   * Gets {@link #paymentId}.
+   *
+   * @return the value of {@link #paymentId}
+   */
   public Long getPaymentId() {
     return paymentId;
   }

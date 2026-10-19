@@ -51,12 +51,9 @@
 
 ## List Usage Snapshots
 
-```
-ListIterator<UsageSnapshot> usageSnapshot = UsageSnapshot.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<UsageSnapshot> usageSnapshots = UsageSnapshot.list(parameters, null);
 ```
 
 ### Parameters

@@ -36,6 +36,11 @@ public class Behavior implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -59,14 +64,29 @@ public class Behavior implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code Behavior} with no attributes set.
+   */
   public Behavior() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code Behavior} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public Behavior(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code Behavior} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public Behavior(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -84,10 +104,20 @@ public class Behavior implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -98,10 +128,20 @@ public class Behavior implements ModelInterface {
   @JsonProperty("path")
   public String path;
 
+  /**
+   * Gets {@link #path}.
+   *
+   * @return the value of {@link #path}
+   */
   public String getPath() {
     return path;
   }
 
+  /**
+   * Sets {@link #path}.
+   *
+   * @param path the new value
+   */
   public void setPath(String path) {
     this.path = path;
   }
@@ -112,10 +152,20 @@ public class Behavior implements ModelInterface {
   @JsonProperty("attachment_url")
   public String attachmentUrl;
 
+  /**
+   * Gets {@link #attachmentUrl}.
+   *
+   * @return the value of {@link #attachmentUrl}
+   */
   public String getAttachmentUrl() {
     return attachmentUrl;
   }
 
+  /**
+   * Sets {@link #attachmentUrl}.
+   *
+   * @param attachmentUrl the new value
+   */
   public void setAttachmentUrl(String attachmentUrl) {
     this.attachmentUrl = attachmentUrl;
   }
@@ -126,10 +176,20 @@ public class Behavior implements ModelInterface {
   @JsonProperty("behavior")
   public String behavior;
 
+  /**
+   * Gets {@link #behavior}.
+   *
+   * @return the value of {@link #behavior}
+   */
   public String getBehavior() {
     return behavior;
   }
 
+  /**
+   * Sets {@link #behavior}.
+   *
+   * @param behavior the new value
+   */
   public void setBehavior(String behavior) {
     this.behavior = behavior;
   }
@@ -140,10 +200,20 @@ public class Behavior implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -154,10 +224,20 @@ public class Behavior implements ModelInterface {
   @JsonProperty("description")
   public String description;
 
+  /**
+   * Gets {@link #description}.
+   *
+   * @return the value of {@link #description}
+   */
   public String getDescription() {
     return description;
   }
 
+  /**
+   * Sets {@link #description}.
+   *
+   * @param description the new value
+   */
   public void setDescription(String description) {
     this.description = description;
   }
@@ -168,10 +248,20 @@ public class Behavior implements ModelInterface {
   @JsonProperty("value")
   public Object value;
 
+  /**
+   * Gets {@link #value}.
+   *
+   * @return the value of {@link #value}
+   */
   public Object getValue() {
     return value;
   }
 
+  /**
+   * Sets {@link #value}.
+   *
+   * @param value the new value
+   */
   public void setValue(Object value) {
     this.value = value;
   }
@@ -182,10 +272,20 @@ public class Behavior implements ModelInterface {
   @JsonProperty("public_hosting_url")
   public String publicHostingUrl;
 
+  /**
+   * Gets {@link #publicHostingUrl}.
+   *
+   * @return the value of {@link #publicHostingUrl}
+   */
   public String getPublicHostingUrl() {
     return publicHostingUrl;
   }
 
+  /**
+   * Sets {@link #publicHostingUrl}.
+   *
+   * @param publicHostingUrl the new value
+   */
   public void setPublicHostingUrl(String publicHostingUrl) {
     this.publicHostingUrl = publicHostingUrl;
   }
@@ -196,10 +296,20 @@ public class Behavior implements ModelInterface {
   @JsonProperty("disable_parent_folder_behavior")
   public Boolean disableParentFolderBehavior;
 
+  /**
+   * Gets {@link #disableParentFolderBehavior}.
+   *
+   * @return the value of {@link #disableParentFolderBehavior}
+   */
   public Boolean getDisableParentFolderBehavior() {
     return disableParentFolderBehavior;
   }
 
+  /**
+   * Sets {@link #disableParentFolderBehavior}.
+   *
+   * @param disableParentFolderBehavior the new value
+   */
   public void setDisableParentFolderBehavior(Boolean disableParentFolderBehavior) {
     this.disableParentFolderBehavior = disableParentFolderBehavior;
   }
@@ -210,10 +320,20 @@ public class Behavior implements ModelInterface {
   @JsonProperty("recursive")
   public Boolean recursive;
 
+  /**
+   * Gets {@link #recursive}.
+   *
+   * @return the value of {@link #recursive}
+   */
   public Boolean getRecursive() {
     return recursive;
   }
 
+  /**
+   * Sets {@link #recursive}.
+   *
+   * @param recursive the new value
+   */
   public void setRecursive(Boolean recursive) {
     this.recursive = recursive;
   }
@@ -224,10 +344,20 @@ public class Behavior implements ModelInterface {
   @JsonProperty("inherited")
   public Boolean inherited;
 
+  /**
+   * Gets {@link #inherited}.
+   *
+   * @return the value of {@link #inherited}
+   */
   public Boolean getInherited() {
     return inherited;
   }
 
+  /**
+   * Sets {@link #inherited}.
+   *
+   * @param inherited the new value
+   */
   public void setInherited(Boolean inherited) {
     this.inherited = inherited;
   }
@@ -238,10 +368,20 @@ public class Behavior implements ModelInterface {
   @JsonProperty("managed")
   public Boolean managed;
 
+  /**
+   * Gets {@link #managed}.
+   *
+   * @return the value of {@link #managed}
+   */
   public Boolean getManaged() {
     return managed;
   }
 
+  /**
+   * Sets {@link #managed}.
+   *
+   * @param managed the new value
+   */
   public void setManaged(Boolean managed) {
     this.managed = managed;
   }
@@ -252,10 +392,20 @@ public class Behavior implements ModelInterface {
   @JsonProperty("root_behavior_site_admin_only")
   public Boolean rootBehaviorSiteAdminOnly;
 
+  /**
+   * Gets {@link #rootBehaviorSiteAdminOnly}.
+   *
+   * @return the value of {@link #rootBehaviorSiteAdminOnly}
+   */
   public Boolean getRootBehaviorSiteAdminOnly() {
     return rootBehaviorSiteAdminOnly;
   }
 
+  /**
+   * Sets {@link #rootBehaviorSiteAdminOnly}.
+   *
+   * @param rootBehaviorSiteAdminOnly the new value
+   */
   public void setRootBehaviorSiteAdminOnly(Boolean rootBehaviorSiteAdminOnly) {
     this.rootBehaviorSiteAdminOnly = rootBehaviorSiteAdminOnly;
   }
@@ -266,10 +416,20 @@ public class Behavior implements ModelInterface {
   @JsonProperty("attachment_file")
   public byte[] attachmentFile;
 
+  /**
+   * Gets {@link #attachmentFile}.
+   *
+   * @return the value of {@link #attachmentFile}
+   */
   public byte[] getAttachmentFile() {
     return attachmentFile;
   }
 
+  /**
+   * Sets {@link #attachmentFile}.
+   *
+   * @param attachmentFile the new value
+   */
   public void setAttachmentFile(byte[] attachmentFile) {
     this.attachmentFile = attachmentFile;
   }
@@ -280,24 +440,40 @@ public class Behavior implements ModelInterface {
   @JsonProperty("attachment_delete")
   public Boolean attachmentDelete;
 
+  /**
+   * Gets {@link #attachmentDelete}.
+   *
+   * @return the value of {@link #attachmentDelete}
+   */
   public Boolean getAttachmentDelete() {
     return attachmentDelete;
   }
 
+  /**
+   * Sets {@link #attachmentDelete}.
+   *
+   * @param attachmentDelete the new value
+   */
   public void setAttachmentDelete(Boolean attachmentDelete) {
     this.attachmentDelete = attachmentDelete;
   }
 
   /**
    * Updates this Behavior. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   value - object - This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.
-   *   attachment_file - file - Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
-   *   disable_parent_folder_behavior - boolean - If true, disables the inherited behavior for this folder and its children. Valid only for behavior types that child folders may override, and requires recursive to be true. Rejected for all other behavior types.
-   *   recursive - boolean - Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
-   *   name - string - Name for this behavior.
-   *   description - string - Description for this behavior.
-   *   attachment_delete - boolean - If `true`, delete the file stored in `attachment`.
+   * <p>Update Behavior
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code value} (Object): This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.</li>
+   * <li>{@code attachment_file} (byte[] or Attachment): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.</li>
+   * <li>{@code disable_parent_folder_behavior} (Boolean): If true, disables the inherited behavior for this folder and its children. Valid only for behavior types that child folders may override, and requires recursive to be true. Rejected for all other behavior types.</li>
+   * <li>{@code recursive} (Boolean): Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.</li>
+   * <li>{@code name} (String): Name for this behavior.</li>
+   * <li>{@code description} (String): Description for this behavior.</li>
+   * <li>{@code attachment_delete} (Boolean): If `true`, delete the file stored in `attachment`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code Behavior}
    */
   public Behavior update(HashMap<String, Object> parameters) throws IOException {
     Behavior updated = filesClient().behaviors().update(this.id, parameters, this.options);
@@ -306,11 +482,19 @@ public class Behavior implements ModelInterface {
   }
 
   /**
+   * Delete Behavior
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().behaviors().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Behavior
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -361,184 +545,348 @@ public class Behavior implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `clickwrap_id`, `form_field_set_id`, `impacts_ui`, `remote_server_id` or `behavior`. Valid field combinations are `[ impacts_ui, behavior ]` and `[ behavior, remote_server_id ]`.
+   * List Behaviors
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<Behavior> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Behaviors
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Behavior> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Behaviors
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `clickwrap_id`, `form_field_set_id`, `impacts_ui`, `remote_server_id` or `behavior`. Valid field combinations are `[ impacts_ui, behavior ]` and `[ behavior, remote_server_id ]`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Behavior} records, in a {@code ListIterator}
+   */
   public static ListIterator<Behavior> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().behaviors().list(parameters, options);
   }
 
+  /**
+   * List Behaviors
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Behavior> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Behaviors
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Behavior> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Behavior ID.
+   * Show Behavior
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static Behavior find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Behavior
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Behavior find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Behavior
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Behavior find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Behavior
+   *
+   * @param id Behavior ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Behavior}
+   */
   public static Behavior find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().behaviors().find(id, parameters, options);
   }
 
+  /**
+   * Show Behavior
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Behavior get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Behavior
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Behavior get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`. Valid field combinations are `[ impacts_ui, behavior ]`.
-   *   path (required) - string - Path to operate on.
-   *   ancestor_behaviors - boolean - If `true`, behaviors above this path are shown.
+   * List Behaviors by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
    */
   public static ListIterator<Behavior> listFor() throws RuntimeException {
     return listFor(null, null, null);
   }
 
+  /**
+   * List Behaviors by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
   public static ListIterator<Behavior> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return listFor(path, parameters, null);
   }
 
+  /**
+   * List Behaviors by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
   public static ListIterator<Behavior> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return listFor(null, parameters, options);
   }
 
+  /**
+   * List Behaviors by Path
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`. Valid field combinations are `[ impacts_ui, behavior ]`.</li>
+   * <li>{@code ancestor_behaviors} (Boolean): If `true`, behaviors above this path are shown.</li>
+   * </ul>
+   *
+   * @param path Path to operate on.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Behavior} records, in a {@code ListIterator}
+   */
   public static ListIterator<Behavior> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().behaviors().listFor(path, parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   value - object - This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.
-   *   attachment_file - file - Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
-   *   disable_parent_folder_behavior - boolean - If true, disables the inherited behavior for this folder and its children. Valid only for behavior types that child folders may override, and requires recursive to be true. Rejected for all other behavior types.
-   *   recursive - boolean - Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
-   *   name - string - Name for this behavior.
-   *   description - string - Description for this behavior.
-   *   path (required) - string - Path where this behavior should apply.
-   *   behavior (required) - string - Behavior type.
+   * Create Behavior
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static Behavior create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Behavior
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static Behavior create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Behavior
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code value} (Object): This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.</li>
+   * <li>{@code attachment_file} (byte[] or Attachment): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.</li>
+   * <li>{@code disable_parent_folder_behavior} (Boolean): If true, disables the inherited behavior for this folder and its children. Valid only for behavior types that child folders may override, and requires recursive to be true. Rejected for all other behavior types.</li>
+   * <li>{@code recursive} (Boolean): Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.</li>
+   * <li>{@code name} (String): Name for this behavior.</li>
+   * <li>{@code description} (String): Description for this behavior.</li>
+   * <li>{@code path} (String): Required. Path where this behavior should apply.</li>
+   * <li>{@code behavior} (String): Required. Behavior type.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Behavior}
+   */
   public static Behavior create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().behaviors().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   url (required) - string - URL for testing the webhook.
-   *   method - string - HTTP request method (GET or POST).
-   *   encoding - string - Encoding type for the webhook payload. Can be JSON, XML, or RAW (form data).
-   *   headers - object - Additional request headers to send via HTTP.
-   *   body - object - Additional body parameters to include in the webhook payload.
-   *   action - string - Action for test body.
+   * Test Webhook
+   *
+   * @see #webhookTest(HashMap, HashMap)
    */
   public static void webhookTest() throws RuntimeException {
     webhookTest(null, null);
   }
 
+  /**
+   * Test Webhook
+   *
+   * @see #webhookTest(HashMap, HashMap)
+   */
   public static void webhookTest(HashMap<String, Object> parameters) throws RuntimeException {
     webhookTest(parameters, null);
   }
 
 
+  /**
+   * Test Webhook
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code url} (String): Required. URL for testing the webhook.</li>
+   * <li>{@code method} (String): HTTP request method (GET or POST).</li>
+   * <li>{@code encoding} (String): Encoding type for the webhook payload. Can be JSON, XML, or RAW (form data).</li>
+   * <li>{@code headers} (Object): Additional request headers to send via HTTP.</li>
+   * <li>{@code body} (Object): Additional body parameters to include in the webhook payload.</li>
+   * <li>{@code action} (String): Action for test body.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void webhookTest(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().behaviors().webhookTest(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   value - object - This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.
-   *   attachment_file - file - Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.
-   *   disable_parent_folder_behavior - boolean - If true, disables the inherited behavior for this folder and its children. Valid only for behavior types that child folders may override, and requires recursive to be true. Rejected for all other behavior types.
-   *   recursive - boolean - Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.
-   *   name - string - Name for this behavior.
-   *   description - string - Description for this behavior.
-   *   attachment_delete - boolean - If `true`, delete the file stored in `attachment`.
+   * Update Behavior
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static Behavior update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Behavior
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static Behavior update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Behavior
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static Behavior update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Behavior
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code value} (Object): This field stores data specific to the type of behavior. See The Behavior Types section for the accepted value for each type of behavior.</li>
+   * <li>{@code attachment_file} (byte[] or Attachment): Certain behaviors may require a file, for instance, the `watermark` behavior requires a watermark image. Attach that file here.</li>
+   * <li>{@code disable_parent_folder_behavior} (Boolean): If true, disables the inherited behavior for this folder and its children. Valid only for behavior types that child folders may override, and requires recursive to be true. Rejected for all other behavior types.</li>
+   * <li>{@code recursive} (Boolean): Whether the behavior should apply to child folders. This is only configurable for behavior types whose recursion mode is `sometimes`; `always` behaviors stay recursive and `never` behaviors stay non-recursive.</li>
+   * <li>{@code name} (String): Name for this behavior.</li>
+   * <li>{@code description} (String): Description for this behavior.</li>
+   * <li>{@code attachment_delete} (Boolean): If `true`, delete the file stored in `attachment`.</li>
+   * </ul>
+   *
+   * @param id Behavior ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Behavior}
+   */
   public static Behavior update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().behaviors().update(id, parameters, options);
   }
 
 
   /**
+   * Delete Behavior
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Behavior
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Behavior
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Behavior
+   *
+   * @param id Behavior ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().behaviors().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Behavior
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Behavior
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

@@ -50,12 +50,10 @@
 
 ## List API Keys
 
-```
-ListIterator<ApiKey> apiKey = ApiKey.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+ListIterator<ApiKey> apiKeys = ApiKey.list(parameters, null);
 ```
 
 ### Parameters
@@ -75,12 +73,9 @@ ListIterator<ApiKey> apiKey = ApiKey.list(
 
 ## Show information about current API key.  (Requires current API connection to be using an API key.)
 
-```
-ApiKey apiKey = ApiKey.findCurrent(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ApiKey apiKey = ApiKey.findCurrent(parameters, null);
 ```
 
 
@@ -88,12 +83,9 @@ ApiKey apiKey = ApiKey.findCurrent(
 
 ## Show API Key
 
-```
-ApiKey apiKey = ApiKey.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ApiKey apiKey = ApiKey.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -105,12 +97,17 @@ ApiKey apiKey = ApiKey.find(
 
 ## Create API Key
 
-```
-ApiKey apiKey = ApiKey.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("description", "example");
+parameters.put("expires_at", "2000-01-01T01:00:00Z");
+parameters.put("name", "My Main API Key");
+parameters.put("aws_style_credentials", true);
+parameters.put("path", "shared/docs");
+parameters.put("permission_set", "full");
+parameters.put("workspace_id", 1L);
+ApiKey apiKey = ApiKey.create(parameters, null);
 ```
 
 ### Parameters
@@ -129,12 +126,12 @@ ApiKey apiKey = ApiKey.create(
 
 ## Update current API key.  (Requires current API connection to be using an API key.)
 
-```
-ApiKey apiKey = ApiKey.updateCurrent(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("expires_at", "2000-01-01T01:00:00Z");
+parameters.put("name", "My Main API Key");
+parameters.put("permission_set", "full");
+ApiKey apiKey = ApiKey.updateCurrent(parameters, null);
 ```
 
 ### Parameters
@@ -148,12 +145,12 @@ ApiKey apiKey = ApiKey.updateCurrent(
 
 ## Update API Key
 
-```
-ApiKey apiKey = ApiKey.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("description", "example");
+parameters.put("expires_at", "2000-01-01T01:00:00Z");
+parameters.put("name", "My Main API Key");
+ApiKey apiKey = ApiKey.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -168,12 +165,9 @@ ApiKey apiKey = ApiKey.update(
 
 ## Delete current API key.  (Requires current API connection to be using an API key.)
 
-```
-void apiKey = ApiKey.deleteCurrent(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ApiKey.deleteCurrent(parameters, null);
 ```
 
 
@@ -181,12 +175,9 @@ void apiKey = ApiKey.deleteCurrent(
 
 ## Delete API Key
 
-```
-void apiKey = ApiKey.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ApiKey.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -198,15 +189,13 @@ void apiKey = ApiKey.delete(
 
 ## Update API Key
 
-```
-ApiKey apiKey = ApiKey.find(id);
-
+```java
+ApiKey apiKey = ApiKey.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("description", "example");
 parameters.put("expires_at", "2000-01-01T01:00:00Z");
 parameters.put("name", "My Main API Key");
-
-apiKey.update(parameters);
+ApiKey result = apiKey.update(parameters);
 ```
 
 ### Parameters
@@ -221,11 +210,9 @@ apiKey.update(parameters);
 
 ## Delete API Key
 
-```
-ApiKey apiKey = ApiKey.find(id);
-
+```java
+ApiKey apiKey = ApiKey.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 apiKey.delete(parameters);
 ```
 

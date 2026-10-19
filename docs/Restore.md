@@ -59,12 +59,9 @@
 
 ## List Restores
 
-```
-ListIterator<Restore> restore = Restore.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<Restore> restores = Restore.list(parameters, null);
 ```
 
 ### Parameters
@@ -79,12 +76,16 @@ ListIterator<Restore> restore = Restore.list(
 
 ## Create Restore
 
-```
-Restore restore = Restore.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("earliest_date", "2000-01-01T01:00:00Z");
+parameters.put("prefix", "foo/bar/baz.txt");
+parameters.put("restoration_type", "files");
+parameters.put("restore_deleted_permissions", true);
+parameters.put("restore_in_place", true);
+parameters.put("update_timestamps", true);
+parameters.put("workspace_id", 12L);
+Restore restore = Restore.create(parameters, null);
 ```
 
 ### Parameters

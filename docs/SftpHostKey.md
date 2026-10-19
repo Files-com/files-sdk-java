@@ -28,12 +28,9 @@
 
 ## List SFTP Host Keys
 
-```
-ListIterator<SftpHostKey> sftpHostKey = SftpHostKey.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<SftpHostKey> sftpHostKeys = SftpHostKey.list(parameters, null);
 ```
 
 ### Parameters
@@ -46,12 +43,9 @@ ListIterator<SftpHostKey> sftpHostKey = SftpHostKey.list(
 
 ## Show SFTP Host Key
 
-```
-SftpHostKey sftpHostKey = SftpHostKey.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+SftpHostKey sftpHostKey = SftpHostKey.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -63,73 +57,32 @@ SftpHostKey sftpHostKey = SftpHostKey.find(
 
 ## Create SFTP Host Key
 
-```
-SftpHostKey sftpHostKey = SftpHostKey.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `active` (Boolean): If true, use this SFTP Host Key.
-* `custom_domain_id` (Long): Custom Domain ID. If set, this key is used only for that Custom Domain.
-* `name` (String): The friendly name of this SFTP Host Key.
-* `private_key` (String): The private key data.
-
-
----
-
-## Update SFTP Host Key
-
-```
-SftpHostKey sftpHostKey = SftpHostKey.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Sftp Host Key ID.
-* `active` (Boolean): If true, use this SFTP Host Key.
-* `custom_domain_id` (Long): Custom Domain ID. If set, this key is used only for that Custom Domain.
-* `name` (String): The friendly name of this SFTP Host Key.
-* `private_key` (String): The private key data.
-
-
----
-
-## Delete SFTP Host Key
-
-```
-void sftpHostKey = SftpHostKey.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Sftp Host Key ID.
-
-
----
-
-## Update SFTP Host Key
-
-```
-SftpHostKey sftpHostKey = SftpHostKey.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("active", true);
-parameters.put("custom_domain_id", 1);
+parameters.put("custom_domain_id", 1L);
 parameters.put("name", "My Key");
+SftpHostKey sftpHostKey = SftpHostKey.create(parameters, null);
+```
 
-sftpHostKey.update(parameters);
+### Parameters
+
+* `active` (Boolean): If true, use this SFTP Host Key.
+* `custom_domain_id` (Long): Custom Domain ID. If set, this key is used only for that Custom Domain.
+* `name` (String): The friendly name of this SFTP Host Key.
+* `private_key` (String): The private key data.
+
+
+---
+
+## Update SFTP Host Key
+
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("active", true);
+parameters.put("custom_domain_id", 1L);
+parameters.put("name", "My Key");
+SftpHostKey sftpHostKey = SftpHostKey.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -145,11 +98,45 @@ sftpHostKey.update(parameters);
 
 ## Delete SFTP Host Key
 
-```
-SftpHostKey sftpHostKey = SftpHostKey.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
+SftpHostKey.delete(1L, parameters, null);
+```
 
+### Parameters
+
+* `id` (Long): Required - Sftp Host Key ID.
+
+
+---
+
+## Update SFTP Host Key
+
+```java
+SftpHostKey sftpHostKey = SftpHostKey.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("active", true);
+parameters.put("custom_domain_id", 1L);
+parameters.put("name", "My Key");
+SftpHostKey result = sftpHostKey.update(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - Sftp Host Key ID.
+* `active` (Boolean): If true, use this SFTP Host Key.
+* `custom_domain_id` (Long): Custom Domain ID. If set, this key is used only for that Custom Domain.
+* `name` (String): The friendly name of this SFTP Host Key.
+* `private_key` (String): The private key data.
+
+
+---
+
+## Delete SFTP Host Key
+
+```java
+SftpHostKey sftpHostKey = SftpHostKey.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
 sftpHostKey.delete(parameters);
 ```
 

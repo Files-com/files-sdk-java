@@ -24,21 +24,40 @@ public final class StyleOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   path (required) - string - Style path.
+   * Show Style
+   *
+   * @see #find(String, HashMap, HashMap)
    */
   public Style find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Style
+   *
+   * @see #find(String, HashMap, HashMap)
+   */
   public Style find(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return find(path, parameters, null);
   }
 
+  /**
+   * Show Style
+   *
+   * @see #find(String, HashMap, HashMap)
+   */
   public Style find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Style
+   *
+   * @param path Style path.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Style}
+   */
   public Style find(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -60,31 +79,64 @@ public final class StyleOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Style
+   *
+   * @see #find(String, HashMap, HashMap)
+   */
   public Style get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Style
+   *
+   * @see #find(String, HashMap, HashMap)
+   */
   public Style get(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(path, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   file - file - Logo for custom branding. Required when creating a new style.
-   *   logo_click_href - string - URL to open when a public visitor clicks the logo.
+   * Update Style
+   *
+   * @see #update(String, HashMap, HashMap)
    */
   public Style update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Style
+   *
+   * @see #update(String, HashMap, HashMap)
+   */
   public Style update(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return update(path, parameters, null);
   }
 
+  /**
+   * Update Style
+   *
+   * @see #update(String, HashMap, HashMap)
+   */
   public Style update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Style
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code file} (byte[] or Attachment): Logo for custom branding. Required when creating a new style.</li>
+   * <li>{@code logo_click_href} (String): URL to open when a public visitor clicks the logo.</li>
+   * </ul>
+   *
+   * @param path Style path.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Style}
+   */
   public Style update(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -120,19 +172,39 @@ public final class StyleOperations extends ResourceOperations {
   }
 
   /**
+   * Delete Style
+   *
+   * @see #delete(String, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Style
+   *
+   * @see #delete(String, HashMap, HashMap)
+   */
   public void delete(String path, HashMap<String, Object> parameters) throws RuntimeException {
     delete(path, parameters, null);
   }
 
+  /**
+   * Delete Style
+   *
+   * @see #delete(String, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Style
+   *
+   * @param path Style path.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -153,10 +225,20 @@ public final class StyleOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Style
+   *
+   * @see #delete(String, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Style
+   *
+   * @see #delete(String, HashMap, HashMap)
+   */
   public void destroy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(path, parameters, options);
   }

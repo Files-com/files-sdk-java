@@ -37,6 +37,11 @@ public class PartnerSiteRequest implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -60,14 +65,29 @@ public class PartnerSiteRequest implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code PartnerSiteRequest} with no attributes set.
+   */
   public PartnerSiteRequest() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code PartnerSiteRequest} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public PartnerSiteRequest(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code PartnerSiteRequest} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public PartnerSiteRequest(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -85,10 +105,20 @@ public class PartnerSiteRequest implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -99,10 +129,20 @@ public class PartnerSiteRequest implements ModelInterface {
   @JsonProperty("host_partner_id")
   public Long hostPartnerId;
 
+  /**
+   * Gets {@link #hostPartnerId}.
+   *
+   * @return the value of {@link #hostPartnerId}
+   */
   public Long getHostPartnerId() {
     return hostPartnerId;
   }
 
+  /**
+   * Sets {@link #hostPartnerId}.
+   *
+   * @param hostPartnerId the new value
+   */
   public void setHostPartnerId(Long hostPartnerId) {
     this.hostPartnerId = hostPartnerId;
   }
@@ -113,10 +153,20 @@ public class PartnerSiteRequest implements ModelInterface {
   @JsonProperty("guest_site_url")
   public String guestSiteUrl;
 
+  /**
+   * Gets {@link #guestSiteUrl}.
+   *
+   * @return the value of {@link #guestSiteUrl}
+   */
   public String getGuestSiteUrl() {
     return guestSiteUrl;
   }
 
+  /**
+   * Sets {@link #guestSiteUrl}.
+   *
+   * @param guestSiteUrl the new value
+   */
   public void setGuestSiteUrl(String guestSiteUrl) {
     this.guestSiteUrl = guestSiteUrl;
   }
@@ -127,10 +177,20 @@ public class PartnerSiteRequest implements ModelInterface {
   @JsonProperty("status")
   public String status;
 
+  /**
+   * Gets {@link #status}.
+   *
+   * @return the value of {@link #status}
+   */
   public String getStatus() {
     return status;
   }
 
+  /**
+   * Sets {@link #status}.
+   *
+   * @param status the new value
+   */
   public void setStatus(String status) {
     this.status = status;
   }
@@ -141,10 +201,20 @@ public class PartnerSiteRequest implements ModelInterface {
   @JsonProperty("host_site_name")
   public String hostSiteName;
 
+  /**
+   * Gets {@link #hostSiteName}.
+   *
+   * @return the value of {@link #hostSiteName}
+   */
   public String getHostSiteName() {
     return hostSiteName;
   }
 
+  /**
+   * Sets {@link #hostSiteName}.
+   *
+   * @param hostSiteName the new value
+   */
   public void setHostSiteName(String hostSiteName) {
     this.hostSiteName = hostSiteName;
   }
@@ -155,10 +225,20 @@ public class PartnerSiteRequest implements ModelInterface {
   @JsonProperty("pairing_key")
   public String pairingKey;
 
+  /**
+   * Gets {@link #pairingKey}.
+   *
+   * @return the value of {@link #pairingKey}
+   */
   public String getPairingKey() {
     return pairingKey;
   }
 
+  /**
+   * Sets {@link #pairingKey}.
+   *
+   * @param pairingKey the new value
+   */
   public void setPairingKey(String pairingKey) {
     this.pairingKey = pairingKey;
   }
@@ -169,6 +249,11 @@ public class PartnerSiteRequest implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -179,16 +264,29 @@ public class PartnerSiteRequest implements ModelInterface {
   @JsonProperty("updated_at")
   public Date updatedAt;
 
+  /**
+   * Gets {@link #updatedAt}.
+   *
+   * @return the value of {@link #updatedAt}
+   */
   public Date getUpdatedAt() {
     return updatedAt;
   }
 
   /**
+   * Delete Partner Site Request
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().partnerSiteRequests().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Partner Site Request
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -229,129 +327,251 @@ public class PartnerSiteRequest implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `host_partner_id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `host_partner_id`.
+   * List Partner Site Requests
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<PartnerSiteRequest> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Partner Site Requests
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<PartnerSiteRequest> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Partner Site Requests
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `host_partner_id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `host_partner_id`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code PartnerSiteRequest} records, in a {@code ListIterator}
+   */
   public static ListIterator<PartnerSiteRequest> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().partnerSiteRequests().list(parameters, options);
   }
 
+  /**
+   * List Partner Site Requests
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<PartnerSiteRequest> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Partner Site Requests
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<PartnerSiteRequest> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   pairing_key (required) - string - Pairing key for the partner site request
+   * Find partner site request by pairing key
+   *
+   * @see #findByPairingKey(HashMap, HashMap)
    */
   public static void findByPairingKey() throws RuntimeException {
     findByPairingKey(null, null);
   }
 
+  /**
+   * Find partner site request by pairing key
+   *
+   * @see #findByPairingKey(HashMap, HashMap)
+   */
   public static void findByPairingKey(HashMap<String, Object> parameters) throws RuntimeException {
     findByPairingKey(parameters, null);
   }
 
 
+  /**
+   * Find partner site request by pairing key
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code pairing_key} (String): Required. Pairing key for the partner site request</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void findByPairingKey(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().partnerSiteRequests().findByPairingKey(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   host_partner_id (required) - int64 - Host Partner ID to link with
-   *   guest_site_url (required) - string - Guest Site URL to link to
+   * Create Partner Site Request
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static PartnerSiteRequest create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Partner Site Request
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static PartnerSiteRequest create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Partner Site Request
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code host_partner_id} (Long): Required. Host Partner ID to link with</li>
+   * <li>{@code guest_site_url} (String): Required. Guest Site URL to link to</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code PartnerSiteRequest}
+   */
   public static PartnerSiteRequest create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().partnerSiteRequests().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   pairing_key (required) - string - Pairing key for the partner site request
+   * Reject partner site request
+   *
+   * @see #reject(HashMap, HashMap)
    */
   public static void reject() throws RuntimeException {
     reject(null, null);
   }
 
+  /**
+   * Reject partner site request
+   *
+   * @see #reject(HashMap, HashMap)
+   */
   public static void reject(HashMap<String, Object> parameters) throws RuntimeException {
     reject(parameters, null);
   }
 
 
+  /**
+   * Reject partner site request
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code pairing_key} (String): Required. Pairing key for the partner site request</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void reject(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().partnerSiteRequests().reject(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   pairing_key (required) - string - Pairing key for the partner site request
-   *   partner_id - int64 - ID of an existing Partner on this site, with the host role, that represents the requesting organization. The connection binds to that Partner and makes it host_and_guest. When omitted, a guest Partner named after the host site is created.
+   * Approve partner site request
+   *
+   * @see #approve(HashMap, HashMap)
    */
   public static void approve() throws RuntimeException {
     approve(null, null);
   }
 
+  /**
+   * Approve partner site request
+   *
+   * @see #approve(HashMap, HashMap)
+   */
   public static void approve(HashMap<String, Object> parameters) throws RuntimeException {
     approve(parameters, null);
   }
 
 
+  /**
+   * Approve partner site request
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code pairing_key} (String): Required. Pairing key for the partner site request</li>
+   * <li>{@code partner_id} (Long): ID of an existing Partner on this site, with the host role, that represents the requesting organization. The connection binds to that Partner and makes it host_and_guest. When omitted, a guest Partner named after the host site is created.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void approve(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().partnerSiteRequests().approve(parameters, options);
   }
 
 
   /**
+   * Delete Partner Site Request
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Partner Site Request
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Partner Site Request
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Partner Site Request
+   *
+   * @param id Partner Site Request ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().partnerSiteRequests().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Partner Site Request
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Partner Site Request
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

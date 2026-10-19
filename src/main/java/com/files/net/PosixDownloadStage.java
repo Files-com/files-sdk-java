@@ -91,8 +91,9 @@ final class PosixDownloadStage extends DownloadStage {
     try {
       directoryKey = key(directory);
       held = hold(directory, directoryKey);
+      // Readable too, for a stage whose file is read through its channel (readAt).
       Set<OpenOption> options = new HashSet<OpenOption>(Arrays.<OpenOption>asList(
-          StandardOpenOption.CREATE_NEW, StandardOpenOption.WRITE, LinkOption.NOFOLLOW_LINKS));
+          StandardOpenOption.CREATE_NEW, StandardOpenOption.READ, StandardOpenOption.WRITE, LinkOption.NOFOLLOW_LINKS));
       if (held != null) {
         channel = held.newByteChannel(file.getFileName(), options, PRIVATE_FILE);
         PosixFileAttributes created = held.getFileAttributeView(file.getFileName(), PosixFileAttributeView.class, LinkOption.NOFOLLOW_LINKS)
@@ -293,6 +294,50 @@ final class PosixDownloadStage extends DownloadStage {
       while (buffer.hasRemaining()) {
         channel.write(buffer);
       }
+    }
+  }
+
+  // Positional where the channel is a FileChannel, as writeAt is; otherwise at the channel's position,
+  // which is then put back, so a write that follows starts where it would have.
+  @Override
+  int readAt(long position, byte[] bytes, int offset, int count) throws IOException {
+    ByteBuffer buffer = ByteBuffer.wrap(bytes, offset, count);
+    if (channel instanceof FileChannel) {
+      return ((FileChannel) channel).read(buffer, position);
+    }
+    synchronized (this) {
+      long before = channel.position();
+      Throwable first = null;
+      try {
+        channel.position(position);
+        return channel.read(buffer);
+      } catch (IOException | RuntimeException | Error e) {
+        first = e;
+        throw e;
+      } finally {
+        // The position is restored either way; a restoration that fails is thrown only when nothing
+        // failed before it, and is otherwise kept with the first failure, which is the one thrown.
+        try {
+          channel.position(before);
+        } catch (IOException | RuntimeException e) {
+          if (first == null) {
+            throw e;
+          }
+          first.addSuppressed(e);
+        }
+      }
+    }
+  }
+
+  @Override
+  long size() throws IOException {
+    return channel.size();
+  }
+
+  @Override
+  synchronized void truncate(long length) throws IOException {
+    if (length < channel.size()) {
+      channel.truncate(length);
     }
   }
 

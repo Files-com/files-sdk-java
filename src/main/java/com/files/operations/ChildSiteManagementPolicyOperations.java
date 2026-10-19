@@ -25,18 +25,35 @@ public final class ChildSiteManagementPolicyOperations extends ResourceOperation
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   * List Child Site Management Policies. On a Child Site, returns only the policy covering that site. Its value contains managed setting names with null values
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<ChildSiteManagementPolicy> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Child Site Management Policies. On a Child Site, returns only the policy covering that site. Its value contains managed setting names with null values
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<ChildSiteManagementPolicy> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Child Site Management Policies. On a Child Site, returns only the policy covering that site. Its value contains managed setting names with null values
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ChildSiteManagementPolicy} records, in a {@code ListIterator}
+   */
   public ListIterator<ChildSiteManagementPolicy> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -54,30 +71,59 @@ public final class ChildSiteManagementPolicyOperations extends ResourceOperation
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Child Site Management Policies. On a Child Site, returns only the policy covering that site. Its value contains managed setting names with null values
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<ChildSiteManagementPolicy> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Child Site Management Policies. On a Child Site, returns only the policy covering that site. Its value contains managed setting names with null values
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<ChildSiteManagementPolicy> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Child Site Management Policy ID.
+   * Show Child Site Management Policy
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public ChildSiteManagementPolicy find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Child Site Management Policy
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ChildSiteManagementPolicy find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Child Site Management Policy
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ChildSiteManagementPolicy find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Child Site Management Policy
+   *
+   * @param id Child Site Management Policy ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ChildSiteManagementPolicy}
+   */
   public ChildSiteManagementPolicy find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -99,32 +145,59 @@ public final class ChildSiteManagementPolicyOperations extends ResourceOperation
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Child Site Management Policy
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ChildSiteManagementPolicy get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Child Site Management Policy
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ChildSiteManagementPolicy get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   value - object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
-   *   skip_child_site_ids - array(int64) - IDs of child sites excluded from this default policy.
-   *   child_site_ids - array(int64) - IDs of child sites explicitly assigned to this non-default policy.
-   *   default_policy - boolean - Whether this policy applies to child sites not explicitly assigned to another policy.
-   *   policy_type (required) - string - Type of policy.  Valid values: `settings`.
-   *   name - string - Name for this policy.
-   *   description - string - Description for this policy.
+   * Create Child Site Management Policy
+   *
+   * @see #create(HashMap, HashMap)
    */
   public ChildSiteManagementPolicy create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Child Site Management Policy
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public ChildSiteManagementPolicy create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Child Site Management Policy
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code value} (Object): Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.</li>
+   * <li>{@code skip_child_site_ids} (Long[]): IDs of child sites excluded from this default policy.</li>
+   * <li>{@code child_site_ids} (Long[]): IDs of child sites explicitly assigned to this non-default policy.</li>
+   * <li>{@code default_policy} (Boolean): Whether this policy applies to child sites not explicitly assigned to another policy.</li>
+   * <li>{@code policy_type} (String): Required. Type of policy.  Valid values: `settings`.</li>
+   * <li>{@code name} (String): Name for this policy.</li>
+   * <li>{@code description} (String): Description for this policy.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ChildSiteManagementPolicy}
+   */
   public ChildSiteManagementPolicy create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -167,27 +240,50 @@ public final class ChildSiteManagementPolicyOperations extends ResourceOperation
   }
 
   /**
-   * Parameters:
-   *   value - object - Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.
-   *   skip_child_site_ids - array(int64) - IDs of child sites excluded from this default policy.
-   *   child_site_ids - array(int64) - IDs of child sites explicitly assigned to this non-default policy.
-   *   default_policy - boolean - Whether this policy applies to child sites not explicitly assigned to another policy.
-   *   policy_type - string - Type of policy.  Valid values: `settings`.
-   *   name - string - Name for this policy.
-   *   description - string - Description for this policy.
+   * Update Child Site Management Policy
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public ChildSiteManagementPolicy update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Child Site Management Policy
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public ChildSiteManagementPolicy update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Child Site Management Policy
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public ChildSiteManagementPolicy update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Child Site Management Policy
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code value} (Object): Policy configuration data. Attributes differ by policy type. For more information, refer to the Value Hash section of the developer documentation.</li>
+   * <li>{@code skip_child_site_ids} (Long[]): IDs of child sites excluded from this default policy.</li>
+   * <li>{@code child_site_ids} (Long[]): IDs of child sites explicitly assigned to this non-default policy.</li>
+   * <li>{@code default_policy} (Boolean): Whether this policy applies to child sites not explicitly assigned to another policy.</li>
+   * <li>{@code policy_type} (String): Type of policy.  Valid values: `settings`.</li>
+   * <li>{@code name} (String): Name for this policy.</li>
+   * <li>{@code description} (String): Description for this policy.</li>
+   * </ul>
+   *
+   * @param id Child Site Management Policy ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ChildSiteManagementPolicy}
+   */
   public ChildSiteManagementPolicy update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -238,19 +334,39 @@ public final class ChildSiteManagementPolicyOperations extends ResourceOperation
   }
 
   /**
+   * Delete Child Site Management Policy
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Child Site Management Policy
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Child Site Management Policy
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Child Site Management Policy
+   *
+   * @param id Child Site Management Policy ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -271,10 +387,20 @@ public final class ChildSiteManagementPolicyOperations extends ResourceOperation
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Child Site Management Policy
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Child Site Management Policy
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

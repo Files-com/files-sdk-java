@@ -36,12 +36,9 @@
 
 ## List Chat Sessions
 
-```
-ListIterator<ChatSession> chatSession = ChatSession.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<ChatSession> chatSessions = ChatSession.list(parameters, null);
 ```
 
 ### Parameters
@@ -56,12 +53,9 @@ ListIterator<ChatSession> chatSession = ChatSession.list(
 
 ## Show Chat Session
 
-```
-ChatSession chatSession = ChatSession.find(
-    String id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ChatSession chatSession = ChatSession.find("id", parameters, null);
 ```
 
 ### Parameters

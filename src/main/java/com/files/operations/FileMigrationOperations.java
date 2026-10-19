@@ -23,21 +23,40 @@ public final class FileMigrationOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - File Migration ID.
+   * Show File Migration
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public FileMigration find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show File Migration
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public FileMigration find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show File Migration
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public FileMigration find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show File Migration
+   *
+   * @param id File Migration ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code FileMigration}
+   */
   public FileMigration find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -59,10 +78,20 @@ public final class FileMigrationOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show File Migration
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public FileMigration get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show File Migration
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public FileMigration get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }

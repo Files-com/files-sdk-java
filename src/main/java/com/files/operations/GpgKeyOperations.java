@@ -25,25 +25,42 @@ public final class GpgKeyOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name` or `expires_at`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`, `partner_id` or `expires_at`. Valid field combinations are `[ workspace_id, expires_at ]`.
-   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `expires_at`.
-   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `expires_at`.
-   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `expires_at`.
-   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `expires_at`.
+   * List GPG Keys
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<GpgKey> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List GPG Keys
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<GpgKey> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List GPG Keys
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name` or `expires_at`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`, `partner_id` or `expires_at`. Valid field combinations are `[ workspace_id, expires_at ]`.</li>
+   * <li>{@code filter_gt} (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `expires_at`.</li>
+   * <li>{@code filter_gteq} (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `expires_at`.</li>
+   * <li>{@code filter_lt} (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `expires_at`.</li>
+   * <li>{@code filter_lteq} (Object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `expires_at`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code GpgKey} records, in a {@code ListIterator}
+   */
   public ListIterator<GpgKey> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -89,30 +106,59 @@ public final class GpgKeyOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List GPG Keys
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<GpgKey> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List GPG Keys
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<GpgKey> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Gpg Key ID.
+   * Show GPG Key
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public GpgKey find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show GPG Key
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public GpgKey find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show GPG Key
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public GpgKey find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show GPG Key
+   *
+   * @param id Gpg Key ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code GpgKey}
+   */
   public GpgKey find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -134,36 +180,63 @@ public final class GpgKeyOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show GPG Key
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public GpgKey get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show GPG Key
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public GpgKey get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
-   *   public_key - string - The GPG public key
-   *   private_key - string - The GPG private key
-   *   private_key_password - string - The GPG private key password
-   *   name (required) - string - GPG key name.
-   *   workspace_id - int64 - Workspace ID (0 for default workspace).
-   *   generate_expires_at - string - Expiration date of the key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
-   *   generate_keypair - boolean - If true, generate a new GPG key pair. Can not be used with `public_key`/`private_key`
-   *   generate_full_name - string - Full name of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
-   *   generate_email - string - Email address of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.
+   * Create GPG Key
+   *
+   * @see #create(HashMap, HashMap)
    */
   public GpgKey create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create GPG Key
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public GpgKey create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create GPG Key
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code partner_id} (Long): Partner ID who owns this GPG Key, if applicable.</li>
+   * <li>{@code public_key} (String): The GPG public key</li>
+   * <li>{@code private_key} (String): The GPG private key</li>
+   * <li>{@code private_key_password} (String): The GPG private key password</li>
+   * <li>{@code name} (String): Required. GPG key name.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID (0 for default workspace).</li>
+   * <li>{@code generate_expires_at} (String): Expiration date of the key. Used for the generation of the key. Will be ignored if `generate_keypair` is false.</li>
+   * <li>{@code generate_keypair} (Boolean): If true, generate a new GPG key pair. Can not be used with `public_key`/`private_key`</li>
+   * <li>{@code generate_full_name} (String): Full name of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.</li>
+   * <li>{@code generate_email} (String): Email address of the key owner. Used for the generation of the key. Will be ignored if `generate_keypair` is false.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code GpgKey}
+   */
   public GpgKey create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -222,25 +295,48 @@ public final class GpgKeyOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   partner_id - int64 - Partner ID who owns this GPG Key, if applicable.
-   *   public_key - string - The GPG public key
-   *   private_key - string - The GPG private key
-   *   private_key_password - string - The GPG private key password
-   *   name - string - GPG key name.
+   * Update GPG Key
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public GpgKey update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update GPG Key
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public GpgKey update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update GPG Key
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public GpgKey update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update GPG Key
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code partner_id} (Long): Partner ID who owns this GPG Key, if applicable.</li>
+   * <li>{@code public_key} (String): The GPG public key</li>
+   * <li>{@code private_key} (String): The GPG private key</li>
+   * <li>{@code private_key_password} (String): The GPG private key password</li>
+   * <li>{@code name} (String): GPG key name.</li>
+   * </ul>
+   *
+   * @param id Gpg Key ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code GpgKey}
+   */
   public GpgKey update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -283,19 +379,39 @@ public final class GpgKeyOperations extends ResourceOperations {
   }
 
   /**
+   * Delete GPG Key
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete GPG Key
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete GPG Key
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete GPG Key
+   *
+   * @param id Gpg Key ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -316,10 +432,20 @@ public final class GpgKeyOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete GPG Key
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete GPG Key
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

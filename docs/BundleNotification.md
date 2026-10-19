@@ -28,12 +28,11 @@
 
 ## List Share Link Notifications
 
-```
-ListIterator<BundleNotification> bundleNotification = BundleNotification.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("bundle_id", 1L);
+ListIterator<BundleNotification> bundleNotifications = BundleNotification.list(parameters, null);
 ```
 
 ### Parameters
@@ -50,12 +49,9 @@ ListIterator<BundleNotification> bundleNotification = BundleNotification.list(
 
 ## Show Share Link Notification
 
-```
-BundleNotification bundleNotification = BundleNotification.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+BundleNotification bundleNotification = BundleNotification.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -67,12 +63,14 @@ BundleNotification bundleNotification = BundleNotification.find(
 
 ## Create Share Link Notification
 
-```
-BundleNotification bundleNotification = BundleNotification.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("bundle_id", 1L);
+parameters.put("notify_user_id", 1L);
+parameters.put("notify_on_registration", true);
+parameters.put("notify_on_upload", true);
+BundleNotification bundleNotification = BundleNotification.create(parameters, null);
 ```
 
 ### Parameters
@@ -88,12 +86,11 @@ BundleNotification bundleNotification = BundleNotification.create(
 
 ## Update Share Link Notification
 
-```
-BundleNotification bundleNotification = BundleNotification.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("notify_on_registration", true);
+parameters.put("notify_on_upload", true);
+BundleNotification bundleNotification = BundleNotification.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -107,12 +104,9 @@ BundleNotification bundleNotification = BundleNotification.update(
 
 ## Delete Share Link Notification
 
-```
-void bundleNotification = BundleNotification.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+BundleNotification.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -124,14 +118,12 @@ void bundleNotification = BundleNotification.delete(
 
 ## Update Share Link Notification
 
-```
-BundleNotification bundleNotification = BundleNotification.find(id);
-
+```java
+BundleNotification bundleNotification = BundleNotification.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("notify_on_registration", true);
 parameters.put("notify_on_upload", true);
-
-bundleNotification.update(parameters);
+BundleNotification result = bundleNotification.update(parameters);
 ```
 
 ### Parameters
@@ -145,11 +137,9 @@ bundleNotification.update(parameters);
 
 ## Delete Share Link Notification
 
-```
-BundleNotification bundleNotification = BundleNotification.find(id);
-
+```java
+BundleNotification bundleNotification = BundleNotification.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 bundleNotification.delete(parameters);
 ```
 

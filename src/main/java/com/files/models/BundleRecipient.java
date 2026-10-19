@@ -37,6 +37,11 @@ public class BundleRecipient implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -60,14 +65,29 @@ public class BundleRecipient implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code BundleRecipient} with no attributes set.
+   */
   public BundleRecipient() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code BundleRecipient} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public BundleRecipient(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code BundleRecipient} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public BundleRecipient(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -85,10 +105,20 @@ public class BundleRecipient implements ModelInterface {
   @JsonProperty("company")
   public String company;
 
+  /**
+   * Gets {@link #company}.
+   *
+   * @return the value of {@link #company}
+   */
   public String getCompany() {
     return company;
   }
 
+  /**
+   * Sets {@link #company}.
+   *
+   * @param company the new value
+   */
   public void setCompany(String company) {
     this.company = company;
   }
@@ -99,10 +129,20 @@ public class BundleRecipient implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -113,10 +153,20 @@ public class BundleRecipient implements ModelInterface {
   @JsonProperty("note")
   public String note;
 
+  /**
+   * Gets {@link #note}.
+   *
+   * @return the value of {@link #note}
+   */
   public String getNote() {
     return note;
   }
 
+  /**
+   * Sets {@link #note}.
+   *
+   * @param note the new value
+   */
   public void setNote(String note) {
     this.note = note;
   }
@@ -127,10 +177,20 @@ public class BundleRecipient implements ModelInterface {
   @JsonProperty("recipient")
   public String recipient;
 
+  /**
+   * Gets {@link #recipient}.
+   *
+   * @return the value of {@link #recipient}
+   */
   public String getRecipient() {
     return recipient;
   }
 
+  /**
+   * Sets {@link #recipient}.
+   *
+   * @param recipient the new value
+   */
   public void setRecipient(String recipient) {
     this.recipient = recipient;
   }
@@ -141,10 +201,20 @@ public class BundleRecipient implements ModelInterface {
   @JsonProperty("sent_at")
   public Date sentAt;
 
+  /**
+   * Gets {@link #sentAt}.
+   *
+   * @return the value of {@link #sentAt}
+   */
   public Date getSentAt() {
     return sentAt;
   }
 
+  /**
+   * Sets {@link #sentAt}.
+   *
+   * @param sentAt the new value
+   */
   public void setSentAt(Date sentAt) {
     this.sentAt = sentAt;
   }
@@ -155,10 +225,20 @@ public class BundleRecipient implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
 
+  /**
+   * Sets {@link #workspaceId}.
+   *
+   * @param workspaceId the new value
+   */
   public void setWorkspaceId(Long workspaceId) {
     this.workspaceId = workspaceId;
   }
@@ -169,10 +249,20 @@ public class BundleRecipient implements ModelInterface {
   @JsonProperty("user_id")
   public Long userId;
 
+  /**
+   * Gets {@link #userId}.
+   *
+   * @return the value of {@link #userId}
+   */
   public Long getUserId() {
     return userId;
   }
 
+  /**
+   * Sets {@link #userId}.
+   *
+   * @param userId the new value
+   */
   public void setUserId(Long userId) {
     this.userId = userId;
   }
@@ -183,10 +273,20 @@ public class BundleRecipient implements ModelInterface {
   @JsonProperty("bundle_id")
   public Long bundleId;
 
+  /**
+   * Gets {@link #bundleId}.
+   *
+   * @return the value of {@link #bundleId}
+   */
   public Long getBundleId() {
     return bundleId;
   }
 
+  /**
+   * Sets {@link #bundleId}.
+   *
+   * @param bundleId the new value
+   */
   public void setBundleId(Long bundleId) {
     this.bundleId = bundleId;
   }
@@ -197,10 +297,20 @@ public class BundleRecipient implements ModelInterface {
   @JsonProperty("share_after_create")
   public Boolean shareAfterCreate;
 
+  /**
+   * Gets {@link #shareAfterCreate}.
+   *
+   * @return the value of {@link #shareAfterCreate}
+   */
   public Boolean getShareAfterCreate() {
     return shareAfterCreate;
   }
 
+  /**
+   * Sets {@link #shareAfterCreate}.
+   *
+   * @param shareAfterCreate the new value
+   */
   public void setShareAfterCreate(Boolean shareAfterCreate) {
     this.shareAfterCreate = shareAfterCreate;
   }
@@ -237,54 +347,98 @@ public class BundleRecipient implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `has_registrations`.
-   *   bundle_id (required) - int64 - List recipients for the bundle with this ID.
+   * List Share Link Recipients
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<BundleRecipient> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Share Link Recipients
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<BundleRecipient> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Share Link Recipients
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `has_registrations`.</li>
+   * <li>{@code bundle_id} (Long): Required. List recipients for the bundle with this ID.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code BundleRecipient} records, in a {@code ListIterator}
+   */
   public static ListIterator<BundleRecipient> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().bundleRecipients().list(parameters, options);
   }
 
+  /**
+   * List Share Link Recipients
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<BundleRecipient> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Share Link Recipients
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<BundleRecipient> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   bundle_id (required) - int64 - Bundle to share.
-   *   recipient (required) - string - Email addresses to share this bundle with.
-   *   name - string - Name of recipient.
-   *   company - string - Company of recipient.
-   *   note - string - Note to include in email.
-   *   share_after_create - boolean - Set to true to share the link with the recipient upon creation.
+   * Create Share Link Recipient
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static BundleRecipient create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Share Link Recipient
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static BundleRecipient create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Share Link Recipient
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code bundle_id} (Long): Required. Bundle to share.</li>
+   * <li>{@code recipient} (String): Required. Email addresses to share this bundle with.</li>
+   * <li>{@code name} (String): Name of recipient.</li>
+   * <li>{@code company} (String): Company of recipient.</li>
+   * <li>{@code note} (String): Note to include in email.</li>
+   * <li>{@code share_after_create} (Boolean): Set to true to share the link with the recipient upon creation.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code BundleRecipient}
+   */
   public static BundleRecipient create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().bundleRecipients().create(parameters, options);
   }

@@ -71,12 +71,9 @@
 
 ## List Remote Server Credentials
 
-```
-ListIterator<RemoteServerCredential> remoteServerCredential = RemoteServerCredential.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<RemoteServerCredential> remoteServerCredentials = RemoteServerCredential.list(parameters, null);
 ```
 
 ### Parameters
@@ -92,12 +89,9 @@ ListIterator<RemoteServerCredential> remoteServerCredential = RemoteServerCreden
 
 ## Show Remote Server Credential
 
-```
-RemoteServerCredential remoteServerCredential = RemoteServerCredential.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+RemoteServerCredential remoteServerCredential = RemoteServerCredential.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -109,12 +103,26 @@ RemoteServerCredential remoteServerCredential = RemoteServerCredential.find(
 
 ## Create Remote Server Credential
 
-```
-RemoteServerCredential remoteServerCredential = RemoteServerCredential.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "My Credential");
+parameters.put("description", "More information or notes about this credential.");
+parameters.put("server_type", "s3");
+parameters.put("aws_access_key", "example");
+parameters.put("s3_assume_role_arn", "example");
+parameters.put("s3_assume_role_duration_seconds", 1L);
+parameters.put("cloudflare_access_key", "example");
+parameters.put("filebase_access_key", "example");
+parameters.put("google_cloud_storage_s3_compatible_access_key", "example");
+parameters.put("linode_access_key", "example");
+parameters.put("s3_compatible_access_key", "example");
+parameters.put("sharepoint_client_id", "00000000-0000-0000-0000-000000000000");
+parameters.put("sharepoint_tenant_id", "00000000-0000-0000-0000-000000000000");
+parameters.put("username", "user");
+parameters.put("wasabi_access_key", "example");
+parameters.put("workspace_id", 0L);
+parameters.put("copy_values_from_credential_id", 1L);
+RemoteServerCredential remoteServerCredential = RemoteServerCredential.create(parameters, null);
 ```
 
 ### Parameters
@@ -161,12 +169,24 @@ RemoteServerCredential remoteServerCredential = RemoteServerCredential.create(
 
 ## Update Remote Server Credential
 
-```
-RemoteServerCredential remoteServerCredential = RemoteServerCredential.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "My Credential");
+parameters.put("description", "More information or notes about this credential.");
+parameters.put("server_type", "s3");
+parameters.put("aws_access_key", "example");
+parameters.put("s3_assume_role_arn", "example");
+parameters.put("s3_assume_role_duration_seconds", 1L);
+parameters.put("cloudflare_access_key", "example");
+parameters.put("filebase_access_key", "example");
+parameters.put("google_cloud_storage_s3_compatible_access_key", "example");
+parameters.put("linode_access_key", "example");
+parameters.put("s3_compatible_access_key", "example");
+parameters.put("sharepoint_client_id", "00000000-0000-0000-0000-000000000000");
+parameters.put("sharepoint_tenant_id", "00000000-0000-0000-0000-000000000000");
+parameters.put("username", "user");
+parameters.put("wasabi_access_key", "example");
+RemoteServerCredential remoteServerCredential = RemoteServerCredential.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -212,12 +232,9 @@ RemoteServerCredential remoteServerCredential = RemoteServerCredential.update(
 
 ## Delete Remote Server Credential
 
-```
-void remoteServerCredential = RemoteServerCredential.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+RemoteServerCredential.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -229,16 +246,15 @@ void remoteServerCredential = RemoteServerCredential.delete(
 
 ## Update Remote Server Credential
 
-```
-RemoteServerCredential remoteServerCredential = RemoteServerCredential.find(id);
-
+```java
+RemoteServerCredential remoteServerCredential = RemoteServerCredential.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "My Credential");
 parameters.put("description", "More information or notes about this credential.");
 parameters.put("server_type", "s3");
 parameters.put("aws_access_key", "example");
 parameters.put("s3_assume_role_arn", "example");
-parameters.put("s3_assume_role_duration_seconds", 1);
+parameters.put("s3_assume_role_duration_seconds", 1L);
 parameters.put("cloudflare_access_key", "example");
 parameters.put("filebase_access_key", "example");
 parameters.put("google_cloud_storage_s3_compatible_access_key", "example");
@@ -248,8 +264,7 @@ parameters.put("sharepoint_client_id", "00000000-0000-0000-0000-000000000000");
 parameters.put("sharepoint_tenant_id", "00000000-0000-0000-0000-000000000000");
 parameters.put("username", "user");
 parameters.put("wasabi_access_key", "example");
-
-remoteServerCredential.update(parameters);
+RemoteServerCredential result = remoteServerCredential.update(parameters);
 ```
 
 ### Parameters
@@ -295,11 +310,9 @@ remoteServerCredential.update(parameters);
 
 ## Delete Remote Server Credential
 
-```
-RemoteServerCredential remoteServerCredential = RemoteServerCredential.find(id);
-
+```java
+RemoteServerCredential remoteServerCredential = RemoteServerCredential.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 remoteServerCredential.delete(parameters);
 ```
 

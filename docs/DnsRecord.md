@@ -21,12 +21,9 @@
 
 ## Show Site DNS Configuration
 
-```
-ListIterator<DnsRecord> dnsRecord = DnsRecord.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<DnsRecord> dnsRecords = DnsRecord.list(parameters, null);
 ```
 
 ### Parameters

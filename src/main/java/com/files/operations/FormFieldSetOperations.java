@@ -25,19 +25,36 @@ public final class FormFieldSetOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   * List Form Field Sets
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<FormFieldSet> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Form Field Sets
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<FormFieldSet> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Form Field Sets
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code FormFieldSet} records, in a {@code ListIterator}
+   */
   public ListIterator<FormFieldSet> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -59,30 +76,59 @@ public final class FormFieldSetOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Form Field Sets
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<FormFieldSet> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Form Field Sets
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<FormFieldSet> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Form Field Set ID.
+   * Show Form Field Set
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public FormFieldSet find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Form Field Set
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public FormFieldSet find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Form Field Set
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public FormFieldSet find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Form Field Set
+   *
+   * @param id Form Field Set ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code FormFieldSet}
+   */
   public FormFieldSet find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -104,33 +150,60 @@ public final class FormFieldSetOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Form Field Set
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public FormFieldSet get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Form Field Set
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public FormFieldSet get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   title - string - Title to be displayed
-   *   require_complete_metadata_capture - boolean - Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
-   *   workspace_id - int64 - Workspace ID
-   *   skip_email - boolean - Skip validating form email
-   *   skip_name - boolean - Skip validating form name
-   *   skip_company - boolean - Skip validating company
-   *   form_fields - array(object)
+   * Create Form Field Set
+   *
+   * @see #create(HashMap, HashMap)
    */
   public FormFieldSet create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Form Field Set
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public FormFieldSet create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Form Field Set
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code title} (String): Title to be displayed</li>
+   * <li>{@code require_complete_metadata_capture} (Boolean): Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture</li>
+   * <li>{@code workspace_id} (Long): Workspace ID</li>
+   * <li>{@code skip_email} (Boolean): Skip validating form email</li>
+   * <li>{@code skip_name} (Boolean): Skip validating form name</li>
+   * <li>{@code skip_company} (Boolean): Skip validating company</li>
+   * <li>{@code form_fields} (Object[]): </li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code FormFieldSet}
+   */
   public FormFieldSet create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -173,27 +246,50 @@ public final class FormFieldSetOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   title - string - Title to be displayed
-   *   require_complete_metadata_capture - boolean - Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture
-   *   workspace_id - int64 - Workspace ID
-   *   skip_email - boolean - Skip validating form email
-   *   skip_name - boolean - Skip validating form name
-   *   skip_company - boolean - Skip validating company
-   *   form_fields - array(object)
+   * Update Form Field Set
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public FormFieldSet update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Form Field Set
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public FormFieldSet update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Form Field Set
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public FormFieldSet update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Form Field Set
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code title} (String): Title to be displayed</li>
+   * <li>{@code require_complete_metadata_capture} (Boolean): Reject answers over 1024 characters or more than 32 answered custom fields to ensure complete file metadata capture</li>
+   * <li>{@code workspace_id} (Long): Workspace ID</li>
+   * <li>{@code skip_email} (Boolean): Skip validating form email</li>
+   * <li>{@code skip_name} (Boolean): Skip validating form name</li>
+   * <li>{@code skip_company} (Boolean): Skip validating company</li>
+   * <li>{@code form_fields} (Object[]): </li>
+   * </ul>
+   *
+   * @param id Form Field Set ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code FormFieldSet}
+   */
   public FormFieldSet update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -244,19 +340,39 @@ public final class FormFieldSetOperations extends ResourceOperations {
   }
 
   /**
+   * Delete Form Field Set
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Form Field Set
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Form Field Set
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Form Field Set
+   *
+   * @param id Form Field Set ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -277,10 +393,20 @@ public final class FormFieldSetOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Form Field Set
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Form Field Set
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

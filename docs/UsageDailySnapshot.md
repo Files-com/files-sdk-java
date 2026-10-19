@@ -43,12 +43,9 @@
 
 ## List Usage Daily Snapshots
 
-```
-ListIterator<UsageDailySnapshot> usageDailySnapshot = UsageDailySnapshot.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<UsageDailySnapshot> usageDailySnapshots = UsageDailySnapshot.list(parameters, null);
 ```
 
 ### Parameters

@@ -47,12 +47,9 @@
 
 ## List AS2 Stations
 
-```
-ListIterator<As2Station> as2Station = As2Station.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<As2Station> as2Stations = As2Station.list(parameters, null);
 ```
 
 ### Parameters
@@ -67,12 +64,9 @@ ListIterator<As2Station> as2Station = As2Station.list(
 
 ## Show AS2 Station
 
-```
-As2Station as2Station = As2Station.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+As2Station as2Station = As2Station.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -84,12 +78,12 @@ As2Station as2Station = As2Station.find(
 
 ## Create AS2 Station
 
-```
-As2Station as2Station = As2Station.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "AS2 Station Name");
+parameters.put("workspace_id", 1L);
+parameters.put("public_certificate", "example");
+As2Station as2Station = As2Station.create(parameters, null);
 ```
 
 ### Parameters
@@ -107,12 +101,11 @@ As2Station as2Station = As2Station.create(
 
 ## Update AS2 Station
 
-```
-As2Station as2Station = As2Station.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "AS2 Station Name");
+parameters.put("public_certificate", "example");
+As2Station as2Station = As2Station.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -130,12 +123,9 @@ As2Station as2Station = As2Station.update(
 
 ## Delete AS2 Station
 
-```
-void as2Station = As2Station.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+As2Station.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -147,14 +137,12 @@ void as2Station = As2Station.delete(
 
 ## Update AS2 Station
 
-```
-As2Station as2Station = As2Station.find(id);
-
+```java
+As2Station as2Station = As2Station.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "AS2 Station Name");
 parameters.put("public_certificate", "example");
-
-as2Station.update(parameters);
+As2Station result = as2Station.update(parameters);
 ```
 
 ### Parameters
@@ -172,11 +160,9 @@ as2Station.update(parameters);
 
 ## Delete AS2 Station
 
-```
-As2Station as2Station = As2Station.find(id);
-
+```java
+As2Station as2Station = As2Station.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 as2Station.delete(parameters);
 ```
 

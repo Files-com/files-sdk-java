@@ -37,12 +37,9 @@
 
 ## List Exavault API Request Logs
 
-```
-ListIterator<ExavaultApiRequestLog> exavaultApiRequestLog = ExavaultApiRequestLog.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<ExavaultApiRequestLog> exavaultApiRequestLogs = ExavaultApiRequestLog.list(parameters, null);
 ```
 
 ### Parameters

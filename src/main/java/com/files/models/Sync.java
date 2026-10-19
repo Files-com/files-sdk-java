@@ -37,6 +37,11 @@ public class Sync implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -60,14 +65,29 @@ public class Sync implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code Sync} with no attributes set.
+   */
   public Sync() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code Sync} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public Sync(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code Sync} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public Sync(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -85,10 +105,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -99,10 +129,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -113,10 +153,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("description")
   public String description;
 
+  /**
+   * Gets {@link #description}.
+   *
+   * @return the value of {@link #description}
+   */
   public String getDescription() {
     return description;
   }
 
+  /**
+   * Sets {@link #description}.
+   *
+   * @param description the new value
+   */
   public void setDescription(String description) {
     this.description = description;
   }
@@ -127,10 +177,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("site_id")
   public Long siteId;
 
+  /**
+   * Gets {@link #siteId}.
+   *
+   * @return the value of {@link #siteId}
+   */
   public Long getSiteId() {
     return siteId;
   }
 
+  /**
+   * Sets {@link #siteId}.
+   *
+   * @param siteId the new value
+   */
   public void setSiteId(Long siteId) {
     this.siteId = siteId;
   }
@@ -141,10 +201,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
 
+  /**
+   * Sets {@link #workspaceId}.
+   *
+   * @param workspaceId the new value
+   */
   public void setWorkspaceId(Long workspaceId) {
     this.workspaceId = workspaceId;
   }
@@ -155,10 +225,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("user_id")
   public Long userId;
 
+  /**
+   * Gets {@link #userId}.
+   *
+   * @return the value of {@link #userId}
+   */
   public Long getUserId() {
     return userId;
   }
 
+  /**
+   * Sets {@link #userId}.
+   *
+   * @param userId the new value
+   */
   public void setUserId(Long userId) {
     this.userId = userId;
   }
@@ -169,10 +249,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("src_path")
   public String srcPath;
 
+  /**
+   * Gets {@link #srcPath}.
+   *
+   * @return the value of {@link #srcPath}
+   */
   public String getSrcPath() {
     return srcPath;
   }
 
+  /**
+   * Sets {@link #srcPath}.
+   *
+   * @param srcPath the new value
+   */
   public void setSrcPath(String srcPath) {
     this.srcPath = srcPath;
   }
@@ -183,10 +273,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("dest_path")
   public String destPath;
 
+  /**
+   * Gets {@link #destPath}.
+   *
+   * @return the value of {@link #destPath}
+   */
   public String getDestPath() {
     return destPath;
   }
 
+  /**
+   * Sets {@link #destPath}.
+   *
+   * @param destPath the new value
+   */
   public void setDestPath(String destPath) {
     this.destPath = destPath;
   }
@@ -197,10 +297,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("src_remote_server_id")
   public Long srcRemoteServerId;
 
+  /**
+   * Gets {@link #srcRemoteServerId}.
+   *
+   * @return the value of {@link #srcRemoteServerId}
+   */
   public Long getSrcRemoteServerId() {
     return srcRemoteServerId;
   }
 
+  /**
+   * Sets {@link #srcRemoteServerId}.
+   *
+   * @param srcRemoteServerId the new value
+   */
   public void setSrcRemoteServerId(Long srcRemoteServerId) {
     this.srcRemoteServerId = srcRemoteServerId;
   }
@@ -211,10 +321,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("dest_remote_server_id")
   public Long destRemoteServerId;
 
+  /**
+   * Gets {@link #destRemoteServerId}.
+   *
+   * @return the value of {@link #destRemoteServerId}
+   */
   public Long getDestRemoteServerId() {
     return destRemoteServerId;
   }
 
+  /**
+   * Sets {@link #destRemoteServerId}.
+   *
+   * @param destRemoteServerId the new value
+   */
   public void setDestRemoteServerId(Long destRemoteServerId) {
     this.destRemoteServerId = destRemoteServerId;
   }
@@ -225,10 +345,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("src_site_id")
   public Long srcSiteId;
 
+  /**
+   * Gets {@link #srcSiteId}.
+   *
+   * @return the value of {@link #srcSiteId}
+   */
   public Long getSrcSiteId() {
     return srcSiteId;
   }
 
+  /**
+   * Sets {@link #srcSiteId}.
+   *
+   * @param srcSiteId the new value
+   */
   public void setSrcSiteId(Long srcSiteId) {
     this.srcSiteId = srcSiteId;
   }
@@ -239,10 +369,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("dest_site_id")
   public Long destSiteId;
 
+  /**
+   * Gets {@link #destSiteId}.
+   *
+   * @return the value of {@link #destSiteId}
+   */
   public Long getDestSiteId() {
     return destSiteId;
   }
 
+  /**
+   * Sets {@link #destSiteId}.
+   *
+   * @param destSiteId the new value
+   */
   public void setDestSiteId(Long destSiteId) {
     this.destSiteId = destSiteId;
   }
@@ -253,10 +393,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("two_way")
   public Boolean twoWay;
 
+  /**
+   * Gets {@link #twoWay}.
+   *
+   * @return the value of {@link #twoWay}
+   */
   public Boolean getTwoWay() {
     return twoWay;
   }
 
+  /**
+   * Sets {@link #twoWay}.
+   *
+   * @param twoWay the new value
+   */
   public void setTwoWay(Boolean twoWay) {
     this.twoWay = twoWay;
   }
@@ -267,10 +417,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("keep_after_copy")
   public Boolean keepAfterCopy;
 
+  /**
+   * Gets {@link #keepAfterCopy}.
+   *
+   * @return the value of {@link #keepAfterCopy}
+   */
   public Boolean getKeepAfterCopy() {
     return keepAfterCopy;
   }
 
+  /**
+   * Sets {@link #keepAfterCopy}.
+   *
+   * @param keepAfterCopy the new value
+   */
   public void setKeepAfterCopy(Boolean keepAfterCopy) {
     this.keepAfterCopy = keepAfterCopy;
   }
@@ -281,10 +441,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("delete_empty_folders")
   public Boolean deleteEmptyFolders;
 
+  /**
+   * Gets {@link #deleteEmptyFolders}.
+   *
+   * @return the value of {@link #deleteEmptyFolders}
+   */
   public Boolean getDeleteEmptyFolders() {
     return deleteEmptyFolders;
   }
 
+  /**
+   * Sets {@link #deleteEmptyFolders}.
+   *
+   * @param deleteEmptyFolders the new value
+   */
   public void setDeleteEmptyFolders(Boolean deleteEmptyFolders) {
     this.deleteEmptyFolders = deleteEmptyFolders;
   }
@@ -295,10 +465,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("disabled")
   public Boolean disabled;
 
+  /**
+   * Gets {@link #disabled}.
+   *
+   * @return the value of {@link #disabled}
+   */
   public Boolean getDisabled() {
     return disabled;
   }
 
+  /**
+   * Sets {@link #disabled}.
+   *
+   * @param disabled the new value
+   */
   public void setDisabled(Boolean disabled) {
     this.disabled = disabled;
   }
@@ -309,10 +489,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("trigger")
   public String trigger;
 
+  /**
+   * Gets {@link #trigger}.
+   *
+   * @return the value of {@link #trigger}
+   */
   public String getTrigger() {
     return trigger;
   }
 
+  /**
+   * Sets {@link #trigger}.
+   *
+   * @param trigger the new value
+   */
   public void setTrigger(String trigger) {
     this.trigger = trigger;
   }
@@ -323,10 +513,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("trigger_file")
   public String triggerFile;
 
+  /**
+   * Gets {@link #triggerFile}.
+   *
+   * @return the value of {@link #triggerFile}
+   */
   public String getTriggerFile() {
     return triggerFile;
   }
 
+  /**
+   * Sets {@link #triggerFile}.
+   *
+   * @param triggerFile the new value
+   */
   public void setTriggerFile(String triggerFile) {
     this.triggerFile = triggerFile;
   }
@@ -337,10 +537,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("always_write_trigger_file")
   public Boolean alwaysWriteTriggerFile;
 
+  /**
+   * Gets {@link #alwaysWriteTriggerFile}.
+   *
+   * @return the value of {@link #alwaysWriteTriggerFile}
+   */
   public Boolean getAlwaysWriteTriggerFile() {
     return alwaysWriteTriggerFile;
   }
 
+  /**
+   * Sets {@link #alwaysWriteTriggerFile}.
+   *
+   * @param alwaysWriteTriggerFile the new value
+   */
   public void setAlwaysWriteTriggerFile(Boolean alwaysWriteTriggerFile) {
     this.alwaysWriteTriggerFile = alwaysWriteTriggerFile;
   }
@@ -351,10 +561,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("include_patterns")
   public String[] includePatterns;
 
+  /**
+   * Gets {@link #includePatterns}.
+   *
+   * @return the value of {@link #includePatterns}
+   */
   public String[] getIncludePatterns() {
     return includePatterns;
   }
 
+  /**
+   * Sets {@link #includePatterns}.
+   *
+   * @param includePatterns the new value
+   */
   public void setIncludePatterns(String[] includePatterns) {
     this.includePatterns = includePatterns;
   }
@@ -365,10 +585,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("exclude_patterns")
   public String[] excludePatterns;
 
+  /**
+   * Gets {@link #excludePatterns}.
+   *
+   * @return the value of {@link #excludePatterns}
+   */
   public String[] getExcludePatterns() {
     return excludePatterns;
   }
 
+  /**
+   * Sets {@link #excludePatterns}.
+   *
+   * @param excludePatterns the new value
+   */
   public void setExcludePatterns(String[] excludePatterns) {
     this.excludePatterns = excludePatterns;
   }
@@ -379,6 +609,11 @@ public class Sync implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -389,6 +624,11 @@ public class Sync implements ModelInterface {
   @JsonProperty("updated_at")
   public Date updatedAt;
 
+  /**
+   * Gets {@link #updatedAt}.
+   *
+   * @return the value of {@link #updatedAt}
+   */
   public Date getUpdatedAt() {
     return updatedAt;
   }
@@ -399,10 +639,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("sync_interval_minutes")
   public Long syncIntervalMinutes;
 
+  /**
+   * Gets {@link #syncIntervalMinutes}.
+   *
+   * @return the value of {@link #syncIntervalMinutes}
+   */
   public Long getSyncIntervalMinutes() {
     return syncIntervalMinutes;
   }
 
+  /**
+   * Sets {@link #syncIntervalMinutes}.
+   *
+   * @param syncIntervalMinutes the new value
+   */
   public void setSyncIntervalMinutes(Long syncIntervalMinutes) {
     this.syncIntervalMinutes = syncIntervalMinutes;
   }
@@ -413,10 +663,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("interval")
   public String interval;
 
+  /**
+   * Gets {@link #interval}.
+   *
+   * @return the value of {@link #interval}
+   */
   public String getInterval() {
     return interval;
   }
 
+  /**
+   * Sets {@link #interval}.
+   *
+   * @param interval the new value
+   */
   public void setInterval(String interval) {
     this.interval = interval;
   }
@@ -427,10 +687,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("recurring_day")
   public Long recurringDay;
 
+  /**
+   * Gets {@link #recurringDay}.
+   *
+   * @return the value of {@link #recurringDay}
+   */
   public Long getRecurringDay() {
     return recurringDay;
   }
 
+  /**
+   * Sets {@link #recurringDay}.
+   *
+   * @param recurringDay the new value
+   */
   public void setRecurringDay(Long recurringDay) {
     this.recurringDay = recurringDay;
   }
@@ -441,10 +711,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("recurring_days")
   public Long[] recurringDays;
 
+  /**
+   * Gets {@link #recurringDays}.
+   *
+   * @return the value of {@link #recurringDays}
+   */
   public Long[] getRecurringDays() {
     return recurringDays;
   }
 
+  /**
+   * Sets {@link #recurringDays}.
+   *
+   * @param recurringDays the new value
+   */
   public void setRecurringDays(Long[] recurringDays) {
     this.recurringDays = recurringDays;
   }
@@ -455,10 +735,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("schedule_id")
   public Long scheduleId;
 
+  /**
+   * Gets {@link #scheduleId}.
+   *
+   * @return the value of {@link #scheduleId}
+   */
   public Long getScheduleId() {
     return scheduleId;
   }
 
+  /**
+   * Sets {@link #scheduleId}.
+   *
+   * @param scheduleId the new value
+   */
   public void setScheduleId(Long scheduleId) {
     this.scheduleId = scheduleId;
   }
@@ -469,10 +759,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("schedule_days_of_week")
   public Long[] scheduleDaysOfWeek;
 
+  /**
+   * Gets {@link #scheduleDaysOfWeek}.
+   *
+   * @return the value of {@link #scheduleDaysOfWeek}
+   */
   public Long[] getScheduleDaysOfWeek() {
     return scheduleDaysOfWeek;
   }
 
+  /**
+   * Sets {@link #scheduleDaysOfWeek}.
+   *
+   * @param scheduleDaysOfWeek the new value
+   */
   public void setScheduleDaysOfWeek(Long[] scheduleDaysOfWeek) {
     this.scheduleDaysOfWeek = scheduleDaysOfWeek;
   }
@@ -483,10 +783,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("schedule_times_of_day")
   public String[] scheduleTimesOfDay;
 
+  /**
+   * Gets {@link #scheduleTimesOfDay}.
+   *
+   * @return the value of {@link #scheduleTimesOfDay}
+   */
   public String[] getScheduleTimesOfDay() {
     return scheduleTimesOfDay;
   }
 
+  /**
+   * Sets {@link #scheduleTimesOfDay}.
+   *
+   * @param scheduleTimesOfDay the new value
+   */
   public void setScheduleTimesOfDay(String[] scheduleTimesOfDay) {
     this.scheduleTimesOfDay = scheduleTimesOfDay;
   }
@@ -497,10 +807,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("schedule_time_zone")
   public String scheduleTimeZone;
 
+  /**
+   * Gets {@link #scheduleTimeZone}.
+   *
+   * @return the value of {@link #scheduleTimeZone}
+   */
   public String getScheduleTimeZone() {
     return scheduleTimeZone;
   }
 
+  /**
+   * Sets {@link #scheduleTimeZone}.
+   *
+   * @param scheduleTimeZone the new value
+   */
   public void setScheduleTimeZone(String scheduleTimeZone) {
     this.scheduleTimeZone = scheduleTimeZone;
   }
@@ -511,10 +831,20 @@ public class Sync implements ModelInterface {
   @JsonProperty("holiday_region")
   public String holidayRegion;
 
+  /**
+   * Gets {@link #holidayRegion}.
+   *
+   * @return the value of {@link #holidayRegion}
+   */
   public String getHolidayRegion() {
     return holidayRegion;
   }
 
+  /**
+   * Sets {@link #holidayRegion}.
+   *
+   * @param holidayRegion the new value
+   */
   public void setHolidayRegion(String holidayRegion) {
     this.holidayRegion = holidayRegion;
   }
@@ -525,16 +855,28 @@ public class Sync implements ModelInterface {
   @JsonProperty("latest_sync_run")
   public SyncRun latestSyncRun;
 
+  /**
+   * Gets {@link #latestSyncRun}.
+   *
+   * @return the value of {@link #latestSyncRun}
+   */
   public SyncRun getLatestSyncRun() {
     return latestSyncRun;
   }
 
+  /**
+   * Sets {@link #latestSyncRun}.
+   *
+   * @param latestSyncRun the new value
+   */
   public void setLatestSyncRun(SyncRun latestSyncRun) {
     this.latestSyncRun = latestSyncRun;
   }
 
   /**
    * Dry Run Sync
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void dryRun(HashMap<String, Object> parameters) throws IOException {
     filesClient().syncs().dryRun(this.id, parameters, this.options);
@@ -542,6 +884,8 @@ public class Sync implements ModelInterface {
 
   /**
    * Manually Run Sync
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void manualRun(HashMap<String, Object> parameters) throws IOException {
     filesClient().syncs().manualRun(this.id, parameters, this.options);
@@ -549,30 +893,36 @@ public class Sync implements ModelInterface {
 
   /**
    * Updates this Sync. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   delete_empty_folders - boolean - Delete empty folders after sync?
-   *   description - string - Description for this sync job
-   *   dest_path - string - Absolute destination path for the sync
-   *   dest_remote_server_id - int64 - Remote server ID for the destination (if remote)
-   *   disabled - boolean - Is this sync disabled?
-   *   exclude_patterns - array(string) - Array of glob patterns to exclude
-   *   holiday_region - string - Skip the sync if there is a formal, observed holiday for this region.
-   *   include_patterns - array(string) - Array of glob patterns to include
-   *   interval - string - If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
-   *   keep_after_copy - boolean - Keep files after copying?
-   *   name - string - Name for this sync job
-   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-   *   recurring_days - array(int64) - If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
-   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
-   *   schedule_time_zone - string - Time zone for the schedule. If not set, times are interpreted as UTC.
-   *   schedule_times_of_day - array(string) - Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
-   *   src_path - string - Absolute source path for the sync
-   *   src_remote_server_id - int64 - Remote server ID for the source (if remote)
-   *   sync_interval_minutes - int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
-   *   trigger - string - Trigger type: daily, custom_schedule, or manual
-   *   trigger_file - string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
-   *   always_write_trigger_file - boolean - If true, the trigger file will be sent at the end of a successful sync even when no files were transferred.
+   * <p>Update Sync
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code delete_empty_folders} (Boolean): Delete empty folders after sync?</li>
+   * <li>{@code description} (String): Description for this sync job</li>
+   * <li>{@code dest_path} (String): Absolute destination path for the sync</li>
+   * <li>{@code dest_remote_server_id} (Long): Remote server ID for the destination (if remote)</li>
+   * <li>{@code disabled} (Boolean): Is this sync disabled?</li>
+   * <li>{@code exclude_patterns} (String[]): Array of glob patterns to exclude</li>
+   * <li>{@code holiday_region} (String): Skip the sync if there is a formal, observed holiday for this region.</li>
+   * <li>{@code include_patterns} (String[]): Array of glob patterns to include</li>
+   * <li>{@code interval} (String): If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`</li>
+   * <li>{@code keep_after_copy} (Boolean): Keep files after copying?</li>
+   * <li>{@code name} (String): Name for this sync job</li>
+   * <li>{@code recurring_day} (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.</li>
+   * <li>{@code recurring_days} (Long[]): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.</li>
+   * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.</li>
+   * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.</li>
+   * <li>{@code schedule_time_zone} (String): Time zone for the schedule. If not set, times are interpreted as UTC.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.</li>
+   * <li>{@code src_path} (String): Absolute source path for the sync</li>
+   * <li>{@code src_remote_server_id} (Long): Remote server ID for the source (if remote)</li>
+   * <li>{@code sync_interval_minutes} (Long): Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.</li>
+   * <li>{@code trigger} (String): Trigger type: daily, custom_schedule, or manual</li>
+   * <li>{@code trigger_file} (String): Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.</li>
+   * <li>{@code always_write_trigger_file} (Boolean): If true, the trigger file will be sent at the end of a successful sync even when no files were transferred.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code Sync}
    */
   public Sync update(HashMap<String, Object> parameters) throws IOException {
     Sync updated = filesClient().syncs().update(this.id, parameters, this.options);
@@ -581,11 +931,19 @@ public class Sync implements ModelInterface {
   }
 
   /**
+   * Delete Sync
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().syncs().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Sync
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -666,97 +1024,170 @@ public class Sync implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `workspace_id` or `name`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`, `disabled`, `src_remote_server_id` or `dest_remote_server_id`. Valid field combinations are `[ workspace_id, disabled ]`, `[ workspace_id, src_remote_server_id ]`, `[ workspace_id, dest_remote_server_id ]`, `[ disabled, src_remote_server_id ]`, `[ disabled, dest_remote_server_id ]`, `[ workspace_id, disabled, src_remote_server_id ]` or `[ workspace_id, disabled, dest_remote_server_id ]`.
+   * List Syncs
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<Sync> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Syncs
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Sync> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Syncs
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `workspace_id` or `name`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`, `disabled`, `src_remote_server_id` or `dest_remote_server_id`. Valid field combinations are `[ workspace_id, disabled ]`, `[ workspace_id, src_remote_server_id ]`, `[ workspace_id, dest_remote_server_id ]`, `[ disabled, src_remote_server_id ]`, `[ disabled, dest_remote_server_id ]`, `[ workspace_id, disabled, src_remote_server_id ]` or `[ workspace_id, disabled, dest_remote_server_id ]`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Sync} records, in a {@code ListIterator}
+   */
   public static ListIterator<Sync> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().syncs().list(parameters, options);
   }
 
+  /**
+   * List Syncs
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Sync> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Syncs
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Sync> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Sync ID.
+   * Show Sync
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static Sync find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Sync
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Sync find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Sync
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Sync find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Sync
+   *
+   * @param id Sync ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Sync}
+   */
   public static Sync find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().syncs().find(id, parameters, options);
   }
 
+  /**
+   * Show Sync
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Sync get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Sync
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Sync get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   delete_empty_folders - boolean - Delete empty folders after sync?
-   *   description - string - Description for this sync job
-   *   dest_path - string - Absolute destination path for the sync
-   *   dest_remote_server_id - int64 - Remote server ID for the destination (if remote)
-   *   disabled - boolean - Is this sync disabled?
-   *   exclude_patterns - array(string) - Array of glob patterns to exclude
-   *   holiday_region - string - Skip the sync if there is a formal, observed holiday for this region.
-   *   include_patterns - array(string) - Array of glob patterns to include
-   *   interval - string - If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
-   *   keep_after_copy - boolean - Keep files after copying?
-   *   name - string - Name for this sync job
-   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-   *   recurring_days - array(int64) - If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
-   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
-   *   schedule_time_zone - string - Time zone for the schedule. If not set, times are interpreted as UTC.
-   *   schedule_times_of_day - array(string) - Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
-   *   src_path - string - Absolute source path for the sync
-   *   src_remote_server_id - int64 - Remote server ID for the source (if remote)
-   *   sync_interval_minutes - int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
-   *   trigger - string - Trigger type: daily, custom_schedule, or manual
-   *   trigger_file - string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
-   *   always_write_trigger_file - boolean - If true, the trigger file will be sent at the end of a successful sync even when no files were transferred.
-   *   workspace_id - int64 - Workspace ID this sync belongs to
+   * Create Sync
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static Sync create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Sync
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static Sync create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Sync
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code delete_empty_folders} (Boolean): Delete empty folders after sync?</li>
+   * <li>{@code description} (String): Description for this sync job</li>
+   * <li>{@code dest_path} (String): Absolute destination path for the sync</li>
+   * <li>{@code dest_remote_server_id} (Long): Remote server ID for the destination (if remote)</li>
+   * <li>{@code disabled} (Boolean): Is this sync disabled?</li>
+   * <li>{@code exclude_patterns} (String[]): Array of glob patterns to exclude</li>
+   * <li>{@code holiday_region} (String): Skip the sync if there is a formal, observed holiday for this region.</li>
+   * <li>{@code include_patterns} (String[]): Array of glob patterns to include</li>
+   * <li>{@code interval} (String): If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`</li>
+   * <li>{@code keep_after_copy} (Boolean): Keep files after copying?</li>
+   * <li>{@code name} (String): Name for this sync job</li>
+   * <li>{@code recurring_day} (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.</li>
+   * <li>{@code recurring_days} (Long[]): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.</li>
+   * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.</li>
+   * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.</li>
+   * <li>{@code schedule_time_zone} (String): Time zone for the schedule. If not set, times are interpreted as UTC.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.</li>
+   * <li>{@code src_path} (String): Absolute source path for the sync</li>
+   * <li>{@code src_remote_server_id} (Long): Remote server ID for the source (if remote)</li>
+   * <li>{@code sync_interval_minutes} (Long): Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.</li>
+   * <li>{@code trigger} (String): Trigger type: daily, custom_schedule, or manual</li>
+   * <li>{@code trigger_file} (String): Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.</li>
+   * <li>{@code always_write_trigger_file} (Boolean): If true, the trigger file will be sent at the end of a successful sync even when no files were transferred.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID this sync belongs to</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Sync}
+   */
   public static Sync create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().syncs().create(parameters, options);
   }
@@ -764,19 +1195,38 @@ public class Sync implements ModelInterface {
 
   /**
    * Dry Run Sync
+   *
+   * @see #dryRun(Long, HashMap, HashMap)
    */
   public static void dryRun() throws RuntimeException {
     dryRun(null, null, null);
   }
 
+  /**
+   * Dry Run Sync
+   *
+   * @see #dryRun(Long, HashMap, HashMap)
+   */
   public static void dryRun(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     dryRun(id, parameters, null);
   }
 
+  /**
+   * Dry Run Sync
+   *
+   * @see #dryRun(Long, HashMap, HashMap)
+   */
   public static void dryRun(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     dryRun(null, parameters, options);
   }
 
+  /**
+   * Dry Run Sync
+   *
+   * @param id Sync ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void dryRun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().syncs().dryRun(id, parameters, options);
   }
@@ -784,89 +1234,161 @@ public class Sync implements ModelInterface {
 
   /**
    * Manually Run Sync
+   *
+   * @see #manualRun(Long, HashMap, HashMap)
    */
   public static void manualRun() throws RuntimeException {
     manualRun(null, null, null);
   }
 
+  /**
+   * Manually Run Sync
+   *
+   * @see #manualRun(Long, HashMap, HashMap)
+   */
   public static void manualRun(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     manualRun(id, parameters, null);
   }
 
+  /**
+   * Manually Run Sync
+   *
+   * @see #manualRun(Long, HashMap, HashMap)
+   */
   public static void manualRun(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     manualRun(null, parameters, options);
   }
 
+  /**
+   * Manually Run Sync
+   *
+   * @param id Sync ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void manualRun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().syncs().manualRun(id, parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   delete_empty_folders - boolean - Delete empty folders after sync?
-   *   description - string - Description for this sync job
-   *   dest_path - string - Absolute destination path for the sync
-   *   dest_remote_server_id - int64 - Remote server ID for the destination (if remote)
-   *   disabled - boolean - Is this sync disabled?
-   *   exclude_patterns - array(string) - Array of glob patterns to exclude
-   *   holiday_region - string - Skip the sync if there is a formal, observed holiday for this region.
-   *   include_patterns - array(string) - Array of glob patterns to include
-   *   interval - string - If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
-   *   keep_after_copy - boolean - Keep files after copying?
-   *   name - string - Name for this sync job
-   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-   *   recurring_days - array(int64) - If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
-   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
-   *   schedule_time_zone - string - Time zone for the schedule. If not set, times are interpreted as UTC.
-   *   schedule_times_of_day - array(string) - Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
-   *   src_path - string - Absolute source path for the sync
-   *   src_remote_server_id - int64 - Remote server ID for the source (if remote)
-   *   sync_interval_minutes - int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
-   *   trigger - string - Trigger type: daily, custom_schedule, or manual
-   *   trigger_file - string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
-   *   always_write_trigger_file - boolean - If true, the trigger file will be sent at the end of a successful sync even when no files were transferred.
+   * Update Sync
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static Sync update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Sync
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static Sync update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Sync
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static Sync update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Sync
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code delete_empty_folders} (Boolean): Delete empty folders after sync?</li>
+   * <li>{@code description} (String): Description for this sync job</li>
+   * <li>{@code dest_path} (String): Absolute destination path for the sync</li>
+   * <li>{@code dest_remote_server_id} (Long): Remote server ID for the destination (if remote)</li>
+   * <li>{@code disabled} (Boolean): Is this sync disabled?</li>
+   * <li>{@code exclude_patterns} (String[]): Array of glob patterns to exclude</li>
+   * <li>{@code holiday_region} (String): Skip the sync if there is a formal, observed holiday for this region.</li>
+   * <li>{@code include_patterns} (String[]): Array of glob patterns to include</li>
+   * <li>{@code interval} (String): If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`</li>
+   * <li>{@code keep_after_copy} (Boolean): Keep files after copying?</li>
+   * <li>{@code name} (String): Name for this sync job</li>
+   * <li>{@code recurring_day} (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.</li>
+   * <li>{@code recurring_days} (Long[]): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.</li>
+   * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.</li>
+   * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.</li>
+   * <li>{@code schedule_time_zone} (String): Time zone for the schedule. If not set, times are interpreted as UTC.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.</li>
+   * <li>{@code src_path} (String): Absolute source path for the sync</li>
+   * <li>{@code src_remote_server_id} (Long): Remote server ID for the source (if remote)</li>
+   * <li>{@code sync_interval_minutes} (Long): Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.</li>
+   * <li>{@code trigger} (String): Trigger type: daily, custom_schedule, or manual</li>
+   * <li>{@code trigger_file} (String): Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.</li>
+   * <li>{@code always_write_trigger_file} (Boolean): If true, the trigger file will be sent at the end of a successful sync even when no files were transferred.</li>
+   * </ul>
+   *
+   * @param id Sync ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Sync}
+   */
   public static Sync update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().syncs().update(id, parameters, options);
   }
 
 
   /**
+   * Delete Sync
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Sync
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Sync
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Sync
+   *
+   * @param id Sync ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().syncs().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Sync
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Sync
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

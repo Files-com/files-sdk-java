@@ -25,20 +25,37 @@ public final class AiTaskOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name`, `disabled` or `updated_at`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled`, `trigger` or `workspace_id`. Valid field combinations are `[ workspace_id, disabled ]`.
+   * List Ai Tasks
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<AiTask> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Ai Tasks
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<AiTask> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Ai Tasks
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name`, `disabled` or `updated_at`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled`, `trigger` or `workspace_id`. Valid field combinations are `[ workspace_id, disabled ]`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AiTask} records, in a {@code ListIterator}
+   */
   public ListIterator<AiTask> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -64,30 +81,59 @@ public final class AiTaskOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Ai Tasks
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<AiTask> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Ai Tasks
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<AiTask> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Ai Task ID.
+   * Show Ai Task
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public AiTask find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Ai Task
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public AiTask find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Ai Task
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public AiTask find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Ai Task
+   *
+   * @param id Ai Task ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AiTask}
+   */
   public AiTask find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -109,43 +155,70 @@ public final class AiTaskOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Ai Task
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public AiTask get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Ai Task
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public AiTask get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   description - string - AI Task description.
-   *   disabled - boolean - If true, this AI Task will not run.
-   *   holiday_region - string - Optional holiday region used by the AI Task schedule.
-   *   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
-   *   name (required) - string - AI Task name.
-   *   path - string - Path scope used for action-triggered AI Tasks.
-   *   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
-   *   prompt (required) - string - Prompt sent when this AI Task is invoked.
-   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
-   *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
-   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-   *   schedule_time_zone - string - Time zone used by the AI Task schedule.
-   *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the AI Task schedule.
-   *   source - string - Source glob used with `path` for action-triggered AI Tasks.
-   *   trigger - string - How this AI Task is triggered.
-   *   trigger_actions - array(string) - If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
-   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   * Create Ai Task
+   *
+   * @see #create(HashMap, HashMap)
    */
   public AiTask create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Ai Task
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public AiTask create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Ai Task
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code description} (String): AI Task description.</li>
+   * <li>{@code disabled} (Boolean): If true, this AI Task will not run.</li>
+   * <li>{@code holiday_region} (String): Optional holiday region used by the AI Task schedule.</li>
+   * <li>{@code interval} (String): If trigger is `daily`, this specifies how often to run the AI Task.</li>
+   * <li>{@code name} (String): Required. AI Task name.</li>
+   * <li>{@code path} (String): Path scope used for action-triggered AI Tasks.</li>
+   * <li>{@code permission_set} (String): Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.</li>
+   * <li>{@code prompt} (String): Required. Prompt sent when this AI Task is invoked.</li>
+   * <li>{@code recurring_day} (Long): If trigger is `daily`, this selects the day number inside the chosen interval.</li>
+   * <li>{@code recurring_days} (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.</li>
+   * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.</li>
+   * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.</li>
+   * <li>{@code schedule_time_zone} (String): Time zone used by the AI Task schedule.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the AI Task schedule.</li>
+   * <li>{@code source} (String): Source glob used with `path` for action-triggered AI Tasks.</li>
+   * <li>{@code trigger} (String): How this AI Task is triggered.</li>
+   * <li>{@code trigger_actions} (String[]): If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. `0` means the default workspace.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AiTask}
+   */
   public AiTask create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -237,19 +310,38 @@ public final class AiTaskOperations extends ResourceOperations {
 
   /**
    * Manually Run AI Task
+   *
+   * @see #manualRun(Long, HashMap, HashMap)
    */
   public void manualRun() throws RuntimeException {
     manualRun(null, null, null);
   }
 
+  /**
+   * Manually Run AI Task
+   *
+   * @see #manualRun(Long, HashMap, HashMap)
+   */
   public void manualRun(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     manualRun(id, parameters, null);
   }
 
+  /**
+   * Manually Run AI Task
+   *
+   * @see #manualRun(Long, HashMap, HashMap)
+   */
   public void manualRun(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     manualRun(null, parameters, options);
   }
 
+  /**
+   * Manually Run AI Task
+   *
+   * @param id Ai Task ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void manualRun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -271,38 +363,61 @@ public final class AiTaskOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   description - string - AI Task description.
-   *   disabled - boolean - If true, this AI Task will not run.
-   *   holiday_region - string - Optional holiday region used by the AI Task schedule.
-   *   interval - string - If trigger is `daily`, this specifies how often to run the AI Task.
-   *   name - string - AI Task name.
-   *   path - string - Path scope used for action-triggered AI Tasks.
-   *   permission_set - string - Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.
-   *   prompt - string - Prompt sent when this AI Task is invoked.
-   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
-   *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.
-   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-   *   schedule_time_zone - string - Time zone used by the AI Task schedule.
-   *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the AI Task schedule.
-   *   source - string - Source glob used with `path` for action-triggered AI Tasks.
-   *   trigger - string - How this AI Task is triggered.
-   *   trigger_actions - array(string) - If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.
-   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   * Update Ai Task
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public AiTask update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Ai Task
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public AiTask update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Ai Task
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public AiTask update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Ai Task
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code description} (String): AI Task description.</li>
+   * <li>{@code disabled} (Boolean): If true, this AI Task will not run.</li>
+   * <li>{@code holiday_region} (String): Optional holiday region used by the AI Task schedule.</li>
+   * <li>{@code interval} (String): If trigger is `daily`, this specifies how often to run the AI Task.</li>
+   * <li>{@code name} (String): AI Task name.</li>
+   * <li>{@code path} (String): Path scope used for action-triggered AI Tasks.</li>
+   * <li>{@code permission_set} (String): Permissions used by the internal API key for this AI Task. Valid values are `full` and `files_only`.</li>
+   * <li>{@code prompt} (String): Prompt sent when this AI Task is invoked.</li>
+   * <li>{@code recurring_day} (Long): If trigger is `daily`, this selects the day number inside the chosen interval.</li>
+   * <li>{@code recurring_days} (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.</li>
+   * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the AI Task's schedule fields.</li>
+   * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.</li>
+   * <li>{@code schedule_time_zone} (String): Time zone used by the AI Task schedule.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the AI Task schedule.</li>
+   * <li>{@code source} (String): Source glob used with `path` for action-triggered AI Tasks.</li>
+   * <li>{@code trigger} (String): How this AI Task is triggered.</li>
+   * <li>{@code trigger_actions} (String[]): If trigger is `action`, the file action types that invoke this AI Task. Valid actions are create, copy, move, archived_delete, update, read, destroy.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. `0` means the default workspace.</li>
+   * </ul>
+   *
+   * @param id Ai Task ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AiTask}
+   */
   public AiTask update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -397,19 +512,39 @@ public final class AiTaskOperations extends ResourceOperations {
   }
 
   /**
+   * Delete Ai Task
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Ai Task
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Ai Task
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Ai Task
+   *
+   * @param id Ai Task ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -430,10 +565,20 @@ public final class AiTaskOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Ai Task
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Ai Task
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

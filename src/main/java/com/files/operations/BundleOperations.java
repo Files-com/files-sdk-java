@@ -26,27 +26,44 @@ public final class BundleOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `expires_at`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `expires_at`, `code`, `group_id`, `user_id` or `bypasses_site_expiration_rules`. Valid field combinations are `[ group_id, expires_at ]` and `[ user_id, expires_at ]`.
-   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at` and `expires_at`.
-   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at` and `expires_at`.
-   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `code`.
-   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at` and `expires_at`.
-   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at` and `expires_at`.
-   *   deleted - boolean - If true, only list deleted Share Links.
+   * List Share Links
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<Bundle> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Share Links
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Bundle> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Share Links
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `expires_at`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `expires_at`, `code`, `group_id`, `user_id` or `bypasses_site_expiration_rules`. Valid field combinations are `[ group_id, expires_at ]` and `[ user_id, expires_at ]`.</li>
+   * <li>{@code filter_gt} (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at` and `expires_at`.</li>
+   * <li>{@code filter_gteq} (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at` and `expires_at`.</li>
+   * <li>{@code filter_prefix} (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `code`.</li>
+   * <li>{@code filter_lt} (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at` and `expires_at`.</li>
+   * <li>{@code filter_lteq} (Object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at` and `expires_at`.</li>
+   * <li>{@code deleted} (Boolean): If true, only list deleted Share Links.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Bundle} records, in a {@code ListIterator}
+   */
   public ListIterator<Bundle> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -100,31 +117,63 @@ public final class BundleOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Share Links
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Bundle> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Share Links
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Bundle> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Bundle ID.
-   *   deleted - boolean - If true, show a deleted Share Link.
+   * Show Share Link
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public Bundle find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Share Link
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Bundle find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Share Link
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Bundle find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Share Link
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code deleted} (Boolean): If true, show a deleted Share Link.</li>
+   * </ul>
+   *
+   * @param id Bundle ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Bundle}
+   */
   public Bundle find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -150,57 +199,84 @@ public final class BundleOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Share Link
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Bundle get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Share Link
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Bundle get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   paths (required) - array(string) - A list of paths to include in this bundle.
-   *   password - string - Password for this bundle.
-   *   bypasses_site_expiration_rules - boolean - If true, this Share Link bypasses site-wide expiration rules. Only site admins may set this.
-   *   form_field_set_id - int64 - Id of Form Field Set to use with this bundle
-   *   create_snapshot - boolean - If true, create a snapshot of this bundle's contents.
-   *   dont_separate_submissions_by_folder - boolean - Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
-   *   expires_at - string - Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.
-   *   finalize_snapshot - boolean - If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
-   *   max_uses - int64 - Maximum number of times bundle can be accessed
-   *   group_id - int64 - Owning group ID. If set, members of this group can view, edit, and share this Share Link.
-   *   internal_name - string - Internal name for identifying this Share Link.
-   *   description - string - Public description
-   *   note - string - Bundle internal note
-   *   code - string - Bundle code.  This code forms the end part of the Public URL.
-   *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
-   *   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
-   *   permissions - string - Permissions that apply to Folders in this Share Link.
-   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
-   *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
-   *   inbox_id - int64 - ID of the associated inbox, if available.
-   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
-   *   send_one_time_password_to_recipient_at_registration - boolean - If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
-   *   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
-   *   skip_email - boolean - BundleRegistrations can be saved without providing email?
-   *   skip_name - boolean - BundleRegistrations can be saved without providing name?
-   *   skip_company - boolean - BundleRegistrations can be saved without providing company?
-   *   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
-   *   snapshot_id - int64 - ID of the snapshot containing this bundle's contents.
-   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
-   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
-   *   watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
+   * Create Share Link
+   *
+   * @see #create(HashMap, HashMap)
    */
   public Bundle create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Share Link
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public Bundle create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Share Link
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code paths} (String[]): Required. A list of paths to include in this bundle.</li>
+   * <li>{@code password} (String): Password for this bundle.</li>
+   * <li>{@code bypasses_site_expiration_rules} (Boolean): If true, this Share Link bypasses site-wide expiration rules. Only site admins may set this.</li>
+   * <li>{@code form_field_set_id} (Long): Id of Form Field Set to use with this bundle</li>
+   * <li>{@code create_snapshot} (Boolean): If true, create a snapshot of this bundle's contents.</li>
+   * <li>{@code dont_separate_submissions_by_folder} (Boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.</li>
+   * <li>{@code expires_at} (String): Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.</li>
+   * <li>{@code finalize_snapshot} (Boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.</li>
+   * <li>{@code max_uses} (Long): Maximum number of times bundle can be accessed</li>
+   * <li>{@code group_id} (Long): Owning group ID. If set, members of this group can view, edit, and share this Share Link.</li>
+   * <li>{@code internal_name} (String): Internal name for identifying this Share Link.</li>
+   * <li>{@code description} (String): Public description</li>
+   * <li>{@code note} (String): Bundle internal note</li>
+   * <li>{@code code} (String): Bundle code.  This code forms the end part of the Public URL.</li>
+   * <li>{@code path_template} (String): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.</li>
+   * <li>{@code path_template_time_zone} (String): Timezone to use when rendering timestamps in path templates.</li>
+   * <li>{@code permissions} (String): Permissions that apply to Folders in this Share Link.</li>
+   * <li>{@code require_registration} (Boolean): Show a registration page that captures the downloader's name and email address?</li>
+   * <li>{@code clickwrap_id} (Long): ID of the clickwrap to use with this bundle.</li>
+   * <li>{@code inbox_id} (Long): ID of the associated inbox, if available.</li>
+   * <li>{@code require_share_recipient} (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?</li>
+   * <li>{@code send_one_time_password_to_recipient_at_registration} (Boolean): If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.</li>
+   * <li>{@code send_email_receipt_to_uploader} (Boolean): Send delivery receipt to the uploader. Note: For writable share only</li>
+   * <li>{@code skip_email} (Boolean): BundleRegistrations can be saved without providing email?</li>
+   * <li>{@code skip_name} (Boolean): BundleRegistrations can be saved without providing name?</li>
+   * <li>{@code skip_company} (Boolean): BundleRegistrations can be saved without providing company?</li>
+   * <li>{@code start_access_on_date} (String): Date when share will start to be accessible. If `nil` access granted right after create.</li>
+   * <li>{@code snapshot_id} (Long): ID of the snapshot containing this bundle's contents.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. `0` means the default workspace.</li>
+   * <li>{@code watermark_attachment_file} (byte[] or Attachment): Preview watermark image applied to all bundle items.</li>
+   * <li>{@code watermark_value} (Object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Bundle}
+   */
   public Bundle create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -350,23 +426,43 @@ public final class BundleOperations extends ResourceOperations {
   /**
    * Send email(s) with a link to bundle
    *
-   * Parameters:
-   *   to - array(string) - A list of email addresses to share this bundle with. Required unless `recipients` is used.
-   *   note - string - Note to include in email.
-   *   recipients - array(object) - A list of recipients to share this bundle with. Required unless `to` is used.
+   * @see #share(Long, HashMap, HashMap)
    */
   public void share() throws RuntimeException {
     share(null, null, null);
   }
 
+  /**
+   * Send email(s) with a link to bundle
+   *
+   * @see #share(Long, HashMap, HashMap)
+   */
   public void share(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     share(id, parameters, null);
   }
 
+  /**
+   * Send email(s) with a link to bundle
+   *
+   * @see #share(Long, HashMap, HashMap)
+   */
   public void share(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     share(null, parameters, options);
   }
 
+  /**
+   * Send email(s) with a link to bundle
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code to} (String[]): A list of email addresses to share this bundle with. Required unless `recipients` is used.</li>
+   * <li>{@code note} (String): Note to include in email.</li>
+   * <li>{@code recipients} (Object[]): A list of recipients to share this bundle with. Required unless `to` is used.</li>
+   * </ul>
+   *
+   * @param id Bundle ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void share(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -400,52 +496,75 @@ public final class BundleOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   paths - array(string) - A list of paths to include in this bundle.
-   *   password - string - Password for this bundle.
-   *   bypasses_site_expiration_rules - boolean - If true, this Share Link bypasses site-wide expiration rules. Only site admins may set this.
-   *   form_field_set_id - int64 - Id of Form Field Set to use with this bundle
-   *   clickwrap_id - int64 - ID of the clickwrap to use with this bundle.
-   *   code - string - Bundle code.  This code forms the end part of the Public URL.
-   *   create_snapshot - boolean - If true, create a snapshot of this bundle's contents.
-   *   description - string - Public description
-   *   dont_separate_submissions_by_folder - boolean - Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.
-   *   expires_at - string - Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.
-   *   finalize_snapshot - boolean - If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.
-   *   inbox_id - int64 - ID of the associated inbox, if available.
-   *   max_uses - int64 - Maximum number of times bundle can be accessed
-   *   group_id - int64 - Owning group ID. If set, members of this group can view, edit, and share this Share Link.
-   *   internal_name - string - Internal name for identifying this Share Link.
-   *   note - string - Bundle internal note
-   *   path_template - string - Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.
-   *   path_template_time_zone - string - Timezone to use when rendering timestamps in path templates.
-   *   permissions - string - Permissions that apply to Folders in this Share Link.
-   *   require_registration - boolean - Show a registration page that captures the downloader's name and email address?
-   *   require_share_recipient - boolean - Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
-   *   send_one_time_password_to_recipient_at_registration - boolean - If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.
-   *   send_email_receipt_to_uploader - boolean - Send delivery receipt to the uploader. Note: For writable share only
-   *   skip_company - boolean - BundleRegistrations can be saved without providing company?
-   *   start_access_on_date - string - Date when share will start to be accessible. If `nil` access granted right after create.
-   *   skip_email - boolean - BundleRegistrations can be saved without providing email?
-   *   skip_name - boolean - BundleRegistrations can be saved without providing name?
-   *   user_id - int64 - The owning user id. Only site admins can set this.
-   *   watermark_attachment_delete - boolean - If true, will delete the file stored in watermark_attachment
-   *   watermark_attachment_file - file - Preview watermark image applied to all bundle items.
-   *   watermark_value - object - Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
-   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   * Update Share Link
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public Bundle update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Share Link
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public Bundle update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Share Link
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public Bundle update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Share Link
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code paths} (String[]): A list of paths to include in this bundle.</li>
+   * <li>{@code password} (String): Password for this bundle.</li>
+   * <li>{@code bypasses_site_expiration_rules} (Boolean): If true, this Share Link bypasses site-wide expiration rules. Only site admins may set this.</li>
+   * <li>{@code form_field_set_id} (Long): Id of Form Field Set to use with this bundle</li>
+   * <li>{@code clickwrap_id} (Long): ID of the clickwrap to use with this bundle.</li>
+   * <li>{@code code} (String): Bundle code.  This code forms the end part of the Public URL.</li>
+   * <li>{@code create_snapshot} (Boolean): If true, create a snapshot of this bundle's contents.</li>
+   * <li>{@code description} (String): Public description</li>
+   * <li>{@code dont_separate_submissions_by_folder} (Boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.</li>
+   * <li>{@code expires_at} (String): Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.</li>
+   * <li>{@code finalize_snapshot} (Boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.</li>
+   * <li>{@code inbox_id} (Long): ID of the associated inbox, if available.</li>
+   * <li>{@code max_uses} (Long): Maximum number of times bundle can be accessed</li>
+   * <li>{@code group_id} (Long): Owning group ID. If set, members of this group can view, edit, and share this Share Link.</li>
+   * <li>{@code internal_name} (String): Internal name for identifying this Share Link.</li>
+   * <li>{@code note} (String): Bundle internal note</li>
+   * <li>{@code path_template} (String): Template for creating submission subfolders. Can use the uploader's name, email address, ip, company, `strftime` directives, and any custom form data.</li>
+   * <li>{@code path_template_time_zone} (String): Timezone to use when rendering timestamps in path templates.</li>
+   * <li>{@code permissions} (String): Permissions that apply to Folders in this Share Link.</li>
+   * <li>{@code require_registration} (Boolean): Show a registration page that captures the downloader's name and email address?</li>
+   * <li>{@code require_share_recipient} (Boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?</li>
+   * <li>{@code send_one_time_password_to_recipient_at_registration} (Boolean): If true, require_share_recipient bundles will send a one-time password to the recipient when they register. Cannot be enabled if the bundle has a password set.</li>
+   * <li>{@code send_email_receipt_to_uploader} (Boolean): Send delivery receipt to the uploader. Note: For writable share only</li>
+   * <li>{@code skip_company} (Boolean): BundleRegistrations can be saved without providing company?</li>
+   * <li>{@code start_access_on_date} (String): Date when share will start to be accessible. If `nil` access granted right after create.</li>
+   * <li>{@code skip_email} (Boolean): BundleRegistrations can be saved without providing email?</li>
+   * <li>{@code skip_name} (Boolean): BundleRegistrations can be saved without providing name?</li>
+   * <li>{@code user_id} (Long): The owning user id. Only site admins can set this.</li>
+   * <li>{@code watermark_attachment_delete} (Boolean): If true, will delete the file stored in watermark_attachment</li>
+   * <li>{@code watermark_attachment_file} (byte[] or Attachment): Preview watermark image applied to all bundle items.</li>
+   * <li>{@code watermark_value} (Object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. `0` means the default workspace.</li>
+   * </ul>
+   *
+   * @param id Bundle ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Bundle}
+   */
   public Bundle update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -601,19 +720,39 @@ public final class BundleOperations extends ResourceOperations {
   }
 
   /**
+   * Delete Share Link
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Share Link
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Share Link
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Share Link
+   *
+   * @param id Bundle ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -634,10 +773,20 @@ public final class BundleOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Share Link
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Share Link
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

@@ -37,6 +37,11 @@ public class ApiKey implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -60,14 +65,29 @@ public class ApiKey implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code ApiKey} with no attributes set.
+   */
   public ApiKey() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code ApiKey} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public ApiKey(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code ApiKey} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public ApiKey(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -85,10 +105,20 @@ public class ApiKey implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -99,10 +129,20 @@ public class ApiKey implements ModelInterface {
   @JsonProperty("descriptive_label")
   public String descriptiveLabel;
 
+  /**
+   * Gets {@link #descriptiveLabel}.
+   *
+   * @return the value of {@link #descriptiveLabel}
+   */
   public String getDescriptiveLabel() {
     return descriptiveLabel;
   }
 
+  /**
+   * Sets {@link #descriptiveLabel}.
+   *
+   * @param descriptiveLabel the new value
+   */
   public void setDescriptiveLabel(String descriptiveLabel) {
     this.descriptiveLabel = descriptiveLabel;
   }
@@ -113,10 +153,20 @@ public class ApiKey implements ModelInterface {
   @JsonProperty("description")
   public String description;
 
+  /**
+   * Gets {@link #description}.
+   *
+   * @return the value of {@link #description}
+   */
   public String getDescription() {
     return description;
   }
 
+  /**
+   * Sets {@link #description}.
+   *
+   * @param description the new value
+   */
   public void setDescription(String description) {
     this.description = description;
   }
@@ -127,6 +177,11 @@ public class ApiKey implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -137,10 +192,20 @@ public class ApiKey implements ModelInterface {
   @JsonProperty("expires_at")
   public Date expiresAt;
 
+  /**
+   * Gets {@link #expiresAt}.
+   *
+   * @return the value of {@link #expiresAt}
+   */
   public Date getExpiresAt() {
     return expiresAt;
   }
 
+  /**
+   * Sets {@link #expiresAt}.
+   *
+   * @param expiresAt the new value
+   */
   public void setExpiresAt(Date expiresAt) {
     this.expiresAt = expiresAt;
   }
@@ -151,10 +216,20 @@ public class ApiKey implements ModelInterface {
   @JsonProperty("key")
   public String key;
 
+  /**
+   * Gets {@link #key}.
+   *
+   * @return the value of {@link #key}
+   */
   public String getKey() {
     return key;
   }
 
+  /**
+   * Sets {@link #key}.
+   *
+   * @param key the new value
+   */
   public void setKey(String key) {
     this.key = key;
   }
@@ -165,10 +240,20 @@ public class ApiKey implements ModelInterface {
   @JsonProperty("aws_style_credentials")
   public Boolean awsStyleCredentials;
 
+  /**
+   * Gets {@link #awsStyleCredentials}.
+   *
+   * @return the value of {@link #awsStyleCredentials}
+   */
   public Boolean getAwsStyleCredentials() {
     return awsStyleCredentials;
   }
 
+  /**
+   * Sets {@link #awsStyleCredentials}.
+   *
+   * @param awsStyleCredentials the new value
+   */
   public void setAwsStyleCredentials(Boolean awsStyleCredentials) {
     this.awsStyleCredentials = awsStyleCredentials;
   }
@@ -179,10 +264,20 @@ public class ApiKey implements ModelInterface {
   @JsonProperty("aws_access_key_id")
   public String awsAccessKeyId;
 
+  /**
+   * Gets {@link #awsAccessKeyId}.
+   *
+   * @return the value of {@link #awsAccessKeyId}
+   */
   public String getAwsAccessKeyId() {
     return awsAccessKeyId;
   }
 
+  /**
+   * Sets {@link #awsAccessKeyId}.
+   *
+   * @param awsAccessKeyId the new value
+   */
   public void setAwsAccessKeyId(String awsAccessKeyId) {
     this.awsAccessKeyId = awsAccessKeyId;
   }
@@ -193,10 +288,20 @@ public class ApiKey implements ModelInterface {
   @JsonProperty("aws_secret_key")
   public String awsSecretKey;
 
+  /**
+   * Gets {@link #awsSecretKey}.
+   *
+   * @return the value of {@link #awsSecretKey}
+   */
   public String getAwsSecretKey() {
     return awsSecretKey;
   }
 
+  /**
+   * Sets {@link #awsSecretKey}.
+   *
+   * @param awsSecretKey the new value
+   */
   public void setAwsSecretKey(String awsSecretKey) {
     this.awsSecretKey = awsSecretKey;
   }
@@ -207,10 +312,20 @@ public class ApiKey implements ModelInterface {
   @JsonProperty("last_use_at")
   public Date lastUseAt;
 
+  /**
+   * Gets {@link #lastUseAt}.
+   *
+   * @return the value of {@link #lastUseAt}
+   */
   public Date getLastUseAt() {
     return lastUseAt;
   }
 
+  /**
+   * Sets {@link #lastUseAt}.
+   *
+   * @param lastUseAt the new value
+   */
   public void setLastUseAt(Date lastUseAt) {
     this.lastUseAt = lastUseAt;
   }
@@ -221,10 +336,20 @@ public class ApiKey implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -235,10 +360,20 @@ public class ApiKey implements ModelInterface {
   @JsonProperty("permission_set")
   public String permissionSet;
 
+  /**
+   * Gets {@link #permissionSet}.
+   *
+   * @return the value of {@link #permissionSet}
+   */
   public String getPermissionSet() {
     return permissionSet;
   }
 
+  /**
+   * Sets {@link #permissionSet}.
+   *
+   * @param permissionSet the new value
+   */
   public void setPermissionSet(String permissionSet) {
     this.permissionSet = permissionSet;
   }
@@ -249,10 +384,20 @@ public class ApiKey implements ModelInterface {
   @JsonProperty("platform")
   public String platform;
 
+  /**
+   * Gets {@link #platform}.
+   *
+   * @return the value of {@link #platform}
+   */
   public String getPlatform() {
     return platform;
   }
 
+  /**
+   * Sets {@link #platform}.
+   *
+   * @param platform the new value
+   */
   public void setPlatform(String platform) {
     this.platform = platform;
   }
@@ -263,10 +408,20 @@ public class ApiKey implements ModelInterface {
   @JsonProperty("site_id")
   public Long siteId;
 
+  /**
+   * Gets {@link #siteId}.
+   *
+   * @return the value of {@link #siteId}
+   */
   public Long getSiteId() {
     return siteId;
   }
 
+  /**
+   * Sets {@link #siteId}.
+   *
+   * @param siteId the new value
+   */
   public void setSiteId(Long siteId) {
     this.siteId = siteId;
   }
@@ -277,10 +432,20 @@ public class ApiKey implements ModelInterface {
   @JsonProperty("site_name")
   public String siteName;
 
+  /**
+   * Gets {@link #siteName}.
+   *
+   * @return the value of {@link #siteName}
+   */
   public String getSiteName() {
     return siteName;
   }
 
+  /**
+   * Sets {@link #siteName}.
+   *
+   * @param siteName the new value
+   */
   public void setSiteName(String siteName) {
     this.siteName = siteName;
   }
@@ -291,10 +456,20 @@ public class ApiKey implements ModelInterface {
   @JsonProperty("url")
   public String url;
 
+  /**
+   * Gets {@link #url}.
+   *
+   * @return the value of {@link #url}
+   */
   public String getUrl() {
     return url;
   }
 
+  /**
+   * Sets {@link #url}.
+   *
+   * @param url the new value
+   */
   public void setUrl(String url) {
     this.url = url;
   }
@@ -305,10 +480,20 @@ public class ApiKey implements ModelInterface {
   @JsonProperty("user_id")
   public Long userId;
 
+  /**
+   * Gets {@link #userId}.
+   *
+   * @return the value of {@link #userId}
+   */
   public Long getUserId() {
     return userId;
   }
 
+  /**
+   * Sets {@link #userId}.
+   *
+   * @param userId the new value
+   */
   public void setUserId(Long userId) {
     this.userId = userId;
   }
@@ -319,10 +504,20 @@ public class ApiKey implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
 
+  /**
+   * Sets {@link #workspaceId}.
+   *
+   * @param workspaceId the new value
+   */
   public void setWorkspaceId(Long workspaceId) {
     this.workspaceId = workspaceId;
   }
@@ -333,20 +528,36 @@ public class ApiKey implements ModelInterface {
   @JsonProperty("path")
   public String path;
 
+  /**
+   * Gets {@link #path}.
+   *
+   * @return the value of {@link #path}
+   */
   public String getPath() {
     return path;
   }
 
+  /**
+   * Sets {@link #path}.
+   *
+   * @param path the new value
+   */
   public void setPath(String path) {
     this.path = path;
   }
 
   /**
    * Updates this ApiKey. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   description - string - User-supplied description of API key.
-   *   expires_at - string - API Key expiration date
-   *   name - string - Internal name for the API Key.  For your use.
+   * <p>Update API Key
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code description} (String): User-supplied description of API key.</li>
+   * <li>{@code expires_at} (String): API Key expiration date</li>
+   * <li>{@code name} (String): Internal name for the API Key.  For your use.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code ApiKey}
    */
   public ApiKey update(HashMap<String, Object> parameters) throws IOException {
     ApiKey updated = filesClient().apiKeys().update(this.id, parameters, this.options);
@@ -355,11 +566,19 @@ public class ApiKey implements ModelInterface {
   }
 
   /**
+   * Delete API Key
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().apiKeys().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete API Key
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -410,188 +629,360 @@ public class ApiKey implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id` and `workspace_id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `aws_style_credentials` and `expires_at`.
-   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `expires_at`.
-   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `expires_at`.
-   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `expires_at`.
-   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `expires_at`.
+   * List API Keys
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<ApiKey> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List API Keys
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ApiKey> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List API Keys
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id` and `workspace_id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `aws_style_credentials` and `expires_at`.</li>
+   * <li>{@code filter_gt} (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `expires_at`.</li>
+   * <li>{@code filter_gteq} (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `expires_at`.</li>
+   * <li>{@code filter_lt} (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `expires_at`.</li>
+   * <li>{@code filter_lteq} (Object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `expires_at`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ApiKey} records, in a {@code ListIterator}
+   */
   public static ListIterator<ApiKey> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().apiKeys().list(parameters, options);
   }
 
+  /**
+   * List API Keys
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ApiKey> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List API Keys
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ApiKey> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
+   * Show information about current API key.  (Requires current API connection to be using an API key.)
+   *
+   * @see #findCurrent(HashMap, HashMap)
    */
   public static ApiKey findCurrent() throws RuntimeException {
     return findCurrent(null, null);
   }
 
+  /**
+   * Show information about current API key.  (Requires current API connection to be using an API key.)
+   *
+   * @see #findCurrent(HashMap, HashMap)
+   */
   public static ApiKey findCurrent(HashMap<String, Object> parameters) throws RuntimeException {
     return findCurrent(parameters, null);
   }
 
 
+  /**
+   * Show information about current API key.  (Requires current API connection to be using an API key.)
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ApiKey}
+   */
   public static ApiKey findCurrent(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().apiKeys().findCurrent(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Api Key ID.
+   * Show API Key
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static ApiKey find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show API Key
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ApiKey find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show API Key
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ApiKey find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show API Key
+   *
+   * @param id Api Key ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ApiKey}
+   */
   public static ApiKey find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().apiKeys().find(id, parameters, options);
   }
 
+  /**
+   * Show API Key
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ApiKey get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show API Key
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ApiKey get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   description - string - User-supplied description of API key.
-   *   expires_at - string - API Key expiration date
-   *   name (required) - string - Internal name for the API Key.  For your use.
-   *   aws_style_credentials - boolean - If `true`, this API key will be usable with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.
-   *   path - string - Restricts the file and folder operations made with this key, meaning the files, folders, and file_actions endpoints, to the specified folder and its descendants, including copy and move destinations. For `GET /file_migrations/{id}`, a key with a path can read only migrations it started. Other endpoints do not apply the path restriction; use the `files_only` permission set to confine a key to file operations and their supporting lookups. Does not grant access beyond the owning user's permissions. Optional except for `office_integration` keys, which require a path the owning user can read.
-   *   permission_set - string - Permissions for this API Key. Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `mobile_app` permission set can only perform the functions provided by our Mobile App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Keys with the `files_only` permission set can use only the files, folders, and file_actions endpoints, excluding the GPG Encrypt and GPG Decrypt file actions, where they perform file operations as a full-access file user in the key's workspace scope, along with `GET /file_migrations/{id}` and `GET /api_key`. On the migration lookup, any key with a `path` can read only migrations it started. Without a `path`, user-owned keys retain user-scoped access; site-wide Workspace-bound keys can read only migrations whose source and destination are both in their Workspace. Every `files_only` key is Workspace-bound, including Workspace `0`, as is a full-access key in a named Workspace. A full-access site-wide key in the default Workspace retains Site-wide migration access. Migrations outside the caller's visibility return `not-found`. Keys with `files_only` cannot use site admin, workspace admin, folder admin, group admin, partner admin, or billing privileges from the owning user. Both GPG file actions and every other endpoint deny them with `not-authorized/api-key-only-for-file-operations`. Folder-configured GPG encryption and decryption still apply to files uploaded with a `files_only` key.
-   *   workspace_id - int64 - Workspace ID for this API Key. `0` means the default workspace.
+   * Create API Key
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static ApiKey create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create API Key
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static ApiKey create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create API Key
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code description} (String): User-supplied description of API key.</li>
+   * <li>{@code expires_at} (String): API Key expiration date</li>
+   * <li>{@code name} (String): Required. Internal name for the API Key.  For your use.</li>
+   * <li>{@code aws_style_credentials} (Boolean): If `true`, this API key will be usable with AWS-compatible endpoints, such as our Inbound S3-compatible endpoint.</li>
+   * <li>{@code path} (String): Restricts the file and folder operations made with this key, meaning the files, folders, and file_actions endpoints, to the specified folder and its descendants, including copy and move destinations. For `GET /file_migrations/{id}`, a key with a path can read only migrations it started. Other endpoints do not apply the path restriction; use the `files_only` permission set to confine a key to file operations and their supporting lookups. Does not grant access beyond the owning user's permissions. Optional except for `office_integration` keys, which require a path the owning user can read.</li>
+   * <li>{@code permission_set} (String): Permissions for this API Key. Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `mobile_app` permission set can only perform the functions provided by our Mobile App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Keys with the `files_only` permission set can use only the files, folders, and file_actions endpoints, excluding the GPG Encrypt and GPG Decrypt file actions, where they perform file operations as a full-access file user in the key's workspace scope, along with `GET /file_migrations/{id}` and `GET /api_key`. On the migration lookup, any key with a `path` can read only migrations it started. Without a `path`, user-owned keys retain user-scoped access; site-wide Workspace-bound keys can read only migrations whose source and destination are both in their Workspace. Every `files_only` key is Workspace-bound, including Workspace `0`, as is a full-access key in a named Workspace. A full-access site-wide key in the default Workspace retains Site-wide migration access. Migrations outside the caller's visibility return `not-found`. Keys with `files_only` cannot use site admin, workspace admin, folder admin, group admin, partner admin, or billing privileges from the owning user. Both GPG file actions and every other endpoint deny them with `not-authorized/api-key-only-for-file-operations`. Folder-configured GPG encryption and decryption still apply to files uploaded with a `files_only` key.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID for this API Key. `0` means the default workspace.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ApiKey}
+   */
   public static ApiKey create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().apiKeys().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   expires_at - string - API Key expiration date
-   *   name - string - Internal name for the API Key.  For your use.
-   *   permission_set - string - Permissions for this API Key. Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `mobile_app` permission set can only perform the functions provided by our Mobile App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Keys with the `files_only` permission set can use only the files, folders, and file_actions endpoints, excluding the GPG Encrypt and GPG Decrypt file actions, where they perform file operations as a full-access file user in the key's workspace scope, along with `GET /file_migrations/{id}` and `GET /api_key`. On the migration lookup, any key with a `path` can read only migrations it started. Without a `path`, user-owned keys retain user-scoped access; site-wide Workspace-bound keys can read only migrations whose source and destination are both in their Workspace. Every `files_only` key is Workspace-bound, including Workspace `0`, as is a full-access key in a named Workspace. A full-access site-wide key in the default Workspace retains Site-wide migration access. Migrations outside the caller's visibility return `not-found`. Keys with `files_only` cannot use site admin, workspace admin, folder admin, group admin, partner admin, or billing privileges from the owning user. Both GPG file actions and every other endpoint deny them with `not-authorized/api-key-only-for-file-operations`. Folder-configured GPG encryption and decryption still apply to files uploaded with a `files_only` key.
+   * Update current API key.  (Requires current API connection to be using an API key.)
+   *
+   * @see #updateCurrent(HashMap, HashMap)
    */
   public static ApiKey updateCurrent() throws RuntimeException {
     return updateCurrent(null, null);
   }
 
+  /**
+   * Update current API key.  (Requires current API connection to be using an API key.)
+   *
+   * @see #updateCurrent(HashMap, HashMap)
+   */
   public static ApiKey updateCurrent(HashMap<String, Object> parameters) throws RuntimeException {
     return updateCurrent(parameters, null);
   }
 
 
+  /**
+   * Update current API key.  (Requires current API connection to be using an API key.)
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code expires_at} (String): API Key expiration date</li>
+   * <li>{@code name} (String): Internal name for the API Key.  For your use.</li>
+   * <li>{@code permission_set} (String): Permissions for this API Key. Keys with the `desktop_app` permission set only have the ability to do the functions provided in our Desktop App (File and Share Link operations). Keys with the `mobile_app` permission set can only perform the functions provided by our Mobile App (File and Share Link operations). Keys with the `office_integration` permission set are auto generated, and automatically expire, to allow users to interact with office integration platforms. Keys with the `files_only` permission set can use only the files, folders, and file_actions endpoints, excluding the GPG Encrypt and GPG Decrypt file actions, where they perform file operations as a full-access file user in the key's workspace scope, along with `GET /file_migrations/{id}` and `GET /api_key`. On the migration lookup, any key with a `path` can read only migrations it started. Without a `path`, user-owned keys retain user-scoped access; site-wide Workspace-bound keys can read only migrations whose source and destination are both in their Workspace. Every `files_only` key is Workspace-bound, including Workspace `0`, as is a full-access key in a named Workspace. A full-access site-wide key in the default Workspace retains Site-wide migration access. Migrations outside the caller's visibility return `not-found`. Keys with `files_only` cannot use site admin, workspace admin, folder admin, group admin, partner admin, or billing privileges from the owning user. Both GPG file actions and every other endpoint deny them with `not-authorized/api-key-only-for-file-operations`. Folder-configured GPG encryption and decryption still apply to files uploaded with a `files_only` key.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ApiKey}
+   */
   public static ApiKey updateCurrent(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().apiKeys().updateCurrent(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   description - string - User-supplied description of API key.
-   *   expires_at - string - API Key expiration date
-   *   name - string - Internal name for the API Key.  For your use.
+   * Update API Key
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static ApiKey update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update API Key
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static ApiKey update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update API Key
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static ApiKey update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update API Key
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code description} (String): User-supplied description of API key.</li>
+   * <li>{@code expires_at} (String): API Key expiration date</li>
+   * <li>{@code name} (String): Internal name for the API Key.  For your use.</li>
+   * </ul>
+   *
+   * @param id Api Key ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ApiKey}
+   */
   public static ApiKey update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().apiKeys().update(id, parameters, options);
   }
 
 
   /**
+   * Delete current API key.  (Requires current API connection to be using an API key.)
+   *
+   * @see #deleteCurrent(HashMap, HashMap)
    */
   public static void deleteCurrent() throws RuntimeException {
     deleteCurrent(null, null);
   }
 
+  /**
+   * Delete current API key.  (Requires current API connection to be using an API key.)
+   *
+   * @see #deleteCurrent(HashMap, HashMap)
+   */
   public static void deleteCurrent(HashMap<String, Object> parameters) throws RuntimeException {
     deleteCurrent(parameters, null);
   }
 
 
+  /**
+   * Delete current API key.  (Requires current API connection to be using an API key.)
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void deleteCurrent(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().apiKeys().deleteCurrent(parameters, options);
   }
 
 
   /**
+   * Delete API Key
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete API Key
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete API Key
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete API Key
+   *
+   * @param id Api Key ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().apiKeys().delete(id, parameters, options);
   }
 
+  /**
+   * Delete API Key
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete API Key
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

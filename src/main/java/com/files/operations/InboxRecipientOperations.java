@@ -24,21 +24,38 @@ public final class InboxRecipientOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `has_registrations`.
-   *   inbox_id (required) - int64 - List recipients for the inbox with this ID.
+   * List Inbox Recipients
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<InboxRecipient> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Inbox Recipients
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<InboxRecipient> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Inbox Recipients
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `has_registrations`.</li>
+   * <li>{@code inbox_id} (Long): Required. List recipients for the inbox with this ID.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code InboxRecipient} records, in a {@code ListIterator}
+   */
   public ListIterator<InboxRecipient> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -72,31 +89,58 @@ public final class InboxRecipientOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Inbox Recipients
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<InboxRecipient> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Inbox Recipients
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<InboxRecipient> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   inbox_id (required) - int64 - Inbox to share.
-   *   recipient (required) - string - Email address to share this inbox with.
-   *   name - string - Name of recipient.
-   *   company - string - Company of recipient.
-   *   note - string - Note to include in email.
-   *   share_after_create - boolean - Set to true to share the link with the recipient upon creation.
+   * Create Inbox Recipient
+   *
+   * @see #create(HashMap, HashMap)
    */
   public InboxRecipient create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Inbox Recipient
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public InboxRecipient create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Inbox Recipient
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code inbox_id} (Long): Required. Inbox to share.</li>
+   * <li>{@code recipient} (String): Required. Email address to share this inbox with.</li>
+   * <li>{@code name} (String): Name of recipient.</li>
+   * <li>{@code company} (String): Company of recipient.</li>
+   * <li>{@code note} (String): Note to include in email.</li>
+   * <li>{@code share_after_create} (Boolean): Set to true to share the link with the recipient upon creation.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code InboxRecipient}
+   */
   public InboxRecipient create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);

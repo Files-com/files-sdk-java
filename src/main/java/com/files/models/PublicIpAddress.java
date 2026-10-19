@@ -33,6 +33,11 @@ public class PublicIpAddress implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -56,14 +61,29 @@ public class PublicIpAddress implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code PublicIpAddress} with no attributes set.
+   */
   public PublicIpAddress() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code PublicIpAddress} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public PublicIpAddress(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code PublicIpAddress} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public PublicIpAddress(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -81,6 +101,11 @@ public class PublicIpAddress implements ModelInterface {
   @JsonProperty("ip_address")
   public String ipAddress;
 
+  /**
+   * Gets {@link #ipAddress}.
+   *
+   * @return the value of {@link #ipAddress}
+   */
   public String getIpAddress() {
     return ipAddress;
   }
@@ -91,24 +116,41 @@ public class PublicIpAddress implements ModelInterface {
   @JsonProperty("server_name")
   public String serverName;
 
+  /**
+   * Gets {@link #serverName}.
+   *
+   * @return the value of {@link #serverName}
+   */
   public String getServerName() {
     return serverName;
   }
 
   /**
+   * Whether FTP is enabled for the site associated with this IP address. Present only when the address has an associated site.
    */
   @JsonProperty("ftp_enabled")
   public Boolean ftpEnabled;
 
+  /**
+   * Gets {@link #ftpEnabled}.
+   *
+   * @return the value of {@link #ftpEnabled}
+   */
   public Boolean getFtpEnabled() {
     return ftpEnabled;
   }
 
   /**
+   * Whether SFTP is enabled for the site associated with this IP address. Present only when the address has an associated site.
    */
   @JsonProperty("sftp_enabled")
   public Boolean sftpEnabled;
 
+  /**
+   * Gets {@link #sftpEnabled}.
+   *
+   * @return the value of {@link #sftpEnabled}
+   */
   public Boolean getSftpEnabled() {
     return sftpEnabled;
   }

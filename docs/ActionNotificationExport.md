@@ -42,12 +42,9 @@
 
 ## Show Action Notification Export
 
-```
-ActionNotificationExport actionNotificationExport = ActionNotificationExport.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ActionNotificationExport actionNotificationExport = ActionNotificationExport.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -59,12 +56,20 @@ ActionNotificationExport actionNotificationExport = ActionNotificationExport.fin
 
 ## Create Action Notification Export
 
-```
-ActionNotificationExport actionNotificationExport = ActionNotificationExport.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("workspace_id", 1L);
+parameters.put("start_at", "2000-01-01T01:00:00Z");
+parameters.put("end_at", "2000-01-01T01:00:00Z");
+parameters.put("query_message", "Connection Refused");
+parameters.put("query_request_method", "GET");
+parameters.put("query_request_url", "http://example.com/webhook");
+parameters.put("query_status", "200");
+parameters.put("query_success", true);
+parameters.put("query_path", "MyFile.txt");
+parameters.put("query_folder", "MyFolder");
+ActionNotificationExport actionNotificationExport = ActionNotificationExport.create(parameters, null);
 ```
 
 ### Parameters

@@ -31,12 +31,9 @@
 
 ## List Bandwidth Snapshots
 
-```
-ListIterator<BandwidthSnapshot> bandwidthSnapshot = BandwidthSnapshot.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<BandwidthSnapshot> bandwidthSnapshots = BandwidthSnapshot.list(parameters, null);
 ```
 
 ### Parameters

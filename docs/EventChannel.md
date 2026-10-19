@@ -29,12 +29,9 @@
 
 ## List Event Channels
 
-```
-ListIterator<EventChannel> eventChannel = EventChannel.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<EventChannel> eventChannels = EventChannel.list(parameters, null);
 ```
 
 ### Parameters
@@ -49,12 +46,9 @@ ListIterator<EventChannel> eventChannel = EventChannel.list(
 
 ## Show Event Channel
 
-```
-EventChannel eventChannel = EventChannel.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+EventChannel eventChannel = EventChannel.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -66,12 +60,14 @@ EventChannel eventChannel = EventChannel.find(
 
 ## Create Event Channel
 
-```
-EventChannel eventChannel = EventChannel.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "example");
+parameters.put("workspace_id", 1L);
+parameters.put("description", "example");
+parameters.put("enabled", true);
+parameters.put("default_channel", true);
+EventChannel eventChannel = EventChannel.create(parameters, null);
 ```
 
 ### Parameters
@@ -87,12 +83,14 @@ EventChannel eventChannel = EventChannel.create(
 
 ## Update Event Channel
 
-```
-EventChannel eventChannel = EventChannel.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "example");
+parameters.put("workspace_id", 1L);
+parameters.put("description", "example");
+parameters.put("enabled", true);
+parameters.put("default_channel", true);
+EventChannel eventChannel = EventChannel.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -109,12 +107,9 @@ EventChannel eventChannel = EventChannel.update(
 
 ## Delete Event Channel
 
-```
-void eventChannel = EventChannel.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+EventChannel.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -126,17 +121,15 @@ void eventChannel = EventChannel.delete(
 
 ## Update Event Channel
 
-```
-EventChannel eventChannel = EventChannel.find(id);
-
+```java
+EventChannel eventChannel = EventChannel.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "example");
-parameters.put("workspace_id", 1);
+parameters.put("workspace_id", 1L);
 parameters.put("description", "example");
 parameters.put("enabled", true);
 parameters.put("default_channel", true);
-
-eventChannel.update(parameters);
+EventChannel result = eventChannel.update(parameters);
 ```
 
 ### Parameters
@@ -153,11 +146,9 @@ eventChannel.update(parameters);
 
 ## Delete Event Channel
 
-```
-EventChannel eventChannel = EventChannel.find(id);
-
+```java
+EventChannel eventChannel = EventChannel.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 eventChannel.delete(parameters);
 ```
 

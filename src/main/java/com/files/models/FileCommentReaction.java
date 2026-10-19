@@ -35,6 +35,11 @@ public class FileCommentReaction implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class FileCommentReaction implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code FileCommentReaction} with no attributes set.
+   */
   public FileCommentReaction() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code FileCommentReaction} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public FileCommentReaction(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code FileCommentReaction} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public FileCommentReaction(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,10 +103,20 @@ public class FileCommentReaction implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -97,10 +127,20 @@ public class FileCommentReaction implements ModelInterface {
   @JsonProperty("emoji")
   public String emoji;
 
+  /**
+   * Gets {@link #emoji}.
+   *
+   * @return the value of {@link #emoji}
+   */
   public String getEmoji() {
     return emoji;
   }
 
+  /**
+   * Sets {@link #emoji}.
+   *
+   * @param emoji the new value
+   */
   public void setEmoji(String emoji) {
     this.emoji = emoji;
   }
@@ -111,10 +151,20 @@ public class FileCommentReaction implements ModelInterface {
   @JsonProperty("user_id")
   public Long userId;
 
+  /**
+   * Gets {@link #userId}.
+   *
+   * @return the value of {@link #userId}
+   */
   public Long getUserId() {
     return userId;
   }
 
+  /**
+   * Sets {@link #userId}.
+   *
+   * @param userId the new value
+   */
   public void setUserId(Long userId) {
     this.userId = userId;
   }
@@ -125,20 +175,38 @@ public class FileCommentReaction implements ModelInterface {
   @JsonProperty("file_comment_id")
   public Long fileCommentId;
 
+  /**
+   * Gets {@link #fileCommentId}.
+   *
+   * @return the value of {@link #fileCommentId}
+   */
   public Long getFileCommentId() {
     return fileCommentId;
   }
 
+  /**
+   * Sets {@link #fileCommentId}.
+   *
+   * @param fileCommentId the new value
+   */
   public void setFileCommentId(Long fileCommentId) {
     this.fileCommentId = fileCommentId;
   }
 
   /**
+   * Delete File Comment Reaction
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().fileCommentReactions().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete File Comment Reaction
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -175,47 +243,94 @@ public class FileCommentReaction implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   file_comment_id (required) - int64 - ID of file comment to attach reaction to.
-   *   emoji (required) - string - Emoji to react with.
+   * Create File Comment Reaction
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static FileCommentReaction create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create File Comment Reaction
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static FileCommentReaction create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create File Comment Reaction
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code file_comment_id} (Long): Required. ID of file comment to attach reaction to.</li>
+   * <li>{@code emoji} (String): Required. Emoji to react with.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code FileCommentReaction}
+   */
   public static FileCommentReaction create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().fileCommentReactions().create(parameters, options);
   }
 
 
   /**
+   * Delete File Comment Reaction
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete File Comment Reaction
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete File Comment Reaction
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete File Comment Reaction
+   *
+   * @param id File Comment Reaction ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().fileCommentReactions().delete(id, parameters, options);
   }
 
+  /**
+   * Delete File Comment Reaction
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete File Comment Reaction
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

@@ -588,12 +588,9 @@
 
 ## Show Site Settings
 
-```
-Site site = Site.get(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Site site = Site.get(parameters, null);
 ```
 
 
@@ -601,12 +598,9 @@ Site site = Site.get(
 
 ## Get the most recent usage snapshot (usage data for billing purposes) for a Site
 
-```
-UsageSnapshot site = Site.getUsage(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+UsageSnapshot usageSnapshot = Site.getUsage(parameters, null);
 ```
 
 
@@ -614,12 +608,207 @@ UsageSnapshot site = Site.getUsage(
 
 ## Update Site Settings
 
-```
-Site site = Site.update(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "My Site");
+parameters.put("subdomain", "mysite");
+parameters.put("domain", "my-custom-domain.com");
+parameters.put("domain_hsts_header", false);
+parameters.put("domain_letsencrypt_chain", "example");
+parameters.put("email", "john.doe@files.com");
+parameters.put("reply_to_email", "jane.doe@files.com");
+parameters.put("allow_bundle_names", false);
+parameters.put("bundle_expiration", 1L);
+parameters.put("welcome_email_enabled", false);
+parameters.put("ask_about_overwrites", false);
+parameters.put("show_request_access_link", false);
+parameters.put("always_mkdir_parents", false);
+parameters.put("welcome_email_cc", "example");
+parameters.put("welcome_email_subject", "example");
+parameters.put("welcome_custom_text", "Welcome to my site!");
+parameters.put("language", "en");
+parameters.put("windows_mode_ftp", false);
+parameters.put("default_time_zone", "Pacific Time (US & Canada)");
+parameters.put("desktop_app", false);
+parameters.put("desktop_app_session_ip_pinning", false);
+parameters.put("desktop_app_session_lifetime", 1L);
+parameters.put("mobile_app", false);
+parameters.put("mobile_app_session_ip_pinning", false);
+parameters.put("mobile_app_session_lifetime", 1L);
+parameters.put("folder_permissions_groups_only", false);
+parameters.put("welcome_screen", "user_controlled");
+parameters.put("office_integration_available", false);
+parameters.put("office_integration_type", "example");
+parameters.put("pin_all_remote_servers_to_site_region", false);
+parameters.put("motd_text", "example");
+parameters.put("motd_use_for_ftp", false);
+parameters.put("motd_use_for_sftp", false);
+parameters.put("disable_all_ai_features", false);
+HashMap<String, Object> map1 = new HashMap<>();
+HashMap<String, Object> map2 = new HashMap<>();
+map2.put("site_admins", true);
+map2.put("workspace_admins", true);
+map2.put("folder_admins", true);
+map2.put("all_users", false);
+map2.put("selected_group_members", true);
+map2.put("group_ids", new Object[] {1, 2});
+map1.put("in_app_ai_assistant", map2);
+parameters.put("ai_feature_availability", map1);
+parameters.put("mcp_dcr_enabled", false);
+parameters.put("additional_text_file_types", new String[] {"example"});
+parameters.put("bundle_require_note", false);
+parameters.put("bundle_send_shared_receipts", false);
+parameters.put("bundles_default_owned_by_primary_group", false);
+parameters.put("calculate_file_checksums_crc32", false);
+parameters.put("calculate_file_checksums_md5", false);
+parameters.put("calculate_file_checksums_sha1", false);
+parameters.put("calculate_file_checksums_sha256", false);
+parameters.put("legacy_checksums_mode", false);
+parameters.put("migrate_remote_server_sync_to_sync", false);
+parameters.put("as2_message_retention_days", 1L);
+parameters.put("file_activity_events_enabled", false);
+parameters.put("username_display", "username_only");
+parameters.put("session_expiry_minutes", 1L);
+parameters.put("ssl_required", false);
+parameters.put("sftp_insecure_ciphers", false);
+parameters.put("sftp_insecure_diffie_hellman", false);
+parameters.put("disable_files_certificate_generation", false);
+parameters.put("fedramp", false);
+parameters.put("user_lockout", false);
+parameters.put("user_lockout_tries", 1L);
+parameters.put("user_lockout_within", 1L);
+parameters.put("user_lockout_lock_period", 1L);
+parameters.put("include_password_in_welcome_email", false);
+parameters.put("allowed_countries", "US,DE");
+parameters.put("allowed_ips", "example");
+parameters.put("allow_user_level_2fa_override", false);
+parameters.put("allow_user_level_allowed_ip_override", false);
+parameters.put("allow_user_level_ssl_override", false);
+parameters.put("disallowed_countries", "US,DE");
+parameters.put("days_to_retain_backups", 1L);
+parameters.put("max_prior_passwords", 1L);
+parameters.put("password_validity_days", 1L);
+parameters.put("password_min_length", 1L);
+parameters.put("password_require_letter", false);
+parameters.put("password_require_mixed", false);
+parameters.put("password_require_special", false);
+parameters.put("password_require_number", false);
+parameters.put("password_require_unbreached", false);
+parameters.put("require_logout_from_bundles_and_inboxes", false);
+parameters.put("dav_user_root_enabled", false);
+parameters.put("sftp_user_root_enabled", false);
+parameters.put("disable_password_reset", false);
+parameters.put("immutable_files", false);
+parameters.put("bundle_not_found_message", "example");
+parameters.put("bundle_password_required", false);
+parameters.put("bundle_require_registration", false);
+parameters.put("bundle_require_share_recipient", false);
+parameters.put("bundle_send_one_time_password_to_recipient_at_registration", false);
+parameters.put("bundle_registration_notifications", "never");
+parameters.put("bundle_activity_notifications", "never");
+parameters.put("bundle_upload_receipt_notifications", "never");
+parameters.put("document_edits_in_bundle_allowed", false);
+parameters.put("password_requirements_apply_to_bundles", false);
+parameters.put("prevent_root_permissions_for_non_site_admins", false);
+parameters.put("restrict_root_folder_behaviors_to_site_admins", false);
+parameters.put("root_folder_behaviors_apply_to_workspaces", false);
+parameters.put("opt_out_global", false);
+parameters.put("use_provided_modified_at", false);
+parameters.put("custom_namespace", false);
+parameters.put("non_sso_groups_allowed", false);
+parameters.put("non_sso_users_allowed", false);
+parameters.put("sharing_enabled", false);
+parameters.put("snapshot_sharing_enabled", false);
+parameters.put("user_requests_enabled", false);
+parameters.put("user_requests_notify_admins", false);
+parameters.put("dav_enabled", false);
+parameters.put("files_com_remote_server_enabled", false);
+parameters.put("ftp_enabled", false);
+parameters.put("s3_compatible_endpoint_enabled", false);
+parameters.put("sftp_enabled", false);
+parameters.put("sftp_finalize_partial_uploads", false);
+parameters.put("users_can_create_api_keys", false);
+parameters.put("users_can_create_ssh_keys", false);
+parameters.put("show_user_notifications_log_in_link", false);
+parameters.put("sftp_host_key_type", "default");
+parameters.put("active_sftp_host_key_id", 1L);
+parameters.put("active_sftp_host_key_ids", new Long[] {1L});
+parameters.put("protocol_access_groups_only", false);
+parameters.put("revoke_bundle_access_on_disable_or_delete", false);
+parameters.put("group_admins_can_add_users", false);
+parameters.put("group_admins_can_manage_group_memberships", false);
+parameters.put("group_admins_can_delete_users", false);
+parameters.put("group_admins_can_enable_disable_users", false);
+parameters.put("group_admins_can_modify_users", false);
+parameters.put("group_admins_can_bypass_user_lifecycle_rules", false);
+parameters.put("group_admins_can_reset_passwords", false);
+parameters.put("group_admins_can_set_user_password", false);
+parameters.put("child_site_folder_admins_can_see_parent_site_directory", false);
+parameters.put("workspace_folder_admins_can_see_default_workspace_directory", false);
+parameters.put("bundle_recipient_blacklist_free_email_domains", false);
+parameters.put("bundle_recipient_blacklist_domains", new String[] {"example"});
+parameters.put("admins_bypass_locked_subfolders", false);
+parameters.put("allowed_2fa_method_sms", false);
+parameters.put("allowed_2fa_method_totp", false);
+parameters.put("allowed_2fa_method_webauthn", false);
+parameters.put("allowed_2fa_method_yubi", false);
+parameters.put("allowed_2fa_method_email", false);
+parameters.put("allowed_2fa_method_static", false);
+parameters.put("allowed_2fa_method_bypass_for_ftp_sftp_dav", false);
+parameters.put("require_2fa", false);
+parameters.put("require_2fa_exempt_all_sso_users", false);
+parameters.put("require_2fa_user_type", "`site_admins`");
+parameters.put("color2_top", "#000000");
+parameters.put("color2_left", "#0066a7");
+parameters.put("color2_link", "#d34f5d");
+parameters.put("color2_text", "#0066a7");
+parameters.put("color2_top_text", "#ffffff");
+parameters.put("site_header", "example");
+parameters.put("site_footer", "example");
+parameters.put("site_public_header", "example");
+parameters.put("site_public_footer", "example");
+parameters.put("login_help_text", "Login page help text.");
+parameters.put("use_dedicated_ips_for_smtp", false);
+parameters.put("email_footer_custom_text", "Copyright © %Y MyCompany Inc.");
+parameters.put("smtp_address", "smtp.my-mail-server.com");
+parameters.put("smtp_authentication", "plain");
+parameters.put("smtp_from", "me@my-mail-server.com");
+parameters.put("smtp_username", "mail");
+parameters.put("smtp_port", 1L);
+parameters.put("smtp_ssl", "require");
+parameters.put("ldap_enabled", false);
+parameters.put("ldap_type", "open_ldap");
+parameters.put("ldap_host", "ldap.site.com");
+parameters.put("ldap_host_2", "ldap2.site.com");
+parameters.put("ldap_host_3", "ldap3.site.com");
+parameters.put("ldap_port", 1L);
+parameters.put("ldap_secure", false);
+parameters.put("ldap_server_certificate", "require_match");
+parameters.put("ldap_username", "[ldap username]");
+parameters.put("ldap_username_field", "sAMAccountName");
+parameters.put("ldap_domain", "mysite.com");
+parameters.put("ldap_user_action", "disabled");
+parameters.put("ldap_group_action", "disabled");
+parameters.put("ldap_user_include_groups", "example");
+parameters.put("ldap_group_exclusion", "example");
+parameters.put("ldap_group_inclusion", "example");
+parameters.put("ldap_base_dn", "example");
+parameters.put("uploads_via_email_authentication", false);
+HashMap<String, Object> map3 = new HashMap<>();
+map3.put("gravity", "SouthWest");
+map3.put("max_height_or_width", 20);
+map3.put("transparency", 25);
+parameters.put("bundle_watermark_value", map3);
+parameters.put("icon16_delete", false);
+parameters.put("icon32_delete", false);
+parameters.put("icon48_delete", false);
+parameters.put("icon128_delete", false);
+parameters.put("logo_delete", false);
+parameters.put("bundle_watermark_attachment_delete", false);
+parameters.put("login_page_background_image_delete", false);
+parameters.put("disable_2fa_with_delay", false);
+parameters.put("redirect_old_subdomain", false);
+Site site = Site.update(parameters, null);
 ```
 
 ### Parameters

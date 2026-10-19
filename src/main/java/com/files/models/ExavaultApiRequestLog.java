@@ -35,6 +35,11 @@ public class ExavaultApiRequestLog implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class ExavaultApiRequestLog implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code ExavaultApiRequestLog} with no attributes set.
+   */
   public ExavaultApiRequestLog() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code ExavaultApiRequestLog} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public ExavaultApiRequestLog(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code ExavaultApiRequestLog} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public ExavaultApiRequestLog(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,6 +103,11 @@ public class ExavaultApiRequestLog implements ModelInterface {
   @JsonProperty("timestamp")
   public Date timestamp;
 
+  /**
+   * Gets {@link #timestamp}.
+   *
+   * @return the value of {@link #timestamp}
+   */
   public Date getTimestamp() {
     return timestamp;
   }
@@ -93,6 +118,11 @@ public class ExavaultApiRequestLog implements ModelInterface {
   @JsonProperty("endpoint")
   public String endpoint;
 
+  /**
+   * Gets {@link #endpoint}.
+   *
+   * @return the value of {@link #endpoint}
+   */
   public String getEndpoint() {
     return endpoint;
   }
@@ -103,6 +133,11 @@ public class ExavaultApiRequestLog implements ModelInterface {
   @JsonProperty("version")
   public Double version;
 
+  /**
+   * Gets {@link #version}.
+   *
+   * @return the value of {@link #version}
+   */
   public Double getVersion() {
     return version;
   }
@@ -113,6 +148,11 @@ public class ExavaultApiRequestLog implements ModelInterface {
   @JsonProperty("request_ip")
   public String requestIp;
 
+  /**
+   * Gets {@link #requestIp}.
+   *
+   * @return the value of {@link #requestIp}
+   */
   public String getRequestIp() {
     return requestIp;
   }
@@ -123,6 +163,11 @@ public class ExavaultApiRequestLog implements ModelInterface {
   @JsonProperty("request_method")
   public String requestMethod;
 
+  /**
+   * Gets {@link #requestMethod}.
+   *
+   * @return the value of {@link #requestMethod}
+   */
   public String getRequestMethod() {
     return requestMethod;
   }
@@ -133,6 +178,11 @@ public class ExavaultApiRequestLog implements ModelInterface {
   @JsonProperty("error_type")
   public String errorType;
 
+  /**
+   * Gets {@link #errorType}.
+   *
+   * @return the value of {@link #errorType}
+   */
   public String getErrorType() {
     return errorType;
   }
@@ -143,6 +193,11 @@ public class ExavaultApiRequestLog implements ModelInterface {
   @JsonProperty("error_message")
   public String errorMessage;
 
+  /**
+   * Gets {@link #errorMessage}.
+   *
+   * @return the value of {@link #errorMessage}
+   */
   public String getErrorMessage() {
     return errorMessage;
   }
@@ -153,6 +208,11 @@ public class ExavaultApiRequestLog implements ModelInterface {
   @JsonProperty("user_agent")
   public String userAgent;
 
+  /**
+   * Gets {@link #userAgent}.
+   *
+   * @return the value of {@link #userAgent}
+   */
   public String getUserAgent() {
     return userAgent;
   }
@@ -163,6 +223,11 @@ public class ExavaultApiRequestLog implements ModelInterface {
   @JsonProperty("response_code")
   public Long responseCode;
 
+  /**
+   * Gets {@link #responseCode}.
+   *
+   * @return the value of {@link #responseCode}
+   */
   public Long getResponseCode() {
     return responseCode;
   }
@@ -173,6 +238,11 @@ public class ExavaultApiRequestLog implements ModelInterface {
   @JsonProperty("success")
   public Boolean success;
 
+  /**
+   * Gets {@link #success}.
+   *
+   * @return the value of {@link #success}
+   */
   public Boolean getSuccess() {
     return success;
   }
@@ -183,6 +253,11 @@ public class ExavaultApiRequestLog implements ModelInterface {
   @JsonProperty("duration_ms")
   public Long durationMs;
 
+  /**
+   * Gets {@link #durationMs}.
+   *
+   * @return the value of {@link #durationMs}
+   */
   public Long getDurationMs() {
     return durationMs;
   }
@@ -193,39 +268,71 @@ public class ExavaultApiRequestLog implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 1000, 1,000 or less is recommended).
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `request_ip`, `request_method`, `success` or `created_at`. Valid field combinations are `[ request_ip ]`, `[ request_method ]`, `[ success ]`, `[ created_at ]`, `[ request_ip, request_method ]`, `[ request_ip, success ]`, `[ request_ip, created_at ]`, `[ request_method, success ]`, `[ request_method, created_at ]`, `[ success, created_at ]`, `[ request_ip, request_method, success ]`, `[ request_ip, request_method, created_at ]`, `[ request_ip, success, created_at ]`, `[ request_method, success, created_at ]` or `[ request_ip, request_method, success, created_at ]`.
-   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`. Valid field combinations are `[ request_ip ]`, `[ request_method ]`, `[ success ]`, `[ created_at ]`, `[ request_ip, request_method ]`, `[ request_ip, success ]`, `[ request_ip, created_at ]`, `[ request_method, success ]`, `[ request_method, created_at ]`, `[ success, created_at ]`, `[ request_ip, request_method, success ]`, `[ request_ip, request_method, created_at ]`, `[ request_ip, success, created_at ]`, `[ request_method, success, created_at ]` or `[ request_ip, request_method, success, created_at ]`.
-   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`. Valid field combinations are `[ request_ip ]`, `[ request_method ]`, `[ success ]`, `[ created_at ]`, `[ request_ip, request_method ]`, `[ request_ip, success ]`, `[ request_ip, created_at ]`, `[ request_method, success ]`, `[ request_method, created_at ]`, `[ success, created_at ]`, `[ request_ip, request_method, success ]`, `[ request_ip, request_method, created_at ]`, `[ request_ip, success, created_at ]`, `[ request_method, success, created_at ]` or `[ request_ip, request_method, success, created_at ]`.
-   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `request_ip` and `request_method`. Valid field combinations are `[ request_ip ]`, `[ request_method ]`, `[ success ]`, `[ created_at ]`, `[ request_ip, request_method ]`, `[ request_ip, success ]`, `[ request_ip, created_at ]`, `[ request_method, success ]`, `[ request_method, created_at ]`, `[ success, created_at ]`, `[ request_ip, request_method, success ]`, `[ request_ip, request_method, created_at ]`, `[ request_ip, success, created_at ]`, `[ request_method, success, created_at ]` or `[ request_ip, request_method, success, created_at ]`.
-   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`. Valid field combinations are `[ request_ip ]`, `[ request_method ]`, `[ success ]`, `[ created_at ]`, `[ request_ip, request_method ]`, `[ request_ip, success ]`, `[ request_ip, created_at ]`, `[ request_method, success ]`, `[ request_method, created_at ]`, `[ success, created_at ]`, `[ request_ip, request_method, success ]`, `[ request_ip, request_method, created_at ]`, `[ request_ip, success, created_at ]`, `[ request_method, success, created_at ]` or `[ request_ip, request_method, success, created_at ]`.
-   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`. Valid field combinations are `[ request_ip ]`, `[ request_method ]`, `[ success ]`, `[ created_at ]`, `[ request_ip, request_method ]`, `[ request_ip, success ]`, `[ request_ip, created_at ]`, `[ request_method, success ]`, `[ request_method, created_at ]`, `[ success, created_at ]`, `[ request_ip, request_method, success ]`, `[ request_ip, request_method, created_at ]`, `[ request_ip, success, created_at ]`, `[ request_method, success, created_at ]` or `[ request_ip, request_method, success, created_at ]`.
+   * List Exavault API Request Logs
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<ExavaultApiRequestLog> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Exavault API Request Logs
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ExavaultApiRequestLog> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Exavault API Request Logs
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 1000, 1,000 or less is recommended).</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `request_ip`, `request_method`, `success` or `created_at`. Valid field combinations are `[ request_ip ]`, `[ request_method ]`, `[ success ]`, `[ created_at ]`, `[ request_ip, request_method ]`, `[ request_ip, success ]`, `[ request_ip, created_at ]`, `[ request_method, success ]`, `[ request_method, created_at ]`, `[ success, created_at ]`, `[ request_ip, request_method, success ]`, `[ request_ip, request_method, created_at ]`, `[ request_ip, success, created_at ]`, `[ request_method, success, created_at ]` or `[ request_ip, request_method, success, created_at ]`.</li>
+   * <li>{@code filter_gt} (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`. Valid field combinations are `[ request_ip ]`, `[ request_method ]`, `[ success ]`, `[ created_at ]`, `[ request_ip, request_method ]`, `[ request_ip, success ]`, `[ request_ip, created_at ]`, `[ request_method, success ]`, `[ request_method, created_at ]`, `[ success, created_at ]`, `[ request_ip, request_method, success ]`, `[ request_ip, request_method, created_at ]`, `[ request_ip, success, created_at ]`, `[ request_method, success, created_at ]` or `[ request_ip, request_method, success, created_at ]`.</li>
+   * <li>{@code filter_gteq} (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`. Valid field combinations are `[ request_ip ]`, `[ request_method ]`, `[ success ]`, `[ created_at ]`, `[ request_ip, request_method ]`, `[ request_ip, success ]`, `[ request_ip, created_at ]`, `[ request_method, success ]`, `[ request_method, created_at ]`, `[ success, created_at ]`, `[ request_ip, request_method, success ]`, `[ request_ip, request_method, created_at ]`, `[ request_ip, success, created_at ]`, `[ request_method, success, created_at ]` or `[ request_ip, request_method, success, created_at ]`.</li>
+   * <li>{@code filter_prefix} (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `request_ip` and `request_method`. Valid field combinations are `[ request_ip ]`, `[ request_method ]`, `[ success ]`, `[ created_at ]`, `[ request_ip, request_method ]`, `[ request_ip, success ]`, `[ request_ip, created_at ]`, `[ request_method, success ]`, `[ request_method, created_at ]`, `[ success, created_at ]`, `[ request_ip, request_method, success ]`, `[ request_ip, request_method, created_at ]`, `[ request_ip, success, created_at ]`, `[ request_method, success, created_at ]` or `[ request_ip, request_method, success, created_at ]`.</li>
+   * <li>{@code filter_lt} (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`. Valid field combinations are `[ request_ip ]`, `[ request_method ]`, `[ success ]`, `[ created_at ]`, `[ request_ip, request_method ]`, `[ request_ip, success ]`, `[ request_ip, created_at ]`, `[ request_method, success ]`, `[ request_method, created_at ]`, `[ success, created_at ]`, `[ request_ip, request_method, success ]`, `[ request_ip, request_method, created_at ]`, `[ request_ip, success, created_at ]`, `[ request_method, success, created_at ]` or `[ request_ip, request_method, success, created_at ]`.</li>
+   * <li>{@code filter_lteq} (Object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`. Valid field combinations are `[ request_ip ]`, `[ request_method ]`, `[ success ]`, `[ created_at ]`, `[ request_ip, request_method ]`, `[ request_ip, success ]`, `[ request_ip, created_at ]`, `[ request_method, success ]`, `[ request_method, created_at ]`, `[ success, created_at ]`, `[ request_ip, request_method, success ]`, `[ request_ip, request_method, created_at ]`, `[ request_ip, success, created_at ]`, `[ request_method, success, created_at ]` or `[ request_ip, request_method, success, created_at ]`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ExavaultApiRequestLog} records, in a {@code ListIterator}
+   */
   public static ListIterator<ExavaultApiRequestLog> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().exavaultApiRequestLogs().list(parameters, options);
   }
 
+  /**
+   * List Exavault API Request Logs
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ExavaultApiRequestLog> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Exavault API Request Logs
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ExavaultApiRequestLog> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }

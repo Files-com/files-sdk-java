@@ -43,12 +43,14 @@
 
 ## List Permissions
 
-```
-ListIterator<Permission> permission = Permission.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("path", "example");
+parameters.put("include_groups", false);
+parameters.put("group_id", "1");
+parameters.put("partner_id", "1");
+parameters.put("user_id", "1");
+ListIterator<Permission> permissions = Permission.list(parameters, null);
 ```
 
 ### Parameters
@@ -69,12 +71,19 @@ ListIterator<Permission> permission = Permission.list(
 
 ## Create Permission
 
-```
-Permission permission = Permission.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("path", "path");
+parameters.put("group_id", 1L);
+parameters.put("group_ids", new Object[] {1});
+parameters.put("permission", "full");
+parameters.put("recursive", false);
+parameters.put("partner_id", 1L);
+parameters.put("user_id", 1L);
+parameters.put("username", "user");
+parameters.put("group_name", "example");
+parameters.put("site_id", 1L);
+Permission permission = Permission.create(parameters, null);
 ```
 
 ### Parameters
@@ -95,12 +104,9 @@ Permission permission = Permission.create(
 
 ## Delete Permission
 
-```
-void permission = Permission.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Permission.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -112,11 +118,10 @@ void permission = Permission.delete(
 
 ## Delete Permission
 
-```
-Permission permission = Permission.list()[0];
-
+```java
+// The first Permission listed: the list must not be empty.
+Permission permission = Permission.list(null, null).iterator().next();
 HashMap<String, Object> parameters = new HashMap<>();
-
 permission.delete(parameters);
 ```
 

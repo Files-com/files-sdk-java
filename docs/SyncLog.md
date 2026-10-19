@@ -37,12 +37,9 @@
 
 ## List Sync Logs
 
-```
-ListIterator<SyncLog> syncLog = SyncLog.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<SyncLog> syncLogs = SyncLog.list(parameters, null);
 ```
 
 ### Parameters

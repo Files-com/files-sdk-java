@@ -39,9 +39,11 @@ final class WindowsDownloadStage extends DownloadStage {
   private final Pointer fileHandle;
   // The TOKEN_OWNER whose SID owns the directory and the file.
   private final Memory owner;
-  // Native memory the bytes are copied to for writing, allocated once, and the count written.
+  // Native memory the bytes are copied through, allocated once, and the count read or written.
   private final Memory buffer = new Memory(BUFFER_BYTES);
   private final Memory written = new Memory(4);
+  // The handle's file pointer, where write writes next: reads and truncation put it back there.
+  private long pointer;
   private boolean published;
 
   private WindowsDownloadStage(Path directory, Pointer directoryHandle, Pointer fileHandle, Memory owner) {
@@ -251,8 +253,10 @@ final class WindowsDownloadStage extends DownloadStage {
   private static Pointer createFile(Path file, String sddl) throws IOException {
     Pointer descriptor = Win32.securityDescriptor(sddl);
     try (Memory attributes = Win32.securityAttributes(descriptor)) {
+      // Read as well as write access, for a stage whose file is read through its handle (readAt).
       Pointer handle = Win32.Kernel32.CreateFileW(Win32.path(file),
-          Win32.GENERIC_WRITE | Win32.DELETE | Win32.READ_CONTROL | Win32.WRITE_DAC | Win32.FILE_READ_ATTRIBUTES, 0, attributes,
+          Win32.GENERIC_READ | Win32.GENERIC_WRITE | Win32.DELETE | Win32.READ_CONTROL | Win32.WRITE_DAC | Win32.FILE_READ_ATTRIBUTES, 0,
+          attributes,
           Win32.CREATE_NEW, Win32.FILE_ATTRIBUTE_NORMAL | Win32.FILE_FLAG_OPEN_REPARSE_POINT, null);
       if (Win32.isInvalid(handle)) {
         int error = Win32.lastError();
@@ -317,6 +321,7 @@ final class WindowsDownloadStage extends DownloadStage {
     if (!Win32.Kernel32.SetFilePointerEx(fileHandle, 0, null, Win32.FILE_BEGIN) || !Win32.Kernel32.SetEndOfFile(fileHandle)) {
       throw Win32.exception(directory.resolve(NAME).toString(), Win32.lastError());
     }
+    pointer = 0;
   }
 
   @Override
@@ -327,10 +332,93 @@ final class WindowsDownloadStage extends DownloadStage {
   // Through the one native buffer and the handle's file pointer, so one write at a time.
   @Override
   synchronized void writeAt(long position, byte[] bytes, int offset, int count) throws IOException {
+    moveTo(position);
+    pointer = position;
+    writeHere(bytes, offset, count);
+  }
+
+  // Through the same buffer and file pointer, at position, then puts the pointer back where write
+  // writes next. A read that starts at or past the end reads nothing.
+  @Override
+  synchronized int readAt(long position, byte[] bytes, int offset, int count) throws IOException {
+    if (position >= size()) {
+      return -1;
+    }
+    IOException failure = null;
+    int read = 0;
+    try {
+      moveTo(position);
+      if (!Win32.Kernel32.ReadFile(fileHandle, buffer, Math.min(BUFFER_BYTES, count), written, null)) {
+        throw Win32.exception(directory.resolve(NAME).toString(), Win32.lastError());
+      }
+      read = written.getInt(0);
+    } catch (IOException e) {
+      failure = e;
+    }
+    failure = movedBack(failure);
+    if (failure != null) {
+      throw failure;
+    }
+    if (read <= 0) {
+      return -1;
+    }
+    buffer.read(0, bytes, offset, read);
+    return read;
+  }
+
+  // The handle's own size (GetFileSizeEx), which does not move its file pointer.
+  @Override
+  synchronized long size() throws IOException {
+    try (Memory size = new Memory(8)) {
+      if (!Win32.Kernel32.GetFileSizeEx(fileHandle, size)) {
+        throw Win32.exception(directory.resolve(NAME).toString(), Win32.lastError());
+      }
+      return size.getLong(0);
+    }
+  }
+
+  // The end of the file moved back to length, as restart moves it to 0; write then writes no further
+  // than the new end.
+  @Override
+  synchronized void truncate(long length) throws IOException {
+    if (length >= size()) {
+      return;
+    }
+    IOException failure = null;
+    try {
+      moveTo(length);
+      if (!Win32.Kernel32.SetEndOfFile(fileHandle)) {
+        throw Win32.exception(directory.resolve(NAME).toString(), Win32.lastError());
+      }
+      pointer = Math.min(pointer, length);
+    } catch (IOException e) {
+      failure = e;
+    }
+    failure = movedBack(failure);
+    if (failure != null) {
+      throw failure;
+    }
+  }
+
+  // Moves the handle's file pointer to position.
+  private void moveTo(long position) throws IOException {
     if (!Win32.Kernel32.SetFilePointerEx(fileHandle, position, null, Win32.FILE_BEGIN)) {
       throw Win32.exception(directory.resolve(NAME).toString(), Win32.lastError());
     }
-    writeHere(bytes, offset, count);
+  }
+
+  // Puts the file pointer back where write writes next, after a read or truncation that moved it,
+  // keeping failure, the operation's own, first.
+  private IOException movedBack(IOException failure) {
+    try {
+      moveTo(pointer);
+    } catch (IOException e) {
+      if (failure == null) {
+        return e;
+      }
+      failure.addSuppressed(e);
+    }
+    return failure;
   }
 
   // Writes at the handle's file pointer.
@@ -347,6 +435,7 @@ final class WindowsDownloadStage extends DownloadStage {
           throw new FileSystemException(directory.resolve(NAME).toString(), null, "No more bytes could be written");
         }
         done += wrote;
+        pointer += wrote;
       }
       offset += length;
     }

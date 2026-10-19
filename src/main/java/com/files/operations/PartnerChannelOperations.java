@@ -25,20 +25,37 @@ public final class PartnerChannelOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `path` or `partner_id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `partner_id` and `workspace_id`. Valid field combinations are `[ workspace_id, partner_id ]`.
+   * List Partner Channels
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<PartnerChannel> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Partner Channels
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<PartnerChannel> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Partner Channels
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `path` or `partner_id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `partner_id` and `workspace_id`. Valid field combinations are `[ workspace_id, partner_id ]`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code PartnerChannel} records, in a {@code ListIterator}
+   */
   public ListIterator<PartnerChannel> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -64,30 +81,59 @@ public final class PartnerChannelOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Partner Channels
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<PartnerChannel> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Partner Channels
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<PartnerChannel> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Partner Channel ID.
+   * Show Partner Channel
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public PartnerChannel find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Partner Channel
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public PartnerChannel find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Partner Channel
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public PartnerChannel find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Partner Channel
+   *
+   * @param id Partner Channel ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code PartnerChannel}
+   */
   public PartnerChannel find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -109,36 +155,63 @@ public final class PartnerChannelOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Partner Channel
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public PartnerChannel get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Partner Channel
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public PartnerChannel get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   direction - string - Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
-   *   use_channel_root - boolean - Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Channel must remain one-way.
-   *   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
-   *   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
-   *   from_partner_route_path - string - Optional route path for files uploaded by the Partner.
-   *   to_partner_folder_name - string - Optional Channel-level to-Partner folder name override.
-   *   to_partner_managed_folder_paths - array(string) - Managed folder paths inside the to-Partner folder.
-   *   to_partner_route_path - string - Optional route path for files delivered to the Partner.
-   *   partner_id (required) - int64 - ID of the Partner this Channel belongs to.
-   *   path (required) - string - Channel path relative to the Partner root folder.
-   *   workspace_id - int64 - ID of the Workspace associated with this Partner Channel.
+   * Create Partner Channel
+   *
+   * @see #create(HashMap, HashMap)
    */
   public PartnerChannel create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Partner Channel
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public PartnerChannel create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Partner Channel
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code direction} (String): Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.</li>
+   * <li>{@code use_channel_root} (Boolean): Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Channel must remain one-way.</li>
+   * <li>{@code from_partner_folder_name} (String): Optional Channel-level from-Partner folder name override.</li>
+   * <li>{@code from_partner_managed_folder_paths} (String[]): Managed folder paths inside the from-Partner folder.</li>
+   * <li>{@code from_partner_route_path} (String): Optional route path for files uploaded by the Partner.</li>
+   * <li>{@code to_partner_folder_name} (String): Optional Channel-level to-Partner folder name override.</li>
+   * <li>{@code to_partner_managed_folder_paths} (String[]): Managed folder paths inside the to-Partner folder.</li>
+   * <li>{@code to_partner_route_path} (String): Optional route path for files delivered to the Partner.</li>
+   * <li>{@code partner_id} (Long): Required. ID of the Partner this Channel belongs to.</li>
+   * <li>{@code path} (String): Required. Channel path relative to the Partner root folder.</li>
+   * <li>{@code workspace_id} (Long): ID of the Workspace associated with this Partner Channel.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code PartnerChannel}
+   */
   public PartnerChannel create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -201,29 +274,52 @@ public final class PartnerChannelOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   direction - string - Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
-   *   use_channel_root - boolean - Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Channel must remain one-way.
-   *   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
-   *   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
-   *   from_partner_route_path - string - Optional route path for files uploaded by the Partner.
-   *   to_partner_folder_name - string - Optional Channel-level to-Partner folder name override.
-   *   to_partner_managed_folder_paths - array(string) - Managed folder paths inside the to-Partner folder.
-   *   to_partner_route_path - string - Optional route path for files delivered to the Partner.
-   *   path - string - Channel path relative to the Partner root folder.
+   * Update Partner Channel
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public PartnerChannel update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Partner Channel
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public PartnerChannel update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Partner Channel
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public PartnerChannel update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Partner Channel
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code direction} (String): Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.</li>
+   * <li>{@code use_channel_root} (Boolean): Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Channel must remain one-way.</li>
+   * <li>{@code from_partner_folder_name} (String): Optional Channel-level from-Partner folder name override.</li>
+   * <li>{@code from_partner_managed_folder_paths} (String[]): Managed folder paths inside the from-Partner folder.</li>
+   * <li>{@code from_partner_route_path} (String): Optional route path for files uploaded by the Partner.</li>
+   * <li>{@code to_partner_folder_name} (String): Optional Channel-level to-Partner folder name override.</li>
+   * <li>{@code to_partner_managed_folder_paths} (String[]): Managed folder paths inside the to-Partner folder.</li>
+   * <li>{@code to_partner_route_path} (String): Optional route path for files delivered to the Partner.</li>
+   * <li>{@code path} (String): Channel path relative to the Partner root folder.</li>
+   * </ul>
+   *
+   * @param id Partner Channel ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code PartnerChannel}
+   */
   public PartnerChannel update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -282,19 +378,39 @@ public final class PartnerChannelOperations extends ResourceOperations {
   }
 
   /**
+   * Delete Partner Channel
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Partner Channel
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Partner Channel
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Partner Channel
+   *
+   * @param id Partner Channel ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -315,10 +431,20 @@ public final class PartnerChannelOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Partner Channel
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Partner Channel
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

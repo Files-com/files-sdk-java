@@ -36,6 +36,11 @@ public class SiteSubdomainRedirect implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -59,14 +64,29 @@ public class SiteSubdomainRedirect implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code SiteSubdomainRedirect} with no attributes set.
+   */
   public SiteSubdomainRedirect() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code SiteSubdomainRedirect} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public SiteSubdomainRedirect(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code SiteSubdomainRedirect} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public SiteSubdomainRedirect(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -84,6 +104,11 @@ public class SiteSubdomainRedirect implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -94,6 +119,11 @@ public class SiteSubdomainRedirect implements ModelInterface {
   @JsonProperty("subdomain")
   public String subdomain;
 
+  /**
+   * Gets {@link #subdomain}.
+   *
+   * @return the value of {@link #subdomain}
+   */
   public String getSubdomain() {
     return subdomain;
   }
@@ -104,6 +134,11 @@ public class SiteSubdomainRedirect implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -114,98 +149,197 @@ public class SiteSubdomainRedirect implements ModelInterface {
   @JsonProperty("updated_at")
   public Date updatedAt;
 
+  /**
+   * Gets {@link #updatedAt}.
+   *
+   * @return the value of {@link #updatedAt}
+   */
   public Date getUpdatedAt() {
     return updatedAt;
   }
 
   /**
+   * Delete Site Subdomain Redirect
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().siteSubdomainRedirects().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Site Subdomain Redirect
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `id`.
+   * List Site Subdomain Redirects
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<SiteSubdomainRedirect> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Site Subdomain Redirects
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<SiteSubdomainRedirect> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Site Subdomain Redirects
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `id`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code SiteSubdomainRedirect} records, in a {@code ListIterator}
+   */
   public static ListIterator<SiteSubdomainRedirect> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().siteSubdomainRedirects().list(parameters, options);
   }
 
+  /**
+   * List Site Subdomain Redirects
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<SiteSubdomainRedirect> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Site Subdomain Redirects
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<SiteSubdomainRedirect> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Site Subdomain Redirect ID.
+   * Show Site Subdomain Redirect
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static SiteSubdomainRedirect find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Site Subdomain Redirect
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static SiteSubdomainRedirect find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Site Subdomain Redirect
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static SiteSubdomainRedirect find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Site Subdomain Redirect
+   *
+   * @param id Site Subdomain Redirect ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code SiteSubdomainRedirect}
+   */
   public static SiteSubdomainRedirect find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().siteSubdomainRedirects().find(id, parameters, options);
   }
 
+  /**
+   * Show Site Subdomain Redirect
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static SiteSubdomainRedirect get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Site Subdomain Redirect
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static SiteSubdomainRedirect get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
+   * Delete Site Subdomain Redirect
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Site Subdomain Redirect
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Site Subdomain Redirect
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Site Subdomain Redirect
+   *
+   * @param id Site Subdomain Redirect ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().siteSubdomainRedirects().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Site Subdomain Redirect
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Site Subdomain Redirect
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

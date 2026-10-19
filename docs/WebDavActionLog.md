@@ -49,12 +49,9 @@
 
 ## List WebDAV Action Logs
 
-```
-ListIterator<WebDavActionLog> webDavActionLog = WebDavActionLog.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<WebDavActionLog> webDavActionLogs = WebDavActionLog.list(parameters, null);
 ```
 
 ### Parameters

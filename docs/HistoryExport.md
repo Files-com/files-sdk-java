@@ -66,12 +66,9 @@
 
 ## Show History Export
 
-```
-HistoryExport historyExport = HistoryExport.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+HistoryExport historyExport = HistoryExport.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -83,12 +80,31 @@ HistoryExport historyExport = HistoryExport.find(
 
 ## Create History Export
 
-```
-HistoryExport historyExport = HistoryExport.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("start_at", "2000-01-01T01:00:00Z");
+parameters.put("end_at", "2000-01-01T01:00:00Z");
+parameters.put("query_action", "read");
+parameters.put("query_interface", "ftp");
+parameters.put("query_user_id", "1");
+parameters.put("query_file_id", "1");
+parameters.put("query_parent_id", "1");
+parameters.put("query_path", "MyFile.txt");
+parameters.put("query_folder", "Folder");
+parameters.put("query_src", "SrcFolder");
+parameters.put("query_destination", "DestFolder");
+parameters.put("query_ip", "127.0.0.1");
+parameters.put("query_username", "jerry");
+parameters.put("query_failure_type", "bad_password");
+parameters.put("query_target_id", "1");
+parameters.put("query_target_name", "full");
+parameters.put("query_target_permission", "full");
+parameters.put("query_target_user_id", "1");
+parameters.put("query_target_username", "jerry");
+parameters.put("query_target_platform", "windows");
+parameters.put("query_target_permission_set", "desktop_app");
+HistoryExport historyExport = HistoryExport.create(parameters, null);
 ```
 
 ### Parameters

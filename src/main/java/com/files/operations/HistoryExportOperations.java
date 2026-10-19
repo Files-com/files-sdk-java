@@ -23,21 +23,40 @@ public final class HistoryExportOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - History Export ID.
+   * Show History Export
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public HistoryExport find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show History Export
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public HistoryExport find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show History Export
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public HistoryExport find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show History Export
+   *
+   * @param id History Export ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code HistoryExport}
+   */
   public HistoryExport find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -59,47 +78,74 @@ public final class HistoryExportOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show History Export
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public HistoryExport get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show History Export
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public HistoryExport get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   start_at - string - Start date/time of export range.
-   *   end_at - string - End date/time of export range.
-   *   query_action - string - Filter results by this this action type. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`, `archived_delete`
-   *   query_interface - string - Filter results by this this interface type. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`, `mobile`, `as2`, `inbound_email`, `remote`, `inbound_s3`
-   *   query_user_id - string - Return results that are actions performed by the user indicated by this User ID
-   *   query_file_id - string - Return results that are file actions related to the file indicated by this File ID
-   *   query_parent_id - string - Return results that are file actions inside the parent folder specified by this folder ID
-   *   query_path - string - Return results that are file actions related to paths matching this pattern.
-   *   query_folder - string - Return results that are file actions related to files or folders inside folder paths matching this pattern.
-   *   query_src - string - Return results that are file moves originating from paths matching this pattern.
-   *   query_destination - string - Return results that are file moves with paths matching this pattern as destination.
-   *   query_ip - string - Filter results by this IP address.
-   *   query_username - string - Filter results by this username.
-   *   query_failure_type - string - If searching for Histories about login failures, this parameter restricts results to failures of this specific type.  Valid values: `expired_trial`, `account_overdue`, `locked_out`, `ip_mismatch`, `password_mismatch`, `site_mismatch`, `username_not_found`, `none`, `no_ftp_permission`, `no_web_permission`, `no_directory`, `errno_enoent`, `no_sftp_permission`, `no_dav_permission`, `no_restapi_permission`, `key_mismatch`, `region_mismatch`, `expired_access`, `desktop_ip_mismatch`, `desktop_api_key_not_used_quickly_enough`, `disabled`, `country_mismatch`, `insecure_ftp`, `insecure_cipher`, `rate_limited`, `no_s3_compatible_endpoint_permission`, `mobile_ip_mismatch`, `mobile_api_key_not_used_quickly_enough`, `desktop_app_disabled`, `mobile_app_disabled`
-   *   query_target_id - string - If searching for Histories about specific objects (such as Users, or API Keys), this parameter restricts results to objects that match this ID.
-   *   query_target_name - string - If searching for Histories about Users, Groups or other objects with names, this parameter restricts results to objects with this name/username.
-   *   query_target_permission - string - If searching for Histories about Permissions, this parameter restricts results to permissions of this level.
-   *   query_target_user_id - string - If searching for Histories about API keys, this parameter restricts results to API keys created by/for this user ID.
-   *   query_target_username - string - If searching for Histories about API keys, this parameter restricts results to API keys created by/for this username.
-   *   query_target_platform - string - If searching for Histories about API keys, this parameter restricts results to API keys associated with this platform.
-   *   query_target_permission_set - string - If searching for Histories about API keys, this parameter restricts results to API keys with this permission set.
+   * Create History Export
+   *
+   * @see #create(HashMap, HashMap)
    */
   public HistoryExport create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create History Export
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public HistoryExport create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create History Export
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code start_at} (String): Start date/time of export range.</li>
+   * <li>{@code end_at} (String): End date/time of export range.</li>
+   * <li>{@code query_action} (String): Filter results by this this action type. Valid values: `create`, `read`, `update`, `destroy`, `move`, `login`, `failedlogin`, `copy`, `user_create`, `user_update`, `user_destroy`, `group_create`, `group_update`, `group_destroy`, `permission_create`, `permission_destroy`, `api_key_create`, `api_key_update`, `api_key_destroy`, `archived_delete`</li>
+   * <li>{@code query_interface} (String): Filter results by this this interface type. Valid values: `web`, `ftp`, `robot`, `jsapi`, `webdesktopapi`, `sftp`, `dav`, `desktop`, `restapi`, `scim`, `office`, `mobile`, `as2`, `inbound_email`, `remote`, `inbound_s3`</li>
+   * <li>{@code query_user_id} (String): Return results that are actions performed by the user indicated by this User ID</li>
+   * <li>{@code query_file_id} (String): Return results that are file actions related to the file indicated by this File ID</li>
+   * <li>{@code query_parent_id} (String): Return results that are file actions inside the parent folder specified by this folder ID</li>
+   * <li>{@code query_path} (String): Return results that are file actions related to paths matching this pattern.</li>
+   * <li>{@code query_folder} (String): Return results that are file actions related to files or folders inside folder paths matching this pattern.</li>
+   * <li>{@code query_src} (String): Return results that are file moves originating from paths matching this pattern.</li>
+   * <li>{@code query_destination} (String): Return results that are file moves with paths matching this pattern as destination.</li>
+   * <li>{@code query_ip} (String): Filter results by this IP address.</li>
+   * <li>{@code query_username} (String): Filter results by this username.</li>
+   * <li>{@code query_failure_type} (String): If searching for Histories about login failures, this parameter restricts results to failures of this specific type.  Valid values: `expired_trial`, `account_overdue`, `locked_out`, `ip_mismatch`, `password_mismatch`, `site_mismatch`, `username_not_found`, `none`, `no_ftp_permission`, `no_web_permission`, `no_directory`, `errno_enoent`, `no_sftp_permission`, `no_dav_permission`, `no_restapi_permission`, `key_mismatch`, `region_mismatch`, `expired_access`, `desktop_ip_mismatch`, `desktop_api_key_not_used_quickly_enough`, `disabled`, `country_mismatch`, `insecure_ftp`, `insecure_cipher`, `rate_limited`, `no_s3_compatible_endpoint_permission`, `mobile_ip_mismatch`, `mobile_api_key_not_used_quickly_enough`, `desktop_app_disabled`, `mobile_app_disabled`</li>
+   * <li>{@code query_target_id} (String): If searching for Histories about specific objects (such as Users, or API Keys), this parameter restricts results to objects that match this ID.</li>
+   * <li>{@code query_target_name} (String): If searching for Histories about Users, Groups or other objects with names, this parameter restricts results to objects with this name/username.</li>
+   * <li>{@code query_target_permission} (String): If searching for Histories about Permissions, this parameter restricts results to permissions of this level.</li>
+   * <li>{@code query_target_user_id} (String): If searching for Histories about API keys, this parameter restricts results to API keys created by/for this user ID.</li>
+   * <li>{@code query_target_username} (String): If searching for Histories about API keys, this parameter restricts results to API keys created by/for this username.</li>
+   * <li>{@code query_target_platform} (String): If searching for Histories about API keys, this parameter restricts results to API keys associated with this platform.</li>
+   * <li>{@code query_target_permission_set} (String): If searching for Histories about API keys, this parameter restricts results to API keys with this permission set.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code HistoryExport}
+   */
   public HistoryExport create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);

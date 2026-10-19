@@ -33,6 +33,11 @@ public class Status implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -56,14 +61,29 @@ public class Status implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code Status} with no attributes set.
+   */
   public Status() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code Status} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public Status(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code Status} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public Status(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -81,6 +101,11 @@ public class Status implements ModelInterface {
   @JsonProperty("code")
   public Long code;
 
+  /**
+   * Gets {@link #code}.
+   *
+   * @return the value of {@link #code}
+   */
   public Long getCode() {
     return code;
   }
@@ -91,6 +116,11 @@ public class Status implements ModelInterface {
   @JsonProperty("message")
   public String message;
 
+  /**
+   * Gets {@link #message}.
+   *
+   * @return the value of {@link #message}
+   */
   public String getMessage() {
     return message;
   }
@@ -101,6 +131,11 @@ public class Status implements ModelInterface {
   @JsonProperty("status")
   public String status;
 
+  /**
+   * Gets {@link #status}.
+   *
+   * @return the value of {@link #status}
+   */
   public String getStatus() {
     return status;
   }
@@ -111,6 +146,11 @@ public class Status implements ModelInterface {
   @JsonProperty("data")
   public Auto data;
 
+  /**
+   * Gets {@link #data}.
+   *
+   * @return the value of {@link #data}
+   */
   public Auto getData() {
     return data;
   }
@@ -121,6 +161,11 @@ public class Status implements ModelInterface {
   @JsonProperty("errors")
   public Errors[] errors;
 
+  /**
+   * Gets {@link #errors}.
+   *
+   * @return the value of {@link #errors}
+   */
   public Errors[] getErrors() {
     return errors;
   }
@@ -131,6 +176,11 @@ public class Status implements ModelInterface {
   @JsonProperty("clickwrap_id")
   public Long clickwrapId;
 
+  /**
+   * Gets {@link #clickwrapId}.
+   *
+   * @return the value of {@link #clickwrapId}
+   */
   public Long getClickwrapId() {
     return clickwrapId;
   }
@@ -141,6 +191,11 @@ public class Status implements ModelInterface {
   @JsonProperty("clickwrap_body")
   public String clickwrapBody;
 
+  /**
+   * Gets {@link #clickwrapBody}.
+   *
+   * @return the value of {@link #clickwrapBody}
+   */
   public String getClickwrapBody() {
     return clickwrapBody;
   }

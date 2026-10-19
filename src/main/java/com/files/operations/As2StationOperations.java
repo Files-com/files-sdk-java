@@ -25,20 +25,37 @@ public final class As2StationOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
+   * List AS2 Stations
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<As2Station> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List AS2 Stations
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<As2Station> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List AS2 Stations
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code As2Station} records, in a {@code ListIterator}
+   */
   public ListIterator<As2Station> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -64,30 +81,59 @@ public final class As2StationOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List AS2 Stations
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<As2Station> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List AS2 Stations
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<As2Station> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - As2 Station ID.
+   * Show AS2 Station
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public As2Station find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show AS2 Station
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public As2Station find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show AS2 Station
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public As2Station find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show AS2 Station
+   *
+   * @param id As2 Station ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code As2Station}
+   */
   public As2Station find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -109,32 +155,59 @@ public final class As2StationOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show AS2 Station
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public As2Station get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show AS2 Station
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public As2Station get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   name (required) - string - The station's formal AS2 name.
-   *   workspace_id - int64 - ID of the Workspace associated with this AS2 Station.
-   *   public_certificate - string - Public certificate used for message security.
-   *   private_key - string - PEM-encoded private key matching public_certificate.
-   *   private_key_password - string - Password for the PEM-encoded private key.
-   *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's certificate and private key. Provide this instead of public_certificate and private_key.
-   *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
+   * Create AS2 Station
+   *
+   * @see #create(HashMap, HashMap)
    */
   public As2Station create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create AS2 Station
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public As2Station create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create AS2 Station
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Required. The station's formal AS2 name.</li>
+   * <li>{@code workspace_id} (Long): ID of the Workspace associated with this AS2 Station.</li>
+   * <li>{@code public_certificate} (String): Public certificate used for message security.</li>
+   * <li>{@code private_key} (String): PEM-encoded private key matching public_certificate.</li>
+   * <li>{@code private_key_password} (String): Password for the PEM-encoded private key.</li>
+   * <li>{@code pkcs12} (String): Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's certificate and private key. Provide this instead of public_certificate and private_key.</li>
+   * <li>{@code pkcs12_password} (String): Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code As2Station}
+   */
   public As2Station create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -177,26 +250,49 @@ public final class As2StationOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   name - string - The station's formal AS2 name.
-   *   public_certificate - string - Public certificate used for message security.
-   *   private_key - string - PEM-encoded private key matching public_certificate.
-   *   private_key_password - string - Password for the PEM-encoded private key.
-   *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's replacement certificate and private key. Provide this instead of public_certificate and private_key.
-   *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.
+   * Update AS2 Station
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public As2Station update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update AS2 Station
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public As2Station update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update AS2 Station
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public As2Station update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update AS2 Station
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): The station's formal AS2 name.</li>
+   * <li>{@code public_certificate} (String): Public certificate used for message security.</li>
+   * <li>{@code private_key} (String): PEM-encoded private key matching public_certificate.</li>
+   * <li>{@code private_key_password} (String): Password for the PEM-encoded private key.</li>
+   * <li>{@code pkcs12} (String): Base64-encoded PKCS#12 (.pfx or .p12) file containing the identity's replacement certificate and private key. Provide this instead of public_certificate and private_key.</li>
+   * <li>{@code pkcs12_password} (String): Password for pkcs12. The file and password are used only for import; the extracted certificate and private key are stored as PEM.</li>
+   * </ul>
+   *
+   * @param id As2 Station ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code As2Station}
+   */
   public As2Station update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -243,19 +339,39 @@ public final class As2StationOperations extends ResourceOperations {
   }
 
   /**
+   * Delete AS2 Station
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete AS2 Station
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete AS2 Station
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete AS2 Station
+   *
+   * @param id As2 Station ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -276,10 +392,20 @@ public final class As2StationOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete AS2 Station
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete AS2 Station
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

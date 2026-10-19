@@ -37,6 +37,11 @@ public class HolidayCalendar implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -60,14 +65,29 @@ public class HolidayCalendar implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code HolidayCalendar} with no attributes set.
+   */
   public HolidayCalendar() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code HolidayCalendar} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public HolidayCalendar(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code HolidayCalendar} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public HolidayCalendar(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -85,10 +105,20 @@ public class HolidayCalendar implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -99,10 +129,20 @@ public class HolidayCalendar implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -113,10 +153,20 @@ public class HolidayCalendar implements ModelInterface {
   @JsonProperty("definition")
   public Object definition;
 
+  /**
+   * Gets {@link #definition}.
+   *
+   * @return the value of {@link #definition}
+   */
   public Object getDefinition() {
     return definition;
   }
 
+  /**
+   * Sets {@link #definition}.
+   *
+   * @param definition the new value
+   */
   public void setDefinition(Object definition) {
     this.definition = definition;
   }
@@ -127,6 +177,11 @@ public class HolidayCalendar implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -137,15 +192,26 @@ public class HolidayCalendar implements ModelInterface {
   @JsonProperty("updated_at")
   public Date updatedAt;
 
+  /**
+   * Gets {@link #updatedAt}.
+   *
+   * @return the value of {@link #updatedAt}
+   */
   public Date getUpdatedAt() {
     return updatedAt;
   }
 
   /**
    * Updates this HolidayCalendar. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   definition - object - Holiday rules for the calendar.
-   *   name - string - Holiday Calendar name.
+   * <p>Update Holiday Calendar
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code definition} (Object): Holiday rules for the calendar.</li>
+   * <li>{@code name} (String): Holiday Calendar name.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code HolidayCalendar}
    */
   public HolidayCalendar update(HashMap<String, Object> parameters) throws IOException {
     HolidayCalendar updated = filesClient().holidayCalendars().update(this.id, parameters, this.options);
@@ -154,11 +220,19 @@ public class HolidayCalendar implements ModelInterface {
   }
 
   /**
+   * Delete Holiday Calendar
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().holidayCalendars().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Holiday Calendar
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -195,123 +269,249 @@ public class HolidayCalendar implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
+   * List Holiday Calendars
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<HolidayCalendar> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Holiday Calendars
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<HolidayCalendar> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Holiday Calendars
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code HolidayCalendar} records, in a {@code ListIterator}
+   */
   public static ListIterator<HolidayCalendar> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().holidayCalendars().list(parameters, options);
   }
 
+  /**
+   * List Holiday Calendars
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<HolidayCalendar> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Holiday Calendars
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<HolidayCalendar> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Holiday Calendar ID.
+   * Show Holiday Calendar
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static HolidayCalendar find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Holiday Calendar
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static HolidayCalendar find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Holiday Calendar
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static HolidayCalendar find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Holiday Calendar
+   *
+   * @param id Holiday Calendar ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code HolidayCalendar}
+   */
   public static HolidayCalendar find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().holidayCalendars().find(id, parameters, options);
   }
 
+  /**
+   * Show Holiday Calendar
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static HolidayCalendar get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Holiday Calendar
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static HolidayCalendar get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   definition (required) - object - Holiday rules for the calendar.
-   *   name (required) - string - Holiday Calendar name.
+   * Create Holiday Calendar
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static HolidayCalendar create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Holiday Calendar
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static HolidayCalendar create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Holiday Calendar
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code definition} (Object): Required. Holiday rules for the calendar.</li>
+   * <li>{@code name} (String): Required. Holiday Calendar name.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code HolidayCalendar}
+   */
   public static HolidayCalendar create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().holidayCalendars().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   definition - object - Holiday rules for the calendar.
-   *   name - string - Holiday Calendar name.
+   * Update Holiday Calendar
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static HolidayCalendar update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Holiday Calendar
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static HolidayCalendar update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Holiday Calendar
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static HolidayCalendar update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Holiday Calendar
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code definition} (Object): Holiday rules for the calendar.</li>
+   * <li>{@code name} (String): Holiday Calendar name.</li>
+   * </ul>
+   *
+   * @param id Holiday Calendar ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code HolidayCalendar}
+   */
   public static HolidayCalendar update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().holidayCalendars().update(id, parameters, options);
   }
 
 
   /**
+   * Delete Holiday Calendar
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Holiday Calendar
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Holiday Calendar
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Holiday Calendar
+   *
+   * @param id Holiday Calendar ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().holidayCalendars().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Holiday Calendar
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Holiday Calendar
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

@@ -8,6 +8,7 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
 
+import com.files.exceptions.OperationCancelledException;
 import com.files.exceptions.TransferCheckpointException;
 import com.files.models.File;
 import com.files.net.ConcurrencyMode;
@@ -107,6 +108,96 @@ public class FilesDownloadCheckpointTest {
     assertEquals(5000, progress.get(0).getResumedBytes());
     assertEquals(10_000, result.getFinalProgress().getTransferredBytes());
     assertEquals(5000, result.getFinalProgress().getResumedBytes());
+    assertEquals("deleted once published", 0, listing(checkpoints).size());
+    assertEquals("the partial download is gone", Arrays.asList("big.bin", "checkpoints"), listing(folder.getRoot().toPath()));
+  }
+
+  @Test(timeout = 30000)
+  public void aCancelledDownloadContinuesFromItsPartialFileWithAFreshClient() throws Exception {
+    final byte[] contents = rangedFile(2, "\"v1\"");
+    // The range from 5000 is held once it is asked for, after the ranges before it were written, and
+    // the caller cancels then.
+    CountDownLatch asked = new CountDownLatch(1);
+    CountDownLatch release = new CountDownLatch(1);
+    files.rangeAnswer = (start, attempt) -> {
+      if (start == 5000 && attempt == 1) {
+        asked.countDown();
+        return FakeFiles.Answer.holdUntil(release);
+      }
+      return null;
+    };
+    CancellationToken token = new CancellationToken();
+    ExecutorService canceller = Executors.newSingleThreadExecutor();
+    try {
+      Future<?> cancelling = canceller.submit(() -> {
+        assertTrue("the range from 5000 was asked for", asked.await(10, TimeUnit.SECONDS));
+        token.cancel();
+        return null;
+      });
+      try {
+        client.transfers().download(REMOTE, destination, checkpointed().cancellation(token).build());
+        fail("Expected the download to be cancelled");
+      } catch (OperationCancelledException e) {
+        assertEquals(OperationCancelledException.Reason.CANCELLED, e.getReason());
+      }
+      cancelling.get(10, TimeUnit.SECONDS);
+    } finally {
+      release.countDown();
+      canceller.shutdownNow();
+      assertTrue("the canceller has ended", canceller.awaitTermination(10, TimeUnit.SECONDS));
+    }
+    assertFalse("nothing published", Files.exists(destination));
+    stageDirectory();
+    assertEquals("the checkpoint is kept", 1, listing(checkpoints).size());
+    List<FakeFiles.Received> cancelled = new ArrayList<>(files.rangeRequests);
+    assertEquals("the ranges before 5000, then 5000", Arrays.asList(0L, 1000L, 2000L, 3000L, 4000L, 5000L), starts(cancelled));
+
+    // Another client continues the download from the partial file.
+    files.rangeAnswer = (start, attempt) -> null;
+    List<TransferProgress> progress = new ArrayList<>();
+    DownloadResult result;
+    try (FilesClient fresh = FilesClient.builder()
+             .apiKey("transfer-key")
+             .workspaceId(0L)
+             .apiRoot(files.root())
+             .retryDelay(Duration.ofMillis(1))
+             .build()) {
+      result = fresh.transfers().download(REMOTE, destination, checkpointed().progressListener(progress::add).build());
+    }
+
+    assertArrayEquals(contents, Files.readAllBytes(destination));
+    List<FakeFiles.Received> all = new ArrayList<>(files.rangeRequests);
+    List<FakeFiles.Received> resumed = all.subList(cancelled.size(), all.size());
+    assertEquals("only the missing ranges", Arrays.asList(5000L, 6000L, 7000L, 8000L, 9000L), starts(resumed));
+    for (FakeFiles.Received request : resumed) {
+      assertEquals("each confirms the recorded version", "\"v1\"", request.header("If-Match"));
+    }
+    assertTrue(result.isVersionBound());
+
+    // The ranges written before the cancellation count as transferred and resumed, and never in the
+    // rate: each report's rate is the bytes this run had fetched by then per second of the time it reports.
+    assertFalse("progress is reported", progress.isEmpty());
+    long previous = 5000;
+    for (TransferProgress report : progress) {
+      assertEquals(5000, report.getResumedBytes());
+      long transferred = report.getTransferredBytes();
+      assertTrue(String.valueOf(transferred), transferred >= previous && transferred <= 10_000);
+      previous = transferred;
+      long fetched = transferred - report.getResumedBytes();
+      if (fetched > 0) {
+        assertTrue(String.valueOf(report.getElapsed()), report.getElapsed().toNanos() > 0);
+        assertTrue(String.valueOf(report.getBytesPerSecond()), report.getBytesPerSecond() > 0 && Double.isFinite(report.getBytesPerSecond()));
+        assertEquals(fetched, report.getBytesPerSecond() * report.getElapsed().toNanos() / 1e9, 1e-6);
+      } else {
+        assertEquals(0, report.getBytesPerSecond(), 0);
+      }
+    }
+    TransferProgress last = result.getFinalProgress();
+    assertEquals(10_000, last.getTransferredBytes());
+    assertEquals(5000, last.getResumedBytes());
+    assertTrue(String.valueOf(last.getElapsed()), last.getElapsed().toNanos() > 0);
+    assertTrue(String.valueOf(last.getBytesPerSecond()), last.getBytesPerSecond() > 0 && Double.isFinite(last.getBytesPerSecond()));
+    assertEquals(5000, last.getBytesPerSecond() * last.getElapsed().toNanos() / 1e9, 1e-6);
     assertEquals("deleted once published", 0, listing(checkpoints).size());
     assertEquals("the partial download is gone", Arrays.asList("big.bin", "checkpoints"), listing(folder.getRoot().toPath()));
   }

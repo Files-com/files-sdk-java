@@ -25,19 +25,36 @@ public final class ShareGroupOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   * List Share Groups
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<ShareGroup> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Share Groups
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<ShareGroup> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Share Groups
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ShareGroup} records, in a {@code ListIterator}
+   */
   public ListIterator<ShareGroup> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -59,30 +76,59 @@ public final class ShareGroupOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Share Groups
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<ShareGroup> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Share Groups
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<ShareGroup> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Share Group ID.
+   * Show Share Group
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public ShareGroup find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Share Group
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ShareGroup find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Share Group
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ShareGroup find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Share Group
+   *
+   * @param id Share Group ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ShareGroup}
+   */
   public ShareGroup find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -104,29 +150,56 @@ public final class ShareGroupOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Share Group
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ShareGroup get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Share Group
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ShareGroup get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   notes - string - Additional notes of the share group
-   *   name (required) - string - Name of the share group
-   *   members (required) - array(object) - A list of share group members.
+   * Create Share Group
+   *
+   * @see #create(HashMap, HashMap)
    */
   public ShareGroup create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Share Group
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public ShareGroup create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Share Group
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code notes} (String): Additional notes of the share group</li>
+   * <li>{@code name} (String): Required. Name of the share group</li>
+   * <li>{@code members} (Object[]): Required. A list of share group members.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ShareGroup}
+   */
   public ShareGroup create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -161,23 +234,46 @@ public final class ShareGroupOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   notes - string - Additional notes of the share group
-   *   name - string - Name of the share group
-   *   members - array(object) - A list of share group members.
+   * Update Share Group
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public ShareGroup update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Share Group
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public ShareGroup update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Share Group
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public ShareGroup update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Share Group
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code notes} (String): Additional notes of the share group</li>
+   * <li>{@code name} (String): Name of the share group</li>
+   * <li>{@code members} (Object[]): A list of share group members.</li>
+   * </ul>
+   *
+   * @param id Share Group ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ShareGroup}
+   */
   public ShareGroup update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -212,19 +308,39 @@ public final class ShareGroupOperations extends ResourceOperations {
   }
 
   /**
+   * Delete Share Group
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Share Group
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Share Group
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Share Group
+   *
+   * @param id Share Group ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -245,10 +361,20 @@ public final class ShareGroupOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Share Group
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Share Group
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

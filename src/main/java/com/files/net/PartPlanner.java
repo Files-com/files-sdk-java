@@ -236,8 +236,9 @@ final class PartPlanner {
   }
 
   // A new URL for a planned part whose URL is about to expire or has. The part keeps its number,
-  // offset and length, so Files.com must still plan the same size for it. Safe to call from a
-  // part's thread while planning continues.
+  // offset and length, so Files.com must still plan the same size for it. A new URL that has itself
+  // expired already is refused (ExpiredRenewal), and not returned; one that is still valid, however
+  // briefly, is returned. Safe to call from a part's thread while planning continues.
   Target renew(Planned part, long length, boolean last, OperationScope scope) {
     FileUploadPart renewed = checkNumbering(session.next(part.number, 1, scope), part.number).get(0);
     if (sizes != null) {
@@ -255,10 +256,29 @@ final class PartPlanner {
     if (part.recorded) {
       checkResendable(target, part.number);
     }
+    if (target.expired()) {
+      throw new ExpiredRenewal("Files.com gave part " + part.number + " of the upload to " + session.path()
+          + " a new URL that had already expired", target.retryParts);
+    }
     if (!target.parallelParts) {
       everyPartParallel = false;
     }
     return target;
+  }
+
+  // A renewal whose new URL had already expired when Files.com gave it, so it was not used. The
+  // upload may ask again, within the part's attempts, or fail with it. retryParts is what the renewal
+  // says all the same: whether Files.com still allows the part to be sent again, which for a part that
+  // may have reached storage decides whether it may be asked for again at all.
+  static final class ExpiredRenewal extends ApiErrorException.ApiConnectionException {
+    private static final long serialVersionUID = 1L;
+
+    final boolean retryParts;
+
+    ExpiredRenewal(String message, boolean retryParts) {
+      super(message);
+      this.retryParts = retryParts;
+    }
   }
 
   private void negotiate(OperationScope scope) {
@@ -381,6 +401,12 @@ final class PartPlanner {
 
     boolean expiresWithin(Duration time) {
       return expiresAt != null && !expiresAt.isAfter(Instant.now().plus(time));
+    }
+
+    // Whether the URL has expired: its known expiry, the earlier of the part's and its URL's, has
+    // come. One without a known expiry has not.
+    boolean expired() {
+      return expiresAt != null && !Instant.now().isBefore(expiresAt);
     }
 
     static Target of(FileUploadPart part, long number, String path) {

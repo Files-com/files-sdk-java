@@ -36,6 +36,11 @@ public class PartnerChannelTemplate implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -59,14 +64,29 @@ public class PartnerChannelTemplate implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code PartnerChannelTemplate} with no attributes set.
+   */
   public PartnerChannelTemplate() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code PartnerChannelTemplate} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public PartnerChannelTemplate(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code PartnerChannelTemplate} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public PartnerChannelTemplate(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -84,10 +104,20 @@ public class PartnerChannelTemplate implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -98,10 +128,20 @@ public class PartnerChannelTemplate implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
 
+  /**
+   * Sets {@link #workspaceId}.
+   *
+   * @param workspaceId the new value
+   */
   public void setWorkspaceId(Long workspaceId) {
     this.workspaceId = workspaceId;
   }
@@ -112,10 +152,20 @@ public class PartnerChannelTemplate implements ModelInterface {
   @JsonProperty("direction")
   public String direction;
 
+  /**
+   * Gets {@link #direction}.
+   *
+   * @return the value of {@link #direction}
+   */
   public String getDirection() {
     return direction;
   }
 
+  /**
+   * Sets {@link #direction}.
+   *
+   * @param direction the new value
+   */
   public void setDirection(String direction) {
     this.direction = direction;
   }
@@ -126,10 +176,20 @@ public class PartnerChannelTemplate implements ModelInterface {
   @JsonProperty("use_channel_root")
   public Boolean useChannelRoot;
 
+  /**
+   * Gets {@link #useChannelRoot}.
+   *
+   * @return the value of {@link #useChannelRoot}
+   */
   public Boolean getUseChannelRoot() {
     return useChannelRoot;
   }
 
+  /**
+   * Sets {@link #useChannelRoot}.
+   *
+   * @param useChannelRoot the new value
+   */
   public void setUseChannelRoot(Boolean useChannelRoot) {
     this.useChannelRoot = useChannelRoot;
   }
@@ -140,10 +200,20 @@ public class PartnerChannelTemplate implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -154,10 +224,20 @@ public class PartnerChannelTemplate implements ModelInterface {
   @JsonProperty("path")
   public String path;
 
+  /**
+   * Gets {@link #path}.
+   *
+   * @return the value of {@link #path}
+   */
   public String getPath() {
     return path;
   }
 
+  /**
+   * Sets {@link #path}.
+   *
+   * @param path the new value
+   */
   public void setPath(String path) {
     this.path = path;
   }
@@ -168,10 +248,20 @@ public class PartnerChannelTemplate implements ModelInterface {
   @JsonProperty("to_partner_folder_name")
   public String toPartnerFolderName;
 
+  /**
+   * Gets {@link #toPartnerFolderName}.
+   *
+   * @return the value of {@link #toPartnerFolderName}
+   */
   public String getToPartnerFolderName() {
     return toPartnerFolderName;
   }
 
+  /**
+   * Sets {@link #toPartnerFolderName}.
+   *
+   * @param toPartnerFolderName the new value
+   */
   public void setToPartnerFolderName(String toPartnerFolderName) {
     this.toPartnerFolderName = toPartnerFolderName;
   }
@@ -182,10 +272,20 @@ public class PartnerChannelTemplate implements ModelInterface {
   @JsonProperty("from_partner_folder_name")
   public String fromPartnerFolderName;
 
+  /**
+   * Gets {@link #fromPartnerFolderName}.
+   *
+   * @return the value of {@link #fromPartnerFolderName}
+   */
   public String getFromPartnerFolderName() {
     return fromPartnerFolderName;
   }
 
+  /**
+   * Sets {@link #fromPartnerFolderName}.
+   *
+   * @param fromPartnerFolderName the new value
+   */
   public void setFromPartnerFolderName(String fromPartnerFolderName) {
     this.fromPartnerFolderName = fromPartnerFolderName;
   }
@@ -196,10 +296,20 @@ public class PartnerChannelTemplate implements ModelInterface {
   @JsonProperty("from_partner_route_path_pattern")
   public String fromPartnerRoutePathPattern;
 
+  /**
+   * Gets {@link #fromPartnerRoutePathPattern}.
+   *
+   * @return the value of {@link #fromPartnerRoutePathPattern}
+   */
   public String getFromPartnerRoutePathPattern() {
     return fromPartnerRoutePathPattern;
   }
 
+  /**
+   * Sets {@link #fromPartnerRoutePathPattern}.
+   *
+   * @param fromPartnerRoutePathPattern the new value
+   */
   public void setFromPartnerRoutePathPattern(String fromPartnerRoutePathPattern) {
     this.fromPartnerRoutePathPattern = fromPartnerRoutePathPattern;
   }
@@ -210,10 +320,20 @@ public class PartnerChannelTemplate implements ModelInterface {
   @JsonProperty("to_partner_route_path_pattern")
   public String toPartnerRoutePathPattern;
 
+  /**
+   * Gets {@link #toPartnerRoutePathPattern}.
+   *
+   * @return the value of {@link #toPartnerRoutePathPattern}
+   */
   public String getToPartnerRoutePathPattern() {
     return toPartnerRoutePathPattern;
   }
 
+  /**
+   * Sets {@link #toPartnerRoutePathPattern}.
+   *
+   * @param toPartnerRoutePathPattern the new value
+   */
   public void setToPartnerRoutePathPattern(String toPartnerRoutePathPattern) {
     this.toPartnerRoutePathPattern = toPartnerRoutePathPattern;
   }
@@ -224,10 +344,20 @@ public class PartnerChannelTemplate implements ModelInterface {
   @JsonProperty("to_partner_managed_folder_paths")
   public String[] toPartnerManagedFolderPaths;
 
+  /**
+   * Gets {@link #toPartnerManagedFolderPaths}.
+   *
+   * @return the value of {@link #toPartnerManagedFolderPaths}
+   */
   public String[] getToPartnerManagedFolderPaths() {
     return toPartnerManagedFolderPaths;
   }
 
+  /**
+   * Sets {@link #toPartnerManagedFolderPaths}.
+   *
+   * @param toPartnerManagedFolderPaths the new value
+   */
   public void setToPartnerManagedFolderPaths(String[] toPartnerManagedFolderPaths) {
     this.toPartnerManagedFolderPaths = toPartnerManagedFolderPaths;
   }
@@ -238,10 +368,20 @@ public class PartnerChannelTemplate implements ModelInterface {
   @JsonProperty("from_partner_managed_folder_paths")
   public String[] fromPartnerManagedFolderPaths;
 
+  /**
+   * Gets {@link #fromPartnerManagedFolderPaths}.
+   *
+   * @return the value of {@link #fromPartnerManagedFolderPaths}
+   */
   public String[] getFromPartnerManagedFolderPaths() {
     return fromPartnerManagedFolderPaths;
   }
 
+  /**
+   * Sets {@link #fromPartnerManagedFolderPaths}.
+   *
+   * @param fromPartnerManagedFolderPaths the new value
+   */
   public void setFromPartnerManagedFolderPaths(String[] fromPartnerManagedFolderPaths) {
     this.fromPartnerManagedFolderPaths = fromPartnerManagedFolderPaths;
   }
@@ -252,10 +392,20 @@ public class PartnerChannelTemplate implements ModelInterface {
   @JsonProperty("effective_to_partner_folder_name")
   public String effectiveToPartnerFolderName;
 
+  /**
+   * Gets {@link #effectiveToPartnerFolderName}.
+   *
+   * @return the value of {@link #effectiveToPartnerFolderName}
+   */
   public String getEffectiveToPartnerFolderName() {
     return effectiveToPartnerFolderName;
   }
 
+  /**
+   * Sets {@link #effectiveToPartnerFolderName}.
+   *
+   * @param effectiveToPartnerFolderName the new value
+   */
   public void setEffectiveToPartnerFolderName(String effectiveToPartnerFolderName) {
     this.effectiveToPartnerFolderName = effectiveToPartnerFolderName;
   }
@@ -266,27 +416,43 @@ public class PartnerChannelTemplate implements ModelInterface {
   @JsonProperty("effective_from_partner_folder_name")
   public String effectiveFromPartnerFolderName;
 
+  /**
+   * Gets {@link #effectiveFromPartnerFolderName}.
+   *
+   * @return the value of {@link #effectiveFromPartnerFolderName}
+   */
   public String getEffectiveFromPartnerFolderName() {
     return effectiveFromPartnerFolderName;
   }
 
+  /**
+   * Sets {@link #effectiveFromPartnerFolderName}.
+   *
+   * @param effectiveFromPartnerFolderName the new value
+   */
   public void setEffectiveFromPartnerFolderName(String effectiveFromPartnerFolderName) {
     this.effectiveFromPartnerFolderName = effectiveFromPartnerFolderName;
   }
 
   /**
    * Updates this PartnerChannelTemplate. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   direction - string - Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
-   *   use_channel_root - boolean - Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Template must remain one-way.
-   *   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
-   *   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
-   *   from_partner_route_path_pattern - string - Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
-   *   to_partner_folder_name - string - Optional Channel-level to-Partner folder name override.
-   *   to_partner_managed_folder_paths - array(string) - Managed folder paths inside the to-Partner folder.
-   *   to_partner_route_path_pattern - string - Optional route path pattern for files delivered to the Partner. Supports {{partner_name}}.
-   *   name - string - The name of the Partner Channel Template.
-   *   path - string - Channel path relative to the Partner root folder.
+   * <p>Update Partner Channel Template
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code direction} (String): Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.</li>
+   * <li>{@code use_channel_root} (Boolean): Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Template must remain one-way.</li>
+   * <li>{@code from_partner_folder_name} (String): Optional Channel-level from-Partner folder name override.</li>
+   * <li>{@code from_partner_managed_folder_paths} (String[]): Managed folder paths inside the from-Partner folder.</li>
+   * <li>{@code from_partner_route_path_pattern} (String): Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.</li>
+   * <li>{@code to_partner_folder_name} (String): Optional Channel-level to-Partner folder name override.</li>
+   * <li>{@code to_partner_managed_folder_paths} (String[]): Managed folder paths inside the to-Partner folder.</li>
+   * <li>{@code to_partner_route_path_pattern} (String): Optional route path pattern for files delivered to the Partner. Supports {{partner_name}}.</li>
+   * <li>{@code name} (String): The name of the Partner Channel Template.</li>
+   * <li>{@code path} (String): Channel path relative to the Partner root folder.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code PartnerChannelTemplate}
    */
   public PartnerChannelTemplate update(HashMap<String, Object> parameters) throws IOException {
     PartnerChannelTemplate updated = filesClient().partnerChannelTemplates().update(this.id, parameters, this.options);
@@ -295,11 +461,19 @@ public class PartnerChannelTemplate implements ModelInterface {
   }
 
   /**
+   * Delete Partner Channel Template
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().partnerChannelTemplates().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Partner Channel Template
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -352,141 +526,267 @@ public class PartnerChannelTemplate implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
+   * List Partner Channel Templates
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<PartnerChannelTemplate> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Partner Channel Templates
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<PartnerChannelTemplate> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Partner Channel Templates
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code PartnerChannelTemplate} records, in a {@code ListIterator}
+   */
   public static ListIterator<PartnerChannelTemplate> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().partnerChannelTemplates().list(parameters, options);
   }
 
+  /**
+   * List Partner Channel Templates
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<PartnerChannelTemplate> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Partner Channel Templates
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<PartnerChannelTemplate> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Partner Channel Template ID.
+   * Show Partner Channel Template
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static PartnerChannelTemplate find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Partner Channel Template
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static PartnerChannelTemplate find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Partner Channel Template
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static PartnerChannelTemplate find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Partner Channel Template
+   *
+   * @param id Partner Channel Template ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code PartnerChannelTemplate}
+   */
   public static PartnerChannelTemplate find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().partnerChannelTemplates().find(id, parameters, options);
   }
 
+  /**
+   * Show Partner Channel Template
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static PartnerChannelTemplate get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Partner Channel Template
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static PartnerChannelTemplate get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   direction - string - Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
-   *   use_channel_root - boolean - Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Template must remain one-way.
-   *   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
-   *   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
-   *   from_partner_route_path_pattern - string - Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
-   *   to_partner_folder_name - string - Optional Channel-level to-Partner folder name override.
-   *   to_partner_managed_folder_paths - array(string) - Managed folder paths inside the to-Partner folder.
-   *   to_partner_route_path_pattern - string - Optional route path pattern for files delivered to the Partner. Supports {{partner_name}}.
-   *   name (required) - string - The name of the Partner Channel Template.
-   *   path (required) - string - Channel path relative to the Partner root folder.
-   *   workspace_id - int64 - ID of the Workspace associated with this Partner Channel Template.
+   * Create Partner Channel Template
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static PartnerChannelTemplate create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Partner Channel Template
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static PartnerChannelTemplate create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Partner Channel Template
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code direction} (String): Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.</li>
+   * <li>{@code use_channel_root} (Boolean): Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Template must remain one-way.</li>
+   * <li>{@code from_partner_folder_name} (String): Optional Channel-level from-Partner folder name override.</li>
+   * <li>{@code from_partner_managed_folder_paths} (String[]): Managed folder paths inside the from-Partner folder.</li>
+   * <li>{@code from_partner_route_path_pattern} (String): Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.</li>
+   * <li>{@code to_partner_folder_name} (String): Optional Channel-level to-Partner folder name override.</li>
+   * <li>{@code to_partner_managed_folder_paths} (String[]): Managed folder paths inside the to-Partner folder.</li>
+   * <li>{@code to_partner_route_path_pattern} (String): Optional route path pattern for files delivered to the Partner. Supports {{partner_name}}.</li>
+   * <li>{@code name} (String): Required. The name of the Partner Channel Template.</li>
+   * <li>{@code path} (String): Required. Channel path relative to the Partner root folder.</li>
+   * <li>{@code workspace_id} (Long): ID of the Workspace associated with this Partner Channel Template.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code PartnerChannelTemplate}
+   */
   public static PartnerChannelTemplate create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().partnerChannelTemplates().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   direction - string - Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.
-   *   use_channel_root - boolean - Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Template must remain one-way.
-   *   from_partner_folder_name - string - Optional Channel-level from-Partner folder name override.
-   *   from_partner_managed_folder_paths - array(string) - Managed folder paths inside the from-Partner folder.
-   *   from_partner_route_path_pattern - string - Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.
-   *   to_partner_folder_name - string - Optional Channel-level to-Partner folder name override.
-   *   to_partner_managed_folder_paths - array(string) - Managed folder paths inside the to-Partner folder.
-   *   to_partner_route_path_pattern - string - Optional route path pattern for files delivered to the Partner. Supports {{partner_name}}.
-   *   name - string - The name of the Partner Channel Template.
-   *   path - string - Channel path relative to the Partner root folder.
+   * Update Partner Channel Template
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static PartnerChannelTemplate update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Partner Channel Template
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static PartnerChannelTemplate update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Partner Channel Template
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static PartnerChannelTemplate update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Partner Channel Template
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code direction} (String): Channel directions. `two_way` enables both directions, `to_partner` enables outgoing downloads, and `from_partner` enables incoming uploads.</li>
+   * <li>{@code use_channel_root} (Boolean): Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Template must remain one-way.</li>
+   * <li>{@code from_partner_folder_name} (String): Optional Channel-level from-Partner folder name override.</li>
+   * <li>{@code from_partner_managed_folder_paths} (String[]): Managed folder paths inside the from-Partner folder.</li>
+   * <li>{@code from_partner_route_path_pattern} (String): Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.</li>
+   * <li>{@code to_partner_folder_name} (String): Optional Channel-level to-Partner folder name override.</li>
+   * <li>{@code to_partner_managed_folder_paths} (String[]): Managed folder paths inside the to-Partner folder.</li>
+   * <li>{@code to_partner_route_path_pattern} (String): Optional route path pattern for files delivered to the Partner. Supports {{partner_name}}.</li>
+   * <li>{@code name} (String): The name of the Partner Channel Template.</li>
+   * <li>{@code path} (String): Channel path relative to the Partner root folder.</li>
+   * </ul>
+   *
+   * @param id Partner Channel Template ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code PartnerChannelTemplate}
+   */
   public static PartnerChannelTemplate update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().partnerChannelTemplates().update(id, parameters, options);
   }
 
 
   /**
+   * Delete Partner Channel Template
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Partner Channel Template
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Partner Channel Template
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Partner Channel Template
+   *
+   * @param id Partner Channel Template ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().partnerChannelTemplates().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Partner Channel Template
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Partner Channel Template
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

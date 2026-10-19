@@ -43,12 +43,9 @@
 
 ## List SSO Events
 
-```
-ListIterator<SsoEvent> ssoEvent = SsoEvent.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<SsoEvent> ssoEvents = SsoEvent.list(parameters, null);
 ```
 
 ### Parameters
@@ -68,12 +65,9 @@ ListIterator<SsoEvent> ssoEvent = SsoEvent.list(
 
 ## Show SSO Event
 
-```
-SsoEvent ssoEvent = SsoEvent.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+SsoEvent ssoEvent = SsoEvent.find(1L, parameters, null);
 ```
 
 ### Parameters

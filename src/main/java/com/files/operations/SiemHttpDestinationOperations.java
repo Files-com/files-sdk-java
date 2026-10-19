@@ -25,18 +25,35 @@ public final class SiemHttpDestinationOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   * List SIEM HTTP Destinations
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<SiemHttpDestination> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List SIEM HTTP Destinations
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<SiemHttpDestination> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List SIEM HTTP Destinations
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code SiemHttpDestination} records, in a {@code ListIterator}
+   */
   public ListIterator<SiemHttpDestination> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -54,30 +71,59 @@ public final class SiemHttpDestinationOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List SIEM HTTP Destinations
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<SiemHttpDestination> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List SIEM HTTP Destinations
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<SiemHttpDestination> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Siem Http Destination ID.
+   * Show SIEM HTTP Destination
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public SiemHttpDestination find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show SIEM HTTP Destination
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public SiemHttpDestination find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show SIEM HTTP Destination
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public SiemHttpDestination find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show SIEM HTTP Destination
+   *
+   * @param id Siem Http Destination ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code SiemHttpDestination}
+   */
   public SiemHttpDestination find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -99,58 +145,85 @@ public final class SiemHttpDestinationOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show SIEM HTTP Destination
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public SiemHttpDestination get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show SIEM HTTP Destination
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public SiemHttpDestination get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   name - string - Name for this Destination
-   *   additional_headers - object - Additional HTTP Headers included in calls to the destination URL
-   *   sending_active - boolean - Whether this SIEM HTTP Destination is currently being sent to or not
-   *   generic_payload_type - string - Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
-   *   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
-   *   file_format - string - Applicable only for destination type: file. Generated file format.
-   *   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
-   *   splunk_token - string - Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
-   *   crowdstrike_token - string - Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
-   *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
-   *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
-   *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
-   *   azure_oauth_client_credentials_client_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
-   *   azure_oauth_client_credentials_client_secret - string - Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
-   *   qradar_username - string - Applicable only for destination type: qradar. Basic auth username provided by QRadar.
-   *   qradar_password - string - Applicable only for destination type: qradar. Basic auth password provided by QRadar.
-   *   solar_winds_token - string - Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
-   *   new_relic_api_key - string - Applicable only for destination type: new_relic. API key provided by New Relic.
-   *   datadog_api_key - string - Applicable only for destination type: datadog. API key provided by Datadog.
-   *   action_send_enabled - boolean - Whether or not sending is enabled for action logs.
-   *   sftp_action_send_enabled - boolean - Whether or not sending is enabled for sftp_action logs.
-   *   ftp_action_send_enabled - boolean - Whether or not sending is enabled for ftp_action logs.
-   *   web_dav_action_send_enabled - boolean - Whether or not sending is enabled for web_dav_action logs.
-   *   sync_send_enabled - boolean - Whether or not sending is enabled for sync logs.
-   *   outbound_connection_send_enabled - boolean - Whether or not sending is enabled for outbound_connection logs.
-   *   automation_send_enabled - boolean - Whether or not sending is enabled for automation logs.
-   *   api_request_send_enabled - boolean - Whether or not sending is enabled for api_request logs.
-   *   public_hosting_request_send_enabled - boolean - Whether or not sending is enabled for public_hosting_request logs.
-   *   email_send_enabled - boolean - Whether or not sending is enabled for email logs.
-   *   exavault_api_request_send_enabled - boolean - Whether or not sending is enabled for exavault_api_request logs.
-   *   settings_change_send_enabled - boolean - Whether or not sending is enabled for settings_change logs.
-   *   destination_type (required) - string - Destination Type
-   *   destination_url - string - Destination Url
+   * Create SIEM HTTP Destination
+   *
+   * @see #create(HashMap, HashMap)
    */
   public SiemHttpDestination create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create SIEM HTTP Destination
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public SiemHttpDestination create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create SIEM HTTP Destination
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Name for this Destination</li>
+   * <li>{@code additional_headers} (Object): Additional HTTP Headers included in calls to the destination URL</li>
+   * <li>{@code sending_active} (Boolean): Whether this SIEM HTTP Destination is currently being sent to or not</li>
+   * <li>{@code generic_payload_type} (String): Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.</li>
+   * <li>{@code file_destination_path} (String): Applicable only for destination type: file. Destination folder path on Files.com.</li>
+   * <li>{@code file_format} (String): Applicable only for destination type: file. Generated file format.</li>
+   * <li>{@code file_interval_minutes} (Long): Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.</li>
+   * <li>{@code splunk_token} (String): Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.</li>
+   * <li>{@code crowdstrike_token} (String): Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.</li>
+   * <li>{@code azure_dcr_immutable_id} (String): Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.</li>
+   * <li>{@code azure_stream_name} (String): Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.</li>
+   * <li>{@code azure_oauth_client_credentials_tenant_id} (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.</li>
+   * <li>{@code azure_oauth_client_credentials_client_id} (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.</li>
+   * <li>{@code azure_oauth_client_credentials_client_secret} (String): Applicable only for destination type: azure. Client Credentials OAuth Client Secret.</li>
+   * <li>{@code qradar_username} (String): Applicable only for destination type: qradar. Basic auth username provided by QRadar.</li>
+   * <li>{@code qradar_password} (String): Applicable only for destination type: qradar. Basic auth password provided by QRadar.</li>
+   * <li>{@code solar_winds_token} (String): Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.</li>
+   * <li>{@code new_relic_api_key} (String): Applicable only for destination type: new_relic. API key provided by New Relic.</li>
+   * <li>{@code datadog_api_key} (String): Applicable only for destination type: datadog. API key provided by Datadog.</li>
+   * <li>{@code action_send_enabled} (Boolean): Whether or not sending is enabled for action logs.</li>
+   * <li>{@code sftp_action_send_enabled} (Boolean): Whether or not sending is enabled for sftp_action logs.</li>
+   * <li>{@code ftp_action_send_enabled} (Boolean): Whether or not sending is enabled for ftp_action logs.</li>
+   * <li>{@code web_dav_action_send_enabled} (Boolean): Whether or not sending is enabled for web_dav_action logs.</li>
+   * <li>{@code sync_send_enabled} (Boolean): Whether or not sending is enabled for sync logs.</li>
+   * <li>{@code outbound_connection_send_enabled} (Boolean): Whether or not sending is enabled for outbound_connection logs.</li>
+   * <li>{@code automation_send_enabled} (Boolean): Whether or not sending is enabled for automation logs.</li>
+   * <li>{@code api_request_send_enabled} (Boolean): Whether or not sending is enabled for api_request logs.</li>
+   * <li>{@code public_hosting_request_send_enabled} (Boolean): Whether or not sending is enabled for public_hosting_request logs.</li>
+   * <li>{@code email_send_enabled} (Boolean): Whether or not sending is enabled for email logs.</li>
+   * <li>{@code exavault_api_request_send_enabled} (Boolean): Whether or not sending is enabled for exavault_api_request logs.</li>
+   * <li>{@code settings_change_send_enabled} (Boolean): Whether or not sending is enabled for settings_change logs.</li>
+   * <li>{@code destination_type} (String): Required. Destination Type</li>
+   * <li>{@code destination_url} (String): Destination Url</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code SiemHttpDestination}
+   */
   public SiemHttpDestination create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -297,50 +370,66 @@ public final class SiemHttpDestinationOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   siem_http_destination_id - int64 - SIEM HTTP Destination ID
-   *   destination_type - string - Destination Type
-   *   destination_url - string - Destination Url
-   *   name - string - Name for this Destination
-   *   additional_headers - object - Additional HTTP Headers included in calls to the destination URL
-   *   sending_active - boolean - Whether this SIEM HTTP Destination is currently being sent to or not
-   *   generic_payload_type - string - Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
-   *   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
-   *   file_format - string - Applicable only for destination type: file. Generated file format.
-   *   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
-   *   splunk_token - string - Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
-   *   crowdstrike_token - string - Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
-   *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
-   *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
-   *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
-   *   azure_oauth_client_credentials_client_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
-   *   azure_oauth_client_credentials_client_secret - string - Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
-   *   qradar_username - string - Applicable only for destination type: qradar. Basic auth username provided by QRadar.
-   *   qradar_password - string - Applicable only for destination type: qradar. Basic auth password provided by QRadar.
-   *   solar_winds_token - string - Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
-   *   new_relic_api_key - string - Applicable only for destination type: new_relic. API key provided by New Relic.
-   *   datadog_api_key - string - Applicable only for destination type: datadog. API key provided by Datadog.
-   *   action_send_enabled - boolean - Whether or not sending is enabled for action logs.
-   *   sftp_action_send_enabled - boolean - Whether or not sending is enabled for sftp_action logs.
-   *   ftp_action_send_enabled - boolean - Whether or not sending is enabled for ftp_action logs.
-   *   web_dav_action_send_enabled - boolean - Whether or not sending is enabled for web_dav_action logs.
-   *   sync_send_enabled - boolean - Whether or not sending is enabled for sync logs.
-   *   outbound_connection_send_enabled - boolean - Whether or not sending is enabled for outbound_connection logs.
-   *   automation_send_enabled - boolean - Whether or not sending is enabled for automation logs.
-   *   api_request_send_enabled - boolean - Whether or not sending is enabled for api_request logs.
-   *   public_hosting_request_send_enabled - boolean - Whether or not sending is enabled for public_hosting_request logs.
-   *   email_send_enabled - boolean - Whether or not sending is enabled for email logs.
-   *   exavault_api_request_send_enabled - boolean - Whether or not sending is enabled for exavault_api_request logs.
-   *   settings_change_send_enabled - boolean - Whether or not sending is enabled for settings_change logs.
+   * send_test_entry SIEM HTTP Destination
+   *
+   * @see #sendTestEntry(HashMap, HashMap)
    */
   public void sendTestEntry() throws RuntimeException {
     sendTestEntry(null, null);
   }
 
+  /**
+   * send_test_entry SIEM HTTP Destination
+   *
+   * @see #sendTestEntry(HashMap, HashMap)
+   */
   public void sendTestEntry(HashMap<String, Object> parameters) throws RuntimeException {
     sendTestEntry(parameters, null);
   }
 
+  /**
+   * send_test_entry SIEM HTTP Destination
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code siem_http_destination_id} (Long): SIEM HTTP Destination ID</li>
+   * <li>{@code destination_type} (String): Destination Type</li>
+   * <li>{@code destination_url} (String): Destination Url</li>
+   * <li>{@code name} (String): Name for this Destination</li>
+   * <li>{@code additional_headers} (Object): Additional HTTP Headers included in calls to the destination URL</li>
+   * <li>{@code sending_active} (Boolean): Whether this SIEM HTTP Destination is currently being sent to or not</li>
+   * <li>{@code generic_payload_type} (String): Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.</li>
+   * <li>{@code file_destination_path} (String): Applicable only for destination type: file. Destination folder path on Files.com.</li>
+   * <li>{@code file_format} (String): Applicable only for destination type: file. Generated file format.</li>
+   * <li>{@code file_interval_minutes} (Long): Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.</li>
+   * <li>{@code splunk_token} (String): Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.</li>
+   * <li>{@code crowdstrike_token} (String): Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.</li>
+   * <li>{@code azure_dcr_immutable_id} (String): Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.</li>
+   * <li>{@code azure_stream_name} (String): Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.</li>
+   * <li>{@code azure_oauth_client_credentials_tenant_id} (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.</li>
+   * <li>{@code azure_oauth_client_credentials_client_id} (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.</li>
+   * <li>{@code azure_oauth_client_credentials_client_secret} (String): Applicable only for destination type: azure. Client Credentials OAuth Client Secret.</li>
+   * <li>{@code qradar_username} (String): Applicable only for destination type: qradar. Basic auth username provided by QRadar.</li>
+   * <li>{@code qradar_password} (String): Applicable only for destination type: qradar. Basic auth password provided by QRadar.</li>
+   * <li>{@code solar_winds_token} (String): Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.</li>
+   * <li>{@code new_relic_api_key} (String): Applicable only for destination type: new_relic. API key provided by New Relic.</li>
+   * <li>{@code datadog_api_key} (String): Applicable only for destination type: datadog. API key provided by Datadog.</li>
+   * <li>{@code action_send_enabled} (Boolean): Whether or not sending is enabled for action logs.</li>
+   * <li>{@code sftp_action_send_enabled} (Boolean): Whether or not sending is enabled for sftp_action logs.</li>
+   * <li>{@code ftp_action_send_enabled} (Boolean): Whether or not sending is enabled for ftp_action logs.</li>
+   * <li>{@code web_dav_action_send_enabled} (Boolean): Whether or not sending is enabled for web_dav_action logs.</li>
+   * <li>{@code sync_send_enabled} (Boolean): Whether or not sending is enabled for sync logs.</li>
+   * <li>{@code outbound_connection_send_enabled} (Boolean): Whether or not sending is enabled for outbound_connection logs.</li>
+   * <li>{@code automation_send_enabled} (Boolean): Whether or not sending is enabled for automation logs.</li>
+   * <li>{@code api_request_send_enabled} (Boolean): Whether or not sending is enabled for api_request logs.</li>
+   * <li>{@code public_hosting_request_send_enabled} (Boolean): Whether or not sending is enabled for public_hosting_request logs.</li>
+   * <li>{@code email_send_enabled} (Boolean): Whether or not sending is enabled for email logs.</li>
+   * <li>{@code exavault_api_request_send_enabled} (Boolean): Whether or not sending is enabled for exavault_api_request logs.</li>
+   * <li>{@code settings_change_send_enabled} (Boolean): Whether or not sending is enabled for settings_change logs.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void sendTestEntry(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -486,53 +575,76 @@ public final class SiemHttpDestinationOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   name - string - Name for this Destination
-   *   additional_headers - object - Additional HTTP Headers included in calls to the destination URL
-   *   sending_active - boolean - Whether this SIEM HTTP Destination is currently being sent to or not
-   *   generic_payload_type - string - Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
-   *   file_destination_path - string - Applicable only for destination type: file. Destination folder path on Files.com.
-   *   file_format - string - Applicable only for destination type: file. Generated file format.
-   *   file_interval_minutes - int64 - Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
-   *   splunk_token - string - Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
-   *   crowdstrike_token - string - Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
-   *   azure_dcr_immutable_id - string - Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
-   *   azure_stream_name - string - Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
-   *   azure_oauth_client_credentials_tenant_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
-   *   azure_oauth_client_credentials_client_id - string - Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
-   *   azure_oauth_client_credentials_client_secret - string - Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
-   *   qradar_username - string - Applicable only for destination type: qradar. Basic auth username provided by QRadar.
-   *   qradar_password - string - Applicable only for destination type: qradar. Basic auth password provided by QRadar.
-   *   solar_winds_token - string - Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
-   *   new_relic_api_key - string - Applicable only for destination type: new_relic. API key provided by New Relic.
-   *   datadog_api_key - string - Applicable only for destination type: datadog. API key provided by Datadog.
-   *   action_send_enabled - boolean - Whether or not sending is enabled for action logs.
-   *   sftp_action_send_enabled - boolean - Whether or not sending is enabled for sftp_action logs.
-   *   ftp_action_send_enabled - boolean - Whether or not sending is enabled for ftp_action logs.
-   *   web_dav_action_send_enabled - boolean - Whether or not sending is enabled for web_dav_action logs.
-   *   sync_send_enabled - boolean - Whether or not sending is enabled for sync logs.
-   *   outbound_connection_send_enabled - boolean - Whether or not sending is enabled for outbound_connection logs.
-   *   automation_send_enabled - boolean - Whether or not sending is enabled for automation logs.
-   *   api_request_send_enabled - boolean - Whether or not sending is enabled for api_request logs.
-   *   public_hosting_request_send_enabled - boolean - Whether or not sending is enabled for public_hosting_request logs.
-   *   email_send_enabled - boolean - Whether or not sending is enabled for email logs.
-   *   exavault_api_request_send_enabled - boolean - Whether or not sending is enabled for exavault_api_request logs.
-   *   settings_change_send_enabled - boolean - Whether or not sending is enabled for settings_change logs.
-   *   destination_type - string - Destination Type
-   *   destination_url - string - Destination Url
+   * Update SIEM HTTP Destination
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public SiemHttpDestination update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update SIEM HTTP Destination
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public SiemHttpDestination update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update SIEM HTTP Destination
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public SiemHttpDestination update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update SIEM HTTP Destination
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Name for this Destination</li>
+   * <li>{@code additional_headers} (Object): Additional HTTP Headers included in calls to the destination URL</li>
+   * <li>{@code sending_active} (Boolean): Whether this SIEM HTTP Destination is currently being sent to or not</li>
+   * <li>{@code generic_payload_type} (String): Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.</li>
+   * <li>{@code file_destination_path} (String): Applicable only for destination type: file. Destination folder path on Files.com.</li>
+   * <li>{@code file_format} (String): Applicable only for destination type: file. Generated file format.</li>
+   * <li>{@code file_interval_minutes} (Long): Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.</li>
+   * <li>{@code splunk_token} (String): Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.</li>
+   * <li>{@code crowdstrike_token} (String): Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.</li>
+   * <li>{@code azure_dcr_immutable_id} (String): Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.</li>
+   * <li>{@code azure_stream_name} (String): Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.</li>
+   * <li>{@code azure_oauth_client_credentials_tenant_id} (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.</li>
+   * <li>{@code azure_oauth_client_credentials_client_id} (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.</li>
+   * <li>{@code azure_oauth_client_credentials_client_secret} (String): Applicable only for destination type: azure. Client Credentials OAuth Client Secret.</li>
+   * <li>{@code qradar_username} (String): Applicable only for destination type: qradar. Basic auth username provided by QRadar.</li>
+   * <li>{@code qradar_password} (String): Applicable only for destination type: qradar. Basic auth password provided by QRadar.</li>
+   * <li>{@code solar_winds_token} (String): Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.</li>
+   * <li>{@code new_relic_api_key} (String): Applicable only for destination type: new_relic. API key provided by New Relic.</li>
+   * <li>{@code datadog_api_key} (String): Applicable only for destination type: datadog. API key provided by Datadog.</li>
+   * <li>{@code action_send_enabled} (Boolean): Whether or not sending is enabled for action logs.</li>
+   * <li>{@code sftp_action_send_enabled} (Boolean): Whether or not sending is enabled for sftp_action logs.</li>
+   * <li>{@code ftp_action_send_enabled} (Boolean): Whether or not sending is enabled for ftp_action logs.</li>
+   * <li>{@code web_dav_action_send_enabled} (Boolean): Whether or not sending is enabled for web_dav_action logs.</li>
+   * <li>{@code sync_send_enabled} (Boolean): Whether or not sending is enabled for sync logs.</li>
+   * <li>{@code outbound_connection_send_enabled} (Boolean): Whether or not sending is enabled for outbound_connection logs.</li>
+   * <li>{@code automation_send_enabled} (Boolean): Whether or not sending is enabled for automation logs.</li>
+   * <li>{@code api_request_send_enabled} (Boolean): Whether or not sending is enabled for api_request logs.</li>
+   * <li>{@code public_hosting_request_send_enabled} (Boolean): Whether or not sending is enabled for public_hosting_request logs.</li>
+   * <li>{@code email_send_enabled} (Boolean): Whether or not sending is enabled for email logs.</li>
+   * <li>{@code exavault_api_request_send_enabled} (Boolean): Whether or not sending is enabled for exavault_api_request logs.</li>
+   * <li>{@code settings_change_send_enabled} (Boolean): Whether or not sending is enabled for settings_change logs.</li>
+   * <li>{@code destination_type} (String): Destination Type</li>
+   * <li>{@code destination_url} (String): Destination Url</li>
+   * </ul>
+   *
+   * @param id Siem Http Destination ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code SiemHttpDestination}
+   */
   public SiemHttpDestination update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -687,19 +799,39 @@ public final class SiemHttpDestinationOperations extends ResourceOperations {
   }
 
   /**
+   * Delete SIEM HTTP Destination
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete SIEM HTTP Destination
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete SIEM HTTP Destination
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete SIEM HTTP Destination
+   *
+   * @param id Siem Http Destination ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -720,10 +852,20 @@ public final class SiemHttpDestinationOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete SIEM HTTP Destination
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete SIEM HTTP Destination
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

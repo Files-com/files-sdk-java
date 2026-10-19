@@ -268,7 +268,11 @@ final class UploadCoordinator {
     if (planner.fallback() != null) {
       log.debug("The upload to {} sends the parts Files.com plans: the SDK's own sizes cannot hold it ({})", path, planner.fallback());
     }
-    parallel = planned.target.parallelParts;
+    // A stream of unknown length is sent one part at a time even when Files.com allows parallel
+    // parts: each part is sent alone (dispatch), by the upload's own parts in progress, so a shared
+    // scope's other uploads keep their parallelism. Files and streams of a known length may send
+    // parts in parallel when Files.com allows it.
+    parallel = planned.target.parallelParts && source.length() >= 0;
     ConcurrencySettings settings = settingsFor(planner.destination(), planned.target.uri);
     TransferScope job = options.getScope();
     // The compatible transfers of the scope learn one target together, unless the scope closed
@@ -440,7 +444,7 @@ final class UploadCoordinator {
     part.onCaller = part.last && part.planned.offset == 0 && source instanceof UploadSource.FileSource;
     try {
       if (part.target.expiresWithin(RENEW_URLS_EXPIRING_WITHIN)) {
-        part.target = planner.renew(part.planned, part.body.length(), part.last, stop);
+        part.target = renewUsable(part, planner, stop, null);
       }
       checkContentLength(part);
       if (parallel && !part.target.parallelParts) {
@@ -537,21 +541,29 @@ final class UploadCoordinator {
   // Reading the source is never retried. A part not read yet is read once its first attempt has
   // started (readForFirstAttempt), so that its read counts as time the attempt is in flight, though
   // not as time its request took.
+  //
+  // A URL is renewed only while the part holds no admission, connection or slot, as the renewal needs
+  // a connection of its own; the new URL's host is then asked for its slot. An attempt whose URL
+  // expired before its request head could be written, such as while it waited for a connection from
+  // the pool, is refused there (CredentialGuard), with nothing measured; the part keeps its bytes. Each
+  // attempt, refused or not, and each new URL that had already expired, uses one of the part's
+  // attempts (spent), which no renewal gives back.
   private void send(Part part, PartPlanner planner, OperationScope stop) {
     try {
       if (checkpoint != null) {
         // A part that may be sent is never planned again with other bytes.
         checkpoint.awaitDurable(part.durableAt);
       }
+      // The attempts that may have reached storage.
       int attempt = 0;
       // The last attempt's failure, which the next attempt would retry.
       SdkException failed = null;
       while (true) {
-        if (part.attempt == null) {
-          part.attempt = admitAttempt(true, stop);
-        }
         if (attempt > 0 && part.target.expiresWithin(RENEW_URLS_EXPIRING_WITHIN)) {
           renewForRetry(part, planner, stop, failed);
+        }
+        if (part.attempt == null) {
+          part.attempt = admitAttempt(true, stop);
         }
         part.attempt.hold(connectionSlot(part, stop));
         if (!part.attempt.tryStart()) {
@@ -559,11 +571,50 @@ final class UploadCoordinator {
           part.attempt = null;
           continue;
         }
-        if (attempt == 0) {
-          readForFirstAttempt(part, planner, stop);
+        if (attempt == 0 && !readForFirstAttempt(part, stop)) {
+          // Reading the part brought its URL within renewal, or it expired meanwhile: the attempt gives
+          // back its admission and its slots, the old URL's host's among them, before the URL is renewed.
+          // The first such renewal is free, as it always was; each further one uses one of the part's
+          // attempts.
+          part.attempt.close();
+          part.attempt = null;
+          if (part.renewedUnsent && ++part.spent > maxRetries) {
+            throw new ApiErrorException.ApiConnectionException("The URL of part " + part.planned.number + " of the upload to " + path
+                + " expired before the part could be sent");
+          }
+          part.renewedUnsent = true;
+          renewUnsent(part, planner, stop);
+          continue;
         }
         attempt++;
+        part.spent++;
         Outcome outcome = attempt(part, stop);
+        if (outcome.refused) {
+          // Nothing was measured: the attempt gives back its admission and its slots as they are.
+          part.attempt.close();
+          part.attempt = null;
+          if (outcome.mayHaveSent) {
+            // A request head of the attempt, before a redirect, may have reached storage.
+            failed = outcome.error;
+          } else {
+            attempt--;
+          }
+          SdkException failure = failed != null ? failed : outcome.error;
+          if (part.spent > maxRetries || (attempt > 0 && !part.target.retryParts)) {
+            throw failure;
+          }
+          log.info("The URL of part {} of the upload to {} expired before the part could be sent; renewing it", part.planned.number,
+              path);
+          // Renewed now, whichever URL was refused: the part's own, or one a redirect led to, which may
+          // expire before the part's own does, so the part's own expiry alone would not show it. A part
+          // that may have reached storage is renewed as for any retry.
+          if (attempt == 0) {
+            renewUnsent(part, planner, stop);
+          } else {
+            renewForRetry(part, planner, stop, failure);
+          }
+          continue;
+        }
         List<ConcurrencyController.Decision> decisions = part.attempt.complete(sample(part, outcome), log.isDebugEnabled());
         part.attempt = null;
         for (ConcurrencyController.Decision decision : decisions) {
@@ -583,7 +634,7 @@ final class UploadCoordinator {
         }
         failed = outcome.error;
         boolean expired = outcome.status == 403 && part.target.expiresWithin(Duration.ZERO);
-        if (!(outcome.retryable || expired) || !part.target.retryParts || attempt > maxRetries) {
+        if (!(outcome.retryable || expired) || !part.target.retryParts || part.spent > maxRetries) {
           throw outcome.error;
         }
         if (outcome.retryAfterMillis > MAX_RETRY_AFTER_MILLIS) {
@@ -616,30 +667,58 @@ final class UploadCoordinator {
     }
   }
 
-  // Reads a part not read yet, on its thread, as its first attempt starts. Dispatch renewed the part's
-  // URL if it was about to expire then. If reading the part is what brings it within that time, or a
-  // URL already within it, such as one valid only briefly, has expired meanwhile, it is renewed now,
-  // before the part is first sent, and checked as dispatch checks it. As there, the renewal need not
-  // allow retrying parts, unless an earlier run may have sent the part (PartPlanner.renew).
-  private void readForFirstAttempt(Part part, PartPlanner planner, OperationScope stop) throws IOException {
+  // Reads a part not read yet, on its thread, as its first attempt starts; a part already read is not
+  // read again. Dispatch renewed the part's URL if it was about to expire then. Returns false if reading
+  // the part is what brings it within that time, or a URL already within it, such as one valid only
+  // briefly, has expired meanwhile: it is then renewed before the part is first sent (renewUnsent),
+  // once the attempt has given back its slots (send).
+  private boolean readForFirstAttempt(Part part, OperationScope stop) throws IOException {
     boolean fresh = !part.target.expiresWithin(RENEW_URLS_EXPIRING_WITHIN);
     part.body.read(stop);
-    if (part.target.expiresWithin(fresh ? RENEW_URLS_EXPIRING_WITHIN : Duration.ZERO)) {
-      part.target = planner.renew(part.planned, part.body.length(), part.last, stop);
-      checkContentLength(part);
-      checkStillParallel(part);
-    }
+    return !part.target.expiresWithin(fresh ? RENEW_URLS_EXPIRING_WITHIN : Duration.ZERO);
+  }
+
+  // Renews the URL of a part none of whose attempts may have reached storage, and checks it as dispatch
+  // checks it. As there, the renewal need not allow retrying parts, unless an earlier run may have sent
+  // the part (PartPlanner.renew).
+  private void renewUnsent(Part part, PartPlanner planner, OperationScope stop) {
+    part.target = renewUsable(part, planner, stop, null);
+    checkContentLength(part);
+    checkStillParallel(part);
   }
 
   // Renews the URL of a part that failed, on its thread, before its next attempt. The renewal is
   // Files.com's answer for that attempt: if it no longer allows retrying parts (retry_parts), the part
-  // is not sent again, and its failure stands.
+  // is not sent again, and its failure stands, even when the renewal's URL had already expired.
   private void renewForRetry(Part part, PartPlanner planner, OperationScope stop, SdkException failed) {
-    part.target = planner.renew(part.planned, part.body.length(), part.last, stop);
+    part.target = renewUsable(part, planner, stop, failed);
     if (!part.target.retryParts) {
       throw failed;
     }
     checkStillParallel(part);
+  }
+
+  // A new URL for the part that has not expired. One Files.com gives already expired is not used: it is
+  // asked for again, each time using one of the part's attempts, so a part out of attempts fails with
+  // it rather than sending a URL known to have expired. failed is the failure of a part that may have
+  // reached storage, or null for one that has not: such a part ends with its failure once a renewal no
+  // longer allows retrying parts, expired or not, and nothing more is asked for, so that no later
+  // answer sends it again; and when it runs out of attempts, its failure stands rather than the
+  // renewal's.
+  private PartPlanner.Target renewUsable(Part part, PartPlanner planner, OperationScope stop, SdkException failed) {
+    while (true) {
+      try {
+        return planner.renew(part.planned, part.body.length(), part.last, stop);
+      } catch (PartPlanner.ExpiredRenewal e) {
+        if (failed != null && !e.retryParts) {
+          throw failed;
+        }
+        if (++part.spent > maxRetries) {
+          throw failed != null ? failed : e;
+        }
+        log.info("Files.com gave part {} of the upload to {} a URL that had already expired; asking again", part.planned.number, path);
+      }
+    }
   }
 
   // A part's URL renewed on its thread may withdraw permission to send parts in parallel. Unless the
@@ -664,19 +743,21 @@ final class UploadCoordinator {
   // One attempt to send the part: its ETag, or its failure and whether it may be retried, and how long
   // it took from sending the request to receiving the answer's headers.
   private Outcome attempt(Part part, OperationScope stop) throws IOException {
+    // One target for the whole attempt: its URL, method and headers, and when it expires.
+    PartPlanner.Target target = part.target;
     StorageRequest request;
     try {
-      request = new StorageRequest(part.target.method, URI.create(part.target.uri));
+      request = new StorageRequest(target.method, URI.create(target.uri));
     } catch (IllegalArgumentException e) {
       throw new ApiErrorException.ApiConnectionException("The storage URL of part " + part.planned.number + " of the upload to " + path
           + " is not a valid URL, so it cannot be sent as given");
     }
-    for (Map.Entry<String, String> header : part.target.headers) {
+    for (Map.Entry<String, String> header : target.headers) {
       request.addHeader(header.getKey(), header.getValue());
     }
     request.setEntity(new PartEntity(part.body, sentBytes::addAndGet));
     long sending = System.nanoTime();
-    try (ClientRuntime.StorageExchange exchange = runtime.executeStorage(request, stop)) {
+    try (ClientRuntime.StorageExchange exchange = runtime.executeStorage(request, stop, true, target.expiresAt)) {
       long duration = System.nanoTime() - sending;
       CloseableHttpResponse response = exchange.response();
       int status = response.getStatusLine().getStatusCode();
@@ -693,6 +774,14 @@ final class UploadCoordinator {
           ? ClientRuntime.retryAfterMillis(response.getFirstHeader("Retry-After"), Long.MAX_VALUE) : -1;
       return Outcome.failed(new ApiErrorException.ApiConnectionException("The storage server answered part " + part.planned.number
           + " of the upload to " + path + " with HTTP status " + status), retryable, status, retryAfter, "HTTP status " + status, duration);
+    } catch (CredentialGuard.ExpiredUrl e) {
+      // The URL expired before the request head could be written; the connection was given up.
+      interruptedOnCaller(part, stop);
+      if (stop.isStopped()) {
+        throw stop.stopped(null);
+      }
+      return Outcome.refused(new ApiErrorException.ApiConnectionException("The URL of part " + part.planned.number + " of the upload to "
+          + path + " expired before the part could be sent"), e.mayHaveSent, System.nanoTime() - sending);
     } catch (UploadSource.SourceFailure e) {
       interruptedOnCaller(part, stop);
       if (stop.isStopped()) {
@@ -839,6 +928,12 @@ final class UploadCoordinator {
     long durableAt;
     // Whether the upload's caller sends the part itself (dispatch).
     boolean onCaller;
+    // The part's attempts used, out of the client's retry limit and one: each attempt, including one
+    // refused because its URL expired before it was sent, and each new URL that had already expired.
+    // Never given back.
+    int spent;
+    // Whether the part's URL has been renewed after its first read, before it was first sent (send).
+    boolean renewedUnsent;
 
     Part(PartPlanner.Planned planned, UploadSource.PartBody body, FifoBudget.Grant buffer, boolean last) {
       this.planned = planned;
@@ -869,9 +964,14 @@ final class UploadCoordinator {
     final long retryAfterMillis;
     final String reason;
     final long durationNanos;
+    // Whether the request was refused because its URL expired before its head could be written
+    // (CredentialGuard.ExpiredUrl), and whether an earlier head of it, before a redirect, may have
+    // been written all the same.
+    final boolean refused;
+    final boolean mayHaveSent;
 
     private Outcome(String etag, SdkException error, boolean retryable, int status, long retryAfterMillis, String reason,
-        long durationNanos) {
+        long durationNanos, boolean refused, boolean mayHaveSent) {
       this.etag = etag;
       this.error = error;
       this.retryable = retryable;
@@ -879,14 +979,20 @@ final class UploadCoordinator {
       this.retryAfterMillis = retryAfterMillis;
       this.reason = reason;
       this.durationNanos = durationNanos;
+      this.refused = refused;
+      this.mayHaveSent = mayHaveSent;
     }
 
     static Outcome accepted(String etag, long durationNanos) {
-      return new Outcome(etag, null, false, 0, -1, null, durationNanos);
+      return new Outcome(etag, null, false, 0, -1, null, durationNanos, false, false);
     }
 
     static Outcome failed(SdkException error, boolean retryable, int status, long retryAfterMillis, String reason, long durationNanos) {
-      return new Outcome(null, error, retryable, status, retryAfterMillis, reason, durationNanos);
+      return new Outcome(null, error, retryable, status, retryAfterMillis, reason, durationNanos, false, false);
+    }
+
+    static Outcome refused(SdkException error, boolean mayHaveSent, long durationNanos) {
+      return new Outcome(null, error, false, 0, -1, "its URL expired before it could be sent", durationNanos, true, mayHaveSent);
     }
   }
 

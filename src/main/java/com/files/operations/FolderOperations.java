@@ -26,32 +26,54 @@ public final class FolderOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   path (required) - string - Path to operate on.
-   *   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
-   *   sort_by - object - Search by field and direction. Valid fields are `path`, `size`, `modified_at_datetime`, `provided_modified_at`.  Valid directions are `asc` and `desc`.  Defaults to `{"path":"asc"}`.
-   *   search - string - If specified, will search the folders/files list by name. Ignores text before last `/`. This is the same API used by the search bar in the web UI when running 'Search This Folder'.  Search results are a best effort, not real time, and not guaranteed to perfectly match the latest folder listing.  Results may be truncated if more than 1,000 possible matches exist.  This field should only be used for ad-hoc (human) searching, and not as part of an automated process.
-   *   search_custom_metadata_key - string - If provided, the search string in `search` will search for files where this custom metadata key matches the value sent in `search`.  Set this to `*` to allow any metadata key to match the value sent in `search`.
-   *   search_all - boolean - Search entire site?  If true, we will search the entire site.  Do not provide a path when using this parameter.  This is the same API used by the search bar in the web UI when running 'Search All Files'.  Search results are a best effort, not real time, and not guaranteed to match every file.  This field should only be used for ad-hoc (human) searching, and not as part of an automated process.
-   *   with_previews - boolean - Include file previews?
-   *   with_priority_color - boolean - Include file priority color information?
-   *   type - string - Type of objects to return.  Can be `folder` or `file`.
-   *   modified_at_datetime - string - If provided, will only return files/folders modified after this time. Can be used only in combination with `type` filter.
+   * List Folders by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
    */
   public ListIterator<File> listFor() throws RuntimeException {
     return listFor(null, null, null);
   }
 
+  /**
+   * List Folders by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
   public ListIterator<File> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return listFor(path, parameters, null);
   }
 
+  /**
+   * List Folders by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
   public ListIterator<File> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return listFor(null, parameters, options);
   }
 
+  /**
+   * List Folders by Path
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code preview_size} (String): Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.</li>
+   * <li>{@code sort_by} (Object): Search by field and direction. Valid fields are `path`, `size`, `modified_at_datetime`, `provided_modified_at`.  Valid directions are `asc` and `desc`.  Defaults to `{"path":"asc"}`.</li>
+   * <li>{@code search} (String): If specified, will search the folders/files list by name. Ignores text before last `/`. This is the same API used by the search bar in the web UI when running 'Search This Folder'.  Search results are a best effort, not real time, and not guaranteed to perfectly match the latest folder listing.  Results may be truncated if more than 1,000 possible matches exist.  This field should only be used for ad-hoc (human) searching, and not as part of an automated process.</li>
+   * <li>{@code search_custom_metadata_key} (String): If provided, the search string in `search` will search for files where this custom metadata key matches the value sent in `search`.  Set this to `*` to allow any metadata key to match the value sent in `search`.</li>
+   * <li>{@code search_all} (Boolean): Search entire site?  If true, we will search the entire site.  Do not provide a path when using this parameter.  This is the same API used by the search bar in the web UI when running 'Search All Files'.  Search results are a best effort, not real time, and not guaranteed to match every file.  This field should only be used for ad-hoc (human) searching, and not as part of an automated process.</li>
+   * <li>{@code with_previews} (Boolean): Include file previews?</li>
+   * <li>{@code with_priority_color} (Boolean): Include file priority color information?</li>
+   * <li>{@code type} (String): Type of objects to return.  Can be `folder` or `file`.</li>
+   * <li>{@code modified_at_datetime} (String): If provided, will only return files/folders modified after this time. Can be used only in combination with `type` filter.</li>
+   * </ul>
+   *
+   * @param path Path to operate on.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code File} records, in a {@code ListIterator}
+   */
   public ListIterator<File> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -118,23 +140,45 @@ public final class FolderOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   path (required) - string - Path to operate on.
-   *   mkdir_parents - boolean - Create parent directories if they do not exist?
-   *   provided_mtime - string - User provided modification time.
+   * Create Folder
+   *
+   * @see #create(String, HashMap, HashMap)
    */
   public Folder create() throws RuntimeException {
     return create(null, null, null);
   }
 
+  /**
+   * Create Folder
+   *
+   * @see #create(String, HashMap, HashMap)
+   */
   public Folder create(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return create(path, parameters, null);
   }
 
+  /**
+   * Create Folder
+   *
+   * @see #create(String, HashMap, HashMap)
+   */
   public Folder create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return create(null, parameters, options);
   }
 
+  /**
+   * Create Folder
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code mkdir_parents} (Boolean): Create parent directories if they do not exist?</li>
+   * <li>{@code provided_mtime} (String): User provided modification time.</li>
+   * </ul>
+   *
+   * @param path Path to operate on.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Folder}
+   */
   public Folder create(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);

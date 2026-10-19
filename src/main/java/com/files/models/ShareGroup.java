@@ -36,6 +36,11 @@ public class ShareGroup implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -59,14 +64,29 @@ public class ShareGroup implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code ShareGroup} with no attributes set.
+   */
   public ShareGroup() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code ShareGroup} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public ShareGroup(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code ShareGroup} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public ShareGroup(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -84,10 +104,20 @@ public class ShareGroup implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -98,10 +128,20 @@ public class ShareGroup implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -112,10 +152,20 @@ public class ShareGroup implements ModelInterface {
   @JsonProperty("notes")
   public String notes;
 
+  /**
+   * Gets {@link #notes}.
+   *
+   * @return the value of {@link #notes}
+   */
   public String getNotes() {
     return notes;
   }
 
+  /**
+   * Sets {@link #notes}.
+   *
+   * @param notes the new value
+   */
   public void setNotes(String notes) {
     this.notes = notes;
   }
@@ -126,10 +176,20 @@ public class ShareGroup implements ModelInterface {
   @JsonProperty("user_id")
   public Long userId;
 
+  /**
+   * Gets {@link #userId}.
+   *
+   * @return the value of {@link #userId}
+   */
   public Long getUserId() {
     return userId;
   }
 
+  /**
+   * Sets {@link #userId}.
+   *
+   * @param userId the new value
+   */
   public void setUserId(Long userId) {
     this.userId = userId;
   }
@@ -140,20 +200,36 @@ public class ShareGroup implements ModelInterface {
   @JsonProperty("members")
   public ShareGroupMember[] members;
 
+  /**
+   * Gets {@link #members}.
+   *
+   * @return the value of {@link #members}
+   */
   public ShareGroupMember[] getMembers() {
     return members;
   }
 
+  /**
+   * Sets {@link #members}.
+   *
+   * @param members the new value
+   */
   public void setMembers(ShareGroupMember[] members) {
     this.members = members;
   }
 
   /**
    * Updates this ShareGroup. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   notes - string - Additional notes of the share group
-   *   name - string - Name of the share group
-   *   members - array(object) - A list of share group members.
+   * <p>Update Share Group
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code notes} (String): Additional notes of the share group</li>
+   * <li>{@code name} (String): Name of the share group</li>
+   * <li>{@code members} (Object[]): A list of share group members.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code ShareGroup}
    */
   public ShareGroup update(HashMap<String, Object> parameters) throws IOException {
     ShareGroup updated = filesClient().shareGroups().update(this.id, parameters, this.options);
@@ -162,11 +238,19 @@ public class ShareGroup implements ModelInterface {
   }
 
   /**
+   * Delete Share Group
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().shareGroups().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Share Group
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -207,126 +291,252 @@ public class ShareGroup implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   * List Share Groups
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<ShareGroup> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Share Groups
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ShareGroup> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Share Groups
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ShareGroup} records, in a {@code ListIterator}
+   */
   public static ListIterator<ShareGroup> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().shareGroups().list(parameters, options);
   }
 
+  /**
+   * List Share Groups
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ShareGroup> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Share Groups
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ShareGroup> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Share Group ID.
+   * Show Share Group
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static ShareGroup find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Share Group
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ShareGroup find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Share Group
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ShareGroup find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Share Group
+   *
+   * @param id Share Group ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ShareGroup}
+   */
   public static ShareGroup find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().shareGroups().find(id, parameters, options);
   }
 
+  /**
+   * Show Share Group
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ShareGroup get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Share Group
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ShareGroup get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   notes - string - Additional notes of the share group
-   *   name (required) - string - Name of the share group
-   *   members (required) - array(object) - A list of share group members.
+   * Create Share Group
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static ShareGroup create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Share Group
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static ShareGroup create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Share Group
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code notes} (String): Additional notes of the share group</li>
+   * <li>{@code name} (String): Required. Name of the share group</li>
+   * <li>{@code members} (Object[]): Required. A list of share group members.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ShareGroup}
+   */
   public static ShareGroup create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().shareGroups().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   notes - string - Additional notes of the share group
-   *   name - string - Name of the share group
-   *   members - array(object) - A list of share group members.
+   * Update Share Group
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static ShareGroup update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Share Group
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static ShareGroup update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Share Group
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static ShareGroup update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Share Group
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code notes} (String): Additional notes of the share group</li>
+   * <li>{@code name} (String): Name of the share group</li>
+   * <li>{@code members} (Object[]): A list of share group members.</li>
+   * </ul>
+   *
+   * @param id Share Group ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ShareGroup}
+   */
   public static ShareGroup update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().shareGroups().update(id, parameters, options);
   }
 
 
   /**
+   * Delete Share Group
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Share Group
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Share Group
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Share Group
+   *
+   * @param id Share Group ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().shareGroups().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Share Group
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Share Group
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

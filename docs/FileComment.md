@@ -25,12 +25,9 @@
 
 ## List File Comments by Path
 
-```
-ListIterator<FileComment> fileComment = FileComment.listFor(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<FileComment> fileComments = FileComment.listFor("path", parameters, null);
 ```
 
 ### Parameters
@@ -44,12 +41,11 @@ ListIterator<FileComment> fileComment = FileComment.listFor(
 
 ## Create File Comment
 
-```
-FileComment fileComment = FileComment.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("body", "What a great file!");
+parameters.put("path", "path");
+FileComment fileComment = FileComment.create(parameters, null);
 ```
 
 ### Parameters
@@ -62,12 +58,10 @@ FileComment fileComment = FileComment.create(
 
 ## Update File Comment
 
-```
-FileComment fileComment = FileComment.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("body", "What a great file!");
+FileComment fileComment = FileComment.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -80,12 +74,9 @@ FileComment fileComment = FileComment.update(
 
 ## Delete File Comment
 
-```
-void fileComment = FileComment.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+FileComment.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -97,13 +88,13 @@ void fileComment = FileComment.delete(
 
 ## Update File Comment
 
-```
-FileComment fileComment = FileComment.list()[0];
-
+```java
+HashMap<String, Object> attributes = new HashMap<>();
+attributes.put("id", 1L);
+FileComment fileComment = new FileComment(attributes);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("body", "What a great file!");
-
-fileComment.update(parameters);
+FileComment result = fileComment.update(parameters);
 ```
 
 ### Parameters
@@ -116,11 +107,11 @@ fileComment.update(parameters);
 
 ## Delete File Comment
 
-```
-FileComment fileComment = FileComment.list()[0];
-
+```java
+HashMap<String, Object> attributes = new HashMap<>();
+attributes.put("id", 1L);
+FileComment fileComment = new FileComment(attributes);
 HashMap<String, Object> parameters = new HashMap<>();
-
 fileComment.delete(parameters);
 ```
 

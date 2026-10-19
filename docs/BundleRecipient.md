@@ -28,12 +28,11 @@
 
 ## List Share Link Recipients
 
-```
-ListIterator<BundleRecipient> bundleRecipient = BundleRecipient.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("bundle_id", 1L);
+ListIterator<BundleRecipient> bundleRecipients = BundleRecipient.list(parameters, null);
 ```
 
 ### Parameters
@@ -50,12 +49,16 @@ ListIterator<BundleRecipient> bundleRecipient = BundleRecipient.list(
 
 ## Create Share Link Recipient
 
-```
-BundleRecipient bundleRecipient = BundleRecipient.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("bundle_id", 1L);
+parameters.put("recipient", "johndoe@gmail.com");
+parameters.put("name", "John Smith");
+parameters.put("company", "Acme Ltd");
+parameters.put("note", "Just a note.");
+parameters.put("share_after_create", false);
+BundleRecipient bundleRecipient = BundleRecipient.create(parameters, null);
 ```
 
 ### Parameters

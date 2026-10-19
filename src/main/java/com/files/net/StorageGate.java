@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
+import java.util.function.BooleanSupplier;
 import org.apache.http.conn.routing.HttpRoute;
 
 // Admits the storage requests of the transfers sharing a transport no faster than the transport's
@@ -19,7 +20,8 @@ import org.apache.http.conn.routing.HttpRoute;
 //
 // Waiting requests are admitted in the order they asked, except that a request whose own route is
 // full does not hold back one for another route that has room; requests for one route are always
-// admitted in order. A wait ends when its scope stops, and a stopped wait takes nothing.
+// admitted in order. A wait ends when its scope stops, or when the transport asking closes, and an
+// ended wait takes nothing.
 //
 // The gate counts only the storage requests of transfers. Requests to the Files.com API, and anything
 // else using the pool, take connections it does not see, so they can still wait for a lease, and so
@@ -62,8 +64,18 @@ final class StorageGate {
   // Waits for a slot for one storage request to route, to close once the request has ended. Throws
   // the scope's exception if it stops first.
   Slot acquire(HttpRoute route, OperationScope scope) {
+    return acquire(route, scope, () -> false);
+  }
+
+  // As above, also ending once ended says so, such as when the transport asking for the slot has
+  // closed: checked before the request waits and whenever it wakes, as wakeAll wakes it. Such a wait
+  // takes nothing, leaves the requests behind it as they were, and returns null.
+  Slot acquire(HttpRoute route, OperationScope scope, BooleanSupplier ended) {
     lock.lock();
     try {
+      if (ended.getAsBoolean()) {
+        return null;
+      }
       Waiter waiter = new Waiter(route);
       waiters.add(waiter);
       admitWaiting();
@@ -77,6 +89,11 @@ final class StorageGate {
             waiters.remove(waiter);
             admitWaiting();
             scope.check();
+          }
+          if (ended.getAsBoolean()) {
+            waiters.remove(waiter);
+            admitWaiting();
+            return null;
           }
           try {
             changed.awaitNanos(RECHECK_NANOS);
@@ -142,7 +159,8 @@ final class StorageGate {
     }
   }
 
-  private void wakeAll() {
+  // Wakes every waiting request to check again whether its wait has ended.
+  void wakeAll() {
     lock.lock();
     try {
       changed.signalAll();

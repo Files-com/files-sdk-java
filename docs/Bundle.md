@@ -115,7 +115,7 @@
 * `expires_at` / `expiresAt`  (date-time): Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.
 * `password_protected` / `passwordProtected`  (boolean): Is this bundle password protected?
 * `permissions` / `permissions`  (string): Permissions that apply to Folders in this Share Link.
-* `preview_only` / `previewOnly`  (boolean): 
+* `preview_only` / `previewOnly`  (boolean): Deprecated preview-only Share Link setting. It mirrors whether permissions is preview_only; use permissions for the Share Link permission mode.
 * `require_registration` / `requireRegistration`  (boolean): Show a registration page that captures the downloader's name and email address?
 * `require_share_recipient` / `requireShareRecipient`  (boolean): Only allow access to recipients who have explicitly received the share via an email sent through the Files.com UI?
 * `require_logout` / `requireLogout`  (boolean): If true, we will hide the 'Remember Me' box on the Bundle registration page, requiring that the user logout and log back in every time they visit the page.
@@ -165,12 +165,11 @@
 
 ## List Share Links
 
-```
-ListIterator<Bundle> bundle = Bundle.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("deleted", false);
+ListIterator<Bundle> bundles = Bundle.list(parameters, null);
 ```
 
 ### Parameters
@@ -192,12 +191,10 @@ ListIterator<Bundle> bundle = Bundle.list(
 
 ## Show Share Link
 
-```
-Bundle bundle = Bundle.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("deleted", false);
+Bundle bundle = Bundle.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -210,12 +207,44 @@ Bundle bundle = Bundle.find(
 
 ## Create Share Link
 
-```
-Bundle bundle = Bundle.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("paths", new String[] {"file.txt"});
+parameters.put("password", "Password");
+parameters.put("bypasses_site_expiration_rules", true);
+parameters.put("form_field_set_id", 1L);
+parameters.put("create_snapshot", false);
+parameters.put("dont_separate_submissions_by_folder", true);
+parameters.put("expires_at", "2000-01-01T01:00:00Z");
+parameters.put("finalize_snapshot", false);
+parameters.put("max_uses", 1L);
+parameters.put("group_id", 1L);
+parameters.put("internal_name", "Quarterly reports");
+parameters.put("description", "The public description of the bundle.");
+parameters.put("note", "The internal note on the bundle.");
+parameters.put("code", "abc123");
+parameters.put("path_template", "{{name}}_{{ip}}");
+parameters.put("path_template_time_zone", "Eastern Time (US & Canada)");
+parameters.put("permissions", "read");
+parameters.put("require_registration", false);
+parameters.put("clickwrap_id", 1L);
+parameters.put("inbox_id", 1L);
+parameters.put("require_share_recipient", false);
+parameters.put("send_one_time_password_to_recipient_at_registration", true);
+parameters.put("send_email_receipt_to_uploader", true);
+parameters.put("skip_email", true);
+parameters.put("skip_name", true);
+parameters.put("skip_company", true);
+parameters.put("start_access_on_date", "2000-01-01T01:00:00Z");
+parameters.put("snapshot_id", 1L);
+parameters.put("workspace_id", 1L);
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("gravity", "SouthWest");
+map1.put("max_height_or_width", 20);
+map1.put("transparency", 25);
+parameters.put("watermark_value", map1);
+Bundle bundle = Bundle.create(parameters, null);
 ```
 
 ### Parameters
@@ -258,12 +287,16 @@ Bundle bundle = Bundle.create(
 
 ## Send email(s) with a link to bundle
 
-```
-void bundle = Bundle.share(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("to", new String[] {"johndoe@gmail.com"});
+parameters.put("note", "Just a note.");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("name", "John Doe");
+map1.put("company", "Acme Ltd");
+map1.put("recipient", "johndoe@gmail.com");
+parameters.put("recipients", new Object[] {map1});
+Bundle.share(1L, parameters, null);
 ```
 
 ### Parameters
@@ -278,12 +311,44 @@ void bundle = Bundle.share(
 
 ## Update Share Link
 
-```
-Bundle bundle = Bundle.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("paths", new String[] {"file.txt"});
+parameters.put("password", "Password");
+parameters.put("bypasses_site_expiration_rules", true);
+parameters.put("form_field_set_id", 1L);
+parameters.put("clickwrap_id", 1L);
+parameters.put("code", "abc123");
+parameters.put("create_snapshot", false);
+parameters.put("description", "The public description of the bundle.");
+parameters.put("dont_separate_submissions_by_folder", true);
+parameters.put("expires_at", "2000-01-01T01:00:00Z");
+parameters.put("finalize_snapshot", false);
+parameters.put("inbox_id", 1L);
+parameters.put("max_uses", 1L);
+parameters.put("group_id", 1L);
+parameters.put("internal_name", "Quarterly reports");
+parameters.put("note", "The internal note on the bundle.");
+parameters.put("path_template", "{{name}}_{{ip}}");
+parameters.put("path_template_time_zone", "Eastern Time (US & Canada)");
+parameters.put("permissions", "read");
+parameters.put("require_registration", false);
+parameters.put("require_share_recipient", false);
+parameters.put("send_one_time_password_to_recipient_at_registration", true);
+parameters.put("send_email_receipt_to_uploader", true);
+parameters.put("skip_company", true);
+parameters.put("start_access_on_date", "2000-01-01T01:00:00Z");
+parameters.put("skip_email", true);
+parameters.put("skip_name", true);
+parameters.put("user_id", 1L);
+parameters.put("watermark_attachment_delete", false);
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("gravity", "SouthWest");
+map1.put("max_height_or_width", 20);
+map1.put("transparency", 25);
+parameters.put("watermark_value", map1);
+parameters.put("workspace_id", 1L);
+Bundle bundle = Bundle.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -327,12 +392,9 @@ Bundle bundle = Bundle.update(
 
 ## Delete Share Link
 
-```
-void bundle = Bundle.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Bundle.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -344,14 +406,16 @@ void bundle = Bundle.delete(
 
 ## Send email(s) with a link to bundle
 
-```
-Bundle bundle = Bundle.find(id);
-
+```java
+Bundle bundle = Bundle.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("to", ["johndoe@gmail.com"]);
+parameters.put("to", new String[] {"johndoe@gmail.com"});
 parameters.put("note", "Just a note.");
-parameters.put("recipients", [{"name":"John Doe","company":"Acme Ltd","recipient":"johndoe@gmail.com"}]);
-
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("name", "John Doe");
+map1.put("company", "Acme Ltd");
+map1.put("recipient", "johndoe@gmail.com");
+parameters.put("recipients", new Object[] {map1});
 bundle.share(parameters);
 ```
 
@@ -367,24 +431,23 @@ bundle.share(parameters);
 
 ## Update Share Link
 
-```
-Bundle bundle = Bundle.find(id);
-
+```java
+Bundle bundle = Bundle.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("paths", ["file.txt"]);
+parameters.put("paths", new String[] {"file.txt"});
 parameters.put("password", "Password");
 parameters.put("bypasses_site_expiration_rules", true);
-parameters.put("form_field_set_id", 1);
-parameters.put("clickwrap_id", 1);
+parameters.put("form_field_set_id", 1L);
+parameters.put("clickwrap_id", 1L);
 parameters.put("code", "abc123");
 parameters.put("create_snapshot", false);
 parameters.put("description", "The public description of the bundle.");
 parameters.put("dont_separate_submissions_by_folder", true);
 parameters.put("expires_at", "2000-01-01T01:00:00Z");
 parameters.put("finalize_snapshot", false);
-parameters.put("inbox_id", 1);
-parameters.put("max_uses", 1);
-parameters.put("group_id", 1);
+parameters.put("inbox_id", 1L);
+parameters.put("max_uses", 1L);
+parameters.put("group_id", 1L);
 parameters.put("internal_name", "Quarterly reports");
 parameters.put("note", "The internal note on the bundle.");
 parameters.put("path_template", "{{name}}_{{ip}}");
@@ -398,12 +461,15 @@ parameters.put("skip_company", true);
 parameters.put("start_access_on_date", "2000-01-01T01:00:00Z");
 parameters.put("skip_email", true);
 parameters.put("skip_name", true);
-parameters.put("user_id", 1);
+parameters.put("user_id", 1L);
 parameters.put("watermark_attachment_delete", false);
-parameters.put("watermark_value", {"gravity":"SouthWest","max_height_or_width":20,"transparency":25});
-parameters.put("workspace_id", 1);
-
-bundle.update(parameters);
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("gravity", "SouthWest");
+map1.put("max_height_or_width", 20);
+map1.put("transparency", 25);
+parameters.put("watermark_value", map1);
+parameters.put("workspace_id", 1L);
+Bundle result = bundle.update(parameters);
 ```
 
 ### Parameters
@@ -447,11 +513,9 @@ bundle.update(parameters);
 
 ## Delete Share Link
 
-```
-Bundle bundle = Bundle.find(id);
-
+```java
+Bundle bundle = Bundle.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 bundle.delete(parameters);
 ```
 

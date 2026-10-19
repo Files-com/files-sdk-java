@@ -27,12 +27,9 @@
 
 ## List Desktop Configuration Profiles
 
-```
-ListIterator<DesktopConfigurationProfile> desktopConfigurationProfile = DesktopConfigurationProfile.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<DesktopConfigurationProfile> desktopConfigurationProfiles = DesktopConfigurationProfile.list(parameters, null);
 ```
 
 ### Parameters
@@ -47,12 +44,9 @@ ListIterator<DesktopConfigurationProfile> desktopConfigurationProfile = DesktopC
 
 ## Show Desktop Configuration Profile
 
-```
-DesktopConfigurationProfile desktopConfigurationProfile = DesktopConfigurationProfile.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+DesktopConfigurationProfile desktopConfigurationProfile = DesktopConfigurationProfile.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -64,12 +58,16 @@ DesktopConfigurationProfile desktopConfigurationProfile = DesktopConfigurationPr
 
 ## Create Desktop Configuration Profile
 
-```
-DesktopConfigurationProfile desktopConfigurationProfile = DesktopConfigurationProfile.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "North America Desktop Profile");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("W", "Americas");
+parameters.put("mount_mappings", map1);
+parameters.put("workspace_id", 1L);
+parameters.put("use_for_all_users", false);
+parameters.put("disable_drive_mounting", false);
+DesktopConfigurationProfile desktopConfigurationProfile = DesktopConfigurationProfile.create(parameters, null);
 ```
 
 ### Parameters
@@ -85,12 +83,16 @@ DesktopConfigurationProfile desktopConfigurationProfile = DesktopConfigurationPr
 
 ## Update Desktop Configuration Profile
 
-```
-DesktopConfigurationProfile desktopConfigurationProfile = DesktopConfigurationProfile.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "North America Desktop Profile");
+parameters.put("workspace_id", 1L);
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("W", "Americas");
+parameters.put("mount_mappings", map1);
+parameters.put("use_for_all_users", false);
+parameters.put("disable_drive_mounting", false);
+DesktopConfigurationProfile desktopConfigurationProfile = DesktopConfigurationProfile.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -107,12 +109,9 @@ DesktopConfigurationProfile desktopConfigurationProfile = DesktopConfigurationPr
 
 ## Delete Desktop Configuration Profile
 
-```
-void desktopConfigurationProfile = DesktopConfigurationProfile.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+DesktopConfigurationProfile.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -124,17 +123,17 @@ void desktopConfigurationProfile = DesktopConfigurationProfile.delete(
 
 ## Update Desktop Configuration Profile
 
-```
-DesktopConfigurationProfile desktopConfigurationProfile = DesktopConfigurationProfile.find(id);
-
+```java
+DesktopConfigurationProfile desktopConfigurationProfile = DesktopConfigurationProfile.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "North America Desktop Profile");
-parameters.put("workspace_id", 1);
-parameters.put("mount_mappings", {"W":"Americas"});
+parameters.put("workspace_id", 1L);
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("W", "Americas");
+parameters.put("mount_mappings", map1);
 parameters.put("use_for_all_users", false);
 parameters.put("disable_drive_mounting", false);
-
-desktopConfigurationProfile.update(parameters);
+DesktopConfigurationProfile result = desktopConfigurationProfile.update(parameters);
 ```
 
 ### Parameters
@@ -151,11 +150,9 @@ desktopConfigurationProfile.update(parameters);
 
 ## Delete Desktop Configuration Profile
 
-```
-DesktopConfigurationProfile desktopConfigurationProfile = DesktopConfigurationProfile.find(id);
-
+```java
+DesktopConfigurationProfile desktopConfigurationProfile = DesktopConfigurationProfile.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 desktopConfigurationProfile.delete(parameters);
 ```
 

@@ -37,6 +37,11 @@ public class EventSubscription implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -60,14 +65,29 @@ public class EventSubscription implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code EventSubscription} with no attributes set.
+   */
   public EventSubscription() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code EventSubscription} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public EventSubscription(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code EventSubscription} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public EventSubscription(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -85,10 +105,20 @@ public class EventSubscription implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -99,10 +129,20 @@ public class EventSubscription implements ModelInterface {
   @JsonProperty("event_channel_id")
   public Long eventChannelId;
 
+  /**
+   * Gets {@link #eventChannelId}.
+   *
+   * @return the value of {@link #eventChannelId}
+   */
   public Long getEventChannelId() {
     return eventChannelId;
   }
 
+  /**
+   * Sets {@link #eventChannelId}.
+   *
+   * @param eventChannelId the new value
+   */
   public void setEventChannelId(Long eventChannelId) {
     this.eventChannelId = eventChannelId;
   }
@@ -113,10 +153,20 @@ public class EventSubscription implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
 
+  /**
+   * Sets {@link #workspaceId}.
+   *
+   * @param workspaceId the new value
+   */
   public void setWorkspaceId(Long workspaceId) {
     this.workspaceId = workspaceId;
   }
@@ -127,10 +177,20 @@ public class EventSubscription implements ModelInterface {
   @JsonProperty("apply_to_all_workspaces")
   public Boolean applyToAllWorkspaces;
 
+  /**
+   * Gets {@link #applyToAllWorkspaces}.
+   *
+   * @return the value of {@link #applyToAllWorkspaces}
+   */
   public Boolean getApplyToAllWorkspaces() {
     return applyToAllWorkspaces;
   }
 
+  /**
+   * Sets {@link #applyToAllWorkspaces}.
+   *
+   * @param applyToAllWorkspaces the new value
+   */
   public void setApplyToAllWorkspaces(Boolean applyToAllWorkspaces) {
     this.applyToAllWorkspaces = applyToAllWorkspaces;
   }
@@ -141,10 +201,20 @@ public class EventSubscription implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -155,10 +225,20 @@ public class EventSubscription implements ModelInterface {
   @JsonProperty("subject")
   public String subject;
 
+  /**
+   * Gets {@link #subject}.
+   *
+   * @return the value of {@link #subject}
+   */
   public String getSubject() {
     return subject;
   }
 
+  /**
+   * Sets {@link #subject}.
+   *
+   * @param subject the new value
+   */
   public void setSubject(String subject) {
     this.subject = subject;
   }
@@ -169,10 +249,20 @@ public class EventSubscription implements ModelInterface {
   @JsonProperty("message")
   public String message;
 
+  /**
+   * Gets {@link #message}.
+   *
+   * @return the value of {@link #message}
+   */
   public String getMessage() {
     return message;
   }
 
+  /**
+   * Sets {@link #message}.
+   *
+   * @param message the new value
+   */
   public void setMessage(String message) {
     this.message = message;
   }
@@ -183,10 +273,20 @@ public class EventSubscription implements ModelInterface {
   @JsonProperty("message_only")
   public Boolean messageOnly;
 
+  /**
+   * Gets {@link #messageOnly}.
+   *
+   * @return the value of {@link #messageOnly}
+   */
   public Boolean getMessageOnly() {
     return messageOnly;
   }
 
+  /**
+   * Sets {@link #messageOnly}.
+   *
+   * @param messageOnly the new value
+   */
   public void setMessageOnly(Boolean messageOnly) {
     this.messageOnly = messageOnly;
   }
@@ -197,10 +297,20 @@ public class EventSubscription implements ModelInterface {
   @JsonProperty("enabled")
   public Boolean enabled;
 
+  /**
+   * Gets {@link #enabled}.
+   *
+   * @return the value of {@link #enabled}
+   */
   public Boolean getEnabled() {
     return enabled;
   }
 
+  /**
+   * Sets {@link #enabled}.
+   *
+   * @param enabled the new value
+   */
   public void setEnabled(Boolean enabled) {
     this.enabled = enabled;
   }
@@ -211,10 +321,20 @@ public class EventSubscription implements ModelInterface {
   @JsonProperty("event_types")
   public String[] eventTypes;
 
+  /**
+   * Gets {@link #eventTypes}.
+   *
+   * @return the value of {@link #eventTypes}
+   */
   public String[] getEventTypes() {
     return eventTypes;
   }
 
+  /**
+   * Sets {@link #eventTypes}.
+   *
+   * @param eventTypes the new value
+   */
   public void setEventTypes(String[] eventTypes) {
     this.eventTypes = eventTypes;
   }
@@ -225,10 +345,20 @@ public class EventSubscription implements ModelInterface {
   @JsonProperty("filter")
   public Object filter;
 
+  /**
+   * Gets {@link #filter}.
+   *
+   * @return the value of {@link #filter}
+   */
   public Object getFilter() {
     return filter;
   }
 
+  /**
+   * Sets {@link #filter}.
+   *
+   * @param filter the new value
+   */
   public void setFilter(Object filter) {
     this.filter = filter;
   }
@@ -239,10 +369,20 @@ public class EventSubscription implements ModelInterface {
   @JsonProperty("delivery_policy")
   public Object deliveryPolicy;
 
+  /**
+   * Gets {@link #deliveryPolicy}.
+   *
+   * @return the value of {@link #deliveryPolicy}
+   */
   public Object getDeliveryPolicy() {
     return deliveryPolicy;
   }
 
+  /**
+   * Sets {@link #deliveryPolicy}.
+   *
+   * @param deliveryPolicy the new value
+   */
   public void setDeliveryPolicy(Object deliveryPolicy) {
     this.deliveryPolicy = deliveryPolicy;
   }
@@ -253,10 +393,20 @@ public class EventSubscription implements ModelInterface {
   @JsonProperty("event_target_ids")
   public Long[] eventTargetIds;
 
+  /**
+   * Gets {@link #eventTargetIds}.
+   *
+   * @return the value of {@link #eventTargetIds}
+   */
   public Long[] getEventTargetIds() {
     return eventTargetIds;
   }
 
+  /**
+   * Sets {@link #eventTargetIds}.
+   *
+   * @param eventTargetIds the new value
+   */
   public void setEventTargetIds(Long[] eventTargetIds) {
     this.eventTargetIds = eventTargetIds;
   }
@@ -267,6 +417,11 @@ public class EventSubscription implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -277,25 +432,36 @@ public class EventSubscription implements ModelInterface {
   @JsonProperty("updated_at")
   public Date updatedAt;
 
+  /**
+   * Gets {@link #updatedAt}.
+   *
+   * @return the value of {@link #updatedAt}
+   */
   public Date getUpdatedAt() {
     return updatedAt;
   }
 
   /**
    * Updates this EventSubscription. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   event_channel_id - int64 - Event Channel ID
-   *   workspace_id - int64 - Workspace ID. 0 means the default workspace or site-wide.
-   *   apply_to_all_workspaces - boolean - If true, this default-workspace subscription applies to events from all workspaces.
-   *   name - string - Event Subscription name.
-   *   subject - string - Custom subject line to use for notification emails.
-   *   message - string - Custom message to include in notification emails.
-   *   message_only - boolean - If true, notification email bodies contain only the custom message, omitting event details and the review button. Requires a custom message, defaults to false, and does not affect non-email targets.
-   *   enabled - boolean - Whether this Event Subscription can dispatch events.
-   *   event_types - array(string) - Event type strings matched by this subscription. Blank means all event types. Valid values: `automation_run.canceled.v1`, `automation_run.failure.v1`, `automation_run.failure_will_retry.v1`, `automation_run.partial_failure.v1`, `automation_run.partial_failure_will_retry.v1`, `automation_run.skipped.v1`, `automation_run.success.v1`, `expectation_evaluation.invalid.v1`, `expectation_evaluation.late.v1`, `expectation_evaluation.missing.v1`, `expectation_evaluation.success.v1`, `expectation_incident.acknowledged.v1`, `expectation_incident.open.v1`, `expectation_incident.resolved.v1`, `expectation_incident.snoozed.v1`, `external_event.client_log.failure.v1`, `external_event.client_log.partial_failure.v1`, `external_event.client_log.skipped.v1`, `external_event.client_log.success.v1`, `pending_work_event.failure.v1`, `pending_work_event.partial_failure.v1`, `pending_work_event.skipped.v1`, `pending_work_event.success.v1`, `siem_http_destination_event.failure.v1`, `siem_http_destination_event.partial_failure.v1`, `siem_http_destination_event.skipped.v1`, `siem_http_destination_event.success.v1`, `sso_event.ldap_login.failure.v1`, `sso_event.ldap_login.partial_failure.v1`, `sso_event.ldap_login.skipped.v1`, `sso_event.ldap_login.success.v1`, `sso_event.ldap_sync.failure.v1`, `sso_event.ldap_sync.partial_failure.v1`, `sso_event.ldap_sync.skipped.v1`, `sso_event.ldap_sync.success.v1`, `sso_event.saml_login.failure.v1`, `sso_event.saml_login.partial_failure.v1`, `sso_event.saml_login.skipped.v1`, `sso_event.saml_login.success.v1`, `sync_run.failure.v1`, `sync_run.partial_failure.v1`, `sync_run.skipped.v1`, `sync_run.success.v1`, `user_security_event.lockout.v1`
-   *   filter - object - Conditions on event fields that an event must meet to be delivered, keyed by dot-notation field path. All conditions must match.
-   *   delivery_policy - object - Event Subscription delivery policy.
-   *   event_target_ids - array(int64) - Event Target IDs this subscription sends to.
+   * <p>Update Event Subscription
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code event_channel_id} (Long): Event Channel ID</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. 0 means the default workspace or site-wide.</li>
+   * <li>{@code apply_to_all_workspaces} (Boolean): If true, this default-workspace subscription applies to events from all workspaces.</li>
+   * <li>{@code name} (String): Event Subscription name.</li>
+   * <li>{@code subject} (String): Custom subject line to use for notification emails.</li>
+   * <li>{@code message} (String): Custom message to include in notification emails.</li>
+   * <li>{@code message_only} (Boolean): If true, notification email bodies contain only the custom message, omitting event details and the review button. Requires a custom message, defaults to false, and does not affect non-email targets.</li>
+   * <li>{@code enabled} (Boolean): Whether this Event Subscription can dispatch events.</li>
+   * <li>{@code event_types} (String[]): Event type strings matched by this subscription. Blank means all event types. Valid values: `automation_run.canceled.v1`, `automation_run.failure.v1`, `automation_run.failure_will_retry.v1`, `automation_run.partial_failure.v1`, `automation_run.partial_failure_will_retry.v1`, `automation_run.skipped.v1`, `automation_run.success.v1`, `expectation_evaluation.invalid.v1`, `expectation_evaluation.late.v1`, `expectation_evaluation.missing.v1`, `expectation_evaluation.success.v1`, `expectation_incident.acknowledged.v1`, `expectation_incident.open.v1`, `expectation_incident.resolved.v1`, `expectation_incident.snoozed.v1`, `external_event.client_log.failure.v1`, `external_event.client_log.partial_failure.v1`, `external_event.client_log.skipped.v1`, `external_event.client_log.success.v1`, `pending_work_event.failure.v1`, `pending_work_event.partial_failure.v1`, `pending_work_event.skipped.v1`, `pending_work_event.success.v1`, `siem_http_destination_event.failure.v1`, `siem_http_destination_event.partial_failure.v1`, `siem_http_destination_event.skipped.v1`, `siem_http_destination_event.success.v1`, `sso_event.ldap_login.failure.v1`, `sso_event.ldap_login.partial_failure.v1`, `sso_event.ldap_login.skipped.v1`, `sso_event.ldap_login.success.v1`, `sso_event.ldap_sync.failure.v1`, `sso_event.ldap_sync.partial_failure.v1`, `sso_event.ldap_sync.skipped.v1`, `sso_event.ldap_sync.success.v1`, `sso_event.saml_login.failure.v1`, `sso_event.saml_login.partial_failure.v1`, `sso_event.saml_login.skipped.v1`, `sso_event.saml_login.success.v1`, `sync_run.failure.v1`, `sync_run.partial_failure.v1`, `sync_run.skipped.v1`, `sync_run.success.v1`, `user_security_event.lockout.v1`</li>
+   * <li>{@code filter} (Object): Conditions on event fields that an event must meet to be delivered, keyed by dot-notation field path. All conditions must match.</li>
+   * <li>{@code delivery_policy} (Object): Event Subscription delivery policy.</li>
+   * <li>{@code event_target_ids} (Long[]): Event Target IDs this subscription sends to.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code EventSubscription}
    */
   public EventSubscription update(HashMap<String, Object> parameters) throws IOException {
     EventSubscription updated = filesClient().eventSubscriptions().update(this.id, parameters, this.options);
@@ -304,11 +470,19 @@ public class EventSubscription implements ModelInterface {
   }
 
   /**
+   * Delete Event Subscription
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().eventSubscriptions().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Event Subscription
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -362,144 +536,270 @@ public class EventSubscription implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`, `enabled`, `event_channel_id` or `workspace_id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `enabled`, `event_channel_id` or `workspace_id`. Valid field combinations are `[ enabled, event_channel_id ]`, `[ workspace_id, enabled ]`, `[ workspace_id, event_channel_id ]` or `[ workspace_id, enabled, event_channel_id ]`.
+   * List Event Subscriptions
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<EventSubscription> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Event Subscriptions
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<EventSubscription> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Event Subscriptions
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`, `enabled`, `event_channel_id` or `workspace_id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `enabled`, `event_channel_id` or `workspace_id`. Valid field combinations are `[ enabled, event_channel_id ]`, `[ workspace_id, enabled ]`, `[ workspace_id, event_channel_id ]` or `[ workspace_id, enabled, event_channel_id ]`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code EventSubscription} records, in a {@code ListIterator}
+   */
   public static ListIterator<EventSubscription> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().eventSubscriptions().list(parameters, options);
   }
 
+  /**
+   * List Event Subscriptions
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<EventSubscription> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Event Subscriptions
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<EventSubscription> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Event Subscription ID.
+   * Show Event Subscription
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static EventSubscription find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Event Subscription
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static EventSubscription find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Event Subscription
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static EventSubscription find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Event Subscription
+   *
+   * @param id Event Subscription ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code EventSubscription}
+   */
   public static EventSubscription find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().eventSubscriptions().find(id, parameters, options);
   }
 
+  /**
+   * Show Event Subscription
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static EventSubscription get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Event Subscription
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static EventSubscription get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   event_channel_id - int64 - Event Channel ID
-   *   workspace_id - int64 - Workspace ID. 0 means the default workspace or site-wide.
-   *   apply_to_all_workspaces - boolean - If true, this default-workspace subscription applies to events from all workspaces.
-   *   name (required) - string - Event Subscription name.
-   *   subject - string - Custom subject line to use for notification emails.
-   *   message - string - Custom message to include in notification emails.
-   *   message_only - boolean - If true, notification email bodies contain only the custom message, omitting event details and the review button. Requires a custom message, defaults to false, and does not affect non-email targets.
-   *   enabled - boolean - Whether this Event Subscription can dispatch events.
-   *   event_types - array(string) - Event type strings matched by this subscription. Blank means all event types. Valid values: `automation_run.canceled.v1`, `automation_run.failure.v1`, `automation_run.failure_will_retry.v1`, `automation_run.partial_failure.v1`, `automation_run.partial_failure_will_retry.v1`, `automation_run.skipped.v1`, `automation_run.success.v1`, `expectation_evaluation.invalid.v1`, `expectation_evaluation.late.v1`, `expectation_evaluation.missing.v1`, `expectation_evaluation.success.v1`, `expectation_incident.acknowledged.v1`, `expectation_incident.open.v1`, `expectation_incident.resolved.v1`, `expectation_incident.snoozed.v1`, `external_event.client_log.failure.v1`, `external_event.client_log.partial_failure.v1`, `external_event.client_log.skipped.v1`, `external_event.client_log.success.v1`, `pending_work_event.failure.v1`, `pending_work_event.partial_failure.v1`, `pending_work_event.skipped.v1`, `pending_work_event.success.v1`, `siem_http_destination_event.failure.v1`, `siem_http_destination_event.partial_failure.v1`, `siem_http_destination_event.skipped.v1`, `siem_http_destination_event.success.v1`, `sso_event.ldap_login.failure.v1`, `sso_event.ldap_login.partial_failure.v1`, `sso_event.ldap_login.skipped.v1`, `sso_event.ldap_login.success.v1`, `sso_event.ldap_sync.failure.v1`, `sso_event.ldap_sync.partial_failure.v1`, `sso_event.ldap_sync.skipped.v1`, `sso_event.ldap_sync.success.v1`, `sso_event.saml_login.failure.v1`, `sso_event.saml_login.partial_failure.v1`, `sso_event.saml_login.skipped.v1`, `sso_event.saml_login.success.v1`, `sync_run.failure.v1`, `sync_run.partial_failure.v1`, `sync_run.skipped.v1`, `sync_run.success.v1`, `user_security_event.lockout.v1`
-   *   filter - object - Conditions on event fields that an event must meet to be delivered, keyed by dot-notation field path. All conditions must match.
-   *   delivery_policy - object - Event Subscription delivery policy.
-   *   event_target_ids - array(int64) - Event Target IDs this subscription sends to.
+   * Create Event Subscription
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static EventSubscription create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Event Subscription
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static EventSubscription create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Event Subscription
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code event_channel_id} (Long): Event Channel ID</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. 0 means the default workspace or site-wide.</li>
+   * <li>{@code apply_to_all_workspaces} (Boolean): If true, this default-workspace subscription applies to events from all workspaces.</li>
+   * <li>{@code name} (String): Required. Event Subscription name.</li>
+   * <li>{@code subject} (String): Custom subject line to use for notification emails.</li>
+   * <li>{@code message} (String): Custom message to include in notification emails.</li>
+   * <li>{@code message_only} (Boolean): If true, notification email bodies contain only the custom message, omitting event details and the review button. Requires a custom message, defaults to false, and does not affect non-email targets.</li>
+   * <li>{@code enabled} (Boolean): Whether this Event Subscription can dispatch events.</li>
+   * <li>{@code event_types} (String[]): Event type strings matched by this subscription. Blank means all event types. Valid values: `automation_run.canceled.v1`, `automation_run.failure.v1`, `automation_run.failure_will_retry.v1`, `automation_run.partial_failure.v1`, `automation_run.partial_failure_will_retry.v1`, `automation_run.skipped.v1`, `automation_run.success.v1`, `expectation_evaluation.invalid.v1`, `expectation_evaluation.late.v1`, `expectation_evaluation.missing.v1`, `expectation_evaluation.success.v1`, `expectation_incident.acknowledged.v1`, `expectation_incident.open.v1`, `expectation_incident.resolved.v1`, `expectation_incident.snoozed.v1`, `external_event.client_log.failure.v1`, `external_event.client_log.partial_failure.v1`, `external_event.client_log.skipped.v1`, `external_event.client_log.success.v1`, `pending_work_event.failure.v1`, `pending_work_event.partial_failure.v1`, `pending_work_event.skipped.v1`, `pending_work_event.success.v1`, `siem_http_destination_event.failure.v1`, `siem_http_destination_event.partial_failure.v1`, `siem_http_destination_event.skipped.v1`, `siem_http_destination_event.success.v1`, `sso_event.ldap_login.failure.v1`, `sso_event.ldap_login.partial_failure.v1`, `sso_event.ldap_login.skipped.v1`, `sso_event.ldap_login.success.v1`, `sso_event.ldap_sync.failure.v1`, `sso_event.ldap_sync.partial_failure.v1`, `sso_event.ldap_sync.skipped.v1`, `sso_event.ldap_sync.success.v1`, `sso_event.saml_login.failure.v1`, `sso_event.saml_login.partial_failure.v1`, `sso_event.saml_login.skipped.v1`, `sso_event.saml_login.success.v1`, `sync_run.failure.v1`, `sync_run.partial_failure.v1`, `sync_run.skipped.v1`, `sync_run.success.v1`, `user_security_event.lockout.v1`</li>
+   * <li>{@code filter} (Object): Conditions on event fields that an event must meet to be delivered, keyed by dot-notation field path. All conditions must match.</li>
+   * <li>{@code delivery_policy} (Object): Event Subscription delivery policy.</li>
+   * <li>{@code event_target_ids} (Long[]): Event Target IDs this subscription sends to.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code EventSubscription}
+   */
   public static EventSubscription create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().eventSubscriptions().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   event_channel_id - int64 - Event Channel ID
-   *   workspace_id - int64 - Workspace ID. 0 means the default workspace or site-wide.
-   *   apply_to_all_workspaces - boolean - If true, this default-workspace subscription applies to events from all workspaces.
-   *   name - string - Event Subscription name.
-   *   subject - string - Custom subject line to use for notification emails.
-   *   message - string - Custom message to include in notification emails.
-   *   message_only - boolean - If true, notification email bodies contain only the custom message, omitting event details and the review button. Requires a custom message, defaults to false, and does not affect non-email targets.
-   *   enabled - boolean - Whether this Event Subscription can dispatch events.
-   *   event_types - array(string) - Event type strings matched by this subscription. Blank means all event types. Valid values: `automation_run.canceled.v1`, `automation_run.failure.v1`, `automation_run.failure_will_retry.v1`, `automation_run.partial_failure.v1`, `automation_run.partial_failure_will_retry.v1`, `automation_run.skipped.v1`, `automation_run.success.v1`, `expectation_evaluation.invalid.v1`, `expectation_evaluation.late.v1`, `expectation_evaluation.missing.v1`, `expectation_evaluation.success.v1`, `expectation_incident.acknowledged.v1`, `expectation_incident.open.v1`, `expectation_incident.resolved.v1`, `expectation_incident.snoozed.v1`, `external_event.client_log.failure.v1`, `external_event.client_log.partial_failure.v1`, `external_event.client_log.skipped.v1`, `external_event.client_log.success.v1`, `pending_work_event.failure.v1`, `pending_work_event.partial_failure.v1`, `pending_work_event.skipped.v1`, `pending_work_event.success.v1`, `siem_http_destination_event.failure.v1`, `siem_http_destination_event.partial_failure.v1`, `siem_http_destination_event.skipped.v1`, `siem_http_destination_event.success.v1`, `sso_event.ldap_login.failure.v1`, `sso_event.ldap_login.partial_failure.v1`, `sso_event.ldap_login.skipped.v1`, `sso_event.ldap_login.success.v1`, `sso_event.ldap_sync.failure.v1`, `sso_event.ldap_sync.partial_failure.v1`, `sso_event.ldap_sync.skipped.v1`, `sso_event.ldap_sync.success.v1`, `sso_event.saml_login.failure.v1`, `sso_event.saml_login.partial_failure.v1`, `sso_event.saml_login.skipped.v1`, `sso_event.saml_login.success.v1`, `sync_run.failure.v1`, `sync_run.partial_failure.v1`, `sync_run.skipped.v1`, `sync_run.success.v1`, `user_security_event.lockout.v1`
-   *   filter - object - Conditions on event fields that an event must meet to be delivered, keyed by dot-notation field path. All conditions must match.
-   *   delivery_policy - object - Event Subscription delivery policy.
-   *   event_target_ids - array(int64) - Event Target IDs this subscription sends to.
+   * Update Event Subscription
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static EventSubscription update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Event Subscription
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static EventSubscription update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Event Subscription
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static EventSubscription update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Event Subscription
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code event_channel_id} (Long): Event Channel ID</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. 0 means the default workspace or site-wide.</li>
+   * <li>{@code apply_to_all_workspaces} (Boolean): If true, this default-workspace subscription applies to events from all workspaces.</li>
+   * <li>{@code name} (String): Event Subscription name.</li>
+   * <li>{@code subject} (String): Custom subject line to use for notification emails.</li>
+   * <li>{@code message} (String): Custom message to include in notification emails.</li>
+   * <li>{@code message_only} (Boolean): If true, notification email bodies contain only the custom message, omitting event details and the review button. Requires a custom message, defaults to false, and does not affect non-email targets.</li>
+   * <li>{@code enabled} (Boolean): Whether this Event Subscription can dispatch events.</li>
+   * <li>{@code event_types} (String[]): Event type strings matched by this subscription. Blank means all event types. Valid values: `automation_run.canceled.v1`, `automation_run.failure.v1`, `automation_run.failure_will_retry.v1`, `automation_run.partial_failure.v1`, `automation_run.partial_failure_will_retry.v1`, `automation_run.skipped.v1`, `automation_run.success.v1`, `expectation_evaluation.invalid.v1`, `expectation_evaluation.late.v1`, `expectation_evaluation.missing.v1`, `expectation_evaluation.success.v1`, `expectation_incident.acknowledged.v1`, `expectation_incident.open.v1`, `expectation_incident.resolved.v1`, `expectation_incident.snoozed.v1`, `external_event.client_log.failure.v1`, `external_event.client_log.partial_failure.v1`, `external_event.client_log.skipped.v1`, `external_event.client_log.success.v1`, `pending_work_event.failure.v1`, `pending_work_event.partial_failure.v1`, `pending_work_event.skipped.v1`, `pending_work_event.success.v1`, `siem_http_destination_event.failure.v1`, `siem_http_destination_event.partial_failure.v1`, `siem_http_destination_event.skipped.v1`, `siem_http_destination_event.success.v1`, `sso_event.ldap_login.failure.v1`, `sso_event.ldap_login.partial_failure.v1`, `sso_event.ldap_login.skipped.v1`, `sso_event.ldap_login.success.v1`, `sso_event.ldap_sync.failure.v1`, `sso_event.ldap_sync.partial_failure.v1`, `sso_event.ldap_sync.skipped.v1`, `sso_event.ldap_sync.success.v1`, `sso_event.saml_login.failure.v1`, `sso_event.saml_login.partial_failure.v1`, `sso_event.saml_login.skipped.v1`, `sso_event.saml_login.success.v1`, `sync_run.failure.v1`, `sync_run.partial_failure.v1`, `sync_run.skipped.v1`, `sync_run.success.v1`, `user_security_event.lockout.v1`</li>
+   * <li>{@code filter} (Object): Conditions on event fields that an event must meet to be delivered, keyed by dot-notation field path. All conditions must match.</li>
+   * <li>{@code delivery_policy} (Object): Event Subscription delivery policy.</li>
+   * <li>{@code event_target_ids} (Long[]): Event Target IDs this subscription sends to.</li>
+   * </ul>
+   *
+   * @param id Event Subscription ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code EventSubscription}
+   */
   public static EventSubscription update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().eventSubscriptions().update(id, parameters, options);
   }
 
 
   /**
+   * Delete Event Subscription
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Event Subscription
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Event Subscription
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Event Subscription
+   *
+   * @param id Event Subscription ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().eventSubscriptions().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Event Subscription
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Event Subscription
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

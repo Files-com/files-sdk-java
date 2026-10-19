@@ -29,12 +29,10 @@
 
 ## List Share Groups
 
-```
-ListIterator<ShareGroup> shareGroup = ShareGroup.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+ListIterator<ShareGroup> shareGroups = ShareGroup.list(parameters, null);
 ```
 
 ### Parameters
@@ -48,12 +46,9 @@ ListIterator<ShareGroup> shareGroup = ShareGroup.list(
 
 ## Show Share Group
 
-```
-ShareGroup shareGroup = ShareGroup.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ShareGroup shareGroup = ShareGroup.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -65,12 +60,17 @@ ShareGroup shareGroup = ShareGroup.find(
 
 ## Create Share Group
 
-```
-ShareGroup shareGroup = ShareGroup.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("notes", "This group is defined for testing purposes");
+parameters.put("name", "Test group 1");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("name", "John Doe");
+map1.put("company", "Acme Ltd");
+map1.put("email", "johndoe@gmail.com");
+parameters.put("members", new Object[] {map1});
+ShareGroup shareGroup = ShareGroup.create(parameters, null);
 ```
 
 ### Parameters
@@ -85,12 +85,16 @@ ShareGroup shareGroup = ShareGroup.create(
 
 ## Update Share Group
 
-```
-ShareGroup shareGroup = ShareGroup.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("notes", "This group is defined for testing purposes");
+parameters.put("name", "Test group 1");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("name", "John Doe");
+map1.put("company", "Acme Ltd");
+map1.put("email", "johndoe@gmail.com");
+parameters.put("members", new Object[] {map1});
+ShareGroup shareGroup = ShareGroup.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -105,12 +109,9 @@ ShareGroup shareGroup = ShareGroup.update(
 
 ## Delete Share Group
 
-```
-void shareGroup = ShareGroup.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ShareGroup.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -122,15 +123,17 @@ void shareGroup = ShareGroup.delete(
 
 ## Update Share Group
 
-```
-ShareGroup shareGroup = ShareGroup.find(id);
-
+```java
+ShareGroup shareGroup = ShareGroup.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("notes", "This group is defined for testing purposes");
 parameters.put("name", "Test group 1");
-parameters.put("members", [{"name":"John Doe","company":"Acme Ltd","email":"johndoe@gmail.com"}]);
-
-shareGroup.update(parameters);
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("name", "John Doe");
+map1.put("company", "Acme Ltd");
+map1.put("email", "johndoe@gmail.com");
+parameters.put("members", new Object[] {map1});
+ShareGroup result = shareGroup.update(parameters);
 ```
 
 ### Parameters
@@ -145,11 +148,9 @@ shareGroup.update(parameters);
 
 ## Delete Share Group
 
-```
-ShareGroup shareGroup = ShareGroup.find(id);
-
+```java
+ShareGroup shareGroup = ShareGroup.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 shareGroup.delete(parameters);
 ```
 

@@ -34,6 +34,11 @@ public class ChatMessage implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -57,14 +62,29 @@ public class ChatMessage implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code ChatMessage} with no attributes set.
+   */
   public ChatMessage() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code ChatMessage} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public ChatMessage(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code ChatMessage} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public ChatMessage(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -82,6 +102,11 @@ public class ChatMessage implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -92,6 +117,11 @@ public class ChatMessage implements ModelInterface {
   @JsonProperty("role")
   public String role;
 
+  /**
+   * Gets {@link #role}.
+   *
+   * @return the value of {@link #role}
+   */
   public String getRole() {
     return role;
   }
@@ -102,6 +132,11 @@ public class ChatMessage implements ModelInterface {
   @JsonProperty("content")
   public String content;
 
+  /**
+   * Gets {@link #content}.
+   *
+   * @return the value of {@link #content}
+   */
   public String getContent() {
     return content;
   }
@@ -112,6 +147,11 @@ public class ChatMessage implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }

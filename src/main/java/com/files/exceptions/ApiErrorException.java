@@ -301,6 +301,54 @@ public class ApiErrorException extends SdkException {
   }
 
   /**
+   * The plain-text answer older Files.com servers give, with HTTP 403, when a site must be reached
+   * through another server: a body beginning {@code You have connected to a URL}, with one
+   * {@code X-Files-Host} header naming the site's host. The client follows it as its
+   * {@link com.files.RegionRelocationPolicy} allows, and throws this when it does not, such as when
+   * the policy declines or no retry is left. Only such an answer from the API root the request was
+   * sent to raises it; from any other server, the answer raises a plain
+   * {@link ApiConnectionException}. Its message is the one any response without a structured error
+   * has, and code that catches {@link ApiConnectionException} still catches it.
+   */
+  public static class LegacyRegionMismatchException extends ApiConnectionException {
+    private final String host;
+    private final List<Header> headers;
+
+    /**
+     * Creates the exception.
+     *
+     * @param message the exception message
+     * @param host the host the response's {@code X-Files-Host} header names
+     * @param headers the HTTP response headers
+     */
+    public LegacyRegionMismatchException(String message, String host, List<Header> headers) {
+      super(message);
+      this.host = host;
+      this.headers = headers;
+    }
+
+    /**
+     * Returns the host the response's {@code X-Files-Host} header named for the site, exactly as
+     * the server sent it.
+     *
+     * @return the site's host, such as {@code mysite.files.com}
+     */
+    public String getHost() {
+      return host;
+    }
+
+    /**
+     * Returns the headers of the HTTP response, the list this exception was created with rather
+     * than a copy.
+     *
+     * @return the response headers
+     */
+    public List<Header> getHeaders() {
+      return headers;
+    }
+  }
+
+  /**
    * A family of API error types. Each type in the family has a subclass of this class, so catching
    * it handles any of them.
    */

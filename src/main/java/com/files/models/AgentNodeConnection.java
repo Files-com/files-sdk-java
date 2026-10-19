@@ -34,6 +34,11 @@ public class AgentNodeConnection implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -57,14 +62,29 @@ public class AgentNodeConnection implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code AgentNodeConnection} with no attributes set.
+   */
   public AgentNodeConnection() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code AgentNodeConnection} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public AgentNodeConnection(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code AgentNodeConnection} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public AgentNodeConnection(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -82,6 +102,11 @@ public class AgentNodeConnection implements ModelInterface {
   @JsonProperty("mode")
   public String mode;
 
+  /**
+   * Gets {@link #mode}.
+   *
+   * @return the value of {@link #mode}
+   */
   public String getMode() {
     return mode;
   }
@@ -92,6 +117,11 @@ public class AgentNodeConnection implements ModelInterface {
   @JsonProperty("status")
   public String status;
 
+  /**
+   * Gets {@link #status}.
+   *
+   * @return the value of {@link #status}
+   */
   public String getStatus() {
     return status;
   }
@@ -102,6 +132,11 @@ public class AgentNodeConnection implements ModelInterface {
   @JsonProperty("last_seen_at")
   public Date lastSeenAt;
 
+  /**
+   * Gets {@link #lastSeenAt}.
+   *
+   * @return the value of {@link #lastSeenAt}
+   */
   public Date getLastSeenAt() {
     return lastSeenAt;
   }

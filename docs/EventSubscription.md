@@ -54,12 +54,9 @@
 
 ## List Event Subscriptions
 
-```
-ListIterator<EventSubscription> eventSubscription = EventSubscription.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<EventSubscription> eventSubscriptions = EventSubscription.list(parameters, null);
 ```
 
 ### Parameters
@@ -74,12 +71,9 @@ ListIterator<EventSubscription> eventSubscription = EventSubscription.list(
 
 ## Show Event Subscription
 
-```
-EventSubscription eventSubscription = EventSubscription.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+EventSubscription eventSubscription = EventSubscription.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -91,12 +85,28 @@ EventSubscription eventSubscription = EventSubscription.find(
 
 ## Create Event Subscription
 
-```
-EventSubscription eventSubscription = EventSubscription.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("event_channel_id", 1L);
+parameters.put("workspace_id", 1L);
+parameters.put("apply_to_all_workspaces", true);
+parameters.put("name", "example");
+parameters.put("subject", "example");
+parameters.put("message", "example");
+parameters.put("message_only", true);
+parameters.put("enabled", true);
+parameters.put("event_types", new String[] {"sync_run.failure.v1"});
+HashMap<String, Object> map1 = new HashMap<>();
+HashMap<String, Object> map2 = new HashMap<>();
+map2.put("prefix", "Nightly");
+map1.put("payload.sync_name", map2);
+HashMap<String, Object> map3 = new HashMap<>();
+map3.put("exists", true);
+map1.put("payload.event_errors", map3);
+parameters.put("filter", map1);
+parameters.put("delivery_policy", "example");
+parameters.put("event_target_ids", new Long[] {1L});
+EventSubscription eventSubscription = EventSubscription.create(parameters, null);
 ```
 
 ### Parameters
@@ -119,12 +129,28 @@ EventSubscription eventSubscription = EventSubscription.create(
 
 ## Update Event Subscription
 
-```
-EventSubscription eventSubscription = EventSubscription.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("event_channel_id", 1L);
+parameters.put("workspace_id", 1L);
+parameters.put("apply_to_all_workspaces", true);
+parameters.put("name", "example");
+parameters.put("subject", "example");
+parameters.put("message", "example");
+parameters.put("message_only", true);
+parameters.put("enabled", true);
+parameters.put("event_types", new String[] {"sync_run.failure.v1"});
+HashMap<String, Object> map1 = new HashMap<>();
+HashMap<String, Object> map2 = new HashMap<>();
+map2.put("prefix", "Nightly");
+map1.put("payload.sync_name", map2);
+HashMap<String, Object> map3 = new HashMap<>();
+map3.put("exists", true);
+map1.put("payload.event_errors", map3);
+parameters.put("filter", map1);
+parameters.put("delivery_policy", "example");
+parameters.put("event_target_ids", new Long[] {1L});
+EventSubscription eventSubscription = EventSubscription.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -148,12 +174,9 @@ EventSubscription eventSubscription = EventSubscription.update(
 
 ## Delete Event Subscription
 
-```
-void eventSubscription = EventSubscription.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+EventSubscription.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -165,24 +188,29 @@ void eventSubscription = EventSubscription.delete(
 
 ## Update Event Subscription
 
-```
-EventSubscription eventSubscription = EventSubscription.find(id);
-
+```java
+EventSubscription eventSubscription = EventSubscription.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("event_channel_id", 1);
-parameters.put("workspace_id", 1);
+parameters.put("event_channel_id", 1L);
+parameters.put("workspace_id", 1L);
 parameters.put("apply_to_all_workspaces", true);
 parameters.put("name", "example");
 parameters.put("subject", "example");
 parameters.put("message", "example");
 parameters.put("message_only", true);
 parameters.put("enabled", true);
-parameters.put("event_types", ["sync_run.failure.v1"]);
-parameters.put("filter", {"payload.sync_name":{"prefix":"Nightly"},"payload.event_errors":{"exists":true}});
+parameters.put("event_types", new String[] {"sync_run.failure.v1"});
+HashMap<String, Object> map1 = new HashMap<>();
+HashMap<String, Object> map2 = new HashMap<>();
+map2.put("prefix", "Nightly");
+map1.put("payload.sync_name", map2);
+HashMap<String, Object> map3 = new HashMap<>();
+map3.put("exists", true);
+map1.put("payload.event_errors", map3);
+parameters.put("filter", map1);
 parameters.put("delivery_policy", "example");
-parameters.put("event_target_ids", [1]);
-
-eventSubscription.update(parameters);
+parameters.put("event_target_ids", new Long[] {1L});
+EventSubscription result = eventSubscription.update(parameters);
 ```
 
 ### Parameters
@@ -206,11 +234,9 @@ eventSubscription.update(parameters);
 
 ## Delete Event Subscription
 
-```
-EventSubscription eventSubscription = EventSubscription.find(id);
-
+```java
+EventSubscription eventSubscription = EventSubscription.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 eventSubscription.delete(parameters);
 ```
 

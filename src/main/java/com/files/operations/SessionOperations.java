@@ -22,20 +22,37 @@ public final class SessionOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   username - string - Username to sign in as
-   *   password - string - Password for sign in
-   *   otp - string - If this user has a 2FA device, provide its OTP or code here.
-   *   partial_session_id - string - Identifier for a partially-completed login
+   * Create user session (log in)
+   *
+   * @see #create(HashMap, HashMap)
    */
   public Session create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create user session (log in)
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public Session create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create user session (log in)
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code username} (String): Username to sign in as</li>
+   * <li>{@code password} (String): Password for sign in</li>
+   * <li>{@code otp} (String): If this user has a 2FA device, provide its OTP or code here.</li>
+   * <li>{@code partial_session_id} (String): Identifier for a partially-completed login</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Session}
+   */
   public Session create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -62,15 +79,29 @@ public final class SessionOperations extends ResourceOperations {
   }
 
   /**
+   * Delete user session (log out)
+   *
+   * @see #delete(HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null);
   }
 
+  /**
+   * Delete user session (log out)
+   *
+   * @see #delete(HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters) throws RuntimeException {
     delete(parameters, null);
   }
 
+  /**
+   * Delete user session (log out)
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -79,10 +110,20 @@ public final class SessionOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete user session (log out)
+   *
+   * @see #delete(HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null);
   }
 
+  /**
+   * Delete user session (log out)
+   *
+   * @see #delete(HashMap, HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(parameters, options);
   }

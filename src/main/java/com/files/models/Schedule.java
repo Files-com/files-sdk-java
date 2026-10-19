@@ -37,6 +37,11 @@ public class Schedule implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -60,14 +65,29 @@ public class Schedule implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code Schedule} with no attributes set.
+   */
   public Schedule() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code Schedule} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public Schedule(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code Schedule} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public Schedule(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -85,10 +105,20 @@ public class Schedule implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -99,10 +129,20 @@ public class Schedule implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -113,10 +153,20 @@ public class Schedule implements ModelInterface {
   @JsonProperty("schedule_days_of_week")
   public Long[] scheduleDaysOfWeek;
 
+  /**
+   * Gets {@link #scheduleDaysOfWeek}.
+   *
+   * @return the value of {@link #scheduleDaysOfWeek}
+   */
   public Long[] getScheduleDaysOfWeek() {
     return scheduleDaysOfWeek;
   }
 
+  /**
+   * Sets {@link #scheduleDaysOfWeek}.
+   *
+   * @param scheduleDaysOfWeek the new value
+   */
   public void setScheduleDaysOfWeek(Long[] scheduleDaysOfWeek) {
     this.scheduleDaysOfWeek = scheduleDaysOfWeek;
   }
@@ -127,10 +177,20 @@ public class Schedule implements ModelInterface {
   @JsonProperty("schedule_times_of_day")
   public String[] scheduleTimesOfDay;
 
+  /**
+   * Gets {@link #scheduleTimesOfDay}.
+   *
+   * @return the value of {@link #scheduleTimesOfDay}
+   */
   public String[] getScheduleTimesOfDay() {
     return scheduleTimesOfDay;
   }
 
+  /**
+   * Sets {@link #scheduleTimesOfDay}.
+   *
+   * @param scheduleTimesOfDay the new value
+   */
   public void setScheduleTimesOfDay(String[] scheduleTimesOfDay) {
     this.scheduleTimesOfDay = scheduleTimesOfDay;
   }
@@ -141,10 +201,20 @@ public class Schedule implements ModelInterface {
   @JsonProperty("schedule_time_zone")
   public String scheduleTimeZone;
 
+  /**
+   * Gets {@link #scheduleTimeZone}.
+   *
+   * @return the value of {@link #scheduleTimeZone}
+   */
   public String getScheduleTimeZone() {
     return scheduleTimeZone;
   }
 
+  /**
+   * Sets {@link #scheduleTimeZone}.
+   *
+   * @param scheduleTimeZone the new value
+   */
   public void setScheduleTimeZone(String scheduleTimeZone) {
     this.scheduleTimeZone = scheduleTimeZone;
   }
@@ -155,10 +225,20 @@ public class Schedule implements ModelInterface {
   @JsonProperty("holiday_region")
   public String holidayRegion;
 
+  /**
+   * Gets {@link #holidayRegion}.
+   *
+   * @return the value of {@link #holidayRegion}
+   */
   public String getHolidayRegion() {
     return holidayRegion;
   }
 
+  /**
+   * Sets {@link #holidayRegion}.
+   *
+   * @param holidayRegion the new value
+   */
   public void setHolidayRegion(String holidayRegion) {
     this.holidayRegion = holidayRegion;
   }
@@ -169,10 +249,20 @@ public class Schedule implements ModelInterface {
   @JsonProperty("human_readable_schedule")
   public String humanReadableSchedule;
 
+  /**
+   * Gets {@link #humanReadableSchedule}.
+   *
+   * @return the value of {@link #humanReadableSchedule}
+   */
   public String getHumanReadableSchedule() {
     return humanReadableSchedule;
   }
 
+  /**
+   * Sets {@link #humanReadableSchedule}.
+   *
+   * @param humanReadableSchedule the new value
+   */
   public void setHumanReadableSchedule(String humanReadableSchedule) {
     this.humanReadableSchedule = humanReadableSchedule;
   }
@@ -183,6 +273,11 @@ public class Schedule implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -193,18 +288,29 @@ public class Schedule implements ModelInterface {
   @JsonProperty("updated_at")
   public Date updatedAt;
 
+  /**
+   * Gets {@link #updatedAt}.
+   *
+   * @return the value of {@link #updatedAt}
+   */
   public Date getUpdatedAt() {
     return updatedAt;
   }
 
   /**
    * Updates this Schedule. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   name - string - Schedule name.
-   *   schedule_days_of_week - array(int64) - 0-based weekdays used by the Schedule. 0 is Sunday.
-   *   schedule_times_of_day - array(string) - Times of day in HH:MM format (24-hour).
-   *   schedule_time_zone - string - Time zone for scheduled times. If not set, times are interpreted as UTC.
-   *   holiday_region - string - Optional holiday region on which linked resources do not run.
+   * <p>Update Schedule
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Schedule name.</li>
+   * <li>{@code schedule_days_of_week} (Long[]): 0-based weekdays used by the Schedule. 0 is Sunday.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format (24-hour).</li>
+   * <li>{@code schedule_time_zone} (String): Time zone for scheduled times. If not set, times are interpreted as UTC.</li>
+   * <li>{@code holiday_region} (String): Optional holiday region on which linked resources do not run.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code Schedule}
    */
   public Schedule update(HashMap<String, Object> parameters) throws IOException {
     Schedule updated = filesClient().schedules().update(this.id, parameters, this.options);
@@ -213,11 +319,19 @@ public class Schedule implements ModelInterface {
   }
 
   /**
+   * Delete Schedule
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().schedules().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Schedule
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -265,129 +379,255 @@ public class Schedule implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`.
+   * List Schedules
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<Schedule> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Schedules
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Schedule> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Schedules
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Schedule} records, in a {@code ListIterator}
+   */
   public static ListIterator<Schedule> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().schedules().list(parameters, options);
   }
 
+  /**
+   * List Schedules
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Schedule> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Schedules
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Schedule> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Schedule ID.
+   * Show Schedule
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static Schedule find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Schedule
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Schedule find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Schedule
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Schedule find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Schedule
+   *
+   * @param id Schedule ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Schedule}
+   */
   public static Schedule find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().schedules().find(id, parameters, options);
   }
 
+  /**
+   * Show Schedule
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Schedule get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Schedule
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Schedule get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   name (required) - string - Schedule name.
-   *   schedule_days_of_week (required) - array(int64) - 0-based weekdays used by the Schedule. 0 is Sunday.
-   *   schedule_times_of_day (required) - array(string) - Times of day in HH:MM format (24-hour).
-   *   schedule_time_zone - string - Time zone for scheduled times. If not set, times are interpreted as UTC.
-   *   holiday_region - string - Optional holiday region on which linked resources do not run.
+   * Create Schedule
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static Schedule create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Schedule
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static Schedule create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Schedule
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Required. Schedule name.</li>
+   * <li>{@code schedule_days_of_week} (Long[]): Required. 0-based weekdays used by the Schedule. 0 is Sunday.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Required. Times of day in HH:MM format (24-hour).</li>
+   * <li>{@code schedule_time_zone} (String): Time zone for scheduled times. If not set, times are interpreted as UTC.</li>
+   * <li>{@code holiday_region} (String): Optional holiday region on which linked resources do not run.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Schedule}
+   */
   public static Schedule create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().schedules().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   name - string - Schedule name.
-   *   schedule_days_of_week - array(int64) - 0-based weekdays used by the Schedule. 0 is Sunday.
-   *   schedule_times_of_day - array(string) - Times of day in HH:MM format (24-hour).
-   *   schedule_time_zone - string - Time zone for scheduled times. If not set, times are interpreted as UTC.
-   *   holiday_region - string - Optional holiday region on which linked resources do not run.
+   * Update Schedule
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static Schedule update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Schedule
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static Schedule update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Schedule
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static Schedule update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Schedule
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Schedule name.</li>
+   * <li>{@code schedule_days_of_week} (Long[]): 0-based weekdays used by the Schedule. 0 is Sunday.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format (24-hour).</li>
+   * <li>{@code schedule_time_zone} (String): Time zone for scheduled times. If not set, times are interpreted as UTC.</li>
+   * <li>{@code holiday_region} (String): Optional holiday region on which linked resources do not run.</li>
+   * </ul>
+   *
+   * @param id Schedule ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Schedule}
+   */
   public static Schedule update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().schedules().update(id, parameters, options);
   }
 
 
   /**
+   * Delete Schedule
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Schedule
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Schedule
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Schedule
+   *
+   * @param id Schedule ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().schedules().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Schedule
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Schedule
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

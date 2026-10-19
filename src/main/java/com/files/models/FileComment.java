@@ -36,6 +36,11 @@ public class FileComment implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -59,14 +64,29 @@ public class FileComment implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code FileComment} with no attributes set.
+   */
   public FileComment() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code FileComment} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public FileComment(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code FileComment} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public FileComment(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -84,10 +104,20 @@ public class FileComment implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -98,10 +128,20 @@ public class FileComment implements ModelInterface {
   @JsonProperty("body")
   public String body;
 
+  /**
+   * Gets {@link #body}.
+   *
+   * @return the value of {@link #body}
+   */
   public String getBody() {
     return body;
   }
 
+  /**
+   * Sets {@link #body}.
+   *
+   * @param body the new value
+   */
   public void setBody(String body) {
     this.body = body;
   }
@@ -112,10 +152,20 @@ public class FileComment implements ModelInterface {
   @JsonProperty("reactions")
   public FileCommentReaction[] reactions;
 
+  /**
+   * Gets {@link #reactions}.
+   *
+   * @return the value of {@link #reactions}
+   */
   public FileCommentReaction[] getReactions() {
     return reactions;
   }
 
+  /**
+   * Sets {@link #reactions}.
+   *
+   * @param reactions the new value
+   */
   public void setReactions(FileCommentReaction[] reactions) {
     this.reactions = reactions;
   }
@@ -126,18 +176,34 @@ public class FileComment implements ModelInterface {
   @JsonProperty("path")
   public String path;
 
+  /**
+   * Gets {@link #path}.
+   *
+   * @return the value of {@link #path}
+   */
   public String getPath() {
     return path;
   }
 
+  /**
+   * Sets {@link #path}.
+   *
+   * @param path the new value
+   */
   public void setPath(String path) {
     this.path = path;
   }
 
   /**
    * Updates this FileComment. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   body (required) - string - Comment body.
+   * <p>Update File Comment
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code body} (String): Required. Comment body.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code FileComment}
    */
   public FileComment update(HashMap<String, Object> parameters) throws IOException {
     FileComment updated = filesClient().fileComments().update(this.id, parameters, this.options);
@@ -146,11 +212,19 @@ public class FileComment implements ModelInterface {
   }
 
   /**
+   * Delete File Comment
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().fileComments().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete File Comment
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -186,90 +260,182 @@ public class FileComment implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   path (required) - string - Path to operate on.
+   * List File Comments by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
    */
   public static ListIterator<FileComment> listFor() throws RuntimeException {
     return listFor(null, null, null);
   }
 
+  /**
+   * List File Comments by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
   public static ListIterator<FileComment> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return listFor(path, parameters, null);
   }
 
+  /**
+   * List File Comments by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
   public static ListIterator<FileComment> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return listFor(null, parameters, options);
   }
 
+  /**
+   * List File Comments by Path
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param path Path to operate on.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code FileComment} records, in a {@code ListIterator}
+   */
   public static ListIterator<FileComment> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().fileComments().listFor(path, parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   body (required) - string - Comment body.
-   *   path (required) - string - File path.
+   * Create File Comment
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static FileComment create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create File Comment
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static FileComment create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create File Comment
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code body} (String): Required. Comment body.</li>
+   * <li>{@code path} (String): Required. File path.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code FileComment}
+   */
   public static FileComment create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().fileComments().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   body (required) - string - Comment body.
+   * Update File Comment
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static FileComment update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update File Comment
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static FileComment update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update File Comment
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static FileComment update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update File Comment
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code body} (String): Required. Comment body.</li>
+   * </ul>
+   *
+   * @param id File Comment ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code FileComment}
+   */
   public static FileComment update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().fileComments().update(id, parameters, options);
   }
 
 
   /**
+   * Delete File Comment
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete File Comment
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete File Comment
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete File Comment
+   *
+   * @param id File Comment ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().fileComments().delete(id, parameters, options);
   }
 
+  /**
+   * Delete File Comment
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete File Comment
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

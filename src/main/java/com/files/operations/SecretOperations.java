@@ -25,21 +25,38 @@ public final class SecretOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name` or `secret_type`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`, `name` or `secret_type`. Valid field combinations are `[ workspace_id, name ]`, `[ workspace_id, secret_type ]`, `[ secret_type, name ]` or `[ workspace_id, secret_type, name ]`.
-   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
+   * List Secrets
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<Secret> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Secrets
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Secret> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Secrets
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name` or `secret_type`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`, `name` or `secret_type`. Valid field combinations are `[ workspace_id, name ]`, `[ workspace_id, secret_type ]`, `[ secret_type, name ]` or `[ workspace_id, secret_type, name ]`.</li>
+   * <li>{@code filter_prefix} (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Secret} records, in a {@code ListIterator}
+   */
   public ListIterator<Secret> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -69,30 +86,59 @@ public final class SecretOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Secrets
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Secret> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Secrets
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Secret> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Secret ID.
+   * Show Secret
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public Secret find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Secret
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Secret find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Secret
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Secret find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Secret
+   *
+   * @param id Secret ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Secret}
+   */
   public Secret find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -114,30 +160,57 @@ public final class SecretOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Secret
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Secret get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Secret
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Secret get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   name (required) - string - Secret name.
-   *   description - string - Internal description for your reference.
-   *   secret_type (required) - string - Secret type.
-   *   metadata - object - Non-secret metadata for the Secret type.
-   *   workspace_id - int64 - Workspace ID. 0 means the default workspace.
+   * Create Secret
+   *
+   * @see #create(HashMap, HashMap)
    */
   public Secret create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Secret
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public Secret create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Secret
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Required. Secret name.</li>
+   * <li>{@code description} (String): Internal description for your reference.</li>
+   * <li>{@code secret_type} (String): Required. Secret type.</li>
+   * <li>{@code metadata} (Object): Non-secret metadata for the Secret type.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. 0 means the default workspace.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Secret}
+   */
   public Secret create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -176,24 +249,47 @@ public final class SecretOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   name - string - Secret name.
-   *   description - string - Internal description for your reference.
-   *   secret_type - string - Secret type.
-   *   metadata - object - Non-secret metadata for the Secret type.
+   * Update Secret
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public Secret update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Secret
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public Secret update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Secret
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public Secret update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Secret
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Secret name.</li>
+   * <li>{@code description} (String): Internal description for your reference.</li>
+   * <li>{@code secret_type} (String): Secret type.</li>
+   * <li>{@code metadata} (Object): Non-secret metadata for the Secret type.</li>
+   * </ul>
+   *
+   * @param id Secret ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Secret}
+   */
   public Secret update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -232,19 +328,39 @@ public final class SecretOperations extends ResourceOperations {
   }
 
   /**
+   * Delete Secret
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Secret
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Secret
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Secret
+   *
+   * @param id Secret ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -265,10 +381,20 @@ public final class SecretOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Secret
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Secret
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

@@ -19,12 +19,12 @@
 
 ## Create File Comment Reaction
 
-```
-FileCommentReaction fileCommentReaction = FileCommentReaction.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("file_comment_id", 1L);
+parameters.put("emoji", "emoji");
+FileCommentReaction fileCommentReaction = FileCommentReaction.create(parameters, null);
 ```
 
 ### Parameters
@@ -38,12 +38,9 @@ FileCommentReaction fileCommentReaction = FileCommentReaction.create(
 
 ## Delete File Comment Reaction
 
-```
-void fileCommentReaction = FileCommentReaction.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+FileCommentReaction.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -55,12 +52,11 @@ void fileCommentReaction = FileCommentReaction.delete(
 
 ## Delete File Comment Reaction
 
-```
-HashMap<Object, String> attributes = new HashMap<>();
-void fileCommentReaction = new FileCommentReaction(attributes);
-
+```java
+HashMap<String, Object> attributes = new HashMap<>();
+attributes.put("id", 1L);
+FileCommentReaction fileCommentReaction = new FileCommentReaction(attributes);
 HashMap<String, Object> parameters = new HashMap<>();
-
 fileCommentReaction.delete(parameters);
 ```
 

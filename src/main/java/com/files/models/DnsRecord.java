@@ -34,6 +34,11 @@ public class DnsRecord implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -57,14 +62,29 @@ public class DnsRecord implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code DnsRecord} with no attributes set.
+   */
   public DnsRecord() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code DnsRecord} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public DnsRecord(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code DnsRecord} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public DnsRecord(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -82,6 +102,11 @@ public class DnsRecord implements ModelInterface {
   @JsonProperty("id")
   public String id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public String getId() {
     return id;
   }
@@ -92,6 +117,11 @@ public class DnsRecord implements ModelInterface {
   @JsonProperty("domain")
   public String domain;
 
+  /**
+   * Gets {@link #domain}.
+   *
+   * @return the value of {@link #domain}
+   */
   public String getDomain() {
     return domain;
   }
@@ -102,6 +132,11 @@ public class DnsRecord implements ModelInterface {
   @JsonProperty("rrtype")
   public String rrtype;
 
+  /**
+   * Gets {@link #rrtype}.
+   *
+   * @return the value of {@link #rrtype}
+   */
   public String getRrtype() {
     return rrtype;
   }
@@ -112,33 +147,65 @@ public class DnsRecord implements ModelInterface {
   @JsonProperty("value")
   public String value;
 
+  /**
+   * Gets {@link #value}.
+   *
+   * @return the value of {@link #value}
+   */
   public String getValue() {
     return value;
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   * Show Site DNS Configuration
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<DnsRecord> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * Show Site DNS Configuration
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<DnsRecord> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * Show Site DNS Configuration
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code DnsRecord} records, in a {@code ListIterator}
+   */
   public static ListIterator<DnsRecord> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().dnsRecords().list(parameters, options);
   }
 
+  /**
+   * Show Site DNS Configuration
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<DnsRecord> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * Show Site DNS Configuration
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<DnsRecord> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }

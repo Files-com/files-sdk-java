@@ -34,6 +34,11 @@ public class Action implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -57,14 +62,29 @@ public class Action implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code Action} with no attributes set.
+   */
   public Action() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code Action} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public Action(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code Action} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public Action(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -82,6 +102,11 @@ public class Action implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -92,6 +117,11 @@ public class Action implements ModelInterface {
   @JsonProperty("path")
   public String path;
 
+  /**
+   * Gets {@link #path}.
+   *
+   * @return the value of {@link #path}
+   */
   public String getPath() {
     return path;
   }
@@ -102,6 +132,11 @@ public class Action implements ModelInterface {
   @JsonProperty("when")
   public Date when;
 
+  /**
+   * Gets {@link #when}.
+   *
+   * @return the value of {@link #when}
+   */
   public Date getWhen() {
     return when;
   }
@@ -112,6 +147,11 @@ public class Action implements ModelInterface {
   @JsonProperty("destination")
   public String destination;
 
+  /**
+   * Gets {@link #destination}.
+   *
+   * @return the value of {@link #destination}
+   */
   public String getDestination() {
     return destination;
   }
@@ -122,6 +162,11 @@ public class Action implements ModelInterface {
   @JsonProperty("display")
   public String display;
 
+  /**
+   * Gets {@link #display}.
+   *
+   * @return the value of {@link #display}
+   */
   public String getDisplay() {
     return display;
   }
@@ -132,6 +177,11 @@ public class Action implements ModelInterface {
   @JsonProperty("ip")
   public String ip;
 
+  /**
+   * Gets {@link #ip}.
+   *
+   * @return the value of {@link #ip}
+   */
   public String getIp() {
     return ip;
   }
@@ -142,6 +192,11 @@ public class Action implements ModelInterface {
   @JsonProperty("source")
   public String source;
 
+  /**
+   * Gets {@link #source}.
+   *
+   * @return the value of {@link #source}
+   */
   public String getSource() {
     return source;
   }
@@ -152,6 +207,11 @@ public class Action implements ModelInterface {
   @JsonProperty("targets")
   public Object targets;
 
+  /**
+   * Gets {@link #targets}.
+   *
+   * @return the value of {@link #targets}
+   */
   public Object getTargets() {
     return targets;
   }
@@ -162,6 +222,11 @@ public class Action implements ModelInterface {
   @JsonProperty("user_id")
   public Long userId;
 
+  /**
+   * Gets {@link #userId}.
+   *
+   * @return the value of {@link #userId}
+   */
   public Long getUserId() {
     return userId;
   }
@@ -172,6 +237,11 @@ public class Action implements ModelInterface {
   @JsonProperty("username")
   public String username;
 
+  /**
+   * Gets {@link #username}.
+   *
+   * @return the value of {@link #username}
+   */
   public String getUsername() {
     return username;
   }
@@ -182,6 +252,11 @@ public class Action implements ModelInterface {
   @JsonProperty("user_is_from_parent_site")
   public Boolean userIsFromParentSite;
 
+  /**
+   * Gets {@link #userIsFromParentSite}.
+   *
+   * @return the value of {@link #userIsFromParentSite}
+   */
   public Boolean getUserIsFromParentSite() {
     return userIsFromParentSite;
   }
@@ -192,6 +267,11 @@ public class Action implements ModelInterface {
   @JsonProperty("action")
   public String action;
 
+  /**
+   * Gets {@link #action}.
+   *
+   * @return the value of {@link #action}
+   */
   public String getAction() {
     return action;
   }
@@ -202,6 +282,11 @@ public class Action implements ModelInterface {
   @JsonProperty("failure_type")
   public String failureType;
 
+  /**
+   * Gets {@link #failureType}.
+   *
+   * @return the value of {@link #failureType}
+   */
   public String getFailureType() {
     return failureType;
   }
@@ -212,6 +297,11 @@ public class Action implements ModelInterface {
   @JsonProperty("interface")
   public String interfaceName;
 
+  /**
+   * Gets {@link #interfaceName}.
+   *
+   * @return the value of {@link #interfaceName}
+   */
   public String getInterfaceName() {
     return interfaceName;
   }

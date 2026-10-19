@@ -33,6 +33,11 @@ public class AutomationAuthoringSchema implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -56,14 +61,29 @@ public class AutomationAuthoringSchema implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code AutomationAuthoringSchema} with no attributes set.
+   */
   public AutomationAuthoringSchema() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code AutomationAuthoringSchema} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public AutomationAuthoringSchema(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code AutomationAuthoringSchema} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public AutomationAuthoringSchema(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -81,6 +101,11 @@ public class AutomationAuthoringSchema implements ModelInterface {
   @JsonProperty("definition_schema")
   public Object definitionSchema;
 
+  /**
+   * Gets {@link #definitionSchema}.
+   *
+   * @return the value of {@link #definitionSchema}
+   */
   public Object getDefinitionSchema() {
     return definitionSchema;
   }
@@ -91,6 +116,11 @@ public class AutomationAuthoringSchema implements ModelInterface {
   @JsonProperty("error_families")
   public Object[] errorFamilies;
 
+  /**
+   * Gets {@link #errorFamilies}.
+   *
+   * @return the value of {@link #errorFamilies}
+   */
   public Object[] getErrorFamilies() {
     return errorFamilies;
   }
@@ -101,6 +131,11 @@ public class AutomationAuthoringSchema implements ModelInterface {
   @JsonProperty("nodes")
   public Object[] nodes;
 
+  /**
+   * Gets {@link #nodes}.
+   *
+   * @return the value of {@link #nodes}
+   */
   public Object[] getNodes() {
     return nodes;
   }
@@ -111,6 +146,11 @@ public class AutomationAuthoringSchema implements ModelInterface {
   @JsonProperty("schema_url")
   public String schemaUrl;
 
+  /**
+   * Gets {@link #schemaUrl}.
+   *
+   * @return the value of {@link #schemaUrl}
+   */
   public String getSchemaUrl() {
     return schemaUrl;
   }

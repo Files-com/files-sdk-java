@@ -33,6 +33,11 @@ public class HolidayRegion implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -56,14 +61,29 @@ public class HolidayRegion implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code HolidayRegion} with no attributes set.
+   */
   public HolidayRegion() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code HolidayRegion} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public HolidayRegion(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code HolidayRegion} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public HolidayRegion(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -81,6 +101,11 @@ public class HolidayRegion implements ModelInterface {
   @JsonProperty("code")
   public String code;
 
+  /**
+   * Gets {@link #code}.
+   *
+   * @return the value of {@link #code}
+   */
   public String getCode() {
     return code;
   }
@@ -91,25 +116,47 @@ public class HolidayRegion implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   * List all possible holiday regions
+   *
+   * @see #getSupported(HashMap, HashMap)
    */
   public static HolidayRegion getSupported() throws RuntimeException {
     return getSupported(null, null);
   }
 
+  /**
+   * List all possible holiday regions
+   *
+   * @see #getSupported(HashMap, HashMap)
+   */
   public static HolidayRegion getSupported(HashMap<String, Object> parameters) throws RuntimeException {
     return getSupported(parameters, null);
   }
 
 
+  /**
+   * List all possible holiday regions
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code HolidayRegion}
+   */
   public static HolidayRegion getSupported(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().holidayRegions().getSupported(parameters, options);
   }

@@ -25,20 +25,37 @@ public final class ExpectationIncidentOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `created_at` or `expectation_id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `expectation_id` and `workspace_id`. Valid field combinations are `[ workspace_id, expectation_id ]`.
+   * List Expectation Incidents
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<ExpectationIncident> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Expectation Incidents
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<ExpectationIncident> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Expectation Incidents
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `created_at` or `expectation_id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `expectation_id` and `workspace_id`. Valid field combinations are `[ workspace_id, expectation_id ]`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ExpectationIncident} records, in a {@code ListIterator}
+   */
   public ListIterator<ExpectationIncident> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -64,30 +81,59 @@ public final class ExpectationIncidentOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Expectation Incidents
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<ExpectationIncident> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Expectation Incidents
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<ExpectationIncident> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Expectation Incident ID.
+   * Show Expectation Incident
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public ExpectationIncident find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Expectation Incident
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ExpectationIncident find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Expectation Incident
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ExpectationIncident find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Expectation Incident
+   *
+   * @param id Expectation Incident ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ExpectationIncident}
+   */
   public ExpectationIncident find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -109,29 +155,59 @@ public final class ExpectationIncidentOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Expectation Incident
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ExpectationIncident get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Expectation Incident
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ExpectationIncident get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
    * Resolve an expectation incident
+   *
+   * @see #resolve(Long, HashMap, HashMap)
    */
   public ExpectationIncident resolve() throws RuntimeException {
     return resolve(null, null, null);
   }
 
+  /**
+   * Resolve an expectation incident
+   *
+   * @see #resolve(Long, HashMap, HashMap)
+   */
   public ExpectationIncident resolve(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return resolve(id, parameters, null);
   }
 
+  /**
+   * Resolve an expectation incident
+   *
+   * @see #resolve(Long, HashMap, HashMap)
+   */
   public ExpectationIncident resolve(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return resolve(null, parameters, options);
   }
 
+  /**
+   * Resolve an expectation incident
+   *
+   * @param id Expectation Incident ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ExpectationIncident}
+   */
   public ExpectationIncident resolve(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -156,21 +232,42 @@ public final class ExpectationIncidentOperations extends ResourceOperations {
   /**
    * Snooze an expectation incident until a specified time
    *
-   * Parameters:
-   *   snoozed_until (required) - string - Time until which the incident should remain snoozed.
+   * @see #snooze(Long, HashMap, HashMap)
    */
   public ExpectationIncident snooze() throws RuntimeException {
     return snooze(null, null, null);
   }
 
+  /**
+   * Snooze an expectation incident until a specified time
+   *
+   * @see #snooze(Long, HashMap, HashMap)
+   */
   public ExpectationIncident snooze(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return snooze(id, parameters, null);
   }
 
+  /**
+   * Snooze an expectation incident until a specified time
+   *
+   * @see #snooze(Long, HashMap, HashMap)
+   */
   public ExpectationIncident snooze(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return snooze(null, parameters, options);
   }
 
+  /**
+   * Snooze an expectation incident until a specified time
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code snoozed_until} (String): Required. Time until which the incident should remain snoozed.</li>
+   * </ul>
+   *
+   * @param id Expectation Incident ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ExpectationIncident}
+   */
   public ExpectationIncident snooze(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -202,19 +299,39 @@ public final class ExpectationIncidentOperations extends ResourceOperations {
 
   /**
    * Acknowledge an expectation incident
+   *
+   * @see #acknowledge(Long, HashMap, HashMap)
    */
   public ExpectationIncident acknowledge() throws RuntimeException {
     return acknowledge(null, null, null);
   }
 
+  /**
+   * Acknowledge an expectation incident
+   *
+   * @see #acknowledge(Long, HashMap, HashMap)
+   */
   public ExpectationIncident acknowledge(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return acknowledge(id, parameters, null);
   }
 
+  /**
+   * Acknowledge an expectation incident
+   *
+   * @see #acknowledge(Long, HashMap, HashMap)
+   */
   public ExpectationIncident acknowledge(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return acknowledge(null, parameters, options);
   }
 
+  /**
+   * Acknowledge an expectation incident
+   *
+   * @param id Expectation Incident ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ExpectationIncident}
+   */
   public ExpectationIncident acknowledge(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);

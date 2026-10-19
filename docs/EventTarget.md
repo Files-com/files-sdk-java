@@ -33,12 +33,9 @@
 
 ## List Event Targets
 
-```
-ListIterator<EventTarget> eventTarget = EventTarget.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<EventTarget> eventTargets = EventTarget.list(parameters, null);
 ```
 
 ### Parameters
@@ -53,12 +50,9 @@ ListIterator<EventTarget> eventTarget = EventTarget.list(
 
 ## Show Event Target
 
-```
-EventTarget eventTarget = EventTarget.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+EventTarget eventTarget = EventTarget.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -70,12 +64,16 @@ EventTarget eventTarget = EventTarget.find(
 
 ## Create Event Target
 
-```
-EventTarget eventTarget = EventTarget.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "example");
+parameters.put("workspace_id", 1L);
+parameters.put("apply_to_all_workspaces", true);
+parameters.put("enabled", true);
+parameters.put("config", "example");
+parameters.put("delivery_policy", "example");
+parameters.put("target_type", "example");
+EventTarget eventTarget = EventTarget.create(parameters, null);
 ```
 
 ### Parameters
@@ -93,12 +91,15 @@ EventTarget eventTarget = EventTarget.create(
 
 ## Update Event Target
 
-```
-EventTarget eventTarget = EventTarget.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "example");
+parameters.put("workspace_id", 1L);
+parameters.put("apply_to_all_workspaces", true);
+parameters.put("enabled", true);
+parameters.put("config", "example");
+parameters.put("delivery_policy", "example");
+EventTarget eventTarget = EventTarget.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -116,12 +117,9 @@ EventTarget eventTarget = EventTarget.update(
 
 ## Delete Event Target
 
-```
-void eventTarget = EventTarget.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+EventTarget.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -133,18 +131,16 @@ void eventTarget = EventTarget.delete(
 
 ## Update Event Target
 
-```
-EventTarget eventTarget = EventTarget.find(id);
-
+```java
+EventTarget eventTarget = EventTarget.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "example");
-parameters.put("workspace_id", 1);
+parameters.put("workspace_id", 1L);
 parameters.put("apply_to_all_workspaces", true);
 parameters.put("enabled", true);
 parameters.put("config", "example");
 parameters.put("delivery_policy", "example");
-
-eventTarget.update(parameters);
+EventTarget result = eventTarget.update(parameters);
 ```
 
 ### Parameters
@@ -162,11 +158,9 @@ eventTarget.update(parameters);
 
 ## Delete Event Target
 
-```
-EventTarget eventTarget = EventTarget.find(id);
-
+```java
+EventTarget eventTarget = EventTarget.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 eventTarget.delete(parameters);
 ```
 

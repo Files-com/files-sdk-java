@@ -25,20 +25,37 @@ public final class As2PartnerOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `as2_station_id` or `name`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `as2_station_id` and `workspace_id`. Valid field combinations are `[ workspace_id, as2_station_id ]`.
+   * List AS2 Partners
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<As2Partner> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List AS2 Partners
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<As2Partner> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List AS2 Partners
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `as2_station_id` or `name`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `as2_station_id` and `workspace_id`. Valid field combinations are `[ workspace_id, as2_station_id ]`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code As2Partner} records, in a {@code ListIterator}
+   */
   public ListIterator<As2Partner> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -64,30 +81,59 @@ public final class As2PartnerOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List AS2 Partners
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<As2Partner> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List AS2 Partners
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<As2Partner> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - As2 Partner ID.
+   * Show AS2 Partner
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public As2Partner find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show AS2 Partner
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public As2Partner find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show AS2 Partner
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public As2Partner find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show AS2 Partner
+   *
+   * @param id As2 Partner ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code As2Partner}
+   */
   public As2Partner find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -109,39 +155,66 @@ public final class As2PartnerOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show AS2 Partner
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public As2Partner get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show AS2 Partner
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public As2Partner get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
-   *   http_auth_username - string - Username to send to server for HTTP Authentication.
-   *   http_auth_password - string - Password to send to server for HTTP Authentication.
-   *   mdn_validation_level - string - How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates. `auto`: Automatically set the correct value for this setting based on next mdn received.
-   *   signature_validation_level - string - Should Files.com require signatures on incoming AS2 messages?  `normal`: require that incoming messages are signed with a valid matching signature. `none`: Unsigned incoming messages are allowed. `auto`: A one-time starting state. The next message received is always accepted and switches this to `normal` if it carries a valid signature, or `none` if it does not.
-   *   server_certificate - string - Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS? (This only applies to Outgoing AS2 message from Files.com to a Partner.)
-   *   default_mime_type - string - Default mime type of the file attached to the encrypted message
-   *   additional_http_headers - object - Additional HTTP Headers for outgoing message sent to this partner.
-   *   as2_station_id (required) - int64 - ID of the AS2 Station associated with this partner.
-   *   name (required) - string - The partner's formal AS2 name.
-   *   uri (required) - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
-   *   public_certificate - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
-   *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the partner's public certificate. Provide this instead of public_certificate. Any private key in the file is discarded. A public-only file must contain exactly one certificate.
-   *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted public certificate is stored as PEM.
+   * Create AS2 Partner
+   *
+   * @see #create(HashMap, HashMap)
    */
   public As2Partner create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create AS2 Partner
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public As2Partner create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create AS2 Partner
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code enable_dedicated_ips} (Boolean): If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.</li>
+   * <li>{@code http_auth_username} (String): Username to send to server for HTTP Authentication.</li>
+   * <li>{@code http_auth_password} (String): Password to send to server for HTTP Authentication.</li>
+   * <li>{@code mdn_validation_level} (String): How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates. `auto`: Automatically set the correct value for this setting based on next mdn received.</li>
+   * <li>{@code signature_validation_level} (String): Should Files.com require signatures on incoming AS2 messages?  `normal`: require that incoming messages are signed with a valid matching signature. `none`: Unsigned incoming messages are allowed. `auto`: A one-time starting state. The next message received is always accepted and switches this to `normal` if it carries a valid signature, or `none` if it does not.</li>
+   * <li>{@code server_certificate} (String): Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS? (This only applies to Outgoing AS2 message from Files.com to a Partner.)</li>
+   * <li>{@code default_mime_type} (String): Default mime type of the file attached to the encrypted message</li>
+   * <li>{@code additional_http_headers} (Object): Additional HTTP Headers for outgoing message sent to this partner.</li>
+   * <li>{@code as2_station_id} (Long): Required. ID of the AS2 Station associated with this partner.</li>
+   * <li>{@code name} (String): Required. The partner's formal AS2 name.</li>
+   * <li>{@code uri} (String): Required. Public URI where we will send the AS2 messages (via HTTP/HTTPS).</li>
+   * <li>{@code public_certificate} (String): Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.</li>
+   * <li>{@code pkcs12} (String): Base64-encoded PKCS#12 (.pfx or .p12) file containing the partner's public certificate. Provide this instead of public_certificate. Any private key in the file is discarded. A public-only file must contain exactly one certificate.</li>
+   * <li>{@code pkcs12_password} (String): Password for pkcs12. The file and password are used only for import; the extracted public certificate is stored as PEM.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code As2Partner}
+   */
   public As2Partner create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -220,33 +293,56 @@ public final class As2PartnerOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   enable_dedicated_ips - boolean - If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.
-   *   http_auth_username - string - Username to send to server for HTTP Authentication.
-   *   http_auth_password - string - Password to send to server for HTTP Authentication.
-   *   mdn_validation_level - string - How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates. `auto`: Automatically set the correct value for this setting based on next mdn received.
-   *   signature_validation_level - string - Should Files.com require signatures on incoming AS2 messages?  `normal`: require that incoming messages are signed with a valid matching signature. `none`: Unsigned incoming messages are allowed. `auto`: A one-time starting state. The next message received is always accepted and switches this to `normal` if it carries a valid signature, or `none` if it does not.
-   *   server_certificate - string - Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS? (This only applies to Outgoing AS2 message from Files.com to a Partner.)
-   *   default_mime_type - string - Default mime type of the file attached to the encrypted message
-   *   additional_http_headers - object - Additional HTTP Headers for outgoing message sent to this partner.
-   *   name - string - The partner's formal AS2 name.
-   *   uri - string - Public URI where we will send the AS2 messages (via HTTP/HTTPS).
-   *   public_certificate - string - Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.
-   *   pkcs12 - string - Base64-encoded PKCS#12 (.pfx or .p12) file containing the partner's public certificate. Provide this instead of public_certificate. Any private key in the file is discarded. A public-only file must contain exactly one certificate.
-   *   pkcs12_password - string - Password for pkcs12. The file and password are used only for import; the extracted public certificate is stored as PEM.
+   * Update AS2 Partner
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public As2Partner update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update AS2 Partner
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public As2Partner update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update AS2 Partner
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public As2Partner update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update AS2 Partner
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code enable_dedicated_ips} (Boolean): If `true`, we will use your site's dedicated IPs for all outbound connections to this AS2 Partner.</li>
+   * <li>{@code http_auth_username} (String): Username to send to server for HTTP Authentication.</li>
+   * <li>{@code http_auth_password} (String): Password to send to server for HTTP Authentication.</li>
+   * <li>{@code mdn_validation_level} (String): How should Files.com evaluate message transfer success based on a partner's MDN response?  This setting does not affect MDN storage; all MDNs received from a partner are always stored. `none`: MDN is stored for informational purposes only, a successful HTTPS transfer is a successful AS2 transfer. `weak`: Inspect the MDN for MIC and Disposition only. `normal`: `weak` plus validate MDN signature matches body, `strict`: `normal` but do not allow signatures from self-signed or incorrectly purposed certificates. `auto`: Automatically set the correct value for this setting based on next mdn received.</li>
+   * <li>{@code signature_validation_level} (String): Should Files.com require signatures on incoming AS2 messages?  `normal`: require that incoming messages are signed with a valid matching signature. `none`: Unsigned incoming messages are allowed. `auto`: A one-time starting state. The next message received is always accepted and switches this to `normal` if it carries a valid signature, or `none` if it does not.</li>
+   * <li>{@code server_certificate} (String): Should we require that the remote HTTP server have a valid SSL Certificate for HTTPS? (This only applies to Outgoing AS2 message from Files.com to a Partner.)</li>
+   * <li>{@code default_mime_type} (String): Default mime type of the file attached to the encrypted message</li>
+   * <li>{@code additional_http_headers} (Object): Additional HTTP Headers for outgoing message sent to this partner.</li>
+   * <li>{@code name} (String): The partner's formal AS2 name.</li>
+   * <li>{@code uri} (String): Public URI where we will send the AS2 messages (via HTTP/HTTPS).</li>
+   * <li>{@code public_certificate} (String): Public certificate for AS2 Partner.  Note: This is the certificate for AS2 message security, not a certificate used for HTTPS authentication.</li>
+   * <li>{@code pkcs12} (String): Base64-encoded PKCS#12 (.pfx or .p12) file containing the partner's public certificate. Provide this instead of public_certificate. Any private key in the file is discarded. A public-only file must contain exactly one certificate.</li>
+   * <li>{@code pkcs12_password} (String): Password for pkcs12. The file and password are used only for import; the extracted public certificate is stored as PEM.</li>
+   * </ul>
+   *
+   * @param id As2 Partner ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code As2Partner}
+   */
   public As2Partner update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -321,19 +417,39 @@ public final class As2PartnerOperations extends ResourceOperations {
   }
 
   /**
+   * Delete AS2 Partner
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete AS2 Partner
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete AS2 Partner
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete AS2 Partner
+   *
+   * @param id As2 Partner ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -354,10 +470,20 @@ public final class As2PartnerOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete AS2 Partner
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete AS2 Partner
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

@@ -35,6 +35,11 @@ public class SsoStrategy implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class SsoStrategy implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code SsoStrategy} with no attributes set.
+   */
   public SsoStrategy() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code SsoStrategy} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public SsoStrategy(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code SsoStrategy} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public SsoStrategy(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,6 +103,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("protocol")
   public String protocol;
 
+  /**
+   * Gets {@link #protocol}.
+   *
+   * @return the value of {@link #protocol}
+   */
   public String getProtocol() {
     return protocol;
   }
@@ -93,6 +118,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("provider")
   public String provider;
 
+  /**
+   * Gets {@link #provider}.
+   *
+   * @return the value of {@link #provider}
+   */
   public String getProvider() {
     return provider;
   }
@@ -103,6 +133,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("label")
   public String label;
 
+  /**
+   * Gets {@link #label}.
+   *
+   * @return the value of {@link #label}
+   */
   public String getLabel() {
     return label;
   }
@@ -113,6 +148,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("logo_url")
   public String logoUrl;
 
+  /**
+   * Gets {@link #logoUrl}.
+   *
+   * @return the value of {@link #logoUrl}
+   */
   public String getLogoUrl() {
     return logoUrl;
   }
@@ -123,6 +163,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -133,6 +178,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("enabled")
   public Boolean enabled;
 
+  /**
+   * Gets {@link #enabled}.
+   *
+   * @return the value of {@link #enabled}
+   */
   public Boolean getEnabled() {
     return enabled;
   }
@@ -143,6 +193,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("user_count")
   public Long userCount;
 
+  /**
+   * Gets {@link #userCount}.
+   *
+   * @return the value of {@link #userCount}
+   */
   public Long getUserCount() {
     return userCount;
   }
@@ -153,6 +208,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("saml_provider_cert_fingerprint")
   public String samlProviderCertFingerprint;
 
+  /**
+   * Gets {@link #samlProviderCertFingerprint}.
+   *
+   * @return the value of {@link #samlProviderCertFingerprint}
+   */
   public String getSamlProviderCertFingerprint() {
     return samlProviderCertFingerprint;
   }
@@ -163,6 +223,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("saml_provider_issuer_url")
   public String samlProviderIssuerUrl;
 
+  /**
+   * Gets {@link #samlProviderIssuerUrl}.
+   *
+   * @return the value of {@link #samlProviderIssuerUrl}
+   */
   public String getSamlProviderIssuerUrl() {
     return samlProviderIssuerUrl;
   }
@@ -173,6 +238,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("saml_provider_metadata_content")
   public String samlProviderMetadataContent;
 
+  /**
+   * Gets {@link #samlProviderMetadataContent}.
+   *
+   * @return the value of {@link #samlProviderMetadataContent}
+   */
   public String getSamlProviderMetadataContent() {
     return samlProviderMetadataContent;
   }
@@ -183,6 +253,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("saml_provider_metadata_url")
   public String samlProviderMetadataUrl;
 
+  /**
+   * Gets {@link #samlProviderMetadataUrl}.
+   *
+   * @return the value of {@link #samlProviderMetadataUrl}
+   */
   public String getSamlProviderMetadataUrl() {
     return samlProviderMetadataUrl;
   }
@@ -193,6 +268,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("saml_provider_slo_target_url")
   public String samlProviderSloTargetUrl;
 
+  /**
+   * Gets {@link #samlProviderSloTargetUrl}.
+   *
+   * @return the value of {@link #samlProviderSloTargetUrl}
+   */
   public String getSamlProviderSloTargetUrl() {
     return samlProviderSloTargetUrl;
   }
@@ -203,6 +283,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("saml_provider_sso_target_url")
   public String samlProviderSsoTargetUrl;
 
+  /**
+   * Gets {@link #samlProviderSsoTargetUrl}.
+   *
+   * @return the value of {@link #samlProviderSsoTargetUrl}
+   */
   public String getSamlProviderSsoTargetUrl() {
     return samlProviderSsoTargetUrl;
   }
@@ -213,6 +298,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("scim_authentication_method")
   public String scimAuthenticationMethod;
 
+  /**
+   * Gets {@link #scimAuthenticationMethod}.
+   *
+   * @return the value of {@link #scimAuthenticationMethod}
+   */
   public String getScimAuthenticationMethod() {
     return scimAuthenticationMethod;
   }
@@ -223,6 +313,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("scim_username")
   public String scimUsername;
 
+  /**
+   * Gets {@link #scimUsername}.
+   *
+   * @return the value of {@link #scimUsername}
+   */
   public String getScimUsername() {
     return scimUsername;
   }
@@ -233,6 +328,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("scim_oauth_access_token")
   public String scimOauthAccessToken;
 
+  /**
+   * Gets {@link #scimOauthAccessToken}.
+   *
+   * @return the value of {@link #scimOauthAccessToken}
+   */
   public String getScimOauthAccessToken() {
     return scimOauthAccessToken;
   }
@@ -243,6 +343,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("scim_oauth_access_token_expires_at")
   public String scimOauthAccessTokenExpiresAt;
 
+  /**
+   * Gets {@link #scimOauthAccessTokenExpiresAt}.
+   *
+   * @return the value of {@link #scimOauthAccessTokenExpiresAt}
+   */
   public String getScimOauthAccessTokenExpiresAt() {
     return scimOauthAccessTokenExpiresAt;
   }
@@ -253,6 +358,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("subdomain")
   public String subdomain;
 
+  /**
+   * Gets {@link #subdomain}.
+   *
+   * @return the value of {@link #subdomain}
+   */
   public String getSubdomain() {
     return subdomain;
   }
@@ -263,6 +373,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("provision_users")
   public Boolean provisionUsers;
 
+  /**
+   * Gets {@link #provisionUsers}.
+   *
+   * @return the value of {@link #provisionUsers}
+   */
   public Boolean getProvisionUsers() {
     return provisionUsers;
   }
@@ -273,6 +388,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("provision_groups")
   public Boolean provisionGroups;
 
+  /**
+   * Gets {@link #provisionGroups}.
+   *
+   * @return the value of {@link #provisionGroups}
+   */
   public Boolean getProvisionGroups() {
     return provisionGroups;
   }
@@ -283,6 +403,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("deprovision_users")
   public Boolean deprovisionUsers;
 
+  /**
+   * Gets {@link #deprovisionUsers}.
+   *
+   * @return the value of {@link #deprovisionUsers}
+   */
   public Boolean getDeprovisionUsers() {
     return deprovisionUsers;
   }
@@ -293,6 +418,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("deprovision_groups")
   public Boolean deprovisionGroups;
 
+  /**
+   * Gets {@link #deprovisionGroups}.
+   *
+   * @return the value of {@link #deprovisionGroups}
+   */
   public Boolean getDeprovisionGroups() {
     return deprovisionGroups;
   }
@@ -303,6 +433,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("deprovision_behavior")
   public String deprovisionBehavior;
 
+  /**
+   * Gets {@link #deprovisionBehavior}.
+   *
+   * @return the value of {@link #deprovisionBehavior}
+   */
   public String getDeprovisionBehavior() {
     return deprovisionBehavior;
   }
@@ -313,6 +448,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("provision_group_default")
   public String provisionGroupDefault;
 
+  /**
+   * Gets {@link #provisionGroupDefault}.
+   *
+   * @return the value of {@link #provisionGroupDefault}
+   */
   public String getProvisionGroupDefault() {
     return provisionGroupDefault;
   }
@@ -323,6 +463,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("provision_group_exclusion")
   public String provisionGroupExclusion;
 
+  /**
+   * Gets {@link #provisionGroupExclusion}.
+   *
+   * @return the value of {@link #provisionGroupExclusion}
+   */
   public String getProvisionGroupExclusion() {
     return provisionGroupExclusion;
   }
@@ -333,6 +478,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("provision_group_inclusion")
   public String provisionGroupInclusion;
 
+  /**
+   * Gets {@link #provisionGroupInclusion}.
+   *
+   * @return the value of {@link #provisionGroupInclusion}
+   */
   public String getProvisionGroupInclusion() {
     return provisionGroupInclusion;
   }
@@ -343,6 +493,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("provision_group_required")
   public String provisionGroupRequired;
 
+  /**
+   * Gets {@link #provisionGroupRequired}.
+   *
+   * @return the value of {@link #provisionGroupRequired}
+   */
   public String getProvisionGroupRequired() {
     return provisionGroupRequired;
   }
@@ -353,6 +508,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("provision_email_signup_groups")
   public String provisionEmailSignupGroups;
 
+  /**
+   * Gets {@link #provisionEmailSignupGroups}.
+   *
+   * @return the value of {@link #provisionEmailSignupGroups}
+   */
   public String getProvisionEmailSignupGroups() {
     return provisionEmailSignupGroups;
   }
@@ -363,6 +523,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("provision_readonly_site_admin_groups")
   public String provisionReadonlySiteAdminGroups;
 
+  /**
+   * Gets {@link #provisionReadonlySiteAdminGroups}.
+   *
+   * @return the value of {@link #provisionReadonlySiteAdminGroups}
+   */
   public String getProvisionReadonlySiteAdminGroups() {
     return provisionReadonlySiteAdminGroups;
   }
@@ -373,6 +538,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("provision_site_admin_groups")
   public String provisionSiteAdminGroups;
 
+  /**
+   * Gets {@link #provisionSiteAdminGroups}.
+   *
+   * @return the value of {@link #provisionSiteAdminGroups}
+   */
   public String getProvisionSiteAdminGroups() {
     return provisionSiteAdminGroups;
   }
@@ -383,15 +553,26 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("provision_group_admin_groups")
   public String provisionGroupAdminGroups;
 
+  /**
+   * Gets {@link #provisionGroupAdminGroups}.
+   *
+   * @return the value of {@link #provisionGroupAdminGroups}
+   */
   public String getProvisionGroupAdminGroups() {
     return provisionGroupAdminGroups;
   }
 
   /**
+   * Deprecated default for the attachments_permission value on auto-provisioned users.
    */
   @JsonProperty("provision_attachments_permission")
   public Boolean provisionAttachmentsPermission;
 
+  /**
+   * Gets {@link #provisionAttachmentsPermission}.
+   *
+   * @return the value of {@link #provisionAttachmentsPermission}
+   */
   public Boolean getProvisionAttachmentsPermission() {
     return provisionAttachmentsPermission;
   }
@@ -402,6 +583,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("provision_dav_permission")
   public Boolean provisionDavPermission;
 
+  /**
+   * Gets {@link #provisionDavPermission}.
+   *
+   * @return the value of {@link #provisionDavPermission}
+   */
   public Boolean getProvisionDavPermission() {
     return provisionDavPermission;
   }
@@ -412,6 +598,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("provision_ftp_permission")
   public Boolean provisionFtpPermission;
 
+  /**
+   * Gets {@link #provisionFtpPermission}.
+   *
+   * @return the value of {@link #provisionFtpPermission}
+   */
   public Boolean getProvisionFtpPermission() {
     return provisionFtpPermission;
   }
@@ -422,6 +613,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("provision_sftp_permission")
   public Boolean provisionSftpPermission;
 
+  /**
+   * Gets {@link #provisionSftpPermission}.
+   *
+   * @return the value of {@link #provisionSftpPermission}
+   */
   public Boolean getProvisionSftpPermission() {
     return provisionSftpPermission;
   }
@@ -432,6 +628,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("provision_time_zone")
   public String provisionTimeZone;
 
+  /**
+   * Gets {@link #provisionTimeZone}.
+   *
+   * @return the value of {@link #provisionTimeZone}
+   */
   public String getProvisionTimeZone() {
     return provisionTimeZone;
   }
@@ -442,6 +643,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("provision_company")
   public String provisionCompany;
 
+  /**
+   * Gets {@link #provisionCompany}.
+   *
+   * @return the value of {@link #provisionCompany}
+   */
   public String getProvisionCompany() {
     return provisionCompany;
   }
@@ -452,6 +658,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("provision_require_2fa")
   public String provisionRequire2fa;
 
+  /**
+   * Gets {@link #provisionRequire2fa}.
+   *
+   * @return the value of {@link #provisionRequire2fa}
+   */
   public String getProvisionRequire2fa() {
     return provisionRequire2fa;
   }
@@ -462,6 +673,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("provision_filesystem_layout")
   public String provisionFilesystemLayout;
 
+  /**
+   * Gets {@link #provisionFilesystemLayout}.
+   *
+   * @return the value of {@link #provisionFilesystemLayout}
+   */
   public String getProvisionFilesystemLayout() {
     return provisionFilesystemLayout;
   }
@@ -472,6 +688,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("provider_identifier")
   public String providerIdentifier;
 
+  /**
+   * Gets {@link #providerIdentifier}.
+   *
+   * @return the value of {@link #providerIdentifier}
+   */
   public String getProviderIdentifier() {
     return providerIdentifier;
   }
@@ -482,6 +703,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("ldap_base_dn")
   public String ldapBaseDn;
 
+  /**
+   * Gets {@link #ldapBaseDn}.
+   *
+   * @return the value of {@link #ldapBaseDn}
+   */
   public String getLdapBaseDn() {
     return ldapBaseDn;
   }
@@ -492,6 +718,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("ldap_domain")
   public String ldapDomain;
 
+  /**
+   * Gets {@link #ldapDomain}.
+   *
+   * @return the value of {@link #ldapDomain}
+   */
   public String getLdapDomain() {
     return ldapDomain;
   }
@@ -502,6 +733,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("display_on_login_page")
   public Boolean displayOnLoginPage;
 
+  /**
+   * Gets {@link #displayOnLoginPage}.
+   *
+   * @return the value of {@link #displayOnLoginPage}
+   */
   public Boolean getDisplayOnLoginPage() {
     return displayOnLoginPage;
   }
@@ -512,6 +748,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("ldap_host")
   public String ldapHost;
 
+  /**
+   * Gets {@link #ldapHost}.
+   *
+   * @return the value of {@link #ldapHost}
+   */
   public String getLdapHost() {
     return ldapHost;
   }
@@ -522,6 +763,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("ldap_host_2")
   public String ldapHost2;
 
+  /**
+   * Gets {@link #ldapHost2}.
+   *
+   * @return the value of {@link #ldapHost2}
+   */
   public String getLdapHost2() {
     return ldapHost2;
   }
@@ -532,6 +778,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("ldap_host_3")
   public String ldapHost3;
 
+  /**
+   * Gets {@link #ldapHost3}.
+   *
+   * @return the value of {@link #ldapHost3}
+   */
   public String getLdapHost3() {
     return ldapHost3;
   }
@@ -542,6 +793,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("ldap_port")
   public Long ldapPort;
 
+  /**
+   * Gets {@link #ldapPort}.
+   *
+   * @return the value of {@link #ldapPort}
+   */
   public Long getLdapPort() {
     return ldapPort;
   }
@@ -552,6 +808,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("ldap_provisioning_enabled")
   public Boolean ldapProvisioningEnabled;
 
+  /**
+   * Gets {@link #ldapProvisioningEnabled}.
+   *
+   * @return the value of {@link #ldapProvisioningEnabled}
+   */
   public Boolean getLdapProvisioningEnabled() {
     return ldapProvisioningEnabled;
   }
@@ -562,6 +823,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("ldap_secure")
   public Boolean ldapSecure;
 
+  /**
+   * Gets {@link #ldapSecure}.
+   *
+   * @return the value of {@link #ldapSecure}
+   */
   public Boolean getLdapSecure() {
     return ldapSecure;
   }
@@ -572,6 +838,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("ldap_server_certificate")
   public String ldapServerCertificate;
 
+  /**
+   * Gets {@link #ldapServerCertificate}.
+   *
+   * @return the value of {@link #ldapServerCertificate}
+   */
   public String getLdapServerCertificate() {
     return ldapServerCertificate;
   }
@@ -582,6 +853,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("ldap_type")
   public String ldapType;
 
+  /**
+   * Gets {@link #ldapType}.
+   *
+   * @return the value of {@link #ldapType}
+   */
   public String getLdapType() {
     return ldapType;
   }
@@ -592,6 +868,11 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("ldap_username")
   public String ldapUsername;
 
+  /**
+   * Gets {@link #ldapUsername}.
+   *
+   * @return the value of {@link #ldapUsername}
+   */
   public String getLdapUsername() {
     return ldapUsername;
   }
@@ -602,12 +883,19 @@ public class SsoStrategy implements ModelInterface {
   @JsonProperty("ldap_username_field")
   public String ldapUsernameField;
 
+  /**
+   * Gets {@link #ldapUsernameField}.
+   *
+   * @return the value of {@link #ldapUsernameField}
+   */
   public String getLdapUsernameField() {
     return ldapUsernameField;
   }
 
   /**
    * Synchronize provisioning data with the SSO remote server
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void sync(HashMap<String, Object> parameters) throws IOException {
     filesClient().ssoStrategies().sync(this.id, parameters, this.options);
@@ -615,75 +903,150 @@ public class SsoStrategy implements ModelInterface {
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
+   * List SSO Strategies
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<SsoStrategy> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List SSO Strategies
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<SsoStrategy> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List SSO Strategies
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code SsoStrategy} records, in a {@code ListIterator}
+   */
   public static ListIterator<SsoStrategy> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().ssoStrategies().list(parameters, options);
   }
 
+  /**
+   * List SSO Strategies
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<SsoStrategy> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List SSO Strategies
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<SsoStrategy> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Sso Strategy ID.
+   * Show SSO Strategy
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static SsoStrategy find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show SSO Strategy
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static SsoStrategy find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show SSO Strategy
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static SsoStrategy find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show SSO Strategy
+   *
+   * @param id Sso Strategy ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code SsoStrategy}
+   */
   public static SsoStrategy find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().ssoStrategies().find(id, parameters, options);
   }
 
+  /**
+   * Show SSO Strategy
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static SsoStrategy get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show SSO Strategy
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static SsoStrategy get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
    * Synchronize provisioning data with the SSO remote server
+   *
+   * @see #sync(Long, HashMap, HashMap)
    */
   public static void sync() throws RuntimeException {
     sync(null, null, null);
   }
 
+  /**
+   * Synchronize provisioning data with the SSO remote server
+   *
+   * @see #sync(Long, HashMap, HashMap)
+   */
   public static void sync(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     sync(id, parameters, null);
   }
 
+  /**
+   * Synchronize provisioning data with the SSO remote server
+   *
+   * @see #sync(Long, HashMap, HashMap)
+   */
   public static void sync(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     sync(null, parameters, options);
   }
 
+  /**
+   * Synchronize provisioning data with the SSO remote server
+   *
+   * @param id Sso Strategy ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void sync(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().ssoStrategies().sync(id, parameters, options);
   }

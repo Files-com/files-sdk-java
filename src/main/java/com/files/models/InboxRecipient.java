@@ -37,6 +37,11 @@ public class InboxRecipient implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -60,14 +65,29 @@ public class InboxRecipient implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code InboxRecipient} with no attributes set.
+   */
   public InboxRecipient() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code InboxRecipient} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public InboxRecipient(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code InboxRecipient} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public InboxRecipient(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -85,10 +105,20 @@ public class InboxRecipient implements ModelInterface {
   @JsonProperty("company")
   public String company;
 
+  /**
+   * Gets {@link #company}.
+   *
+   * @return the value of {@link #company}
+   */
   public String getCompany() {
     return company;
   }
 
+  /**
+   * Sets {@link #company}.
+   *
+   * @param company the new value
+   */
   public void setCompany(String company) {
     this.company = company;
   }
@@ -99,10 +129,20 @@ public class InboxRecipient implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -113,10 +153,20 @@ public class InboxRecipient implements ModelInterface {
   @JsonProperty("note")
   public String note;
 
+  /**
+   * Gets {@link #note}.
+   *
+   * @return the value of {@link #note}
+   */
   public String getNote() {
     return note;
   }
 
+  /**
+   * Sets {@link #note}.
+   *
+   * @param note the new value
+   */
   public void setNote(String note) {
     this.note = note;
   }
@@ -127,10 +177,20 @@ public class InboxRecipient implements ModelInterface {
   @JsonProperty("recipient")
   public String recipient;
 
+  /**
+   * Gets {@link #recipient}.
+   *
+   * @return the value of {@link #recipient}
+   */
   public String getRecipient() {
     return recipient;
   }
 
+  /**
+   * Sets {@link #recipient}.
+   *
+   * @param recipient the new value
+   */
   public void setRecipient(String recipient) {
     this.recipient = recipient;
   }
@@ -141,10 +201,20 @@ public class InboxRecipient implements ModelInterface {
   @JsonProperty("sent_at")
   public Date sentAt;
 
+  /**
+   * Gets {@link #sentAt}.
+   *
+   * @return the value of {@link #sentAt}
+   */
   public Date getSentAt() {
     return sentAt;
   }
 
+  /**
+   * Sets {@link #sentAt}.
+   *
+   * @param sentAt the new value
+   */
   public void setSentAt(Date sentAt) {
     this.sentAt = sentAt;
   }
@@ -155,10 +225,20 @@ public class InboxRecipient implements ModelInterface {
   @JsonProperty("inbox_id")
   public Long inboxId;
 
+  /**
+   * Gets {@link #inboxId}.
+   *
+   * @return the value of {@link #inboxId}
+   */
   public Long getInboxId() {
     return inboxId;
   }
 
+  /**
+   * Sets {@link #inboxId}.
+   *
+   * @param inboxId the new value
+   */
   public void setInboxId(Long inboxId) {
     this.inboxId = inboxId;
   }
@@ -169,10 +249,20 @@ public class InboxRecipient implements ModelInterface {
   @JsonProperty("share_after_create")
   public Boolean shareAfterCreate;
 
+  /**
+   * Gets {@link #shareAfterCreate}.
+   *
+   * @return the value of {@link #shareAfterCreate}
+   */
   public Boolean getShareAfterCreate() {
     return shareAfterCreate;
   }
 
+  /**
+   * Sets {@link #shareAfterCreate}.
+   *
+   * @param shareAfterCreate the new value
+   */
   public void setShareAfterCreate(Boolean shareAfterCreate) {
     this.shareAfterCreate = shareAfterCreate;
   }
@@ -207,52 +297,96 @@ public class InboxRecipient implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `has_registrations`.
-   *   inbox_id (required) - int64 - List recipients for the inbox with this ID.
+   * List Inbox Recipients
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<InboxRecipient> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Inbox Recipients
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<InboxRecipient> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Inbox Recipients
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `has_registrations`.</li>
+   * <li>{@code inbox_id} (Long): Required. List recipients for the inbox with this ID.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code InboxRecipient} records, in a {@code ListIterator}
+   */
   public static ListIterator<InboxRecipient> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().inboxRecipients().list(parameters, options);
   }
 
+  /**
+   * List Inbox Recipients
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<InboxRecipient> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Inbox Recipients
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<InboxRecipient> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   inbox_id (required) - int64 - Inbox to share.
-   *   recipient (required) - string - Email address to share this inbox with.
-   *   name - string - Name of recipient.
-   *   company - string - Company of recipient.
-   *   note - string - Note to include in email.
-   *   share_after_create - boolean - Set to true to share the link with the recipient upon creation.
+   * Create Inbox Recipient
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static InboxRecipient create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Inbox Recipient
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static InboxRecipient create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Inbox Recipient
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code inbox_id} (Long): Required. Inbox to share.</li>
+   * <li>{@code recipient} (String): Required. Email address to share this inbox with.</li>
+   * <li>{@code name} (String): Name of recipient.</li>
+   * <li>{@code company} (String): Company of recipient.</li>
+   * <li>{@code note} (String): Note to include in email.</li>
+   * <li>{@code share_after_create} (Boolean): Set to true to share the link with the recipient upon creation.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code InboxRecipient}
+   */
   public static InboxRecipient create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().inboxRecipients().create(parameters, options);
   }

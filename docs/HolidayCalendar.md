@@ -63,12 +63,9 @@
 
 ## List Holiday Calendars
 
-```
-ListIterator<HolidayCalendar> holidayCalendar = HolidayCalendar.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<HolidayCalendar> holidayCalendars = HolidayCalendar.list(parameters, null);
 ```
 
 ### Parameters
@@ -82,12 +79,9 @@ ListIterator<HolidayCalendar> holidayCalendar = HolidayCalendar.list(
 
 ## Show Holiday Calendar
 
-```
-HolidayCalendar holidayCalendar = HolidayCalendar.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+HolidayCalendar holidayCalendar = HolidayCalendar.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -99,12 +93,42 @@ HolidayCalendar holidayCalendar = HolidayCalendar.find(
 
 ## Create Holiday Calendar
 
-```
-HolidayCalendar holidayCalendar = HolidayCalendar.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+HashMap<String, Object> map1 = new HashMap<>();
+HashMap<String, Object> map2 = new HashMap<>();
+HashMap<String, Object> map3 = new HashMap<>();
+map3.put("name", "Good Friday");
+map3.put("function", "easter(year)");
+map3.put("function_modifier", -2);
+map2.put("0", new Object[] {map3});
+HashMap<String, Object> map4 = new HashMap<>();
+map4.put("name", "New Year's Day");
+map4.put("mday", 1);
+map4.put("observed", "to_weekday_if_weekend(date)");
+HashMap<String, Object> map5 = new HashMap<>();
+map5.put("name", "Third Monday");
+map5.put("week", 3);
+map5.put("wday", 1);
+map2.put("1", new Object[] {map4, map5});
+HashMap<String, Object> map6 = new HashMap<>();
+map6.put("name", "Thanksgiving");
+map6.put("week", 4);
+map6.put("wday", 4);
+map2.put("11", new Object[] {map6});
+HashMap<String, Object> map7 = new HashMap<>();
+map7.put("name", "Christmas Eve Early Close");
+map7.put("mday", 24);
+map7.put("start_time", "13:00");
+map7.put("end_time", "17:00");
+HashMap<String, Object> map8 = new HashMap<>();
+map8.put("from", 2026);
+map7.put("year_ranges", map8);
+map2.put("12", new Object[] {map7});
+map1.put("months", map2);
+parameters.put("definition", map1);
+parameters.put("name", "Company Holidays");
+HolidayCalendar holidayCalendar = HolidayCalendar.create(parameters, null);
 ```
 
 ### Parameters
@@ -117,12 +141,42 @@ HolidayCalendar holidayCalendar = HolidayCalendar.create(
 
 ## Update Holiday Calendar
 
-```
-HolidayCalendar holidayCalendar = HolidayCalendar.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+HashMap<String, Object> map1 = new HashMap<>();
+HashMap<String, Object> map2 = new HashMap<>();
+HashMap<String, Object> map3 = new HashMap<>();
+map3.put("name", "Good Friday");
+map3.put("function", "easter(year)");
+map3.put("function_modifier", -2);
+map2.put("0", new Object[] {map3});
+HashMap<String, Object> map4 = new HashMap<>();
+map4.put("name", "New Year's Day");
+map4.put("mday", 1);
+map4.put("observed", "to_weekday_if_weekend(date)");
+HashMap<String, Object> map5 = new HashMap<>();
+map5.put("name", "Third Monday");
+map5.put("week", 3);
+map5.put("wday", 1);
+map2.put("1", new Object[] {map4, map5});
+HashMap<String, Object> map6 = new HashMap<>();
+map6.put("name", "Thanksgiving");
+map6.put("week", 4);
+map6.put("wday", 4);
+map2.put("11", new Object[] {map6});
+HashMap<String, Object> map7 = new HashMap<>();
+map7.put("name", "Christmas Eve Early Close");
+map7.put("mday", 24);
+map7.put("start_time", "13:00");
+map7.put("end_time", "17:00");
+HashMap<String, Object> map8 = new HashMap<>();
+map8.put("from", 2026);
+map7.put("year_ranges", map8);
+map2.put("12", new Object[] {map7});
+map1.put("months", map2);
+parameters.put("definition", map1);
+parameters.put("name", "Company Holidays");
+HolidayCalendar holidayCalendar = HolidayCalendar.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -136,12 +190,9 @@ HolidayCalendar holidayCalendar = HolidayCalendar.update(
 
 ## Delete Holiday Calendar
 
-```
-void holidayCalendar = HolidayCalendar.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+HolidayCalendar.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -153,14 +204,43 @@ void holidayCalendar = HolidayCalendar.delete(
 
 ## Update Holiday Calendar
 
-```
-HolidayCalendar holidayCalendar = HolidayCalendar.find(id);
-
+```java
+HolidayCalendar holidayCalendar = HolidayCalendar.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("definition", {"months":{"0":[{"name":"Good Friday","function":"easter(year)","function_modifier":-2}],"1":[{"name":"New Year's Day","mday":1,"observed":"to_weekday_if_weekend(date)"},{"name":"Third Monday","week":3,"wday":1}],"11":[{"name":"Thanksgiving","week":4,"wday":4}],"12":[{"name":"Christmas Eve Early Close","mday":24,"start_time":"13:00","end_time":"17:00","year_ranges":{"from":2026}}]}});
+HashMap<String, Object> map1 = new HashMap<>();
+HashMap<String, Object> map2 = new HashMap<>();
+HashMap<String, Object> map3 = new HashMap<>();
+map3.put("name", "Good Friday");
+map3.put("function", "easter(year)");
+map3.put("function_modifier", -2);
+map2.put("0", new Object[] {map3});
+HashMap<String, Object> map4 = new HashMap<>();
+map4.put("name", "New Year's Day");
+map4.put("mday", 1);
+map4.put("observed", "to_weekday_if_weekend(date)");
+HashMap<String, Object> map5 = new HashMap<>();
+map5.put("name", "Third Monday");
+map5.put("week", 3);
+map5.put("wday", 1);
+map2.put("1", new Object[] {map4, map5});
+HashMap<String, Object> map6 = new HashMap<>();
+map6.put("name", "Thanksgiving");
+map6.put("week", 4);
+map6.put("wday", 4);
+map2.put("11", new Object[] {map6});
+HashMap<String, Object> map7 = new HashMap<>();
+map7.put("name", "Christmas Eve Early Close");
+map7.put("mday", 24);
+map7.put("start_time", "13:00");
+map7.put("end_time", "17:00");
+HashMap<String, Object> map8 = new HashMap<>();
+map8.put("from", 2026);
+map7.put("year_ranges", map8);
+map2.put("12", new Object[] {map7});
+map1.put("months", map2);
+parameters.put("definition", map1);
 parameters.put("name", "Company Holidays");
-
-holidayCalendar.update(parameters);
+HolidayCalendar result = holidayCalendar.update(parameters);
 ```
 
 ### Parameters
@@ -174,11 +254,9 @@ holidayCalendar.update(parameters);
 
 ## Delete Holiday Calendar
 
-```
-HolidayCalendar holidayCalendar = HolidayCalendar.find(id);
-
+```java
+HolidayCalendar holidayCalendar = HolidayCalendar.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 holidayCalendar.delete(parameters);
 ```
 

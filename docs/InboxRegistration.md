@@ -39,12 +39,10 @@
 
 ## List Inbox Registrations
 
-```
-ListIterator<InboxRegistration> inboxRegistration = InboxRegistration.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("folder_behavior_id", 1L);
+ListIterator<InboxRegistration> inboxRegistrations = InboxRegistration.list(parameters, null);
 ```
 
 ### Parameters

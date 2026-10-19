@@ -34,6 +34,11 @@ public class HistoryExportResult implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -57,14 +62,29 @@ public class HistoryExportResult implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code HistoryExportResult} with no attributes set.
+   */
   public HistoryExportResult() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code HistoryExportResult} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public HistoryExportResult(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code HistoryExportResult} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public HistoryExportResult(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -82,6 +102,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -92,6 +117,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("created_at")
   public Long createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Long getCreatedAt() {
     return createdAt;
   }
@@ -102,6 +132,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("created_at_iso8601")
   public String createdAtIso8601;
 
+  /**
+   * Gets {@link #createdAtIso8601}.
+   *
+   * @return the value of {@link #createdAtIso8601}
+   */
   public String getCreatedAtIso8601() {
     return createdAtIso8601;
   }
@@ -112,6 +147,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("user_id")
   public Long userId;
 
+  /**
+   * Gets {@link #userId}.
+   *
+   * @return the value of {@link #userId}
+   */
   public Long getUserId() {
     return userId;
   }
@@ -122,6 +162,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("file_id")
   public Long fileId;
 
+  /**
+   * Gets {@link #fileId}.
+   *
+   * @return the value of {@link #fileId}
+   */
   public Long getFileId() {
     return fileId;
   }
@@ -132,6 +177,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("parent_id")
   public Long parentId;
 
+  /**
+   * Gets {@link #parentId}.
+   *
+   * @return the value of {@link #parentId}
+   */
   public Long getParentId() {
     return parentId;
   }
@@ -142,6 +192,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("path")
   public String path;
 
+  /**
+   * Gets {@link #path}.
+   *
+   * @return the value of {@link #path}
+   */
   public String getPath() {
     return path;
   }
@@ -152,6 +207,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("folder")
   public String folder;
 
+  /**
+   * Gets {@link #folder}.
+   *
+   * @return the value of {@link #folder}
+   */
   public String getFolder() {
     return folder;
   }
@@ -162,6 +222,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("src")
   public String src;
 
+  /**
+   * Gets {@link #src}.
+   *
+   * @return the value of {@link #src}
+   */
   public String getSrc() {
     return src;
   }
@@ -172,6 +237,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("destination")
   public String destination;
 
+  /**
+   * Gets {@link #destination}.
+   *
+   * @return the value of {@link #destination}
+   */
   public String getDestination() {
     return destination;
   }
@@ -182,6 +252,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("ip")
   public String ip;
 
+  /**
+   * Gets {@link #ip}.
+   *
+   * @return the value of {@link #ip}
+   */
   public String getIp() {
     return ip;
   }
@@ -192,6 +267,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("username")
   public String username;
 
+  /**
+   * Gets {@link #username}.
+   *
+   * @return the value of {@link #username}
+   */
   public String getUsername() {
     return username;
   }
@@ -202,6 +282,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("user_is_from_parent_site")
   public Boolean userIsFromParentSite;
 
+  /**
+   * Gets {@link #userIsFromParentSite}.
+   *
+   * @return the value of {@link #userIsFromParentSite}
+   */
   public Boolean getUserIsFromParentSite() {
     return userIsFromParentSite;
   }
@@ -212,6 +297,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("action")
   public String action;
 
+  /**
+   * Gets {@link #action}.
+   *
+   * @return the value of {@link #action}
+   */
   public String getAction() {
     return action;
   }
@@ -222,6 +312,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("failure_type")
   public String failureType;
 
+  /**
+   * Gets {@link #failureType}.
+   *
+   * @return the value of {@link #failureType}
+   */
   public String getFailureType() {
     return failureType;
   }
@@ -232,6 +327,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("interface")
   public String interfaceName;
 
+  /**
+   * Gets {@link #interfaceName}.
+   *
+   * @return the value of {@link #interfaceName}
+   */
   public String getInterfaceName() {
     return interfaceName;
   }
@@ -242,6 +342,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("target_id")
   public Long targetId;
 
+  /**
+   * Gets {@link #targetId}.
+   *
+   * @return the value of {@link #targetId}
+   */
   public Long getTargetId() {
     return targetId;
   }
@@ -252,6 +357,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("target_name")
   public String targetName;
 
+  /**
+   * Gets {@link #targetName}.
+   *
+   * @return the value of {@link #targetName}
+   */
   public String getTargetName() {
     return targetName;
   }
@@ -262,6 +372,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("target_permission")
   public String targetPermission;
 
+  /**
+   * Gets {@link #targetPermission}.
+   *
+   * @return the value of {@link #targetPermission}
+   */
   public String getTargetPermission() {
     return targetPermission;
   }
@@ -272,6 +387,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("target_recursive")
   public Boolean targetRecursive;
 
+  /**
+   * Gets {@link #targetRecursive}.
+   *
+   * @return the value of {@link #targetRecursive}
+   */
   public Boolean getTargetRecursive() {
     return targetRecursive;
   }
@@ -282,6 +402,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("target_expires_at")
   public Long targetExpiresAt;
 
+  /**
+   * Gets {@link #targetExpiresAt}.
+   *
+   * @return the value of {@link #targetExpiresAt}
+   */
   public Long getTargetExpiresAt() {
     return targetExpiresAt;
   }
@@ -292,6 +417,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("target_expires_at_iso8601")
   public String targetExpiresAtIso8601;
 
+  /**
+   * Gets {@link #targetExpiresAtIso8601}.
+   *
+   * @return the value of {@link #targetExpiresAtIso8601}
+   */
   public String getTargetExpiresAtIso8601() {
     return targetExpiresAtIso8601;
   }
@@ -302,6 +432,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("target_permission_set")
   public String targetPermissionSet;
 
+  /**
+   * Gets {@link #targetPermissionSet}.
+   *
+   * @return the value of {@link #targetPermissionSet}
+   */
   public String getTargetPermissionSet() {
     return targetPermissionSet;
   }
@@ -312,6 +447,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("target_platform")
   public String targetPlatform;
 
+  /**
+   * Gets {@link #targetPlatform}.
+   *
+   * @return the value of {@link #targetPlatform}
+   */
   public String getTargetPlatform() {
     return targetPlatform;
   }
@@ -322,6 +462,11 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("target_username")
   public String targetUsername;
 
+  /**
+   * Gets {@link #targetUsername}.
+   *
+   * @return the value of {@link #targetUsername}
+   */
   public String getTargetUsername() {
     return targetUsername;
   }
@@ -332,35 +477,67 @@ public class HistoryExportResult implements ModelInterface {
   @JsonProperty("target_user_id")
   public Long targetUserId;
 
+  /**
+   * Gets {@link #targetUserId}.
+   *
+   * @return the value of {@link #targetUserId}
+   */
   public Long getTargetUserId() {
     return targetUserId;
   }
 
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   history_export_id (required) - int64 - ID of the associated history export.
+   * List History Export Results
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<HistoryExportResult> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List History Export Results
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<HistoryExportResult> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List History Export Results
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code history_export_id} (Long): Required. ID of the associated history export.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code HistoryExportResult} records, in a {@code ListIterator}
+   */
   public static ListIterator<HistoryExportResult> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().historyExportResults().list(parameters, options);
   }
 
+  /**
+   * List History Export Results
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<HistoryExportResult> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List History Export Results
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<HistoryExportResult> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }

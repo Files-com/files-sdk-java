@@ -68,12 +68,9 @@
 
 ## List Scheduled Exports
 
-```
-ListIterator<ScheduledExport> scheduledExport = ScheduledExport.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<ScheduledExport> scheduledExports = ScheduledExport.list(parameters, null);
 ```
 
 ### Parameters
@@ -89,12 +86,9 @@ ListIterator<ScheduledExport> scheduledExport = ScheduledExport.list(
 
 ## Show Scheduled Export
 
-```
-ScheduledExport scheduledExport = ScheduledExport.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ScheduledExport scheduledExport = ScheduledExport.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -106,12 +100,25 @@ ScheduledExport scheduledExport = ScheduledExport.find(
 
 ## Create Scheduled Export
 
-```
-ScheduledExport scheduledExport = ScheduledExport.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "Monthly access review");
+parameters.put("export_type", "permission_audit");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("group_by", "user");
+parameters.put("export_options", map1);
+parameters.put("user_id", 1L);
+parameters.put("disabled", true);
+parameters.put("trigger", "daily");
+parameters.put("interval", "month");
+parameters.put("recurring_day", 1L);
+parameters.put("recurring_days", new Long[] {1L, 15L});
+parameters.put("schedule_id", 1L);
+parameters.put("schedule_days_of_week", new Long[] {1L, 3L, 5L});
+parameters.put("schedule_times_of_day", new String[] {"06:30"});
+parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
+parameters.put("holiday_region", "us");
+ScheduledExport scheduledExport = ScheduledExport.create(parameters, null);
 ```
 
 ### Parameters
@@ -136,12 +143,25 @@ ScheduledExport scheduledExport = ScheduledExport.create(
 
 ## Update Scheduled Export
 
-```
-ScheduledExport scheduledExport = ScheduledExport.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "Monthly access review");
+parameters.put("export_type", "permission_audit");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("group_by", "user");
+parameters.put("export_options", map1);
+parameters.put("user_id", 1L);
+parameters.put("disabled", true);
+parameters.put("trigger", "daily");
+parameters.put("interval", "month");
+parameters.put("recurring_day", 1L);
+parameters.put("recurring_days", new Long[] {1L, 15L});
+parameters.put("schedule_id", 1L);
+parameters.put("schedule_days_of_week", new Long[] {1L, 3L, 5L});
+parameters.put("schedule_times_of_day", new String[] {"06:30"});
+parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
+parameters.put("holiday_region", "us");
+ScheduledExport scheduledExport = ScheduledExport.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -167,12 +187,9 @@ ScheduledExport scheduledExport = ScheduledExport.update(
 
 ## Delete Scheduled Export
 
-```
-void scheduledExport = ScheduledExport.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ScheduledExport.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -184,26 +201,26 @@ void scheduledExport = ScheduledExport.delete(
 
 ## Update Scheduled Export
 
-```
-ScheduledExport scheduledExport = ScheduledExport.find(id);
-
+```java
+ScheduledExport scheduledExport = ScheduledExport.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "Monthly access review");
 parameters.put("export_type", "permission_audit");
-parameters.put("export_options", {"group_by":"user"});
-parameters.put("user_id", 1);
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("group_by", "user");
+parameters.put("export_options", map1);
+parameters.put("user_id", 1L);
 parameters.put("disabled", true);
 parameters.put("trigger", "daily");
 parameters.put("interval", "month");
-parameters.put("recurring_day", 1);
-parameters.put("recurring_days", [1,15]);
-parameters.put("schedule_id", 1);
-parameters.put("schedule_days_of_week", [1,3,5]);
-parameters.put("schedule_times_of_day", ["06:30"]);
+parameters.put("recurring_day", 1L);
+parameters.put("recurring_days", new Long[] {1L, 15L});
+parameters.put("schedule_id", 1L);
+parameters.put("schedule_days_of_week", new Long[] {1L, 3L, 5L});
+parameters.put("schedule_times_of_day", new String[] {"06:30"});
 parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
 parameters.put("holiday_region", "us");
-
-scheduledExport.update(parameters);
+ScheduledExport result = scheduledExport.update(parameters);
 ```
 
 ### Parameters
@@ -229,11 +246,9 @@ scheduledExport.update(parameters);
 
 ## Delete Scheduled Export
 
-```
-ScheduledExport scheduledExport = ScheduledExport.find(id);
-
+```java
+ScheduledExport scheduledExport = ScheduledExport.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 scheduledExport.delete(parameters);
 ```
 

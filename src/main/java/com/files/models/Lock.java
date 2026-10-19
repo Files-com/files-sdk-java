@@ -36,6 +36,11 @@ public class Lock implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -59,14 +64,29 @@ public class Lock implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code Lock} with no attributes set.
+   */
   public Lock() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code Lock} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public Lock(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code Lock} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public Lock(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -84,10 +104,20 @@ public class Lock implements ModelInterface {
   @JsonProperty("path")
   public String path;
 
+  /**
+   * Gets {@link #path}.
+   *
+   * @return the value of {@link #path}
+   */
   public String getPath() {
     return path;
   }
 
+  /**
+   * Sets {@link #path}.
+   *
+   * @param path the new value
+   */
   public void setPath(String path) {
     this.path = path;
   }
@@ -98,23 +128,44 @@ public class Lock implements ModelInterface {
   @JsonProperty("timeout")
   public Long timeout;
 
+  /**
+   * Gets {@link #timeout}.
+   *
+   * @return the value of {@link #timeout}
+   */
   public Long getTimeout() {
     return timeout;
   }
 
+  /**
+   * Sets {@link #timeout}.
+   *
+   * @param timeout the new value
+   */
   public void setTimeout(Long timeout) {
     this.timeout = timeout;
   }
 
   /**
+   * Deprecated WebDAV lock-depth field. Use recursive to determine whether the lock applies to subfolders.
    */
   @JsonProperty("depth")
   public String depth;
 
+  /**
+   * Gets {@link #depth}.
+   *
+   * @return the value of {@link #depth}
+   */
   public String getDepth() {
     return depth;
   }
 
+  /**
+   * Sets {@link #depth}.
+   *
+   * @param depth the new value
+   */
   public void setDepth(String depth) {
     this.depth = depth;
   }
@@ -125,10 +176,20 @@ public class Lock implements ModelInterface {
   @JsonProperty("recursive")
   public Boolean recursive;
 
+  /**
+   * Gets {@link #recursive}.
+   *
+   * @return the value of {@link #recursive}
+   */
   public Boolean getRecursive() {
     return recursive;
   }
 
+  /**
+   * Sets {@link #recursive}.
+   *
+   * @param recursive the new value
+   */
   public void setRecursive(Boolean recursive) {
     this.recursive = recursive;
   }
@@ -139,23 +200,44 @@ public class Lock implements ModelInterface {
   @JsonProperty("owner")
   public String owner;
 
+  /**
+   * Gets {@link #owner}.
+   *
+   * @return the value of {@link #owner}
+   */
   public String getOwner() {
     return owner;
   }
 
+  /**
+   * Sets {@link #owner}.
+   *
+   * @param owner the new value
+   */
   public void setOwner(String owner) {
     this.owner = owner;
   }
 
   /**
+   * Deprecated WebDAV lock-scope field. Use exclusive to determine whether the lock is exclusive.
    */
   @JsonProperty("scope")
   public String scope;
 
+  /**
+   * Gets {@link #scope}.
+   *
+   * @return the value of {@link #scope}
+   */
   public String getScope() {
     return scope;
   }
 
+  /**
+   * Sets {@link #scope}.
+   *
+   * @param scope the new value
+   */
   public void setScope(String scope) {
     this.scope = scope;
   }
@@ -166,10 +248,20 @@ public class Lock implements ModelInterface {
   @JsonProperty("exclusive")
   public Boolean exclusive;
 
+  /**
+   * Gets {@link #exclusive}.
+   *
+   * @return the value of {@link #exclusive}
+   */
   public Boolean getExclusive() {
     return exclusive;
   }
 
+  /**
+   * Sets {@link #exclusive}.
+   *
+   * @param exclusive the new value
+   */
   public void setExclusive(Boolean exclusive) {
     this.exclusive = exclusive;
   }
@@ -180,23 +272,44 @@ public class Lock implements ModelInterface {
   @JsonProperty("token")
   public String token;
 
+  /**
+   * Gets {@link #token}.
+   *
+   * @return the value of {@link #token}
+   */
   public String getToken() {
     return token;
   }
 
+  /**
+   * Sets {@link #token}.
+   *
+   * @param token the new value
+   */
   public void setToken(String token) {
     this.token = token;
   }
 
   /**
+   * Deprecated WebDAV lock-type field.
    */
   @JsonProperty("type")
   public String type;
 
+  /**
+   * Gets {@link #type}.
+   *
+   * @return the value of {@link #type}
+   */
   public String getType() {
     return type;
   }
 
+  /**
+   * Sets {@link #type}.
+   *
+   * @param type the new value
+   */
   public void setType(String type) {
     this.type = type;
   }
@@ -207,10 +320,20 @@ public class Lock implements ModelInterface {
   @JsonProperty("allow_access_by_any_user")
   public Boolean allowAccessByAnyUser;
 
+  /**
+   * Gets {@link #allowAccessByAnyUser}.
+   *
+   * @return the value of {@link #allowAccessByAnyUser}
+   */
   public Boolean getAllowAccessByAnyUser() {
     return allowAccessByAnyUser;
   }
 
+  /**
+   * Sets {@link #allowAccessByAnyUser}.
+   *
+   * @param allowAccessByAnyUser the new value
+   */
   public void setAllowAccessByAnyUser(Boolean allowAccessByAnyUser) {
     this.allowAccessByAnyUser = allowAccessByAnyUser;
   }
@@ -221,10 +344,20 @@ public class Lock implements ModelInterface {
   @JsonProperty("user_id")
   public Long userId;
 
+  /**
+   * Gets {@link #userId}.
+   *
+   * @return the value of {@link #userId}
+   */
   public Long getUserId() {
     return userId;
   }
 
+  /**
+   * Sets {@link #userId}.
+   *
+   * @param userId the new value
+   */
   public void setUserId(Long userId) {
     this.userId = userId;
   }
@@ -235,10 +368,20 @@ public class Lock implements ModelInterface {
   @JsonProperty("username")
   public String username;
 
+  /**
+   * Gets {@link #username}.
+   *
+   * @return the value of {@link #username}
+   */
   public String getUsername() {
     return username;
   }
 
+  /**
+   * Sets {@link #username}.
+   *
+   * @param username the new value
+   */
   public void setUsername(String username) {
     this.username = username;
   }
@@ -249,22 +392,42 @@ public class Lock implements ModelInterface {
   @JsonProperty("expected_token")
   public String expectedToken;
 
+  /**
+   * Gets {@link #expectedToken}.
+   *
+   * @return the value of {@link #expectedToken}
+   */
   public String getExpectedToken() {
     return expectedToken;
   }
 
+  /**
+   * Sets {@link #expectedToken}.
+   *
+   * @param expectedToken the new value
+   */
   public void setExpectedToken(String expectedToken) {
     this.expectedToken = expectedToken;
   }
 
   /**
-   * Parameters:
-   *   token (required) - string - Lock token
+   * Delete Lock
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code token} (String): Required. Lock token</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().locks().delete(this.path, parameters, this.options);
   }
 
+  /**
+   * Delete Lock
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -305,81 +468,157 @@ public class Lock implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   path (required) - string - Path to operate on.
-   *   include_children - boolean - Include locks from children objects?
+   * List Locks by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
    */
   public static ListIterator<Lock> listFor() throws RuntimeException {
     return listFor(null, null, null);
   }
 
+  /**
+   * List Locks by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
   public static ListIterator<Lock> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return listFor(path, parameters, null);
   }
 
+  /**
+   * List Locks by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
   public static ListIterator<Lock> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return listFor(null, parameters, options);
   }
 
+  /**
+   * List Locks by Path
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code include_children} (Boolean): Include locks from children objects?</li>
+   * </ul>
+   *
+   * @param path Path to operate on.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Lock} records, in a {@code ListIterator}
+   */
   public static ListIterator<Lock> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().locks().listFor(path, parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   path (required) - string - Path
-   *   token - string - Lock token. With expected_token, use the same value to refresh or a different value to replace the existing token.
-   *   expected_token - string - Require this existing, unexpired token before refreshing or replacing a lock. Set token to the same value to refresh, or a different value to replace.
-   *   allow_access_by_any_user - boolean - Can lock be modified by users other than its creator?
-   *   exclusive - boolean - Is lock exclusive?
-   *   recursive - boolean - Does lock apply to subfolders?
-   *   owner - string - Arbitrary descriptive label for the lock. Does not change the lock creator or permissions.
-   *   timeout - int64 - Lock timeout in seconds
+   * Create Lock
+   *
+   * @see #create(String, HashMap, HashMap)
    */
   public static Lock create() throws RuntimeException {
     return create(null, null, null);
   }
 
+  /**
+   * Create Lock
+   *
+   * @see #create(String, HashMap, HashMap)
+   */
   public static Lock create(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return create(path, parameters, null);
   }
 
+  /**
+   * Create Lock
+   *
+   * @see #create(String, HashMap, HashMap)
+   */
   public static Lock create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return create(null, parameters, options);
   }
 
+  /**
+   * Create Lock
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code token} (String): Lock token. With expected_token, use the same value to refresh or a different value to replace the existing token.</li>
+   * <li>{@code expected_token} (String): Require this existing, unexpired token before refreshing or replacing a lock. Set token to the same value to refresh, or a different value to replace.</li>
+   * <li>{@code allow_access_by_any_user} (Boolean): Can lock be modified by users other than its creator?</li>
+   * <li>{@code exclusive} (Boolean): Is lock exclusive?</li>
+   * <li>{@code recursive} (Boolean): Does lock apply to subfolders?</li>
+   * <li>{@code owner} (String): Arbitrary descriptive label for the lock. Does not change the lock creator or permissions.</li>
+   * <li>{@code timeout} (Long): Lock timeout in seconds</li>
+   * </ul>
+   *
+   * @param path Path
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Lock}
+   */
   public static Lock create(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().locks().create(path, parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   token (required) - string - Lock token
+   * Delete Lock
+   *
+   * @see #delete(String, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Lock
+   *
+   * @see #delete(String, HashMap, HashMap)
+   */
   public static void delete(String path, HashMap<String, Object> parameters) throws RuntimeException {
     delete(path, parameters, null);
   }
 
+  /**
+   * Delete Lock
+   *
+   * @see #delete(String, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Lock
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code token} (String): Required. Lock token</li>
+   * </ul>
+   *
+   * @param path Path
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().locks().delete(path, parameters, options);
   }
 
+  /**
+   * Delete Lock
+   *
+   * @see #delete(String, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Lock
+   *
+   * @see #delete(String, HashMap, HashMap)
+   */
   public static void destroy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(path, parameters, options);
   }

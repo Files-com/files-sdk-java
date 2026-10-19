@@ -55,15 +55,12 @@ final class UploadSession {
     this.ref = existingRef;
   }
 
-  // Starts the upload and negotiates its first part. size is -1 when it is not known. The answer
-  // includes direct connection information when the destination is a Files Agent, which only
-  // identifies the destination: the SDK does not connect directly.
+  // Starts the upload and negotiates its first part. size is -1 when it is not known.
   List<FileUploadPart> begin(long size, OperationScope scope) {
     HashMap<String, Object> parameters = parameters();
     if (size >= 0) {
       parameters.put("size", size);
     }
-    parameters.put("with_direct_connection_info", true);
     List<FileUploadPart> parts = negotiate(parameters, scope);
     String negotiatedRef = parts.get(0).getRef();
     if (negotiatedRef == null || negotiatedRef.isEmpty()) {
@@ -84,7 +81,12 @@ final class UploadSession {
     return negotiate(parameters, scope);
   }
 
+  // Every begin_upload request, the first, each continuation and each renewal of a part's URL, asks
+  // for direct connection information. The answer includes it when the destination is a Files Agent
+  // or a remote server integration, which only identifies the destination: the SDK does not connect
+  // directly.
   private List<FileUploadPart> negotiate(HashMap<String, Object> parameters, OperationScope scope) {
+    parameters.put("with_direct_connection_info", true);
     FilesResponse response = runtime.send(RequestMethods.POST, "/file_actions/begin_upload/" + UrlUtils.encodeUrlPath(path),
         parameters, options, scope, maxRetries);
     List<FileUploadPart> parts = new ArrayList<FileUploadPart>();

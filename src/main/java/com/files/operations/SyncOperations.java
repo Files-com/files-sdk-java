@@ -25,20 +25,37 @@ public final class SyncOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `workspace_id` or `name`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`, `disabled`, `src_remote_server_id` or `dest_remote_server_id`. Valid field combinations are `[ workspace_id, disabled ]`, `[ workspace_id, src_remote_server_id ]`, `[ workspace_id, dest_remote_server_id ]`, `[ disabled, src_remote_server_id ]`, `[ disabled, dest_remote_server_id ]`, `[ workspace_id, disabled, src_remote_server_id ]` or `[ workspace_id, disabled, dest_remote_server_id ]`.
+   * List Syncs
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<Sync> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Syncs
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Sync> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Syncs
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `workspace_id` or `name`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`, `disabled`, `src_remote_server_id` or `dest_remote_server_id`. Valid field combinations are `[ workspace_id, disabled ]`, `[ workspace_id, src_remote_server_id ]`, `[ workspace_id, dest_remote_server_id ]`, `[ disabled, src_remote_server_id ]`, `[ disabled, dest_remote_server_id ]`, `[ workspace_id, disabled, src_remote_server_id ]` or `[ workspace_id, disabled, dest_remote_server_id ]`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Sync} records, in a {@code ListIterator}
+   */
   public ListIterator<Sync> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -64,30 +81,59 @@ public final class SyncOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Syncs
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Sync> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Syncs
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Sync> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Sync ID.
+   * Show Sync
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public Sync find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Sync
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Sync find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Sync
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Sync find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Sync
+   *
+   * @param id Sync ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Sync}
+   */
   public Sync find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -109,49 +155,76 @@ public final class SyncOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Sync
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Sync get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Sync
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Sync get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   delete_empty_folders - boolean - Delete empty folders after sync?
-   *   description - string - Description for this sync job
-   *   dest_path - string - Absolute destination path for the sync
-   *   dest_remote_server_id - int64 - Remote server ID for the destination (if remote)
-   *   disabled - boolean - Is this sync disabled?
-   *   exclude_patterns - array(string) - Array of glob patterns to exclude
-   *   holiday_region - string - Skip the sync if there is a formal, observed holiday for this region.
-   *   include_patterns - array(string) - Array of glob patterns to include
-   *   interval - string - If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
-   *   keep_after_copy - boolean - Keep files after copying?
-   *   name - string - Name for this sync job
-   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-   *   recurring_days - array(int64) - If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
-   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
-   *   schedule_time_zone - string - Time zone for the schedule. If not set, times are interpreted as UTC.
-   *   schedule_times_of_day - array(string) - Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
-   *   src_path - string - Absolute source path for the sync
-   *   src_remote_server_id - int64 - Remote server ID for the source (if remote)
-   *   sync_interval_minutes - int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
-   *   trigger - string - Trigger type: daily, custom_schedule, or manual
-   *   trigger_file - string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
-   *   always_write_trigger_file - boolean - If true, the trigger file will be sent at the end of a successful sync even when no files were transferred.
-   *   workspace_id - int64 - Workspace ID this sync belongs to
+   * Create Sync
+   *
+   * @see #create(HashMap, HashMap)
    */
   public Sync create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Sync
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public Sync create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Sync
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code delete_empty_folders} (Boolean): Delete empty folders after sync?</li>
+   * <li>{@code description} (String): Description for this sync job</li>
+   * <li>{@code dest_path} (String): Absolute destination path for the sync</li>
+   * <li>{@code dest_remote_server_id} (Long): Remote server ID for the destination (if remote)</li>
+   * <li>{@code disabled} (Boolean): Is this sync disabled?</li>
+   * <li>{@code exclude_patterns} (String[]): Array of glob patterns to exclude</li>
+   * <li>{@code holiday_region} (String): Skip the sync if there is a formal, observed holiday for this region.</li>
+   * <li>{@code include_patterns} (String[]): Array of glob patterns to include</li>
+   * <li>{@code interval} (String): If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`</li>
+   * <li>{@code keep_after_copy} (Boolean): Keep files after copying?</li>
+   * <li>{@code name} (String): Name for this sync job</li>
+   * <li>{@code recurring_day} (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.</li>
+   * <li>{@code recurring_days} (Long[]): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.</li>
+   * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.</li>
+   * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.</li>
+   * <li>{@code schedule_time_zone} (String): Time zone for the schedule. If not set, times are interpreted as UTC.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.</li>
+   * <li>{@code src_path} (String): Absolute source path for the sync</li>
+   * <li>{@code src_remote_server_id} (Long): Remote server ID for the source (if remote)</li>
+   * <li>{@code sync_interval_minutes} (Long): Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.</li>
+   * <li>{@code trigger} (String): Trigger type: daily, custom_schedule, or manual</li>
+   * <li>{@code trigger_file} (String): Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.</li>
+   * <li>{@code always_write_trigger_file} (Boolean): If true, the trigger file will be sent at the end of a successful sync even when no files were transferred.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID this sync belongs to</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Sync}
+   */
   public Sync create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -259,19 +332,38 @@ public final class SyncOperations extends ResourceOperations {
 
   /**
    * Dry Run Sync
+   *
+   * @see #dryRun(Long, HashMap, HashMap)
    */
   public void dryRun() throws RuntimeException {
     dryRun(null, null, null);
   }
 
+  /**
+   * Dry Run Sync
+   *
+   * @see #dryRun(Long, HashMap, HashMap)
+   */
   public void dryRun(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     dryRun(id, parameters, null);
   }
 
+  /**
+   * Dry Run Sync
+   *
+   * @see #dryRun(Long, HashMap, HashMap)
+   */
   public void dryRun(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     dryRun(null, parameters, options);
   }
 
+  /**
+   * Dry Run Sync
+   *
+   * @param id Sync ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void dryRun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -294,19 +386,38 @@ public final class SyncOperations extends ResourceOperations {
 
   /**
    * Manually Run Sync
+   *
+   * @see #manualRun(Long, HashMap, HashMap)
    */
   public void manualRun() throws RuntimeException {
     manualRun(null, null, null);
   }
 
+  /**
+   * Manually Run Sync
+   *
+   * @see #manualRun(Long, HashMap, HashMap)
+   */
   public void manualRun(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     manualRun(id, parameters, null);
   }
 
+  /**
+   * Manually Run Sync
+   *
+   * @see #manualRun(Long, HashMap, HashMap)
+   */
   public void manualRun(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     manualRun(null, parameters, options);
   }
 
+  /**
+   * Manually Run Sync
+   *
+   * @param id Sync ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void manualRun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -328,43 +439,66 @@ public final class SyncOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   delete_empty_folders - boolean - Delete empty folders after sync?
-   *   description - string - Description for this sync job
-   *   dest_path - string - Absolute destination path for the sync
-   *   dest_remote_server_id - int64 - Remote server ID for the destination (if remote)
-   *   disabled - boolean - Is this sync disabled?
-   *   exclude_patterns - array(string) - Array of glob patterns to exclude
-   *   holiday_region - string - Skip the sync if there is a formal, observed holiday for this region.
-   *   include_patterns - array(string) - Array of glob patterns to include
-   *   interval - string - If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`
-   *   keep_after_copy - boolean - Keep files after copying?
-   *   name - string - Name for this sync job
-   *   recurring_day - int64 - If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-   *   recurring_days - array(int64) - If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
-   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
-   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
-   *   schedule_time_zone - string - Time zone for the schedule. If not set, times are interpreted as UTC.
-   *   schedule_times_of_day - array(string) - Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
-   *   src_path - string - Absolute source path for the sync
-   *   src_remote_server_id - int64 - Remote server ID for the source (if remote)
-   *   sync_interval_minutes - int64 - Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.
-   *   trigger - string - Trigger type: daily, custom_schedule, or manual
-   *   trigger_file - string - Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.
-   *   always_write_trigger_file - boolean - If true, the trigger file will be sent at the end of a successful sync even when no files were transferred.
+   * Update Sync
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public Sync update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Sync
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public Sync update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Sync
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public Sync update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Sync
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code delete_empty_folders} (Boolean): Delete empty folders after sync?</li>
+   * <li>{@code description} (String): Description for this sync job</li>
+   * <li>{@code dest_path} (String): Absolute destination path for the sync</li>
+   * <li>{@code dest_remote_server_id} (Long): Remote server ID for the destination (if remote)</li>
+   * <li>{@code disabled} (Boolean): Is this sync disabled?</li>
+   * <li>{@code exclude_patterns} (String[]): Array of glob patterns to exclude</li>
+   * <li>{@code holiday_region} (String): Skip the sync if there is a formal, observed holiday for this region.</li>
+   * <li>{@code include_patterns} (String[]): Array of glob patterns to include</li>
+   * <li>{@code interval} (String): If trigger is `daily`, this specifies how often to run this sync.  One of: `day`, `week`, `week_end`, `month`, `month_end`, `quarter`, `quarter_end`, `year`, `year_end`</li>
+   * <li>{@code keep_after_copy} (Boolean): Keep files after copying?</li>
+   * <li>{@code name} (String): Name for this sync job</li>
+   * <li>{@code recurring_day} (Long): If trigger type is `daily`, this specifies a day number to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.</li>
+   * <li>{@code recurring_days} (Long[]): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.</li>
+   * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.</li>
+   * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.</li>
+   * <li>{@code schedule_time_zone} (String): Time zone for the schedule. If not set, times are interpreted as UTC.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.</li>
+   * <li>{@code src_path} (String): Absolute source path for the sync</li>
+   * <li>{@code src_remote_server_id} (Long): Remote server ID for the source (if remote)</li>
+   * <li>{@code sync_interval_minutes} (Long): Frequency in minutes between syncs. If set, this value must be greater than or equal to the `remote_sync_interval` value for the site's plan. If left blank, the plan's `remote_sync_interval` will be used. This setting is only used if `trigger` is empty.</li>
+   * <li>{@code trigger} (String): Trigger type: daily, custom_schedule, or manual</li>
+   * <li>{@code trigger_file} (String): Some MFT services request an empty file (known as a trigger file) to signal the sync is complete and they can begin further processing. If trigger_file is set, a zero-byte file will be sent at the end of the sync.</li>
+   * <li>{@code always_write_trigger_file} (Boolean): If true, the trigger file will be sent at the end of a successful sync even when no files were transferred.</li>
+   * </ul>
+   *
+   * @param id Sync ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Sync}
+   */
   public Sync update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -479,19 +613,39 @@ public final class SyncOperations extends ResourceOperations {
   }
 
   /**
+   * Delete Sync
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Sync
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Sync
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Sync
+   *
+   * @param id Sync ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -512,10 +666,20 @@ public final class SyncOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Sync
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Sync
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

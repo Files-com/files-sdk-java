@@ -37,6 +37,11 @@ public class Folder implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -60,14 +65,29 @@ public class Folder implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code Folder} with no attributes set.
+   */
   public Folder() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code Folder} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public Folder(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code Folder} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public Folder(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -85,10 +105,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("path")
   public String path;
 
+  /**
+   * Gets {@link #path}.
+   *
+   * @return the value of {@link #path}
+   */
   public String getPath() {
     return path;
   }
 
+  /**
+   * Sets {@link #path}.
+   *
+   * @param path the new value
+   */
   public void setPath(String path) {
     this.path = path;
   }
@@ -99,10 +129,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("created_by_id")
   public Long createdById;
 
+  /**
+   * Gets {@link #createdById}.
+   *
+   * @return the value of {@link #createdById}
+   */
   public Long getCreatedById() {
     return createdById;
   }
 
+  /**
+   * Sets {@link #createdById}.
+   *
+   * @param createdById the new value
+   */
   public void setCreatedById(Long createdById) {
     this.createdById = createdById;
   }
@@ -113,10 +153,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("created_by_api_key_id")
   public Long createdByApiKeyId;
 
+  /**
+   * Gets {@link #createdByApiKeyId}.
+   *
+   * @return the value of {@link #createdByApiKeyId}
+   */
   public Long getCreatedByApiKeyId() {
     return createdByApiKeyId;
   }
 
+  /**
+   * Sets {@link #createdByApiKeyId}.
+   *
+   * @param createdByApiKeyId the new value
+   */
   public void setCreatedByApiKeyId(Long createdByApiKeyId) {
     this.createdByApiKeyId = createdByApiKeyId;
   }
@@ -127,10 +177,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("created_by_as2_incoming_message_id")
   public Long createdByAs2IncomingMessageId;
 
+  /**
+   * Gets {@link #createdByAs2IncomingMessageId}.
+   *
+   * @return the value of {@link #createdByAs2IncomingMessageId}
+   */
   public Long getCreatedByAs2IncomingMessageId() {
     return createdByAs2IncomingMessageId;
   }
 
+  /**
+   * Sets {@link #createdByAs2IncomingMessageId}.
+   *
+   * @param createdByAs2IncomingMessageId the new value
+   */
   public void setCreatedByAs2IncomingMessageId(Long createdByAs2IncomingMessageId) {
     this.createdByAs2IncomingMessageId = createdByAs2IncomingMessageId;
   }
@@ -141,10 +201,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("created_by_automation_id")
   public Long createdByAutomationId;
 
+  /**
+   * Gets {@link #createdByAutomationId}.
+   *
+   * @return the value of {@link #createdByAutomationId}
+   */
   public Long getCreatedByAutomationId() {
     return createdByAutomationId;
   }
 
+  /**
+   * Sets {@link #createdByAutomationId}.
+   *
+   * @param createdByAutomationId the new value
+   */
   public void setCreatedByAutomationId(Long createdByAutomationId) {
     this.createdByAutomationId = createdByAutomationId;
   }
@@ -155,10 +225,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("created_by_bundle_registration_id")
   public Long createdByBundleRegistrationId;
 
+  /**
+   * Gets {@link #createdByBundleRegistrationId}.
+   *
+   * @return the value of {@link #createdByBundleRegistrationId}
+   */
   public Long getCreatedByBundleRegistrationId() {
     return createdByBundleRegistrationId;
   }
 
+  /**
+   * Sets {@link #createdByBundleRegistrationId}.
+   *
+   * @param createdByBundleRegistrationId the new value
+   */
   public void setCreatedByBundleRegistrationId(Long createdByBundleRegistrationId) {
     this.createdByBundleRegistrationId = createdByBundleRegistrationId;
   }
@@ -169,10 +249,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("created_by_inbox_id")
   public Long createdByInboxId;
 
+  /**
+   * Gets {@link #createdByInboxId}.
+   *
+   * @return the value of {@link #createdByInboxId}
+   */
   public Long getCreatedByInboxId() {
     return createdByInboxId;
   }
 
+  /**
+   * Sets {@link #createdByInboxId}.
+   *
+   * @param createdByInboxId the new value
+   */
   public void setCreatedByInboxId(Long createdByInboxId) {
     this.createdByInboxId = createdByInboxId;
   }
@@ -183,10 +273,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("created_by_remote_server_id")
   public Long createdByRemoteServerId;
 
+  /**
+   * Gets {@link #createdByRemoteServerId}.
+   *
+   * @return the value of {@link #createdByRemoteServerId}
+   */
   public Long getCreatedByRemoteServerId() {
     return createdByRemoteServerId;
   }
 
+  /**
+   * Sets {@link #createdByRemoteServerId}.
+   *
+   * @param createdByRemoteServerId the new value
+   */
   public void setCreatedByRemoteServerId(Long createdByRemoteServerId) {
     this.createdByRemoteServerId = createdByRemoteServerId;
   }
@@ -197,10 +297,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("created_by_sync_id")
   public Long createdBySyncId;
 
+  /**
+   * Gets {@link #createdBySyncId}.
+   *
+   * @return the value of {@link #createdBySyncId}
+   */
   public Long getCreatedBySyncId() {
     return createdBySyncId;
   }
 
+  /**
+   * Sets {@link #createdBySyncId}.
+   *
+   * @param createdBySyncId the new value
+   */
   public void setCreatedBySyncId(Long createdBySyncId) {
     this.createdBySyncId = createdBySyncId;
   }
@@ -211,10 +321,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("custom_metadata")
   public Object customMetadata;
 
+  /**
+   * Gets {@link #customMetadata}.
+   *
+   * @return the value of {@link #customMetadata}
+   */
   public Object getCustomMetadata() {
     return customMetadata;
   }
 
+  /**
+   * Sets {@link #customMetadata}.
+   *
+   * @param customMetadata the new value
+   */
   public void setCustomMetadata(Object customMetadata) {
     this.customMetadata = customMetadata;
   }
@@ -225,10 +345,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("display_name")
   public String displayName;
 
+  /**
+   * Gets {@link #displayName}.
+   *
+   * @return the value of {@link #displayName}
+   */
   public String getDisplayName() {
     return displayName;
   }
 
+  /**
+   * Sets {@link #displayName}.
+   *
+   * @param displayName the new value
+   */
   public void setDisplayName(String displayName) {
     this.displayName = displayName;
   }
@@ -239,10 +369,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("type")
   public String type;
 
+  /**
+   * Gets {@link #type}.
+   *
+   * @return the value of {@link #type}
+   */
   public String getType() {
     return type;
   }
 
+  /**
+   * Sets {@link #type}.
+   *
+   * @param type the new value
+   */
   public void setType(String type) {
     this.type = type;
   }
@@ -253,10 +393,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("size")
   public Long size;
 
+  /**
+   * Gets {@link #size}.
+   *
+   * @return the value of {@link #size}
+   */
   public Long getSize() {
     return size;
   }
 
+  /**
+   * Sets {@link #size}.
+   *
+   * @param size the new value
+   */
   public void setSize(Long size) {
     this.size = size;
   }
@@ -267,6 +417,11 @@ public class Folder implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -277,10 +432,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("last_modified_by_id")
   public Long lastModifiedById;
 
+  /**
+   * Gets {@link #lastModifiedById}.
+   *
+   * @return the value of {@link #lastModifiedById}
+   */
   public Long getLastModifiedById() {
     return lastModifiedById;
   }
 
+  /**
+   * Sets {@link #lastModifiedById}.
+   *
+   * @param lastModifiedById the new value
+   */
   public void setLastModifiedById(Long lastModifiedById) {
     this.lastModifiedById = lastModifiedById;
   }
@@ -291,10 +456,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("last_modified_by_api_key_id")
   public Long lastModifiedByApiKeyId;
 
+  /**
+   * Gets {@link #lastModifiedByApiKeyId}.
+   *
+   * @return the value of {@link #lastModifiedByApiKeyId}
+   */
   public Long getLastModifiedByApiKeyId() {
     return lastModifiedByApiKeyId;
   }
 
+  /**
+   * Sets {@link #lastModifiedByApiKeyId}.
+   *
+   * @param lastModifiedByApiKeyId the new value
+   */
   public void setLastModifiedByApiKeyId(Long lastModifiedByApiKeyId) {
     this.lastModifiedByApiKeyId = lastModifiedByApiKeyId;
   }
@@ -305,10 +480,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("last_modified_by_automation_id")
   public Long lastModifiedByAutomationId;
 
+  /**
+   * Gets {@link #lastModifiedByAutomationId}.
+   *
+   * @return the value of {@link #lastModifiedByAutomationId}
+   */
   public Long getLastModifiedByAutomationId() {
     return lastModifiedByAutomationId;
   }
 
+  /**
+   * Sets {@link #lastModifiedByAutomationId}.
+   *
+   * @param lastModifiedByAutomationId the new value
+   */
   public void setLastModifiedByAutomationId(Long lastModifiedByAutomationId) {
     this.lastModifiedByAutomationId = lastModifiedByAutomationId;
   }
@@ -319,10 +504,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("last_modified_by_bundle_registration_id")
   public Long lastModifiedByBundleRegistrationId;
 
+  /**
+   * Gets {@link #lastModifiedByBundleRegistrationId}.
+   *
+   * @return the value of {@link #lastModifiedByBundleRegistrationId}
+   */
   public Long getLastModifiedByBundleRegistrationId() {
     return lastModifiedByBundleRegistrationId;
   }
 
+  /**
+   * Sets {@link #lastModifiedByBundleRegistrationId}.
+   *
+   * @param lastModifiedByBundleRegistrationId the new value
+   */
   public void setLastModifiedByBundleRegistrationId(Long lastModifiedByBundleRegistrationId) {
     this.lastModifiedByBundleRegistrationId = lastModifiedByBundleRegistrationId;
   }
@@ -333,10 +528,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("last_modified_by_remote_server_id")
   public Long lastModifiedByRemoteServerId;
 
+  /**
+   * Gets {@link #lastModifiedByRemoteServerId}.
+   *
+   * @return the value of {@link #lastModifiedByRemoteServerId}
+   */
   public Long getLastModifiedByRemoteServerId() {
     return lastModifiedByRemoteServerId;
   }
 
+  /**
+   * Sets {@link #lastModifiedByRemoteServerId}.
+   *
+   * @param lastModifiedByRemoteServerId the new value
+   */
   public void setLastModifiedByRemoteServerId(Long lastModifiedByRemoteServerId) {
     this.lastModifiedByRemoteServerId = lastModifiedByRemoteServerId;
   }
@@ -347,10 +552,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("last_modified_by_sync_id")
   public Long lastModifiedBySyncId;
 
+  /**
+   * Gets {@link #lastModifiedBySyncId}.
+   *
+   * @return the value of {@link #lastModifiedBySyncId}
+   */
   public Long getLastModifiedBySyncId() {
     return lastModifiedBySyncId;
   }
 
+  /**
+   * Sets {@link #lastModifiedBySyncId}.
+   *
+   * @param lastModifiedBySyncId the new value
+   */
   public void setLastModifiedBySyncId(Long lastModifiedBySyncId) {
     this.lastModifiedBySyncId = lastModifiedBySyncId;
   }
@@ -361,24 +576,44 @@ public class Folder implements ModelInterface {
   @JsonProperty("mtime")
   public Date mtime;
 
+  /**
+   * Gets {@link #mtime}.
+   *
+   * @return the value of {@link #mtime}
+   */
   public Date getMtime() {
     return mtime;
   }
 
+  /**
+   * Sets {@link #mtime}.
+   *
+   * @param mtime the new value
+   */
   public void setMtime(Date mtime) {
     this.mtime = mtime;
   }
 
   /**
-   * File last modified date/time, according to the client who set it.  Files.com allows desktop, FTP, SFTP, and WebDAV clients to set modified at times.  This allows Desktop :Cloud syncing to preserve modified at times.
+   * File last modified date/time, according to the client who set it.  Files.com allows desktop, FTP, SFTP, and WebDAV clients to set modified at times.  This allows Desktop&lt;-&gt;Cloud syncing to preserve modified at times.
    */
   @JsonProperty("provided_mtime")
   public Date providedMtime;
 
+  /**
+   * Gets {@link #providedMtime}.
+   *
+   * @return the value of {@link #providedMtime}
+   */
   public Date getProvidedMtime() {
     return providedMtime;
   }
 
+  /**
+   * Sets {@link #providedMtime}.
+   *
+   * @param providedMtime the new value
+   */
   public void setProvidedMtime(Date providedMtime) {
     this.providedMtime = providedMtime;
   }
@@ -389,10 +624,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("crc32")
   public String crc32;
 
+  /**
+   * Gets {@link #crc32}.
+   *
+   * @return the value of {@link #crc32}
+   */
   public String getCrc32() {
     return crc32;
   }
 
+  /**
+   * Sets {@link #crc32}.
+   *
+   * @param crc32 the new value
+   */
   public void setCrc32(String crc32) {
     this.crc32 = crc32;
   }
@@ -403,10 +648,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("md5")
   public String md5;
 
+  /**
+   * Gets {@link #md5}.
+   *
+   * @return the value of {@link #md5}
+   */
   public String getMd5() {
     return md5;
   }
 
+  /**
+   * Sets {@link #md5}.
+   *
+   * @param md5 the new value
+   */
   public void setMd5(String md5) {
     this.md5 = md5;
   }
@@ -417,10 +672,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("sha1")
   public String sha1;
 
+  /**
+   * Gets {@link #sha1}.
+   *
+   * @return the value of {@link #sha1}
+   */
   public String getSha1() {
     return sha1;
   }
 
+  /**
+   * Sets {@link #sha1}.
+   *
+   * @param sha1 the new value
+   */
   public void setSha1(String sha1) {
     this.sha1 = sha1;
   }
@@ -431,10 +696,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("sha256")
   public String sha256;
 
+  /**
+   * Gets {@link #sha256}.
+   *
+   * @return the value of {@link #sha256}
+   */
   public String getSha256() {
     return sha256;
   }
 
+  /**
+   * Sets {@link #sha256}.
+   *
+   * @param sha256 the new value
+   */
   public void setSha256(String sha256) {
     this.sha256 = sha256;
   }
@@ -445,10 +720,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("mime_type")
   public String mimeType;
 
+  /**
+   * Gets {@link #mimeType}.
+   *
+   * @return the value of {@link #mimeType}
+   */
   public String getMimeType() {
     return mimeType;
   }
 
+  /**
+   * Sets {@link #mimeType}.
+   *
+   * @param mimeType the new value
+   */
   public void setMimeType(String mimeType) {
     this.mimeType = mimeType;
   }
@@ -459,10 +744,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("region")
   public String region;
 
+  /**
+   * Gets {@link #region}.
+   *
+   * @return the value of {@link #region}
+   */
   public String getRegion() {
     return region;
   }
 
+  /**
+   * Sets {@link #region}.
+   *
+   * @param region the new value
+   */
   public void setRegion(String region) {
     this.region = region;
   }
@@ -473,10 +768,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("permissions")
   public String permissions;
 
+  /**
+   * Gets {@link #permissions}.
+   *
+   * @return the value of {@link #permissions}
+   */
   public String getPermissions() {
     return permissions;
   }
 
+  /**
+   * Sets {@link #permissions}.
+   *
+   * @param permissions the new value
+   */
   public void setPermissions(String permissions) {
     this.permissions = permissions;
   }
@@ -487,10 +792,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("subfolders_locked?")
   public Boolean subfoldersLocked;
 
+  /**
+   * Gets {@link #subfoldersLocked}.
+   *
+   * @return the value of {@link #subfoldersLocked}
+   */
   public Boolean getSubfoldersLocked() {
     return subfoldersLocked;
   }
 
+  /**
+   * Sets {@link #subfoldersLocked}.
+   *
+   * @param subfoldersLocked the new value
+   */
   public void setSubfoldersLocked(Boolean subfoldersLocked) {
     this.subfoldersLocked = subfoldersLocked;
   }
@@ -501,10 +816,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("is_locked")
   public Boolean isLocked;
 
+  /**
+   * Gets {@link #isLocked}.
+   *
+   * @return the value of {@link #isLocked}
+   */
   public Boolean getIsLocked() {
     return isLocked;
   }
 
+  /**
+   * Sets {@link #isLocked}.
+   *
+   * @param isLocked the new value
+   */
   public void setIsLocked(Boolean isLocked) {
     this.isLocked = isLocked;
   }
@@ -515,10 +840,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("download_uri")
   public String downloadUri;
 
+  /**
+   * Gets {@link #downloadUri}.
+   *
+   * @return the value of {@link #downloadUri}
+   */
   public String getDownloadUri() {
     return downloadUri;
   }
 
+  /**
+   * Sets {@link #downloadUri}.
+   *
+   * @param downloadUri the new value
+   */
   public void setDownloadUri(String downloadUri) {
     this.downloadUri = downloadUri;
   }
@@ -529,10 +864,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("direct_connection_info")
   public DirectConnectionInfo directConnectionInfo;
 
+  /**
+   * Gets {@link #directConnectionInfo}.
+   *
+   * @return the value of {@link #directConnectionInfo}
+   */
   public DirectConnectionInfo getDirectConnectionInfo() {
     return directConnectionInfo;
   }
 
+  /**
+   * Sets {@link #directConnectionInfo}.
+   *
+   * @param directConnectionInfo the new value
+   */
   public void setDirectConnectionInfo(DirectConnectionInfo directConnectionInfo) {
     this.directConnectionInfo = directConnectionInfo;
   }
@@ -543,10 +888,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("priority_color")
   public String priorityColor;
 
+  /**
+   * Gets {@link #priorityColor}.
+   *
+   * @return the value of {@link #priorityColor}
+   */
   public String getPriorityColor() {
     return priorityColor;
   }
 
+  /**
+   * Sets {@link #priorityColor}.
+   *
+   * @param priorityColor the new value
+   */
   public void setPriorityColor(String priorityColor) {
     this.priorityColor = priorityColor;
   }
@@ -557,10 +912,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("preview_id")
   public Long previewId;
 
+  /**
+   * Gets {@link #previewId}.
+   *
+   * @return the value of {@link #previewId}
+   */
   public Long getPreviewId() {
     return previewId;
   }
 
+  /**
+   * Sets {@link #previewId}.
+   *
+   * @param previewId the new value
+   */
   public void setPreviewId(Long previewId) {
     this.previewId = previewId;
   }
@@ -571,10 +936,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("preview")
   public Preview preview;
 
+  /**
+   * Gets {@link #preview}.
+   *
+   * @return the value of {@link #preview}
+   */
   public Preview getPreview() {
     return preview;
   }
 
+  /**
+   * Sets {@link #preview}.
+   *
+   * @param preview the new value
+   */
   public void setPreview(Preview preview) {
     this.preview = preview;
   }
@@ -585,10 +960,20 @@ public class Folder implements ModelInterface {
   @JsonProperty("mkdir_parents")
   public Boolean mkdirParents;
 
+  /**
+   * Gets {@link #mkdirParents}.
+   *
+   * @return the value of {@link #mkdirParents}
+   */
   public Boolean getMkdirParents() {
     return mkdirParents;
   }
 
+  /**
+   * Sets {@link #mkdirParents}.
+   *
+   * @param mkdirParents the new value
+   */
   public void setMkdirParents(Boolean mkdirParents) {
     this.mkdirParents = mkdirParents;
   }
@@ -653,55 +1038,99 @@ public class Folder implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   path (required) - string - Path to operate on.
-   *   preview_size - string - Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.
-   *   sort_by - object - Search by field and direction. Valid fields are `path`, `size`, `modified_at_datetime`, `provided_modified_at`.  Valid directions are `asc` and `desc`.  Defaults to `{"path":"asc"}`.
-   *   search - string - If specified, will search the folders/files list by name. Ignores text before last `/`. This is the same API used by the search bar in the web UI when running 'Search This Folder'.  Search results are a best effort, not real time, and not guaranteed to perfectly match the latest folder listing.  Results may be truncated if more than 1,000 possible matches exist.  This field should only be used for ad-hoc (human) searching, and not as part of an automated process.
-   *   search_custom_metadata_key - string - If provided, the search string in `search` will search for files where this custom metadata key matches the value sent in `search`.  Set this to `*` to allow any metadata key to match the value sent in `search`.
-   *   search_all - boolean - Search entire site?  If true, we will search the entire site.  Do not provide a path when using this parameter.  This is the same API used by the search bar in the web UI when running 'Search All Files'.  Search results are a best effort, not real time, and not guaranteed to match every file.  This field should only be used for ad-hoc (human) searching, and not as part of an automated process.
-   *   with_previews - boolean - Include file previews?
-   *   with_priority_color - boolean - Include file priority color information?
-   *   type - string - Type of objects to return.  Can be `folder` or `file`.
-   *   modified_at_datetime - string - If provided, will only return files/folders modified after this time. Can be used only in combination with `type` filter.
+   * List Folders by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
    */
   public static ListIterator<File> listFor() throws RuntimeException {
     return listFor(null, null, null);
   }
 
+  /**
+   * List Folders by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
   public static ListIterator<File> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return listFor(path, parameters, null);
   }
 
+  /**
+   * List Folders by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
   public static ListIterator<File> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return listFor(null, parameters, options);
   }
 
+  /**
+   * List Folders by Path
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Send cursor to resume an existing list from the point at which you left off.  Get a cursor from an existing list via the X-Files-Cursor-Next header or the X-Files-Cursor-Prev header.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code preview_size} (String): Request a preview size.  Can be `small` (default), `large`, `xlarge`, or `pdf`.</li>
+   * <li>{@code sort_by} (Object): Search by field and direction. Valid fields are `path`, `size`, `modified_at_datetime`, `provided_modified_at`.  Valid directions are `asc` and `desc`.  Defaults to `{"path":"asc"}`.</li>
+   * <li>{@code search} (String): If specified, will search the folders/files list by name. Ignores text before last `/`. This is the same API used by the search bar in the web UI when running 'Search This Folder'.  Search results are a best effort, not real time, and not guaranteed to perfectly match the latest folder listing.  Results may be truncated if more than 1,000 possible matches exist.  This field should only be used for ad-hoc (human) searching, and not as part of an automated process.</li>
+   * <li>{@code search_custom_metadata_key} (String): If provided, the search string in `search` will search for files where this custom metadata key matches the value sent in `search`.  Set this to `*` to allow any metadata key to match the value sent in `search`.</li>
+   * <li>{@code search_all} (Boolean): Search entire site?  If true, we will search the entire site.  Do not provide a path when using this parameter.  This is the same API used by the search bar in the web UI when running 'Search All Files'.  Search results are a best effort, not real time, and not guaranteed to match every file.  This field should only be used for ad-hoc (human) searching, and not as part of an automated process.</li>
+   * <li>{@code with_previews} (Boolean): Include file previews?</li>
+   * <li>{@code with_priority_color} (Boolean): Include file priority color information?</li>
+   * <li>{@code type} (String): Type of objects to return.  Can be `folder` or `file`.</li>
+   * <li>{@code modified_at_datetime} (String): If provided, will only return files/folders modified after this time. Can be used only in combination with `type` filter.</li>
+   * </ul>
+   *
+   * @param path Path to operate on.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code File} records, in a {@code ListIterator}
+   */
   public static ListIterator<File> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().folders().listFor(path, parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   path (required) - string - Path to operate on.
-   *   mkdir_parents - boolean - Create parent directories if they do not exist?
-   *   provided_mtime - string - User provided modification time.
+   * Create Folder
+   *
+   * @see #create(String, HashMap, HashMap)
    */
   public static Folder create() throws RuntimeException {
     return create(null, null, null);
   }
 
+  /**
+   * Create Folder
+   *
+   * @see #create(String, HashMap, HashMap)
+   */
   public static Folder create(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return create(path, parameters, null);
   }
 
+  /**
+   * Create Folder
+   *
+   * @see #create(String, HashMap, HashMap)
+   */
   public static Folder create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return create(null, parameters, options);
   }
 
+  /**
+   * Create Folder
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code mkdir_parents} (Boolean): Create parent directories if they do not exist?</li>
+   * <li>{@code provided_mtime} (String): User provided modification time.</li>
+   * </ul>
+   *
+   * @param path Path to operate on.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Folder}
+   */
   public static Folder create(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().folders().create(path, parameters, options);
   }

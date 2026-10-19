@@ -72,12 +72,9 @@
 
 ## List Ai Tasks
 
-```
-ListIterator<AiTask> aiTask = AiTask.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<AiTask> aiTasks = AiTask.list(parameters, null);
 ```
 
 ### Parameters
@@ -92,12 +89,9 @@ ListIterator<AiTask> aiTask = AiTask.list(
 
 ## Show Ai Task
 
-```
-AiTask aiTask = AiTask.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+AiTask aiTask = AiTask.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -109,12 +103,27 @@ AiTask aiTask = AiTask.find(
 
 ## Create Ai Task
 
-```
-AiTask aiTask = AiTask.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("description", "Summarizes files uploaded by the accounting team.");
+parameters.put("disabled", true);
+parameters.put("holiday_region", "us");
+parameters.put("interval", "day");
+parameters.put("name", "Summarize daily reports");
+parameters.put("path", "incoming/reports");
+parameters.put("permission_set", "files_only");
+parameters.put("prompt", "Summarize the uploaded file and identify follow-up actions.");
+parameters.put("recurring_day", 1L);
+parameters.put("recurring_days", new Long[] {1L, 15L});
+parameters.put("schedule_id", 1L);
+parameters.put("schedule_days_of_week", new Long[] {1L, 3L, 5L});
+parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
+parameters.put("schedule_times_of_day", new String[] {"06:30"});
+parameters.put("source", "*.pdf");
+parameters.put("trigger", "daily");
+parameters.put("trigger_actions", new String[] {"create"});
+parameters.put("workspace_id", 0L);
+AiTask aiTask = AiTask.create(parameters, null);
 ```
 
 ### Parameters
@@ -143,12 +152,9 @@ AiTask aiTask = AiTask.create(
 
 ## Manually Run AI Task
 
-```
-void aiTask = AiTask.manualRun(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+AiTask.manualRun(1L, parameters, null);
 ```
 
 ### Parameters
@@ -160,12 +166,27 @@ void aiTask = AiTask.manualRun(
 
 ## Update Ai Task
 
-```
-AiTask aiTask = AiTask.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("description", "Summarizes files uploaded by the accounting team.");
+parameters.put("disabled", true);
+parameters.put("holiday_region", "us");
+parameters.put("interval", "day");
+parameters.put("name", "Summarize daily reports");
+parameters.put("path", "incoming/reports");
+parameters.put("permission_set", "files_only");
+parameters.put("prompt", "Summarize the uploaded file and identify follow-up actions.");
+parameters.put("recurring_day", 1L);
+parameters.put("recurring_days", new Long[] {1L, 15L});
+parameters.put("schedule_id", 1L);
+parameters.put("schedule_days_of_week", new Long[] {1L, 3L, 5L});
+parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
+parameters.put("schedule_times_of_day", new String[] {"06:30"});
+parameters.put("source", "*.pdf");
+parameters.put("trigger", "daily");
+parameters.put("trigger_actions", new String[] {"create"});
+parameters.put("workspace_id", 0L);
+AiTask aiTask = AiTask.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -195,12 +216,9 @@ AiTask aiTask = AiTask.update(
 
 ## Delete Ai Task
 
-```
-void aiTask = AiTask.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+AiTask.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -212,11 +230,9 @@ void aiTask = AiTask.delete(
 
 ## Manually Run AI Task
 
-```
-AiTask aiTask = AiTask.find(id);
-
+```java
+AiTask aiTask = AiTask.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 aiTask.manualRun(parameters);
 ```
 
@@ -229,9 +245,8 @@ aiTask.manualRun(parameters);
 
 ## Update Ai Task
 
-```
-AiTask aiTask = AiTask.find(id);
-
+```java
+AiTask aiTask = AiTask.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("description", "Summarizes files uploaded by the accounting team.");
 parameters.put("disabled", true);
@@ -241,18 +256,17 @@ parameters.put("name", "Summarize daily reports");
 parameters.put("path", "incoming/reports");
 parameters.put("permission_set", "files_only");
 parameters.put("prompt", "Summarize the uploaded file and identify follow-up actions.");
-parameters.put("recurring_day", 1);
-parameters.put("recurring_days", [1,15]);
-parameters.put("schedule_id", 1);
-parameters.put("schedule_days_of_week", [1,3,5]);
+parameters.put("recurring_day", 1L);
+parameters.put("recurring_days", new Long[] {1L, 15L});
+parameters.put("schedule_id", 1L);
+parameters.put("schedule_days_of_week", new Long[] {1L, 3L, 5L});
 parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
-parameters.put("schedule_times_of_day", ["06:30"]);
+parameters.put("schedule_times_of_day", new String[] {"06:30"});
 parameters.put("source", "*.pdf");
 parameters.put("trigger", "daily");
-parameters.put("trigger_actions", ["create"]);
-parameters.put("workspace_id", 0);
-
-aiTask.update(parameters);
+parameters.put("trigger_actions", new String[] {"create"});
+parameters.put("workspace_id", 0L);
+AiTask result = aiTask.update(parameters);
 ```
 
 ### Parameters
@@ -282,11 +296,9 @@ aiTask.update(parameters);
 
 ## Delete Ai Task
 
-```
-AiTask aiTask = AiTask.find(id);
-
+```java
+AiTask aiTask = AiTask.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 aiTask.delete(parameters);
 ```
 

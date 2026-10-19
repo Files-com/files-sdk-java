@@ -35,6 +35,11 @@ public class BundleDownload implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class BundleDownload implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code BundleDownload} with no attributes set.
+   */
   public BundleDownload() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code BundleDownload} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public BundleDownload(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code BundleDownload} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public BundleDownload(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -78,10 +98,16 @@ public class BundleDownload implements ModelInterface {
 
 
   /**
+   * Share Link registration associated with this download record.
    */
   @JsonProperty("bundle_registration")
   public BundleRegistration bundleRegistration;
 
+  /**
+   * Gets {@link #bundleRegistration}.
+   *
+   * @return the value of {@link #bundleRegistration}
+   */
   public BundleRegistration getBundleRegistration() {
     return bundleRegistration;
   }
@@ -92,6 +118,11 @@ public class BundleDownload implements ModelInterface {
   @JsonProperty("download_method")
   public String downloadMethod;
 
+  /**
+   * Gets {@link #downloadMethod}.
+   *
+   * @return the value of {@link #downloadMethod}
+   */
   public String getDownloadMethod() {
     return downloadMethod;
   }
@@ -102,6 +133,11 @@ public class BundleDownload implements ModelInterface {
   @JsonProperty("path")
   public String path;
 
+  /**
+   * Gets {@link #path}.
+   *
+   * @return the value of {@link #path}
+   */
   public String getPath() {
     return path;
   }
@@ -112,6 +148,11 @@ public class BundleDownload implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
@@ -122,41 +163,73 @@ public class BundleDownload implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `created_at`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`.
-   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
-   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
-   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
-   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
-   *   bundle_id - int64 - Bundle ID
-   *   bundle_registration_id - int64 - BundleRegistration ID
+   * List Share Link Downloads
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<BundleDownload> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Share Link Downloads
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<BundleDownload> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Share Link Downloads
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `created_at`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_gt} (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_gteq} (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_lt} (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_lteq} (Object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code bundle_id} (Long): Bundle ID</li>
+   * <li>{@code bundle_registration_id} (Long): BundleRegistration ID</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code BundleDownload} records, in a {@code ListIterator}
+   */
   public static ListIterator<BundleDownload> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().bundleDownloads().list(parameters, options);
   }
 
+  /**
+   * List Share Link Downloads
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<BundleDownload> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Share Link Downloads
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<BundleDownload> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }

@@ -36,6 +36,11 @@ public class SftpHostKey implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -59,14 +64,29 @@ public class SftpHostKey implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code SftpHostKey} with no attributes set.
+   */
   public SftpHostKey() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code SftpHostKey} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public SftpHostKey(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code SftpHostKey} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public SftpHostKey(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -84,10 +104,20 @@ public class SftpHostKey implements ModelInterface {
   @JsonProperty("active")
   public Boolean active;
 
+  /**
+   * Gets {@link #active}.
+   *
+   * @return the value of {@link #active}
+   */
   public Boolean getActive() {
     return active;
   }
 
+  /**
+   * Sets {@link #active}.
+   *
+   * @param active the new value
+   */
   public void setActive(Boolean active) {
     this.active = active;
   }
@@ -98,10 +128,20 @@ public class SftpHostKey implements ModelInterface {
   @JsonProperty("custom_domain_id")
   public Long customDomainId;
 
+  /**
+   * Gets {@link #customDomainId}.
+   *
+   * @return the value of {@link #customDomainId}
+   */
   public Long getCustomDomainId() {
     return customDomainId;
   }
 
+  /**
+   * Sets {@link #customDomainId}.
+   *
+   * @param customDomainId the new value
+   */
   public void setCustomDomainId(Long customDomainId) {
     this.customDomainId = customDomainId;
   }
@@ -112,10 +152,20 @@ public class SftpHostKey implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -126,10 +176,20 @@ public class SftpHostKey implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -140,10 +200,20 @@ public class SftpHostKey implements ModelInterface {
   @JsonProperty("key_type")
   public String keyType;
 
+  /**
+   * Gets {@link #keyType}.
+   *
+   * @return the value of {@link #keyType}
+   */
   public String getKeyType() {
     return keyType;
   }
 
+  /**
+   * Sets {@link #keyType}.
+   *
+   * @param keyType the new value
+   */
   public void setKeyType(String keyType) {
     this.keyType = keyType;
   }
@@ -154,10 +224,20 @@ public class SftpHostKey implements ModelInterface {
   @JsonProperty("fingerprint_md5")
   public String fingerprintMd5;
 
+  /**
+   * Gets {@link #fingerprintMd5}.
+   *
+   * @return the value of {@link #fingerprintMd5}
+   */
   public String getFingerprintMd5() {
     return fingerprintMd5;
   }
 
+  /**
+   * Sets {@link #fingerprintMd5}.
+   *
+   * @param fingerprintMd5 the new value
+   */
   public void setFingerprintMd5(String fingerprintMd5) {
     this.fingerprintMd5 = fingerprintMd5;
   }
@@ -168,10 +248,20 @@ public class SftpHostKey implements ModelInterface {
   @JsonProperty("fingerprint_sha256")
   public String fingerprintSha256;
 
+  /**
+   * Gets {@link #fingerprintSha256}.
+   *
+   * @return the value of {@link #fingerprintSha256}
+   */
   public String getFingerprintSha256() {
     return fingerprintSha256;
   }
 
+  /**
+   * Sets {@link #fingerprintSha256}.
+   *
+   * @param fingerprintSha256 the new value
+   */
   public void setFingerprintSha256(String fingerprintSha256) {
     this.fingerprintSha256 = fingerprintSha256;
   }
@@ -182,21 +272,37 @@ public class SftpHostKey implements ModelInterface {
   @JsonProperty("private_key")
   public String privateKey;
 
+  /**
+   * Gets {@link #privateKey}.
+   *
+   * @return the value of {@link #privateKey}
+   */
   public String getPrivateKey() {
     return privateKey;
   }
 
+  /**
+   * Sets {@link #privateKey}.
+   *
+   * @param privateKey the new value
+   */
   public void setPrivateKey(String privateKey) {
     this.privateKey = privateKey;
   }
 
   /**
    * Updates this SftpHostKey. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   active - boolean - If true, use this SFTP Host Key.
-   *   custom_domain_id - int64 - Custom Domain ID. If set, this key is used only for that Custom Domain.
-   *   name - string - The friendly name of this SFTP Host Key.
-   *   private_key - string - The private key data.
+   * <p>Update SFTP Host Key
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code active} (Boolean): If true, use this SFTP Host Key.</li>
+   * <li>{@code custom_domain_id} (Long): Custom Domain ID. If set, this key is used only for that Custom Domain.</li>
+   * <li>{@code name} (String): The friendly name of this SFTP Host Key.</li>
+   * <li>{@code private_key} (String): The private key data.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code SftpHostKey}
    */
   public SftpHostKey update(HashMap<String, Object> parameters) throws IOException {
     SftpHostKey updated = filesClient().sftpHostKeys().update(this.id, parameters, this.options);
@@ -205,11 +311,19 @@ public class SftpHostKey implements ModelInterface {
   }
 
   /**
+   * Delete SFTP Host Key
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().sftpHostKeys().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete SFTP Host Key
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -249,126 +363,252 @@ public class SftpHostKey implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   * List SFTP Host Keys
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<SftpHostKey> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List SFTP Host Keys
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<SftpHostKey> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List SFTP Host Keys
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code SftpHostKey} records, in a {@code ListIterator}
+   */
   public static ListIterator<SftpHostKey> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().sftpHostKeys().list(parameters, options);
   }
 
+  /**
+   * List SFTP Host Keys
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<SftpHostKey> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List SFTP Host Keys
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<SftpHostKey> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Sftp Host Key ID.
+   * Show SFTP Host Key
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static SftpHostKey find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show SFTP Host Key
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static SftpHostKey find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show SFTP Host Key
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static SftpHostKey find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show SFTP Host Key
+   *
+   * @param id Sftp Host Key ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code SftpHostKey}
+   */
   public static SftpHostKey find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().sftpHostKeys().find(id, parameters, options);
   }
 
+  /**
+   * Show SFTP Host Key
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static SftpHostKey get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show SFTP Host Key
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static SftpHostKey get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   active - boolean - If true, use this SFTP Host Key.
-   *   custom_domain_id - int64 - Custom Domain ID. If set, this key is used only for that Custom Domain.
-   *   name - string - The friendly name of this SFTP Host Key.
-   *   private_key - string - The private key data.
+   * Create SFTP Host Key
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static SftpHostKey create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create SFTP Host Key
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static SftpHostKey create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create SFTP Host Key
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code active} (Boolean): If true, use this SFTP Host Key.</li>
+   * <li>{@code custom_domain_id} (Long): Custom Domain ID. If set, this key is used only for that Custom Domain.</li>
+   * <li>{@code name} (String): The friendly name of this SFTP Host Key.</li>
+   * <li>{@code private_key} (String): The private key data.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code SftpHostKey}
+   */
   public static SftpHostKey create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().sftpHostKeys().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   active - boolean - If true, use this SFTP Host Key.
-   *   custom_domain_id - int64 - Custom Domain ID. If set, this key is used only for that Custom Domain.
-   *   name - string - The friendly name of this SFTP Host Key.
-   *   private_key - string - The private key data.
+   * Update SFTP Host Key
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static SftpHostKey update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update SFTP Host Key
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static SftpHostKey update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update SFTP Host Key
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static SftpHostKey update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update SFTP Host Key
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code active} (Boolean): If true, use this SFTP Host Key.</li>
+   * <li>{@code custom_domain_id} (Long): Custom Domain ID. If set, this key is used only for that Custom Domain.</li>
+   * <li>{@code name} (String): The friendly name of this SFTP Host Key.</li>
+   * <li>{@code private_key} (String): The private key data.</li>
+   * </ul>
+   *
+   * @param id Sftp Host Key ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code SftpHostKey}
+   */
   public static SftpHostKey update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().sftpHostKeys().update(id, parameters, options);
   }
 
 
   /**
+   * Delete SFTP Host Key
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete SFTP Host Key
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete SFTP Host Key
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete SFTP Host Key
+   *
+   * @param id Sftp Host Key ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().sftpHostKeys().delete(id, parameters, options);
   }
 
+  /**
+   * Delete SFTP Host Key
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete SFTP Host Key
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

@@ -33,6 +33,11 @@ public class Errors implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -56,14 +61,29 @@ public class Errors implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code Errors} with no attributes set.
+   */
   public Errors() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code Errors} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public Errors(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code Errors} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public Errors(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -81,6 +101,11 @@ public class Errors implements ModelInterface {
   @JsonProperty("fields")
   public String[] fields;
 
+  /**
+   * Gets {@link #fields}.
+   *
+   * @return the value of {@link #fields}
+   */
   public String[] getFields() {
     return fields;
   }
@@ -91,6 +116,11 @@ public class Errors implements ModelInterface {
   @JsonProperty("messages")
   public String[] messages;
 
+  /**
+   * Gets {@link #messages}.
+   *
+   * @return the value of {@link #messages}
+   */
   public String[] getMessages() {
     return messages;
   }

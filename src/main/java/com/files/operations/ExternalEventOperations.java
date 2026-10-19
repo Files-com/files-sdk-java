@@ -25,24 +25,41 @@ public final class ExternalEventOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`, `status` or `event_type`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at` and `status`. Valid field combinations are `[ status, created_at ]`.
-   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
-   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
-   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
-   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
+   * List External Events
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<ExternalEvent> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List External Events
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<ExternalEvent> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List External Events
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`, `status` or `event_type`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at` and `status`. Valid field combinations are `[ status, created_at ]`.</li>
+   * <li>{@code filter_gt} (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_gteq} (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_lt} (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_lteq} (Object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ExternalEvent} records, in a {@code ListIterator}
+   */
   public ListIterator<ExternalEvent> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -84,30 +101,59 @@ public final class ExternalEventOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List External Events
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<ExternalEvent> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List External Events
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<ExternalEvent> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - External Event ID.
+   * Show External Event
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public ExternalEvent find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show External Event
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ExternalEvent find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show External Event
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ExternalEvent find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show External Event
+   *
+   * @param id External Event ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ExternalEvent}
+   */
   public ExternalEvent find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -129,27 +175,54 @@ public final class ExternalEventOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show External Event
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ExternalEvent get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show External Event
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ExternalEvent get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   status (required) - string - Status of event.
-   *   body (required) - string - Event body
+   * Create External Event
+   *
+   * @see #create(HashMap, HashMap)
    */
   public ExternalEvent create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create External Event
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public ExternalEvent create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create External Event
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code status} (String): Required. Status of event.</li>
+   * <li>{@code body} (String): Required. Event body</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ExternalEvent}
+   */
   public ExternalEvent create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);

@@ -2328,6 +2328,120 @@ to ignore ownership, now fails, since nothing on it can be kept private.
 The Files.com MuleSoft and Boomi connectors package the SDK version they were built with.
 Updating the SDK in your own application does not change the SDK that a connector uses.
 
+## Downloading to a stream
+
+`client.transfers().download(remotePath, out, options)` writes a remote file to an `OutputStream`
+of yours, in order, as its bytes arrive, without a local copy. The stream stays yours: it is never
+flushed or closed. A version-bound part that fails is asked for again only from the first byte not
+yet written; once some of a file that came unbound in one request has been written, a failure stops
+the download rather than writing the file again from its start. The result's destination is null,
+and a checkpoint cannot be kept.
+
+```java
+try (OutputStream out = Files.newOutputStream(Paths.get("report.csv"))) {
+  DownloadResult result = client.transfers().download("reports/2024.csv", out, DownloadOptions.defaults());
+  System.out.println(result.getSize() + " bytes");
+}
+```
+
+## Uploading to Remote Servers, Snapshots and Child Sites
+
+`client.transfers().uploadToRemoteServer(source, remoteServerId, destinationPath, options)`,
+`uploadToSnapshot` and `uploadToChildSite` upload a local file into a Remote Server, Snapshot or Child
+Site: the same upload, with the same requests, as `upload` to `_/RemoteServers/<id>/<path>`,
+`_/Snapshots/<id>/<path>` or `_/Sites/<id>/<path>`. The destination path is normalized first: both
+slash kinds separate folders, and empty, `.` and `..` components are dropped, so it stays inside the
+destination. Without one, the file keeps its own name. `File.copyToRemoteServer`,
+`File.moveToRemoteServer` and their Snapshot and Child Site siblings copy and move remote files the
+same way: statically with the global settings, or on a `File` with the client it came from.
+
+```java
+UploadResult result = client.transfers().uploadToRemoteServer(Paths.get("q1.csv"), 42L, "reports/2026/q1.csv");
+client.transfers().uploadToSnapshot(Paths.get("q1.csv"), 7L); // to _/Snapshots/7/q1.csv
+FileAction copy = client.files().find("reports/2026/q1.csv", null, null).copyToChildSite(3L, "inbox/q1.csv");
+```
+
+The older `File.uploadToRemoteServer(remoteServerId, destinationPath)` and its siblings, with or without
+parameters and options, only start an upload: they return the `FileUploadPart` for its first part and
+send no file data.
+
+## Using an Apache HttpClient of your own
+
+`HttpTransport.builder().buildClient()` builds a `GuardedApacheClient`: an Apache HttpClient 4 with
+your proxy, TLS, pool and interceptors, which you can send your own requests with before, while and
+after Files.com clients use it. `HttpTransport.borrowed(http)` makes a transport that sends a
+client's requests with that very client and leaves it yours to close; `HttpTransport.owned(http)`
+makes one that closes it when the transport is closed.
+
+```java
+GuardedApacheClient http = HttpTransport.builder()
+    .customize(builder -> builder.setProxy(new HttpHost("proxy.example.com", 8080)))
+    .buildClient();
+HttpTransport transport = HttpTransport.borrowed(http);
+FilesClient client = FilesClient.builder().apiKey(apiKey).transport(transport).build();
+// Use client, and http itself, from any thread.
+client.close();
+transport.close(); // aborts only this transport's requests; http stays open
+http.close();
+```
+
+- Closing a transport that borrows the client aborts only its own requests, including a response
+  whose body is still being read; the client, its pool and other transports using it go on. Closing
+  the client, or a transport that owns it, closes it for every transport using it.
+- Transports using one client share its pool's limits for transfers.
+- Only a client built this way can be given to a transport: an Apache client built otherwise could
+  bypass the SDK's protections. Your own requests never carry Files.com credentials, which are removed
+  as each request is written unless a Files.com client sends it to its API root. The client does not
+  retry automatically; each Files.com client retries its requests itself, within its own limit.
+
+## Using `java.nio.file` with Files.com
+
+`FilesComFileSystems` makes a `java.nio.file.FileSystem` bound to one `FilesClient`, so code
+written for `java.nio.file.Files` works on remote files once its first path comes from it:
+
+```java
+try (FileSystem files = FilesComFileSystems.builder(client)
+    .stageDirectory(Paths.get("/var/lib/app/files-stage"))   // an existing local directory
+    .stageQuotaBytes(4L * 1024 * 1024 * 1024)                 // most bytes staged at once
+    .build()) {
+  Path report = files.getPath("/reports/2024.csv");
+  Files.write(report, bytes);                                 // published when the stream closes
+  byte[] read = Files.readAllBytes(report);
+  try (DirectoryStream<Path> entries = Files.newDirectoryStream(report.getParent())) {
+    entries.forEach(entry -> System.out.println(entry));      // one page at a time
+  }
+  Files.createDirectories(files.getPath("/archive/2024"));
+  Files.move(report, files.getPath("/archive/2024/2024.csv"), StandardCopyOption.REPLACE_EXISTING);
+}
+```
+
+- The file system borrows the client: closing it closes its own channels and directory streams,
+  never the client. It is made only by `FilesComFileSystems`; no URI finds it, and its paths'
+  URIs hold an opaque mount ID, never credentials.
+- Reading downloads the file into a private copy in the stage directory, read and written only
+  through the handle that created it. Its size is reserved in the stage quota first; a file whose
+  size is unknown, or that does not fit, is refused, and a download is stopped before it writes
+  past that size.
+- Writing is staged. Opening with `CREATE` and `TRUNCATE_EXISTING` (the default of `Files.write`)
+  prepares the empty copy, then publishes the file empty before the stream is returned; `WRITE`,
+  `READ`+`WRITE` and `APPEND` change a copy of an existing file. Closing uploads the copy once.
+  Flushing publishes nothing, and one channel of a file system writes a file at a time, however
+  its path is spelled where Files.com compares paths alike. A failed close keeps the copy and is
+  not retried; the exception's `getOtherFile()` is the name the copy's directory was created with,
+  or null, a diagnostic that is not checked again and may no longer lead to the copy.
+- `Files.delete` deletes a file or an empty folder and waits for it to be gone; copy and move wait
+  for the API to finish, and one the API skips fails. Copying a folder creates an empty folder.
+- API failures are native `IOException`s with the SDK exception as the cause; only the error type
+  `not-found/file-not-found`, and the type `not-found` with the body code 404 from the request that
+  starts a delete, are a `NoSuchFileException`. That delete's `not-found` means the API cannot
+  resolve the path, which it reports alike for a stored path it cannot tell apart, so
+  `Files.deleteIfExists` returning `false` reflects that unresolved logical path; it establishes
+  neither physical absence nor the outcome of earlier request attempts. A not-found while the
+  delete is waited for is a failure. `CREATE_NEW`, `CREATE` without
+  `TRUNCATE_EXISTING`, `ATOMIC_MOVE`, links, watching and POSIX permissions throw
+  `UnsupportedOperationException`, caused by a `NotImplementedException`, before changing
+  anything.
+
 ## Development
 
 The SDK is compiled for Java 8, but building and checking it needs JDK 25. The Maven Wrapper

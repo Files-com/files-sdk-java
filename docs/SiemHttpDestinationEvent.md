@@ -31,12 +31,9 @@
 
 ## List SIEM HTTP Destination Events
 
-```
-ListIterator<SiemHttpDestinationEvent> siemHttpDestinationEvent = SiemHttpDestinationEvent.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<SiemHttpDestinationEvent> siemHttpDestinationEvents = SiemHttpDestinationEvent.list(parameters, null);
 ```
 
 ### Parameters
@@ -55,12 +52,9 @@ ListIterator<SiemHttpDestinationEvent> siemHttpDestinationEvent = SiemHttpDestin
 
 ## Show SIEM HTTP Destination Event
 
-```
-SiemHttpDestinationEvent siemHttpDestinationEvent = SiemHttpDestinationEvent.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+SiemHttpDestinationEvent siemHttpDestinationEvent = SiemHttpDestinationEvent.find(1L, parameters, null);
 ```
 
 ### Parameters

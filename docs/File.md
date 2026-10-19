@@ -1,5 +1,27 @@
 # Files.Models.File
 
+## Upload, copy and move to Remote Servers, Snapshots and Child Sites
+
+Remote Servers, Snapshots and Child Sites are reached through the underscore folders
+`_/RemoteServers/<id>`, `_/Snapshots/<id>` and `_/Sites/<id>`. Each helper normalizes the destination
+path (both slash kinds separate folders; empty, `.` and `..` components are dropped, so the path stays
+inside the destination), then calls the ordinary upload, copy or move with the full path, so the
+requests are the same.
+
+* `client.transfers().uploadToRemoteServer(Path source, Long remoteServerId[, String destinationPath[, UploadOptions options]])`,
+  `uploadToSnapshot(Path, Long snapshotId, ...)` and `uploadToChildSite(Path, Long siteId, ...)` upload a
+  local file with that client, sending its bytes and completing the upload, and return its
+  `UploadResult`. Without a destination path, the file keeps its own name.
+* `File.copyToRemoteServer(String path, Long remoteServerId, String destinationPath[, HashMap parameters[, HashMap options]])`,
+  `File.copyToSnapshot`, `File.copyToChildSite`, `File.moveToRemoteServer`, `File.moveToSnapshot` and
+  `File.moveToChildSite` copy or move a remote file or folder with the global settings and the options
+  given.
+* On a `File`, `file.copyToRemoteServer(Long remoteServerId, String destinationPath[, HashMap parameters])`
+  and the other five copy or move it with the client and request options it was returned with.
+* `File.uploadToRemoteServer(Long remoteServerId, String destinationPath[, HashMap parameters[, HashMap options]])`,
+  `File.uploadToSnapshot` and `File.uploadToChildSite` only start an upload: they return the
+  `FileUploadPart` for its first part and send no file data.
+
 ## Example File Object
 
 ```
@@ -100,7 +122,7 @@
 * `mkdir_parents` / `mkdirParents`  (boolean): Create parent directories if they do not exist?
 * `part` / `part`  (int64): Part if uploading a part.
 * `parts` / `parts`  (int64): How many parts to fetch?
-* `ref` / `ref`  (string): 
+* `ref` / `ref`  (string): Upload reference used to request further parts or finalize the existing upload.
 * `restart` / `restart`  (int64): File byte offset to restart from.
 * `copy_behaviors` / `copyBehaviors`  (boolean): If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
 * `structure` / `structure`  (string): If copying folder, copy just the structure?
@@ -113,12 +135,12 @@
 
 ## Download File
 
-```
-File file = File.download(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("with_previews", false);
+parameters.put("with_priority_color", false);
+parameters.put("with_direct_connection_info", false);
+File file = File.download("path", parameters, null);
 ```
 
 ### Parameters
@@ -135,12 +157,23 @@ File file = File.download(
 
 ## Upload File
 
-```
-FileUploadPart file = File.create(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("department", "finance");
+parameters.put("custom_metadata", map1);
+parameters.put("length", 1L);
+parameters.put("mkdir_parents", false);
+parameters.put("part", 1L);
+parameters.put("parts", 1L);
+parameters.put("provided_mtime", "2000-01-01T01:00:00Z");
+parameters.put("restart", 1L);
+parameters.put("size", 1L);
+parameters.put("copy_behaviors", false);
+parameters.put("with_rename", false);
+parameters.put("buffered_upload", false);
+parameters.put("with_direct_connection_info", false);
+FileUploadPart fileUploadPart = File.create("path", parameters, null);
 ```
 
 ### Parameters
@@ -169,12 +202,14 @@ FileUploadPart file = File.create(
 
 ## Update File/Folder Metadata
 
-```
-File file = File.update(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("department", "finance");
+parameters.put("custom_metadata", map1);
+parameters.put("provided_mtime", "2000-01-01T01:00:00Z");
+parameters.put("priority_color", "red");
+File file = File.update("path", parameters, null);
 ```
 
 ### Parameters
@@ -189,12 +224,10 @@ File file = File.update(
 
 ## Delete File/Folder
 
-```
-void file = File.delete(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("recursive", false);
+File.delete("path", parameters, null);
 ```
 
 ### Parameters
@@ -207,12 +240,11 @@ void file = File.delete(
 
 ## Find File/Folder by Path
 
-```
-File file = File.find(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("with_previews", false);
+parameters.put("with_priority_color", false);
+File file = File.find("path", parameters, null);
 ```
 
 ### Parameters
@@ -227,12 +259,9 @@ File file = File.find(
 
 ## List the contents of a ZIP file
 
-```
-ListIterator<ZipListEntry> file = File.zipListContents(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<ZipListEntry> zipListEntries = File.zipListContents("path", parameters, null);
 ```
 
 ### Parameters
@@ -244,12 +273,10 @@ ListIterator<ZipListEntry> file = File.zipListContents(
 
 ## Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
 
-```
-FileAction file = File.beginDelete(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("recursive", false);
+FileAction fileAction = File.beginDelete("path", parameters, null);
 ```
 
 ### Parameters
@@ -262,12 +289,13 @@ FileAction file = File.beginDelete(
 
 ## Copy File/Folder
 
-```
-FileAction file = File.copy(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("destination", "destination");
+parameters.put("copy_behaviors", false);
+parameters.put("structure", false);
+parameters.put("overwrite", false);
+FileAction fileAction = File.copy("path", parameters, null);
 ```
 
 ### Parameters
@@ -283,12 +311,11 @@ FileAction file = File.copy(
 
 ## Move File/Folder
 
-```
-FileAction file = File.move(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("destination", "destination");
+parameters.put("overwrite", false);
+FileAction fileAction = File.move("path", parameters, null);
 ```
 
 ### Parameters
@@ -302,12 +329,15 @@ FileAction file = File.move(
 
 ## Transform a file and save the output to a destination path
 
-```
-FileAction file = File.transform(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("destination", "destination");
+parameters.put("transform_type", "transform_type");
+parameters.put("target_format", "target_format");
+parameters.put("width", 1L);
+parameters.put("height", 1L);
+parameters.put("overwrite", false);
+FileAction fileAction = File.transform("path", parameters, null);
 ```
 
 ### Parameters
@@ -326,12 +356,14 @@ FileAction file = File.transform(
 
 ## Decrypt a GPG-encrypted file and save it to a destination path
 
-```
-FileAction file = File.gpgDecrypt(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("destination", "destination");
+parameters.put("gpg_key_partner_id", 1L);
+parameters.put("use_all_private_keys", false);
+parameters.put("ignore_mdc_error", false);
+parameters.put("overwrite", false);
+FileAction fileAction = File.gpgDecrypt("path", parameters, null);
 ```
 
 ### Parameters
@@ -349,12 +381,14 @@ FileAction file = File.gpgDecrypt(
 
 ## Encrypt a file with GPG and save it to a destination path
 
-```
-FileAction file = File.gpgEncrypt(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("destination", "destination");
+parameters.put("gpg_key_partner_id", 1L);
+parameters.put("signing_key_id", 1L);
+parameters.put("armor", false);
+parameters.put("overwrite", false);
+FileAction fileAction = File.gpgEncrypt("path", parameters, null);
 ```
 
 ### Parameters
@@ -372,12 +406,11 @@ FileAction file = File.gpgEncrypt(
 
 ## Extract a ZIP file to a destination folder
 
-```
-FileAction file = File.unzip(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("destination", "destination");
+parameters.put("overwrite", false);
+FileAction fileAction = File.unzip("path", parameters, null);
 ```
 
 ### Parameters
@@ -392,12 +425,12 @@ FileAction file = File.unzip(
 
 ## Create a ZIP from one or more paths and save it to a destination path
 
-```
-FileAction file = File.zip(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("paths", "paths");
+parameters.put("destination", "destination");
+parameters.put("overwrite", false);
+FileAction fileAction = File.zip(parameters, null);
 ```
 
 ### Parameters
@@ -411,12 +444,18 @@ FileAction file = File.zip(
 
 ## Begin File Upload
 
-```
-FileUploadPart file = File.beginUpload(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("mkdir_parents", false);
+parameters.put("part", 1L);
+parameters.put("parts", 1L);
+parameters.put("ref", "upload-1");
+parameters.put("restart", 1L);
+parameters.put("size", 1L);
+parameters.put("with_rename", false);
+parameters.put("buffered_upload", false);
+parameters.put("with_direct_connection_info", false);
+FileUploadPart fileUploadPart = File.beginUpload("path", parameters, null);
 ```
 
 ### Parameters
@@ -437,15 +476,13 @@ FileUploadPart file = File.beginUpload(
 
 ## Download File
 
-```
-File file = File.find(path);
-
+```java
+File file = File.find("path", null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("with_previews", false);
 parameters.put("with_priority_color", false);
 parameters.put("with_direct_connection_info", false);
-
-file.download(parameters);
+File result = file.download(parameters);
 ```
 
 ### Parameters
@@ -462,15 +499,15 @@ file.download(parameters);
 
 ## Update File/Folder Metadata
 
-```
-File file = File.find(path);
-
+```java
+File file = File.find("path", null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("custom_metadata", {"department":"finance"});
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("department", "finance");
+parameters.put("custom_metadata", map1);
 parameters.put("provided_mtime", "2000-01-01T01:00:00Z");
 parameters.put("priority_color", "red");
-
-file.update(parameters);
+File result = file.update(parameters);
 ```
 
 ### Parameters
@@ -485,12 +522,10 @@ file.update(parameters);
 
 ## Delete File/Folder
 
-```
-File file = File.find(path);
-
+```java
+File file = File.find("path", null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("recursive", false);
-
 file.delete(parameters);
 ```
 
@@ -504,12 +539,10 @@ file.delete(parameters);
 
 ## List the contents of a ZIP file
 
-```
-File file = File.find(path);
-
+```java
+File file = File.find("path", null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
-file.zipListContents(parameters);
+ListIterator<ZipListEntry> result = file.zipListContents(parameters);
 ```
 
 ### Parameters
@@ -521,13 +554,11 @@ file.zipListContents(parameters);
 
 ## Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
 
-```
-File file = File.find(path);
-
+```java
+File file = File.find("path", null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("recursive", false);
-
-file.beginDelete(parameters);
+FileAction result = file.beginDelete(parameters);
 ```
 
 ### Parameters
@@ -540,16 +571,14 @@ file.beginDelete(parameters);
 
 ## Copy File/Folder
 
-```
-File file = File.find(path);
-
+```java
+File file = File.find("path", null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("destination", "destination");
 parameters.put("copy_behaviors", false);
 parameters.put("structure", false);
 parameters.put("overwrite", false);
-
-file.copy(parameters);
+FileAction result = file.copy(parameters);
 ```
 
 ### Parameters
@@ -565,14 +594,12 @@ file.copy(parameters);
 
 ## Move File/Folder
 
-```
-File file = File.find(path);
-
+```java
+File file = File.find("path", null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("destination", "destination");
 parameters.put("overwrite", false);
-
-file.move(parameters);
+FileAction result = file.move(parameters);
 ```
 
 ### Parameters
@@ -586,18 +613,16 @@ file.move(parameters);
 
 ## Transform a file and save the output to a destination path
 
-```
-File file = File.find(path);
-
+```java
+File file = File.find("path", null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("destination", "destination");
 parameters.put("transform_type", "transform_type");
 parameters.put("target_format", "target_format");
-parameters.put("width", 1);
-parameters.put("height", 1);
+parameters.put("width", 1L);
+parameters.put("height", 1L);
 parameters.put("overwrite", false);
-
-file.transform(parameters);
+FileAction result = file.transform(parameters);
 ```
 
 ### Parameters
@@ -616,17 +641,15 @@ file.transform(parameters);
 
 ## Decrypt a GPG-encrypted file and save it to a destination path
 
-```
-File file = File.find(path);
-
+```java
+File file = File.find("path", null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("destination", "destination");
-parameters.put("gpg_key_partner_id", 1);
+parameters.put("gpg_key_partner_id", 1L);
 parameters.put("use_all_private_keys", false);
 parameters.put("ignore_mdc_error", false);
 parameters.put("overwrite", false);
-
-file.gpgDecrypt(parameters);
+FileAction result = file.gpgDecrypt(parameters);
 ```
 
 ### Parameters
@@ -644,17 +667,15 @@ file.gpgDecrypt(parameters);
 
 ## Encrypt a file with GPG and save it to a destination path
 
-```
-File file = File.find(path);
-
+```java
+File file = File.find("path", null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("destination", "destination");
-parameters.put("gpg_key_partner_id", 1);
-parameters.put("signing_key_id", 1);
+parameters.put("gpg_key_partner_id", 1L);
+parameters.put("signing_key_id", 1L);
 parameters.put("armor", false);
 parameters.put("overwrite", false);
-
-file.gpgEncrypt(parameters);
+FileAction result = file.gpgEncrypt(parameters);
 ```
 
 ### Parameters
@@ -672,14 +693,12 @@ file.gpgEncrypt(parameters);
 
 ## Extract a ZIP file to a destination folder
 
-```
-File file = File.find(path);
-
+```java
+File file = File.find("path", null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("destination", "destination");
 parameters.put("overwrite", false);
-
-file.unzip(parameters);
+FileAction result = file.unzip(parameters);
 ```
 
 ### Parameters
@@ -694,21 +713,19 @@ file.unzip(parameters);
 
 ## Begin File Upload
 
-```
-File file = File.find(path);
-
+```java
+File file = File.find("path", null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("mkdir_parents", false);
-parameters.put("part", 1);
-parameters.put("parts", 1);
+parameters.put("part", 1L);
+parameters.put("parts", 1L);
 parameters.put("ref", "upload-1");
-parameters.put("restart", 1);
-parameters.put("size", 1);
+parameters.put("restart", 1L);
+parameters.put("size", 1L);
 parameters.put("with_rename", false);
 parameters.put("buffered_upload", false);
 parameters.put("with_direct_connection_info", false);
-
-file.beginUpload(parameters);
+FileUploadPart result = file.beginUpload(parameters);
 ```
 
 ### Parameters

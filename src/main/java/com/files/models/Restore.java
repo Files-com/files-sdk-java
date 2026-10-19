@@ -37,6 +37,11 @@ public class Restore implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -60,14 +65,29 @@ public class Restore implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code Restore} with no attributes set.
+   */
   public Restore() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code Restore} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public Restore(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code Restore} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public Restore(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -85,10 +105,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("earliest_date")
   public Date earliestDate;
 
+  /**
+   * Gets {@link #earliestDate}.
+   *
+   * @return the value of {@link #earliestDate}
+   */
   public Date getEarliestDate() {
     return earliestDate;
   }
 
+  /**
+   * Sets {@link #earliestDate}.
+   *
+   * @param earliestDate the new value
+   */
   public void setEarliestDate(Date earliestDate) {
     this.earliestDate = earliestDate;
   }
@@ -99,10 +129,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -113,10 +153,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("dirs_restored")
   public Long dirsRestored;
 
+  /**
+   * Gets {@link #dirsRestored}.
+   *
+   * @return the value of {@link #dirsRestored}
+   */
   public Long getDirsRestored() {
     return dirsRestored;
   }
 
+  /**
+   * Sets {@link #dirsRestored}.
+   *
+   * @param dirsRestored the new value
+   */
   public void setDirsRestored(Long dirsRestored) {
     this.dirsRestored = dirsRestored;
   }
@@ -127,10 +177,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("dirs_errored")
   public Long dirsErrored;
 
+  /**
+   * Gets {@link #dirsErrored}.
+   *
+   * @return the value of {@link #dirsErrored}
+   */
   public Long getDirsErrored() {
     return dirsErrored;
   }
 
+  /**
+   * Sets {@link #dirsErrored}.
+   *
+   * @param dirsErrored the new value
+   */
   public void setDirsErrored(Long dirsErrored) {
     this.dirsErrored = dirsErrored;
   }
@@ -141,10 +201,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("dirs_total")
   public Long dirsTotal;
 
+  /**
+   * Gets {@link #dirsTotal}.
+   *
+   * @return the value of {@link #dirsTotal}
+   */
   public Long getDirsTotal() {
     return dirsTotal;
   }
 
+  /**
+   * Sets {@link #dirsTotal}.
+   *
+   * @param dirsTotal the new value
+   */
   public void setDirsTotal(Long dirsTotal) {
     this.dirsTotal = dirsTotal;
   }
@@ -155,10 +225,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("files_restored")
   public Long filesRestored;
 
+  /**
+   * Gets {@link #filesRestored}.
+   *
+   * @return the value of {@link #filesRestored}
+   */
   public Long getFilesRestored() {
     return filesRestored;
   }
 
+  /**
+   * Sets {@link #filesRestored}.
+   *
+   * @param filesRestored the new value
+   */
   public void setFilesRestored(Long filesRestored) {
     this.filesRestored = filesRestored;
   }
@@ -169,10 +249,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("files_errored")
   public Long filesErrored;
 
+  /**
+   * Gets {@link #filesErrored}.
+   *
+   * @return the value of {@link #filesErrored}
+   */
   public Long getFilesErrored() {
     return filesErrored;
   }
 
+  /**
+   * Sets {@link #filesErrored}.
+   *
+   * @param filesErrored the new value
+   */
   public void setFilesErrored(Long filesErrored) {
     this.filesErrored = filesErrored;
   }
@@ -183,10 +273,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("files_total")
   public Long filesTotal;
 
+  /**
+   * Gets {@link #filesTotal}.
+   *
+   * @return the value of {@link #filesTotal}
+   */
   public Long getFilesTotal() {
     return filesTotal;
   }
 
+  /**
+   * Sets {@link #filesTotal}.
+   *
+   * @param filesTotal the new value
+   */
   public void setFilesTotal(Long filesTotal) {
     this.filesTotal = filesTotal;
   }
@@ -197,10 +297,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("prefix")
   public String prefix;
 
+  /**
+   * Gets {@link #prefix}.
+   *
+   * @return the value of {@link #prefix}
+   */
   public String getPrefix() {
     return prefix;
   }
 
+  /**
+   * Sets {@link #prefix}.
+   *
+   * @param prefix the new value
+   */
   public void setPrefix(String prefix) {
     this.prefix = prefix;
   }
@@ -211,10 +321,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("restoration_type")
   public String restorationType;
 
+  /**
+   * Gets {@link #restorationType}.
+   *
+   * @return the value of {@link #restorationType}
+   */
   public String getRestorationType() {
     return restorationType;
   }
 
+  /**
+   * Sets {@link #restorationType}.
+   *
+   * @param restorationType the new value
+   */
   public void setRestorationType(String restorationType) {
     this.restorationType = restorationType;
   }
@@ -225,10 +345,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("restore_in_place")
   public Boolean restoreInPlace;
 
+  /**
+   * Gets {@link #restoreInPlace}.
+   *
+   * @return the value of {@link #restoreInPlace}
+   */
   public Boolean getRestoreInPlace() {
     return restoreInPlace;
   }
 
+  /**
+   * Sets {@link #restoreInPlace}.
+   *
+   * @param restoreInPlace the new value
+   */
   public void setRestoreInPlace(Boolean restoreInPlace) {
     this.restoreInPlace = restoreInPlace;
   }
@@ -239,10 +369,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("restore_deleted_permissions")
   public Boolean restoreDeletedPermissions;
 
+  /**
+   * Gets {@link #restoreDeletedPermissions}.
+   *
+   * @return the value of {@link #restoreDeletedPermissions}
+   */
   public Boolean getRestoreDeletedPermissions() {
     return restoreDeletedPermissions;
   }
 
+  /**
+   * Sets {@link #restoreDeletedPermissions}.
+   *
+   * @param restoreDeletedPermissions the new value
+   */
   public void setRestoreDeletedPermissions(Boolean restoreDeletedPermissions) {
     this.restoreDeletedPermissions = restoreDeletedPermissions;
   }
@@ -253,10 +393,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("users_restored")
   public Long usersRestored;
 
+  /**
+   * Gets {@link #usersRestored}.
+   *
+   * @return the value of {@link #usersRestored}
+   */
   public Long getUsersRestored() {
     return usersRestored;
   }
 
+  /**
+   * Sets {@link #usersRestored}.
+   *
+   * @param usersRestored the new value
+   */
   public void setUsersRestored(Long usersRestored) {
     this.usersRestored = usersRestored;
   }
@@ -267,10 +417,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("users_errored")
   public Long usersErrored;
 
+  /**
+   * Gets {@link #usersErrored}.
+   *
+   * @return the value of {@link #usersErrored}
+   */
   public Long getUsersErrored() {
     return usersErrored;
   }
 
+  /**
+   * Sets {@link #usersErrored}.
+   *
+   * @param usersErrored the new value
+   */
   public void setUsersErrored(Long usersErrored) {
     this.usersErrored = usersErrored;
   }
@@ -281,10 +441,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("users_total")
   public Long usersTotal;
 
+  /**
+   * Gets {@link #usersTotal}.
+   *
+   * @return the value of {@link #usersTotal}
+   */
   public Long getUsersTotal() {
     return usersTotal;
   }
 
+  /**
+   * Sets {@link #usersTotal}.
+   *
+   * @param usersTotal the new value
+   */
   public void setUsersTotal(Long usersTotal) {
     this.usersTotal = usersTotal;
   }
@@ -295,10 +465,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("api_keys_restored")
   public Long apiKeysRestored;
 
+  /**
+   * Gets {@link #apiKeysRestored}.
+   *
+   * @return the value of {@link #apiKeysRestored}
+   */
   public Long getApiKeysRestored() {
     return apiKeysRestored;
   }
 
+  /**
+   * Sets {@link #apiKeysRestored}.
+   *
+   * @param apiKeysRestored the new value
+   */
   public void setApiKeysRestored(Long apiKeysRestored) {
     this.apiKeysRestored = apiKeysRestored;
   }
@@ -309,10 +489,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("public_keys_restored")
   public Long publicKeysRestored;
 
+  /**
+   * Gets {@link #publicKeysRestored}.
+   *
+   * @return the value of {@link #publicKeysRestored}
+   */
   public Long getPublicKeysRestored() {
     return publicKeysRestored;
   }
 
+  /**
+   * Sets {@link #publicKeysRestored}.
+   *
+   * @param publicKeysRestored the new value
+   */
   public void setPublicKeysRestored(Long publicKeysRestored) {
     this.publicKeysRestored = publicKeysRestored;
   }
@@ -323,10 +513,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("two_factor_authentication_methods_restored")
   public Long twoFactorAuthenticationMethodsRestored;
 
+  /**
+   * Gets {@link #twoFactorAuthenticationMethodsRestored}.
+   *
+   * @return the value of {@link #twoFactorAuthenticationMethodsRestored}
+   */
   public Long getTwoFactorAuthenticationMethodsRestored() {
     return twoFactorAuthenticationMethodsRestored;
   }
 
+  /**
+   * Sets {@link #twoFactorAuthenticationMethodsRestored}.
+   *
+   * @param twoFactorAuthenticationMethodsRestored the new value
+   */
   public void setTwoFactorAuthenticationMethodsRestored(Long twoFactorAuthenticationMethodsRestored) {
     this.twoFactorAuthenticationMethodsRestored = twoFactorAuthenticationMethodsRestored;
   }
@@ -337,10 +537,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("status")
   public String status;
 
+  /**
+   * Gets {@link #status}.
+   *
+   * @return the value of {@link #status}
+   */
   public String getStatus() {
     return status;
   }
 
+  /**
+   * Sets {@link #status}.
+   *
+   * @param status the new value
+   */
   public void setStatus(String status) {
     this.status = status;
   }
@@ -351,10 +561,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("update_timestamps")
   public Boolean updateTimestamps;
 
+  /**
+   * Gets {@link #updateTimestamps}.
+   *
+   * @return the value of {@link #updateTimestamps}
+   */
   public Boolean getUpdateTimestamps() {
     return updateTimestamps;
   }
 
+  /**
+   * Sets {@link #updateTimestamps}.
+   *
+   * @param updateTimestamps the new value
+   */
   public void setUpdateTimestamps(Boolean updateTimestamps) {
     this.updateTimestamps = updateTimestamps;
   }
@@ -365,10 +585,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
 
+  /**
+   * Sets {@link #workspaceId}.
+   *
+   * @param workspaceId the new value
+   */
   public void setWorkspaceId(Long workspaceId) {
     this.workspaceId = workspaceId;
   }
@@ -379,10 +609,20 @@ public class Restore implements ModelInterface {
   @JsonProperty("error_messages")
   public String[] errorMessages;
 
+  /**
+   * Gets {@link #errorMessages}.
+   *
+   * @return the value of {@link #errorMessages}
+   */
   public String[] getErrorMessages() {
     return errorMessages;
   }
 
+  /**
+   * Sets {@link #errorMessages}.
+   *
+   * @param errorMessages the new value
+   */
   public void setErrorMessages(String[] errorMessages) {
     this.errorMessages = errorMessages;
   }
@@ -432,52 +672,96 @@ public class Restore implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `restoration_type`.
+   * List Restores
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<Restore> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Restores
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Restore> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Restores
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `restoration_type`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Restore} records, in a {@code ListIterator}
+   */
   public static ListIterator<Restore> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().restores().list(parameters, options);
   }
 
+  /**
+   * List Restores
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Restore> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Restores
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Restore> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   earliest_date (required) - string - Restore files or users deleted on or after this date/time. Don't set this earlier than you need. Can not be greater than 365 days prior to the restore request.
-   *   prefix - string - Prefix of the files/folders to restore, or a case-insensitive username prefix for a user restore. A trailing slash selects that folder and its contents only; without it, the prefix matches any path beginning with that text. Do not use a leading slash. To restore all deleted items of the selected restoration type within the selected site or workspace scope, specify an empty string (`''`) or omit the field.
-   *   restoration_type - string - Type of restoration to perform. `files` restores deleted filesystem items. `users` restores deleted users and associated authentication records, plus permissions when `restore_deleted_permissions=true`. A 5-minute grace period allows for batch deletion processes: associated records deleted within the 5 minutes before the user are included, even if removed independently. Records deleted earlier, or before `earliest_date`, remain deleted.
-   *   restore_deleted_permissions - boolean - If true, a user restore restores permissions deleted along with the selected users, including permissions removed independently within the 5 minutes before user deletion. Permissions deleted earlier, or before `earliest_date`, remain deleted. An in-place file restore restores user and group permissions on returned folders and their subfolders that were deleted from the time of the folder's deletion through 24 hours afterward, including permissions removed independently within that window. File restores into a new folder do not restore permissions.
-   *   restore_in_place - boolean - If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.
-   *   update_timestamps - boolean - If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.
-   *   workspace_id - int64 - Workspace ID for a workspace-scoped restore. `0` means the default site-wide scope.
+   * Create Restore
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static Restore create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Restore
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static Restore create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Restore
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code earliest_date} (String): Required. Restore files or users deleted on or after this date/time. Don't set this earlier than you need. Can not be greater than 365 days prior to the restore request.</li>
+   * <li>{@code prefix} (String): Prefix of the files/folders to restore, or a case-insensitive username prefix for a user restore. A trailing slash selects that folder and its contents only; without it, the prefix matches any path beginning with that text. Do not use a leading slash. To restore all deleted items of the selected restoration type within the selected site or workspace scope, specify an empty string (`''`) or omit the field.</li>
+   * <li>{@code restoration_type} (String): Type of restoration to perform. `files` restores deleted filesystem items. `users` restores deleted users and associated authentication records, plus permissions when `restore_deleted_permissions=true`. A 5-minute grace period allows for batch deletion processes: associated records deleted within the 5 minutes before the user are included, even if removed independently. Records deleted earlier, or before `earliest_date`, remain deleted.</li>
+   * <li>{@code restore_deleted_permissions} (Boolean): If true, a user restore restores permissions deleted along with the selected users, including permissions removed independently within the 5 minutes before user deletion. Permissions deleted earlier, or before `earliest_date`, remain deleted. An in-place file restore restores user and group permissions on returned folders and their subfolders that were deleted from the time of the folder's deletion through 24 hours afterward, including permissions removed independently within that window. File restores into a new folder do not restore permissions.</li>
+   * <li>{@code restore_in_place} (Boolean): If true, we will restore the files in place (into their original paths). If false, we will create a new restoration folder in the root and restore files there.</li>
+   * <li>{@code update_timestamps} (Boolean): If true, we will update the last modified timestamp of restored files to today's date. If false, we might trigger File Expiration to delete the file again.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID for a workspace-scoped restore. `0` means the default site-wide scope.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Restore}
+   */
   public static Restore create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().restores().create(parameters, options);
   }

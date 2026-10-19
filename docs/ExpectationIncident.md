@@ -44,12 +44,9 @@
 
 ## List Expectation Incidents
 
-```
-ListIterator<ExpectationIncident> expectationIncident = ExpectationIncident.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<ExpectationIncident> expectationIncidents = ExpectationIncident.list(parameters, null);
 ```
 
 ### Parameters
@@ -64,81 +61,23 @@ ListIterator<ExpectationIncident> expectationIncident = ExpectationIncident.list
 
 ## Show Expectation Incident
 
-```
-ExpectationIncident expectationIncident = ExpectationIncident.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Expectation Incident ID.
-
-
----
-
-## Resolve an expectation incident
-
-```
-ExpectationIncident expectationIncident = ExpectationIncident.resolve(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Expectation Incident ID.
-
-
----
-
-## Snooze an expectation incident until a specified time
-
-```
-ExpectationIncident expectationIncident = ExpectationIncident.snooze(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Expectation Incident ID.
-* `snoozed_until` (String): Required - Time until which the incident should remain snoozed.
-
-
----
-
-## Acknowledge an expectation incident
-
-```
-ExpectationIncident expectationIncident = ExpectationIncident.acknowledge(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Expectation Incident ID.
-
-
----
-
-## Resolve an expectation incident
-
-```
-ExpectationIncident expectationIncident = ExpectationIncident.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
+ExpectationIncident expectationIncident = ExpectationIncident.find(1L, parameters, null);
+```
 
-expectationIncident.resolve(parameters);
+### Parameters
+
+* `id` (Long): Required - Expectation Incident ID.
+
+
+---
+
+## Resolve an expectation incident
+
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ExpectationIncident expectationIncident = ExpectationIncident.resolve(1L, parameters, null);
 ```
 
 ### Parameters
@@ -150,13 +89,10 @@ expectationIncident.resolve(parameters);
 
 ## Snooze an expectation incident until a specified time
 
-```
-ExpectationIncident expectationIncident = ExpectationIncident.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("snoozed_until", "snoozed_until");
-
-expectationIncident.snooze(parameters);
+ExpectationIncident expectationIncident = ExpectationIncident.snooze(1L, parameters, null);
 ```
 
 ### Parameters
@@ -169,12 +105,56 @@ expectationIncident.snooze(parameters);
 
 ## Acknowledge an expectation incident
 
-```
-ExpectationIncident expectationIncident = ExpectationIncident.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
+ExpectationIncident expectationIncident = ExpectationIncident.acknowledge(1L, parameters, null);
+```
 
-expectationIncident.acknowledge(parameters);
+### Parameters
+
+* `id` (Long): Required - Expectation Incident ID.
+
+
+---
+
+## Resolve an expectation incident
+
+```java
+ExpectationIncident expectationIncident = ExpectationIncident.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+ExpectationIncident result = expectationIncident.resolve(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - Expectation Incident ID.
+
+
+---
+
+## Snooze an expectation incident until a specified time
+
+```java
+ExpectationIncident expectationIncident = ExpectationIncident.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("snoozed_until", "snoozed_until");
+ExpectationIncident result = expectationIncident.snooze(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - Expectation Incident ID.
+* `snoozed_until` (String): Required - Time until which the incident should remain snoozed.
+
+
+---
+
+## Acknowledge an expectation incident
+
+```java
+ExpectationIncident expectationIncident = ExpectationIncident.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+ExpectationIncident result = expectationIncident.acknowledge(parameters);
 ```
 
 ### Parameters

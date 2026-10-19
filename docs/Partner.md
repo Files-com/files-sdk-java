@@ -71,12 +71,9 @@
 
 ## List Partners
 
-```
-ListIterator<Partner> partner = Partner.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<Partner> partners = Partner.list(parameters, null);
 ```
 
 ### Parameters
@@ -91,12 +88,9 @@ ListIterator<Partner> partner = Partner.list(
 
 ## Show Partner
 
-```
-Partner partner = Partner.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Partner partner = Partner.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -108,12 +102,25 @@ Partner partner = Partner.find(
 
 ## Create Partner
 
-```
-Partner partner = Partner.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("ai_assistant_personality_id", 1L);
+parameters.put("allowed_ips", "10.0.0.0/8\n127.0.0.1");
+parameters.put("allow_bypassing_2fa_policies", false);
+parameters.put("allow_credential_changes", false);
+parameters.put("allow_providing_gpg_keys", false);
+parameters.put("allow_user_creation", false);
+parameters.put("cc_emails_to_responsible_party", false);
+parameters.put("notes", "This is a note about the partner.");
+parameters.put("partner_channel_template_id", 1L);
+parameters.put("responsible_group_id", 1L);
+parameters.put("responsible_user_id", 1L);
+parameters.put("show_partner_channel_home_page", false);
+parameters.put("tags", "example");
+parameters.put("name", "Acme Corp");
+parameters.put("root_folder", "/AcmeCorp");
+parameters.put("workspace_id", 1L);
+Partner partner = Partner.create(parameters, null);
 ```
 
 ### Parameters
@@ -140,12 +147,25 @@ Partner partner = Partner.create(
 
 ## Update Partner
 
-```
-Partner partner = Partner.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("ai_assistant_personality_id", 1L);
+parameters.put("allowed_ips", "10.0.0.0/8\n127.0.0.1");
+parameters.put("allow_bypassing_2fa_policies", false);
+parameters.put("allow_credential_changes", false);
+parameters.put("allow_providing_gpg_keys", false);
+parameters.put("allow_user_creation", false);
+parameters.put("cc_emails_to_responsible_party", false);
+parameters.put("notes", "This is a note about the partner.");
+parameters.put("partner_channel_template_id", 1L);
+parameters.put("responsible_group_id", 1L);
+parameters.put("responsible_user_id", 1L);
+parameters.put("show_partner_channel_home_page", false);
+parameters.put("tags", "example");
+parameters.put("name", "Acme Corp");
+parameters.put("partnership_role", "host");
+parameters.put("root_folder", "/AcmeCorp");
+Partner partner = Partner.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -173,12 +193,9 @@ Partner partner = Partner.update(
 
 ## Delete Partner
 
-```
-void partner = Partner.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Partner.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -190,11 +207,10 @@ void partner = Partner.delete(
 
 ## Update Partner
 
-```
-Partner partner = Partner.find(id);
-
+```java
+Partner partner = Partner.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("ai_assistant_personality_id", 1);
+parameters.put("ai_assistant_personality_id", 1L);
 parameters.put("allowed_ips", "10.0.0.0/8\n127.0.0.1");
 parameters.put("allow_bypassing_2fa_policies", false);
 parameters.put("allow_credential_changes", false);
@@ -202,16 +218,15 @@ parameters.put("allow_providing_gpg_keys", false);
 parameters.put("allow_user_creation", false);
 parameters.put("cc_emails_to_responsible_party", false);
 parameters.put("notes", "This is a note about the partner.");
-parameters.put("partner_channel_template_id", 1);
-parameters.put("responsible_group_id", 1);
-parameters.put("responsible_user_id", 1);
+parameters.put("partner_channel_template_id", 1L);
+parameters.put("responsible_group_id", 1L);
+parameters.put("responsible_user_id", 1L);
 parameters.put("show_partner_channel_home_page", false);
 parameters.put("tags", "example");
 parameters.put("name", "Acme Corp");
 parameters.put("partnership_role", "host");
 parameters.put("root_folder", "/AcmeCorp");
-
-partner.update(parameters);
+Partner result = partner.update(parameters);
 ```
 
 ### Parameters
@@ -239,11 +254,9 @@ partner.update(parameters);
 
 ## Delete Partner
 
-```
-Partner partner = Partner.find(id);
-
+```java
+Partner partner = Partner.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 partner.delete(parameters);
 ```
 

@@ -35,6 +35,11 @@ public class InvoiceLineItem implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class InvoiceLineItem implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code InvoiceLineItem} with no attributes set.
+   */
   public InvoiceLineItem() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code InvoiceLineItem} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public InvoiceLineItem(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code InvoiceLineItem} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public InvoiceLineItem(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,6 +103,11 @@ public class InvoiceLineItem implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -94,6 +119,11 @@ public class InvoiceLineItem implements ModelInterface {
   @JsonProperty("amount")
   public BigDecimal amount;
 
+  /**
+   * Gets {@link #amount}.
+   *
+   * @return the value of {@link #amount}
+   */
   public BigDecimal getAmount() {
     return amount;
   }
@@ -104,6 +134,11 @@ public class InvoiceLineItem implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -114,6 +149,11 @@ public class InvoiceLineItem implements ModelInterface {
   @JsonProperty("description")
   public String description;
 
+  /**
+   * Gets {@link #description}.
+   *
+   * @return the value of {@link #description}
+   */
   public String getDescription() {
     return description;
   }
@@ -124,6 +164,11 @@ public class InvoiceLineItem implements ModelInterface {
   @JsonProperty("type")
   public String type;
 
+  /**
+   * Gets {@link #type}.
+   *
+   * @return the value of {@link #type}
+   */
   public String getType() {
     return type;
   }
@@ -134,6 +179,11 @@ public class InvoiceLineItem implements ModelInterface {
   @JsonProperty("service_end_at")
   public Date serviceEndAt;
 
+  /**
+   * Gets {@link #serviceEndAt}.
+   *
+   * @return the value of {@link #serviceEndAt}
+   */
   public Date getServiceEndAt() {
     return serviceEndAt;
   }
@@ -144,6 +194,11 @@ public class InvoiceLineItem implements ModelInterface {
   @JsonProperty("service_start_at")
   public Date serviceStartAt;
 
+  /**
+   * Gets {@link #serviceStartAt}.
+   *
+   * @return the value of {@link #serviceStartAt}
+   */
   public Date getServiceStartAt() {
     return serviceStartAt;
   }
@@ -154,6 +209,11 @@ public class InvoiceLineItem implements ModelInterface {
   @JsonProperty("plan")
   public String plan;
 
+  /**
+   * Gets {@link #plan}.
+   *
+   * @return the value of {@link #plan}
+   */
   public String getPlan() {
     return plan;
   }
@@ -164,6 +224,11 @@ public class InvoiceLineItem implements ModelInterface {
   @JsonProperty("site")
   public String site;
 
+  /**
+   * Gets {@link #site}.
+   *
+   * @return the value of {@link #site}
+   */
   public String getSite() {
     return site;
   }
@@ -174,6 +239,11 @@ public class InvoiceLineItem implements ModelInterface {
   @JsonProperty("prepaid_bytes")
   public Long prepaidBytes;
 
+  /**
+   * Gets {@link #prepaidBytes}.
+   *
+   * @return the value of {@link #prepaidBytes}
+   */
   public Long getPrepaidBytes() {
     return prepaidBytes;
   }
@@ -184,6 +254,11 @@ public class InvoiceLineItem implements ModelInterface {
   @JsonProperty("prepaid_bytes_expire_at")
   public Date prepaidBytesExpireAt;
 
+  /**
+   * Gets {@link #prepaidBytesExpireAt}.
+   *
+   * @return the value of {@link #prepaidBytesExpireAt}
+   */
   public Date getPrepaidBytesExpireAt() {
     return prepaidBytesExpireAt;
   }
@@ -194,6 +269,11 @@ public class InvoiceLineItem implements ModelInterface {
   @JsonProperty("prepaid_bytes_used")
   public Long prepaidBytesUsed;
 
+  /**
+   * Gets {@link #prepaidBytesUsed}.
+   *
+   * @return the value of {@link #prepaidBytesUsed}
+   */
   public Long getPrepaidBytesUsed() {
     return prepaidBytesUsed;
   }
@@ -204,6 +284,11 @@ public class InvoiceLineItem implements ModelInterface {
   @JsonProperty("prepaid_bytes_available")
   public Long prepaidBytesAvailable;
 
+  /**
+   * Gets {@link #prepaidBytesAvailable}.
+   *
+   * @return the value of {@link #prepaidBytesAvailable}
+   */
   public Long getPrepaidBytesAvailable() {
     return prepaidBytesAvailable;
   }

@@ -25,21 +25,38 @@ public final class WorkspaceOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `name`.
-   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
+   * List Workspaces
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<Workspace> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Workspaces
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Workspace> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Workspaces
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `name`.</li>
+   * <li>{@code filter_prefix} (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Workspace} records, in a {@code ListIterator}
+   */
   public ListIterator<Workspace> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -69,30 +86,59 @@ public final class WorkspaceOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Workspaces
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Workspace> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Workspaces
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Workspace> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Workspace ID.
+   * Show Workspace
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public Workspace find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Workspace
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Workspace find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Workspace
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Workspace find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Workspace
+   *
+   * @param id Workspace ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Workspace}
+   */
   public Workspace find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -114,26 +160,53 @@ public final class WorkspaceOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Workspace
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Workspace get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Workspace
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Workspace get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   name - string - Workspace name
+   * Create Workspace
+   *
+   * @see #create(HashMap, HashMap)
    */
   public Workspace create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Workspace
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public Workspace create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Workspace
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Workspace name</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Workspace}
+   */
   public Workspace create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -148,21 +221,44 @@ public final class WorkspaceOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   name - string - Workspace name
+   * Update Workspace
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public Workspace update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Workspace
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public Workspace update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Workspace
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public Workspace update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Workspace
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Workspace name</li>
+   * </ul>
+   *
+   * @param id Workspace ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Workspace}
+   */
   public Workspace update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -189,19 +285,39 @@ public final class WorkspaceOperations extends ResourceOperations {
   }
 
   /**
+   * Delete Workspace
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Workspace
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Workspace
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Workspace
+   *
+   * @param id Workspace ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -222,10 +338,20 @@ public final class WorkspaceOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Workspace
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Workspace
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

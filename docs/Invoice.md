@@ -62,12 +62,9 @@
 
 ## List Invoices
 
-```
-ListIterator<AccountLineItem> invoice = Invoice.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<AccountLineItem> accountLineItems = Invoice.list(parameters, null);
 ```
 
 ### Parameters
@@ -80,12 +77,9 @@ ListIterator<AccountLineItem> invoice = Invoice.list(
 
 ## Show Invoice
 
-```
-AccountLineItem invoice = Invoice.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+AccountLineItem accountLineItem = Invoice.find(1L, parameters, null);
 ```
 
 ### Parameters

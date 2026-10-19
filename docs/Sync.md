@@ -129,12 +129,9 @@
 
 ## List Syncs
 
-```
-ListIterator<Sync> sync = Sync.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<Sync> syncs = Sync.list(parameters, null);
 ```
 
 ### Parameters
@@ -149,12 +146,9 @@ ListIterator<Sync> sync = Sync.list(
 
 ## Show Sync
 
-```
-Sync sync = Sync.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Sync sync = Sync.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -166,12 +160,33 @@ Sync sync = Sync.find(
 
 ## Create Sync
 
-```
-Sync sync = Sync.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("delete_empty_folders", true);
+parameters.put("description", "example");
+parameters.put("dest_path", "example");
+parameters.put("dest_remote_server_id", 1L);
+parameters.put("disabled", true);
+parameters.put("exclude_patterns", new String[] {"example"});
+parameters.put("holiday_region", "us_dc");
+parameters.put("include_patterns", new String[] {"example"});
+parameters.put("interval", "week");
+parameters.put("keep_after_copy", true);
+parameters.put("name", "example");
+parameters.put("recurring_day", 25L);
+parameters.put("recurring_days", new Long[] {1L, 15L});
+parameters.put("schedule_id", 1L);
+parameters.put("schedule_days_of_week", new Long[] {0L, 2L, 4L});
+parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
+parameters.put("schedule_times_of_day", new String[] {"06:30", "14:30"});
+parameters.put("src_path", "example");
+parameters.put("src_remote_server_id", 1L);
+parameters.put("sync_interval_minutes", 1L);
+parameters.put("trigger", "example");
+parameters.put("trigger_file", "example");
+parameters.put("always_write_trigger_file", true);
+parameters.put("workspace_id", 1L);
+Sync sync = Sync.create(parameters, null);
 ```
 
 ### Parameters
@@ -206,12 +221,9 @@ Sync sync = Sync.create(
 
 ## Dry Run Sync
 
-```
-void sync = Sync.dryRun(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Sync.dryRun(1L, parameters, null);
 ```
 
 ### Parameters
@@ -223,12 +235,9 @@ void sync = Sync.dryRun(
 
 ## Manually Run Sync
 
-```
-void sync = Sync.manualRun(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Sync.manualRun(1L, parameters, null);
 ```
 
 ### Parameters
@@ -240,12 +249,32 @@ void sync = Sync.manualRun(
 
 ## Update Sync
 
-```
-Sync sync = Sync.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("delete_empty_folders", true);
+parameters.put("description", "example");
+parameters.put("dest_path", "example");
+parameters.put("dest_remote_server_id", 1L);
+parameters.put("disabled", true);
+parameters.put("exclude_patterns", new String[] {"example"});
+parameters.put("holiday_region", "us_dc");
+parameters.put("include_patterns", new String[] {"example"});
+parameters.put("interval", "week");
+parameters.put("keep_after_copy", true);
+parameters.put("name", "example");
+parameters.put("recurring_day", 25L);
+parameters.put("recurring_days", new Long[] {1L, 15L});
+parameters.put("schedule_id", 1L);
+parameters.put("schedule_days_of_week", new Long[] {0L, 2L, 4L});
+parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
+parameters.put("schedule_times_of_day", new String[] {"06:30", "14:30"});
+parameters.put("src_path", "example");
+parameters.put("src_remote_server_id", 1L);
+parameters.put("sync_interval_minutes", 1L);
+parameters.put("trigger", "example");
+parameters.put("trigger_file", "example");
+parameters.put("always_write_trigger_file", true);
+Sync sync = Sync.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -280,12 +309,9 @@ Sync sync = Sync.update(
 
 ## Delete Sync
 
-```
-void sync = Sync.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Sync.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -297,11 +323,9 @@ void sync = Sync.delete(
 
 ## Dry Run Sync
 
-```
-Sync sync = Sync.find(id);
-
+```java
+Sync sync = Sync.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 sync.dryRun(parameters);
 ```
 
@@ -314,11 +338,9 @@ sync.dryRun(parameters);
 
 ## Manually Run Sync
 
-```
-Sync sync = Sync.find(id);
-
+```java
+Sync sync = Sync.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 sync.manualRun(parameters);
 ```
 
@@ -331,35 +353,33 @@ sync.manualRun(parameters);
 
 ## Update Sync
 
-```
-Sync sync = Sync.find(id);
-
+```java
+Sync sync = Sync.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("delete_empty_folders", true);
 parameters.put("description", "example");
 parameters.put("dest_path", "example");
-parameters.put("dest_remote_server_id", 1);
+parameters.put("dest_remote_server_id", 1L);
 parameters.put("disabled", true);
-parameters.put("exclude_patterns", ["example"]);
+parameters.put("exclude_patterns", new String[] {"example"});
 parameters.put("holiday_region", "us_dc");
-parameters.put("include_patterns", ["example"]);
+parameters.put("include_patterns", new String[] {"example"});
 parameters.put("interval", "week");
 parameters.put("keep_after_copy", true);
 parameters.put("name", "example");
-parameters.put("recurring_day", 25);
-parameters.put("recurring_days", [1,15]);
-parameters.put("schedule_id", 1);
-parameters.put("schedule_days_of_week", [0,2,4]);
+parameters.put("recurring_day", 25L);
+parameters.put("recurring_days", new Long[] {1L, 15L});
+parameters.put("schedule_id", 1L);
+parameters.put("schedule_days_of_week", new Long[] {0L, 2L, 4L});
 parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
-parameters.put("schedule_times_of_day", ["06:30","14:30"]);
+parameters.put("schedule_times_of_day", new String[] {"06:30", "14:30"});
 parameters.put("src_path", "example");
-parameters.put("src_remote_server_id", 1);
-parameters.put("sync_interval_minutes", 1);
+parameters.put("src_remote_server_id", 1L);
+parameters.put("sync_interval_minutes", 1L);
 parameters.put("trigger", "example");
 parameters.put("trigger_file", "example");
 parameters.put("always_write_trigger_file", true);
-
-sync.update(parameters);
+Sync result = sync.update(parameters);
 ```
 
 ### Parameters
@@ -394,11 +414,9 @@ sync.update(parameters);
 
 ## Delete Sync
 
-```
-Sync sync = Sync.find(id);
-
+```java
+Sync sync = Sync.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 sync.delete(parameters);
 ```
 

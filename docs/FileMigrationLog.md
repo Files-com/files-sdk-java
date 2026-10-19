@@ -31,12 +31,9 @@
 
 ## List File Migration Logs
 
-```
-ListIterator<FileMigrationLog> fileMigrationLog = FileMigrationLog.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<FileMigrationLog> fileMigrationLogs = FileMigrationLog.list(parameters, null);
 ```
 
 ### Parameters

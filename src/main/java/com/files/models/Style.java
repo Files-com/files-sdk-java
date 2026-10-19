@@ -35,6 +35,11 @@ public class Style implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class Style implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code Style} with no attributes set.
+   */
   public Style() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code Style} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public Style(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code Style} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public Style(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,10 +103,20 @@ public class Style implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -97,10 +127,20 @@ public class Style implements ModelInterface {
   @JsonProperty("path")
   public String path;
 
+  /**
+   * Gets {@link #path}.
+   *
+   * @return the value of {@link #path}
+   */
   public String getPath() {
     return path;
   }
 
+  /**
+   * Sets {@link #path}.
+   *
+   * @param path the new value
+   */
   public void setPath(String path) {
     this.path = path;
   }
@@ -111,10 +151,20 @@ public class Style implements ModelInterface {
   @JsonProperty("logo")
   public Image logo;
 
+  /**
+   * Gets {@link #logo}.
+   *
+   * @return the value of {@link #logo}
+   */
   public Image getLogo() {
     return logo;
   }
 
+  /**
+   * Sets {@link #logo}.
+   *
+   * @param logo the new value
+   */
   public void setLogo(Image logo) {
     this.logo = logo;
   }
@@ -125,10 +175,20 @@ public class Style implements ModelInterface {
   @JsonProperty("logo_click_href")
   public String logoClickHref;
 
+  /**
+   * Gets {@link #logoClickHref}.
+   *
+   * @return the value of {@link #logoClickHref}
+   */
   public String getLogoClickHref() {
     return logoClickHref;
   }
 
+  /**
+   * Sets {@link #logoClickHref}.
+   *
+   * @param logoClickHref the new value
+   */
   public void setLogoClickHref(String logoClickHref) {
     this.logoClickHref = logoClickHref;
   }
@@ -139,10 +199,20 @@ public class Style implements ModelInterface {
   @JsonProperty("thumbnail")
   public Image thumbnail;
 
+  /**
+   * Gets {@link #thumbnail}.
+   *
+   * @return the value of {@link #thumbnail}
+   */
   public Image getThumbnail() {
     return thumbnail;
   }
 
+  /**
+   * Sets {@link #thumbnail}.
+   *
+   * @param thumbnail the new value
+   */
   public void setThumbnail(Image thumbnail) {
     this.thumbnail = thumbnail;
   }
@@ -153,19 +223,35 @@ public class Style implements ModelInterface {
   @JsonProperty("file")
   public byte[] file;
 
+  /**
+   * Gets {@link #file}.
+   *
+   * @return the value of {@link #file}
+   */
   public byte[] getFile() {
     return file;
   }
 
+  /**
+   * Sets {@link #file}.
+   *
+   * @param file the new value
+   */
   public void setFile(byte[] file) {
     this.file = file;
   }
 
   /**
    * Updates this Style. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   file - file - Logo for custom branding. Required when creating a new style.
-   *   logo_click_href - string - URL to open when a public visitor clicks the logo.
+   * <p>Update Style
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code file} (byte[] or Attachment): Logo for custom branding. Required when creating a new style.</li>
+   * <li>{@code logo_click_href} (String): URL to open when a public visitor clicks the logo.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code Style}
    */
   public Style update(HashMap<String, Object> parameters) throws IOException {
     Style updated = filesClient().styles().update(this.path, parameters, this.options);
@@ -174,11 +260,19 @@ public class Style implements ModelInterface {
   }
 
   /**
+   * Delete Style
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().styles().delete(this.path, parameters, this.options);
   }
 
+  /**
+   * Delete Style
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -215,77 +309,159 @@ public class Style implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   path (required) - string - Style path.
+   * Show Style
+   *
+   * @see #find(String, HashMap, HashMap)
    */
   public static Style find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Style
+   *
+   * @see #find(String, HashMap, HashMap)
+   */
   public static Style find(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return find(path, parameters, null);
   }
 
+  /**
+   * Show Style
+   *
+   * @see #find(String, HashMap, HashMap)
+   */
   public static Style find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Style
+   *
+   * @param path Style path.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Style}
+   */
   public static Style find(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().styles().find(path, parameters, options);
   }
 
+  /**
+   * Show Style
+   *
+   * @see #find(String, HashMap, HashMap)
+   */
   public static Style get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Style
+   *
+   * @see #find(String, HashMap, HashMap)
+   */
   public static Style get(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(path, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   file - file - Logo for custom branding. Required when creating a new style.
-   *   logo_click_href - string - URL to open when a public visitor clicks the logo.
+   * Update Style
+   *
+   * @see #update(String, HashMap, HashMap)
    */
   public static Style update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Style
+   *
+   * @see #update(String, HashMap, HashMap)
+   */
   public static Style update(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return update(path, parameters, null);
   }
 
+  /**
+   * Update Style
+   *
+   * @see #update(String, HashMap, HashMap)
+   */
   public static Style update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Style
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code file} (byte[] or Attachment): Logo for custom branding. Required when creating a new style.</li>
+   * <li>{@code logo_click_href} (String): URL to open when a public visitor clicks the logo.</li>
+   * </ul>
+   *
+   * @param path Style path.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Style}
+   */
   public static Style update(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().styles().update(path, parameters, options);
   }
 
 
   /**
+   * Delete Style
+   *
+   * @see #delete(String, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Style
+   *
+   * @see #delete(String, HashMap, HashMap)
+   */
   public static void delete(String path, HashMap<String, Object> parameters) throws RuntimeException {
     delete(path, parameters, null);
   }
 
+  /**
+   * Delete Style
+   *
+   * @see #delete(String, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Style
+   *
+   * @param path Style path.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().styles().delete(path, parameters, options);
   }
 
+  /**
+   * Delete Style
+   *
+   * @see #delete(String, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Style
+   *
+   * @see #delete(String, HashMap, HashMap)
+   */
   public static void destroy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(path, parameters, options);
   }

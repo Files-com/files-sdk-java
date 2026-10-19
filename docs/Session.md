@@ -25,12 +25,12 @@
 
 ## Create user session (log in)
 
-```
-Session session = Session.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("username", "username");
+parameters.put("password", "password");
+parameters.put("otp", "123456");
+Session session = Session.create(parameters, null);
 ```
 
 ### Parameters
@@ -45,10 +45,7 @@ Session session = Session.create(
 
 ## Delete user session (log out)
 
-```
-void session = Session.delete(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Session.delete(parameters, null);
 ```

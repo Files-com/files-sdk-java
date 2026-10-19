@@ -35,6 +35,11 @@ public class UsageSnapshot implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class UsageSnapshot implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code UsageSnapshot} with no attributes set.
+   */
   public UsageSnapshot() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code UsageSnapshot} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public UsageSnapshot(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code UsageSnapshot} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public UsageSnapshot(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,6 +103,11 @@ public class UsageSnapshot implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -93,6 +118,11 @@ public class UsageSnapshot implements ModelInterface {
   @JsonProperty("start_at")
   public Date startAt;
 
+  /**
+   * Gets {@link #startAt}.
+   *
+   * @return the value of {@link #startAt}
+   */
   public Date getStartAt() {
     return startAt;
   }
@@ -103,6 +133,11 @@ public class UsageSnapshot implements ModelInterface {
   @JsonProperty("end_at")
   public Date endAt;
 
+  /**
+   * Gets {@link #endAt}.
+   *
+   * @return the value of {@link #endAt}
+   */
   public Date getEndAt() {
     return endAt;
   }
@@ -113,6 +148,11 @@ public class UsageSnapshot implements ModelInterface {
   @JsonProperty("high_water_user_count")
   public Long highWaterUserCount;
 
+  /**
+   * Gets {@link #highWaterUserCount}.
+   *
+   * @return the value of {@link #highWaterUserCount}
+   */
   public Long getHighWaterUserCount() {
     return highWaterUserCount;
   }
@@ -123,6 +163,11 @@ public class UsageSnapshot implements ModelInterface {
   @JsonProperty("transformation_credits_usage")
   public Long transformationCreditsUsage;
 
+  /**
+   * Gets {@link #transformationCreditsUsage}.
+   *
+   * @return the value of {@link #transformationCreditsUsage}
+   */
   public Long getTransformationCreditsUsage() {
     return transformationCreditsUsage;
   }
@@ -133,6 +178,11 @@ public class UsageSnapshot implements ModelInterface {
   @JsonProperty("current_storage")
   public Long currentStorage;
 
+  /**
+   * Gets {@link #currentStorage}.
+   *
+   * @return the value of {@link #currentStorage}
+   */
   public Long getCurrentStorage() {
     return currentStorage;
   }
@@ -143,6 +193,11 @@ public class UsageSnapshot implements ModelInterface {
   @JsonProperty("high_water_storage")
   public Long highWaterStorage;
 
+  /**
+   * Gets {@link #highWaterStorage}.
+   *
+   * @return the value of {@link #highWaterStorage}
+   */
   public Long getHighWaterStorage() {
     return highWaterStorage;
   }
@@ -153,6 +208,11 @@ public class UsageSnapshot implements ModelInterface {
   @JsonProperty("root_storage")
   public Long rootStorage;
 
+  /**
+   * Gets {@link #rootStorage}.
+   *
+   * @return the value of {@link #rootStorage}
+   */
   public Long getRootStorage() {
     return rootStorage;
   }
@@ -163,6 +223,11 @@ public class UsageSnapshot implements ModelInterface {
   @JsonProperty("deleted_files_counted_in_minimum")
   public Long deletedFilesCountedInMinimum;
 
+  /**
+   * Gets {@link #deletedFilesCountedInMinimum}.
+   *
+   * @return the value of {@link #deletedFilesCountedInMinimum}
+   */
   public Long getDeletedFilesCountedInMinimum() {
     return deletedFilesCountedInMinimum;
   }
@@ -173,6 +238,11 @@ public class UsageSnapshot implements ModelInterface {
   @JsonProperty("deleted_files_storage")
   public Long deletedFilesStorage;
 
+  /**
+   * Gets {@link #deletedFilesStorage}.
+   *
+   * @return the value of {@link #deletedFilesStorage}
+   */
   public Long getDeletedFilesStorage() {
     return deletedFilesStorage;
   }
@@ -183,6 +253,11 @@ public class UsageSnapshot implements ModelInterface {
   @JsonProperty("total_billable_usage")
   public Long totalBillableUsage;
 
+  /**
+   * Gets {@link #totalBillableUsage}.
+   *
+   * @return the value of {@link #totalBillableUsage}
+   */
   public Long getTotalBillableUsage() {
     return totalBillableUsage;
   }
@@ -193,6 +268,11 @@ public class UsageSnapshot implements ModelInterface {
   @JsonProperty("total_billable_transfer_usage")
   public Long totalBillableTransferUsage;
 
+  /**
+   * Gets {@link #totalBillableTransferUsage}.
+   *
+   * @return the value of {@link #totalBillableTransferUsage}
+   */
   public Long getTotalBillableTransferUsage() {
     return totalBillableTransferUsage;
   }
@@ -203,6 +283,11 @@ public class UsageSnapshot implements ModelInterface {
   @JsonProperty("bytes_sent")
   public Long bytesSent;
 
+  /**
+   * Gets {@link #bytesSent}.
+   *
+   * @return the value of {@link #bytesSent}
+   */
   public Long getBytesSent() {
     return bytesSent;
   }
@@ -213,6 +298,11 @@ public class UsageSnapshot implements ModelInterface {
   @JsonProperty("sync_bytes_received")
   public Long syncBytesReceived;
 
+  /**
+   * Gets {@link #syncBytesReceived}.
+   *
+   * @return the value of {@link #syncBytesReceived}
+   */
   public Long getSyncBytesReceived() {
     return syncBytesReceived;
   }
@@ -223,6 +313,11 @@ public class UsageSnapshot implements ModelInterface {
   @JsonProperty("sync_bytes_sent")
   public Long syncBytesSent;
 
+  /**
+   * Gets {@link #syncBytesSent}.
+   *
+   * @return the value of {@link #syncBytesSent}
+   */
   public Long getSyncBytesSent() {
     return syncBytesSent;
   }
@@ -233,33 +328,65 @@ public class UsageSnapshot implements ModelInterface {
   @JsonProperty("usage_by_top_level_dir")
   public UsageByTopLevelDir[] usageByTopLevelDir;
 
+  /**
+   * Gets {@link #usageByTopLevelDir}.
+   *
+   * @return the value of {@link #usageByTopLevelDir}
+   */
   public UsageByTopLevelDir[] getUsageByTopLevelDir() {
     return usageByTopLevelDir;
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   * List Usage Snapshots
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<UsageSnapshot> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Usage Snapshots
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<UsageSnapshot> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Usage Snapshots
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code UsageSnapshot} records, in a {@code ListIterator}
+   */
   public static ListIterator<UsageSnapshot> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().usageSnapshots().list(parameters, options);
   }
 
+  /**
+   * List Usage Snapshots
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<UsageSnapshot> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Usage Snapshots
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<UsageSnapshot> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }

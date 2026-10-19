@@ -37,6 +37,11 @@ public class RemoteMountBackend implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -60,14 +65,29 @@ public class RemoteMountBackend implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code RemoteMountBackend} with no attributes set.
+   */
   public RemoteMountBackend() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code RemoteMountBackend} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public RemoteMountBackend(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code RemoteMountBackend} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public RemoteMountBackend(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -85,10 +105,20 @@ public class RemoteMountBackend implements ModelInterface {
   @JsonProperty("canary_file_path")
   public String canaryFilePath;
 
+  /**
+   * Gets {@link #canaryFilePath}.
+   *
+   * @return the value of {@link #canaryFilePath}
+   */
   public String getCanaryFilePath() {
     return canaryFilePath;
   }
 
+  /**
+   * Sets {@link #canaryFilePath}.
+   *
+   * @param canaryFilePath the new value
+   */
   public void setCanaryFilePath(String canaryFilePath) {
     this.canaryFilePath = canaryFilePath;
   }
@@ -99,10 +129,20 @@ public class RemoteMountBackend implements ModelInterface {
   @JsonProperty("enabled")
   public Boolean enabled;
 
+  /**
+   * Gets {@link #enabled}.
+   *
+   * @return the value of {@link #enabled}
+   */
   public Boolean getEnabled() {
     return enabled;
   }
 
+  /**
+   * Sets {@link #enabled}.
+   *
+   * @param enabled the new value
+   */
   public void setEnabled(Boolean enabled) {
     this.enabled = enabled;
   }
@@ -113,10 +153,20 @@ public class RemoteMountBackend implements ModelInterface {
   @JsonProperty("fall")
   public Long fall;
 
+  /**
+   * Gets {@link #fall}.
+   *
+   * @return the value of {@link #fall}
+   */
   public Long getFall() {
     return fall;
   }
 
+  /**
+   * Sets {@link #fall}.
+   *
+   * @param fall the new value
+   */
   public void setFall(Long fall) {
     this.fall = fall;
   }
@@ -127,10 +177,20 @@ public class RemoteMountBackend implements ModelInterface {
   @JsonProperty("health_check_enabled")
   public Boolean healthCheckEnabled;
 
+  /**
+   * Gets {@link #healthCheckEnabled}.
+   *
+   * @return the value of {@link #healthCheckEnabled}
+   */
   public Boolean getHealthCheckEnabled() {
     return healthCheckEnabled;
   }
 
+  /**
+   * Sets {@link #healthCheckEnabled}.
+   *
+   * @param healthCheckEnabled the new value
+   */
   public void setHealthCheckEnabled(Boolean healthCheckEnabled) {
     this.healthCheckEnabled = healthCheckEnabled;
   }
@@ -141,10 +201,20 @@ public class RemoteMountBackend implements ModelInterface {
   @JsonProperty("health_check_results")
   public Object[] healthCheckResults;
 
+  /**
+   * Gets {@link #healthCheckResults}.
+   *
+   * @return the value of {@link #healthCheckResults}
+   */
   public Object[] getHealthCheckResults() {
     return healthCheckResults;
   }
 
+  /**
+   * Sets {@link #healthCheckResults}.
+   *
+   * @param healthCheckResults the new value
+   */
   public void setHealthCheckResults(Object[] healthCheckResults) {
     this.healthCheckResults = healthCheckResults;
   }
@@ -155,10 +225,20 @@ public class RemoteMountBackend implements ModelInterface {
   @JsonProperty("health_check_type")
   public String healthCheckType;
 
+  /**
+   * Gets {@link #healthCheckType}.
+   *
+   * @return the value of {@link #healthCheckType}
+   */
   public String getHealthCheckType() {
     return healthCheckType;
   }
 
+  /**
+   * Sets {@link #healthCheckType}.
+   *
+   * @param healthCheckType the new value
+   */
   public void setHealthCheckType(String healthCheckType) {
     this.healthCheckType = healthCheckType;
   }
@@ -169,10 +249,20 @@ public class RemoteMountBackend implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -183,10 +273,20 @@ public class RemoteMountBackend implements ModelInterface {
   @JsonProperty("interval")
   public Long interval;
 
+  /**
+   * Gets {@link #interval}.
+   *
+   * @return the value of {@link #interval}
+   */
   public Long getInterval() {
     return interval;
   }
 
+  /**
+   * Sets {@link #interval}.
+   *
+   * @param interval the new value
+   */
   public void setInterval(Long interval) {
     this.interval = interval;
   }
@@ -198,10 +298,20 @@ public class RemoteMountBackend implements ModelInterface {
   @JsonProperty("min_free_cpu")
   public BigDecimal minFreeCpu;
 
+  /**
+   * Gets {@link #minFreeCpu}.
+   *
+   * @return the value of {@link #minFreeCpu}
+   */
   public BigDecimal getMinFreeCpu() {
     return minFreeCpu;
   }
 
+  /**
+   * Sets {@link #minFreeCpu}.
+   *
+   * @param minFreeCpu the new value
+   */
   public void setMinFreeCpu(BigDecimal minFreeCpu) {
     this.minFreeCpu = minFreeCpu;
   }
@@ -213,10 +323,20 @@ public class RemoteMountBackend implements ModelInterface {
   @JsonProperty("min_free_mem")
   public BigDecimal minFreeMem;
 
+  /**
+   * Gets {@link #minFreeMem}.
+   *
+   * @return the value of {@link #minFreeMem}
+   */
   public BigDecimal getMinFreeMem() {
     return minFreeMem;
   }
 
+  /**
+   * Sets {@link #minFreeMem}.
+   *
+   * @param minFreeMem the new value
+   */
   public void setMinFreeMem(BigDecimal minFreeMem) {
     this.minFreeMem = minFreeMem;
   }
@@ -227,10 +347,20 @@ public class RemoteMountBackend implements ModelInterface {
   @JsonProperty("priority")
   public Long priority;
 
+  /**
+   * Gets {@link #priority}.
+   *
+   * @return the value of {@link #priority}
+   */
   public Long getPriority() {
     return priority;
   }
 
+  /**
+   * Sets {@link #priority}.
+   *
+   * @param priority the new value
+   */
   public void setPriority(Long priority) {
     this.priority = priority;
   }
@@ -241,10 +371,20 @@ public class RemoteMountBackend implements ModelInterface {
   @JsonProperty("remote_path")
   public String remotePath;
 
+  /**
+   * Gets {@link #remotePath}.
+   *
+   * @return the value of {@link #remotePath}
+   */
   public String getRemotePath() {
     return remotePath;
   }
 
+  /**
+   * Sets {@link #remotePath}.
+   *
+   * @param remotePath the new value
+   */
   public void setRemotePath(String remotePath) {
     this.remotePath = remotePath;
   }
@@ -255,10 +395,20 @@ public class RemoteMountBackend implements ModelInterface {
   @JsonProperty("remote_server_id")
   public Long remoteServerId;
 
+  /**
+   * Gets {@link #remoteServerId}.
+   *
+   * @return the value of {@link #remoteServerId}
+   */
   public Long getRemoteServerId() {
     return remoteServerId;
   }
 
+  /**
+   * Sets {@link #remoteServerId}.
+   *
+   * @param remoteServerId the new value
+   */
   public void setRemoteServerId(Long remoteServerId) {
     this.remoteServerId = remoteServerId;
   }
@@ -269,10 +419,20 @@ public class RemoteMountBackend implements ModelInterface {
   @JsonProperty("remote_server_mount_id")
   public Long remoteServerMountId;
 
+  /**
+   * Gets {@link #remoteServerMountId}.
+   *
+   * @return the value of {@link #remoteServerMountId}
+   */
   public Long getRemoteServerMountId() {
     return remoteServerMountId;
   }
 
+  /**
+   * Sets {@link #remoteServerMountId}.
+   *
+   * @param remoteServerMountId the new value
+   */
   public void setRemoteServerMountId(Long remoteServerMountId) {
     this.remoteServerMountId = remoteServerMountId;
   }
@@ -283,10 +443,20 @@ public class RemoteMountBackend implements ModelInterface {
   @JsonProperty("rise")
   public Long rise;
 
+  /**
+   * Gets {@link #rise}.
+   *
+   * @return the value of {@link #rise}
+   */
   public Long getRise() {
     return rise;
   }
 
+  /**
+   * Sets {@link #rise}.
+   *
+   * @param rise the new value
+   */
   public void setRise(Long rise) {
     this.rise = rise;
   }
@@ -297,10 +467,20 @@ public class RemoteMountBackend implements ModelInterface {
   @JsonProperty("status")
   public String status;
 
+  /**
+   * Gets {@link #status}.
+   *
+   * @return the value of {@link #status}
+   */
   public String getStatus() {
     return status;
   }
 
+  /**
+   * Sets {@link #status}.
+   *
+   * @param status the new value
+   */
   public void setStatus(String status) {
     this.status = status;
   }
@@ -311,16 +491,28 @@ public class RemoteMountBackend implements ModelInterface {
   @JsonProperty("undergoing_maintenance")
   public Boolean undergoingMaintenance;
 
+  /**
+   * Gets {@link #undergoingMaintenance}.
+   *
+   * @return the value of {@link #undergoingMaintenance}
+   */
   public Boolean getUndergoingMaintenance() {
     return undergoingMaintenance;
   }
 
+  /**
+   * Sets {@link #undergoingMaintenance}.
+   *
+   * @param undergoingMaintenance the new value
+   */
   public void setUndergoingMaintenance(Boolean undergoingMaintenance) {
     this.undergoingMaintenance = undergoingMaintenance;
   }
 
   /**
    * Reset backend status to healthy
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void resetStatus(HashMap<String, Object> parameters) throws IOException {
     filesClient().remoteMountBackends().resetStatus(this.id, parameters, this.options);
@@ -328,19 +520,25 @@ public class RemoteMountBackend implements ModelInterface {
 
   /**
    * Updates this RemoteMountBackend. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   enabled - boolean - True if this backend is enabled.
-   *   fall - int64 - Number of consecutive failures before considering the backend unhealthy.
-   *   health_check_enabled - boolean - True if health checks are enabled for this backend.
-   *   health_check_type - string - Type of health check to perform.
-   *   interval - int64 - Interval in seconds between health checks.
-   *   min_free_cpu - double - Minimum free CPU percentage required for this backend to be considered healthy.
-   *   min_free_mem - double - Minimum free memory percentage required for this backend to be considered healthy.
-   *   priority - int64 - Priority of this backend.
-   *   remote_path - string - Path on the remote server to treat as the root of this mount.
-   *   rise - int64 - Number of consecutive successes before considering the backend healthy.
-   *   canary_file_path - string - Path to the canary file used for health checks.
-   *   remote_server_id - int64 - The remote server that this backend is associated with.
+   * <p>Update Remote Mount Backend
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code enabled} (Boolean): True if this backend is enabled.</li>
+   * <li>{@code fall} (Long): Number of consecutive failures before considering the backend unhealthy.</li>
+   * <li>{@code health_check_enabled} (Boolean): True if health checks are enabled for this backend.</li>
+   * <li>{@code health_check_type} (String): Type of health check to perform.</li>
+   * <li>{@code interval} (Long): Interval in seconds between health checks.</li>
+   * <li>{@code min_free_cpu} (Double, BigDecimal or String): Minimum free CPU percentage required for this backend to be considered healthy.</li>
+   * <li>{@code min_free_mem} (Double, BigDecimal or String): Minimum free memory percentage required for this backend to be considered healthy.</li>
+   * <li>{@code priority} (Long): Priority of this backend.</li>
+   * <li>{@code remote_path} (String): Path on the remote server to treat as the root of this mount.</li>
+   * <li>{@code rise} (Long): Number of consecutive successes before considering the backend healthy.</li>
+   * <li>{@code canary_file_path} (String): Path to the canary file used for health checks.</li>
+   * <li>{@code remote_server_id} (Long): The remote server that this backend is associated with.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code RemoteMountBackend}
    */
   public RemoteMountBackend update(HashMap<String, Object> parameters) throws IOException {
     RemoteMountBackend updated = filesClient().remoteMountBackends().update(this.id, parameters, this.options);
@@ -349,11 +547,19 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
+   * Delete Remote Mount Backend
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().remoteMountBackends().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Remote Mount Backend
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -409,85 +615,158 @@ public class RemoteMountBackend implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `remote_server_mount_id`.
+   * List Remote Mount Backends
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<RemoteMountBackend> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Remote Mount Backends
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<RemoteMountBackend> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Remote Mount Backends
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `remote_server_mount_id`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code RemoteMountBackend} records, in a {@code ListIterator}
+   */
   public static ListIterator<RemoteMountBackend> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().remoteMountBackends().list(parameters, options);
   }
 
+  /**
+   * List Remote Mount Backends
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<RemoteMountBackend> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Remote Mount Backends
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<RemoteMountBackend> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Remote Mount Backend ID.
+   * Show Remote Mount Backend
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static RemoteMountBackend find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Remote Mount Backend
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static RemoteMountBackend find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Remote Mount Backend
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static RemoteMountBackend find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Remote Mount Backend
+   *
+   * @param id Remote Mount Backend ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code RemoteMountBackend}
+   */
   public static RemoteMountBackend find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().remoteMountBackends().find(id, parameters, options);
   }
 
+  /**
+   * Show Remote Mount Backend
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static RemoteMountBackend get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Remote Mount Backend
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static RemoteMountBackend get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   enabled - boolean - True if this backend is enabled.
-   *   fall - int64 - Number of consecutive failures before considering the backend unhealthy.
-   *   health_check_enabled - boolean - True if health checks are enabled for this backend.
-   *   health_check_type - string - Type of health check to perform.
-   *   interval - int64 - Interval in seconds between health checks.
-   *   min_free_cpu - double - Minimum free CPU percentage required for this backend to be considered healthy.
-   *   min_free_mem - double - Minimum free memory percentage required for this backend to be considered healthy.
-   *   priority - int64 - Priority of this backend.
-   *   remote_path - string - Path on the remote server to treat as the root of this mount.
-   *   rise - int64 - Number of consecutive successes before considering the backend healthy.
-   *   canary_file_path (required) - string - Path to the canary file used for health checks.
-   *   remote_server_mount_id (required) - int64 - The mount ID of the Remote Server Mount that this backend is associated with.
-   *   remote_server_id (required) - int64 - The remote server that this backend is associated with.
+   * Create Remote Mount Backend
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static RemoteMountBackend create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Remote Mount Backend
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static RemoteMountBackend create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Remote Mount Backend
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code enabled} (Boolean): True if this backend is enabled.</li>
+   * <li>{@code fall} (Long): Number of consecutive failures before considering the backend unhealthy.</li>
+   * <li>{@code health_check_enabled} (Boolean): True if health checks are enabled for this backend.</li>
+   * <li>{@code health_check_type} (String): Type of health check to perform.</li>
+   * <li>{@code interval} (Long): Interval in seconds between health checks.</li>
+   * <li>{@code min_free_cpu} (Double, BigDecimal or String): Minimum free CPU percentage required for this backend to be considered healthy.</li>
+   * <li>{@code min_free_mem} (Double, BigDecimal or String): Minimum free memory percentage required for this backend to be considered healthy.</li>
+   * <li>{@code priority} (Long): Priority of this backend.</li>
+   * <li>{@code remote_path} (String): Path on the remote server to treat as the root of this mount.</li>
+   * <li>{@code rise} (Long): Number of consecutive successes before considering the backend healthy.</li>
+   * <li>{@code canary_file_path} (String): Required. Path to the canary file used for health checks.</li>
+   * <li>{@code remote_server_mount_id} (Long): Required. The mount ID of the Remote Server Mount that this backend is associated with.</li>
+   * <li>{@code remote_server_id} (Long): Required. The remote server that this backend is associated with.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code RemoteMountBackend}
+   */
   public static RemoteMountBackend create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().remoteMountBackends().create(parameters, options);
   }
@@ -495,78 +774,150 @@ public class RemoteMountBackend implements ModelInterface {
 
   /**
    * Reset backend status to healthy
+   *
+   * @see #resetStatus(Long, HashMap, HashMap)
    */
   public static void resetStatus() throws RuntimeException {
     resetStatus(null, null, null);
   }
 
+  /**
+   * Reset backend status to healthy
+   *
+   * @see #resetStatus(Long, HashMap, HashMap)
+   */
   public static void resetStatus(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     resetStatus(id, parameters, null);
   }
 
+  /**
+   * Reset backend status to healthy
+   *
+   * @see #resetStatus(Long, HashMap, HashMap)
+   */
   public static void resetStatus(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     resetStatus(null, parameters, options);
   }
 
+  /**
+   * Reset backend status to healthy
+   *
+   * @param id Remote Mount Backend ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void resetStatus(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().remoteMountBackends().resetStatus(id, parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   enabled - boolean - True if this backend is enabled.
-   *   fall - int64 - Number of consecutive failures before considering the backend unhealthy.
-   *   health_check_enabled - boolean - True if health checks are enabled for this backend.
-   *   health_check_type - string - Type of health check to perform.
-   *   interval - int64 - Interval in seconds between health checks.
-   *   min_free_cpu - double - Minimum free CPU percentage required for this backend to be considered healthy.
-   *   min_free_mem - double - Minimum free memory percentage required for this backend to be considered healthy.
-   *   priority - int64 - Priority of this backend.
-   *   remote_path - string - Path on the remote server to treat as the root of this mount.
-   *   rise - int64 - Number of consecutive successes before considering the backend healthy.
-   *   canary_file_path - string - Path to the canary file used for health checks.
-   *   remote_server_id - int64 - The remote server that this backend is associated with.
+   * Update Remote Mount Backend
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static RemoteMountBackend update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Remote Mount Backend
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static RemoteMountBackend update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Remote Mount Backend
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static RemoteMountBackend update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Remote Mount Backend
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code enabled} (Boolean): True if this backend is enabled.</li>
+   * <li>{@code fall} (Long): Number of consecutive failures before considering the backend unhealthy.</li>
+   * <li>{@code health_check_enabled} (Boolean): True if health checks are enabled for this backend.</li>
+   * <li>{@code health_check_type} (String): Type of health check to perform.</li>
+   * <li>{@code interval} (Long): Interval in seconds between health checks.</li>
+   * <li>{@code min_free_cpu} (Double, BigDecimal or String): Minimum free CPU percentage required for this backend to be considered healthy.</li>
+   * <li>{@code min_free_mem} (Double, BigDecimal or String): Minimum free memory percentage required for this backend to be considered healthy.</li>
+   * <li>{@code priority} (Long): Priority of this backend.</li>
+   * <li>{@code remote_path} (String): Path on the remote server to treat as the root of this mount.</li>
+   * <li>{@code rise} (Long): Number of consecutive successes before considering the backend healthy.</li>
+   * <li>{@code canary_file_path} (String): Path to the canary file used for health checks.</li>
+   * <li>{@code remote_server_id} (Long): The remote server that this backend is associated with.</li>
+   * </ul>
+   *
+   * @param id Remote Mount Backend ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code RemoteMountBackend}
+   */
   public static RemoteMountBackend update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().remoteMountBackends().update(id, parameters, options);
   }
 
 
   /**
+   * Delete Remote Mount Backend
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Remote Mount Backend
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Remote Mount Backend
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Remote Mount Backend
+   *
+   * @param id Remote Mount Backend ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().remoteMountBackends().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Remote Mount Backend
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Remote Mount Backend
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

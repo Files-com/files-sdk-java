@@ -42,12 +42,10 @@
 
 ## List history for specific file
 
-```
-ListIterator<Action> history = History.listForFile(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("display", "Actual text of the action here.");
+ListIterator<Action> actions = History.listForFile("path", parameters, null);
 ```
 
 ### Parameters
@@ -65,12 +63,10 @@ ListIterator<Action> history = History.listForFile(
 
 ## List history for specific folder
 
-```
-ListIterator<Action> history = History.listForFolder(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("display", "Actual text of the action here.");
+ListIterator<Action> actions = History.listForFolder("path", parameters, null);
 ```
 
 ### Parameters
@@ -88,12 +84,10 @@ ListIterator<Action> history = History.listForFolder(
 
 ## List history for specific user
 
-```
-ListIterator<Action> history = History.listForUser(
-    Long user_id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("display", "Actual text of the action here.");
+ListIterator<Action> actions = History.listForUser(1L, parameters, null);
 ```
 
 ### Parameters
@@ -111,12 +105,10 @@ ListIterator<Action> history = History.listForUser(
 
 ## List site login history
 
-```
-ListIterator<Action> history = History.listLogins(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("display", "Actual text of the action here.");
+ListIterator<Action> actions = History.listLogins(parameters, null);
 ```
 
 ### Parameters
@@ -133,12 +125,10 @@ ListIterator<Action> history = History.listLogins(
 
 ## List site full action history
 
-```
-ListIterator<Action> history = History.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("display", "Actual text of the action here.");
+ListIterator<Action> actions = History.list(parameters, null);
 ```
 
 ### Parameters

@@ -35,6 +35,11 @@ public class WebhookTest implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class WebhookTest implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code WebhookTest} with no attributes set.
+   */
   public WebhookTest() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code WebhookTest} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public WebhookTest(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code WebhookTest} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public WebhookTest(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,10 +103,20 @@ public class WebhookTest implements ModelInterface {
   @JsonProperty("code")
   public Long code;
 
+  /**
+   * Gets {@link #code}.
+   *
+   * @return the value of {@link #code}
+   */
   public Long getCode() {
     return code;
   }
 
+  /**
+   * Sets {@link #code}.
+   *
+   * @param code the new value
+   */
   public void setCode(Long code) {
     this.code = code;
   }
@@ -97,10 +127,20 @@ public class WebhookTest implements ModelInterface {
   @JsonProperty("message")
   public String message;
 
+  /**
+   * Gets {@link #message}.
+   *
+   * @return the value of {@link #message}
+   */
   public String getMessage() {
     return message;
   }
 
+  /**
+   * Sets {@link #message}.
+   *
+   * @param message the new value
+   */
   public void setMessage(String message) {
     this.message = message;
   }
@@ -111,10 +151,20 @@ public class WebhookTest implements ModelInterface {
   @JsonProperty("status")
   public String status;
 
+  /**
+   * Gets {@link #status}.
+   *
+   * @return the value of {@link #status}
+   */
   public String getStatus() {
     return status;
   }
 
+  /**
+   * Sets {@link #status}.
+   *
+   * @param status the new value
+   */
   public void setStatus(String status) {
     this.status = status;
   }
@@ -125,10 +175,20 @@ public class WebhookTest implements ModelInterface {
   @JsonProperty("data")
   public Auto data;
 
+  /**
+   * Gets {@link #data}.
+   *
+   * @return the value of {@link #data}
+   */
   public Auto getData() {
     return data;
   }
 
+  /**
+   * Sets {@link #data}.
+   *
+   * @param data the new value
+   */
   public void setData(Auto data) {
     this.data = data;
   }
@@ -139,10 +199,20 @@ public class WebhookTest implements ModelInterface {
   @JsonProperty("success")
   public Boolean success;
 
+  /**
+   * Gets {@link #success}.
+   *
+   * @return the value of {@link #success}
+   */
   public Boolean getSuccess() {
     return success;
   }
 
+  /**
+   * Sets {@link #success}.
+   *
+   * @param success the new value
+   */
   public void setSuccess(Boolean success) {
     this.success = success;
   }
@@ -153,10 +223,20 @@ public class WebhookTest implements ModelInterface {
   @JsonProperty("url")
   public String url;
 
+  /**
+   * Gets {@link #url}.
+   *
+   * @return the value of {@link #url}
+   */
   public String getUrl() {
     return url;
   }
 
+  /**
+   * Sets {@link #url}.
+   *
+   * @param url the new value
+   */
   public void setUrl(String url) {
     this.url = url;
   }
@@ -167,10 +247,20 @@ public class WebhookTest implements ModelInterface {
   @JsonProperty("method")
   public String method;
 
+  /**
+   * Gets {@link #method}.
+   *
+   * @return the value of {@link #method}
+   */
   public String getMethod() {
     return method;
   }
 
+  /**
+   * Sets {@link #method}.
+   *
+   * @param method the new value
+   */
   public void setMethod(String method) {
     this.method = method;
   }
@@ -181,10 +271,20 @@ public class WebhookTest implements ModelInterface {
   @JsonProperty("encoding")
   public String encoding;
 
+  /**
+   * Gets {@link #encoding}.
+   *
+   * @return the value of {@link #encoding}
+   */
   public String getEncoding() {
     return encoding;
   }
 
+  /**
+   * Sets {@link #encoding}.
+   *
+   * @param encoding the new value
+   */
   public void setEncoding(String encoding) {
     this.encoding = encoding;
   }
@@ -195,10 +295,20 @@ public class WebhookTest implements ModelInterface {
   @JsonProperty("headers")
   public Object headers;
 
+  /**
+   * Gets {@link #headers}.
+   *
+   * @return the value of {@link #headers}
+   */
   public Object getHeaders() {
     return headers;
   }
 
+  /**
+   * Sets {@link #headers}.
+   *
+   * @param headers the new value
+   */
   public void setHeaders(Object headers) {
     this.headers = headers;
   }
@@ -209,10 +319,20 @@ public class WebhookTest implements ModelInterface {
   @JsonProperty("body")
   public Object body;
 
+  /**
+   * Gets {@link #body}.
+   *
+   * @return the value of {@link #body}
+   */
   public Object getBody() {
     return body;
   }
 
+  /**
+   * Sets {@link #body}.
+   *
+   * @param body the new value
+   */
   public void setBody(Object body) {
     this.body = body;
   }
@@ -223,10 +343,20 @@ public class WebhookTest implements ModelInterface {
   @JsonProperty("raw_body")
   public String rawBody;
 
+  /**
+   * Gets {@link #rawBody}.
+   *
+   * @return the value of {@link #rawBody}
+   */
   public String getRawBody() {
     return rawBody;
   }
 
+  /**
+   * Sets {@link #rawBody}.
+   *
+   * @param rawBody the new value
+   */
   public void setRawBody(String rawBody) {
     this.rawBody = rawBody;
   }
@@ -237,10 +367,20 @@ public class WebhookTest implements ModelInterface {
   @JsonProperty("file_as_body")
   public Boolean fileAsBody;
 
+  /**
+   * Gets {@link #fileAsBody}.
+   *
+   * @return the value of {@link #fileAsBody}
+   */
   public Boolean getFileAsBody() {
     return fileAsBody;
   }
 
+  /**
+   * Sets {@link #fileAsBody}.
+   *
+   * @param fileAsBody the new value
+   */
   public void setFileAsBody(Boolean fileAsBody) {
     this.fileAsBody = fileAsBody;
   }
@@ -251,10 +391,20 @@ public class WebhookTest implements ModelInterface {
   @JsonProperty("file_form_field")
   public String fileFormField;
 
+  /**
+   * Gets {@link #fileFormField}.
+   *
+   * @return the value of {@link #fileFormField}
+   */
   public String getFileFormField() {
     return fileFormField;
   }
 
+  /**
+   * Sets {@link #fileFormField}.
+   *
+   * @param fileFormField the new value
+   */
   public void setFileFormField(String fileFormField) {
     this.fileFormField = fileFormField;
   }
@@ -265,10 +415,20 @@ public class WebhookTest implements ModelInterface {
   @JsonProperty("action")
   public String action;
 
+  /**
+   * Gets {@link #action}.
+   *
+   * @return the value of {@link #action}
+   */
   public String getAction() {
     return action;
   }
 
+  /**
+   * Sets {@link #action}.
+   *
+   * @param action the new value
+   */
   public void setAction(String action) {
     this.action = action;
   }
@@ -279,10 +439,20 @@ public class WebhookTest implements ModelInterface {
   @JsonProperty("use_dedicated_ips")
   public Boolean useDedicatedIps;
 
+  /**
+   * Gets {@link #useDedicatedIps}.
+   *
+   * @return the value of {@link #useDedicatedIps}
+   */
   public Boolean getUseDedicatedIps() {
     return useDedicatedIps;
   }
 
+  /**
+   * Sets {@link #useDedicatedIps}.
+   *
+   * @param useDedicatedIps the new value
+   */
   public void setUseDedicatedIps(Boolean useDedicatedIps) {
     this.useDedicatedIps = useDedicatedIps;
   }
@@ -325,27 +495,44 @@ public class WebhookTest implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   url (required) - string - URL for testing the webhook.
-   *   method - string - HTTP method(GET or POST).
-   *   encoding - string - HTTP encoding method.  Can be JSON, XML, or RAW (form data).
-   *   headers - object - Additional request headers.
-   *   body - object - Additional body parameters.
-   *   raw_body - string - raw body text
-   *   file_as_body - boolean - Send the file data as the request body?
-   *   file_form_field - string - Send the file data as a named parameter in the request POST body
-   *   action - string - action for test body
-   *   use_dedicated_ips - boolean - Use dedicated IPs for sending the webhook?
+   * Create Webhook Test
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static WebhookTest create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Webhook Test
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static WebhookTest create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Webhook Test
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code url} (String): Required. URL for testing the webhook.</li>
+   * <li>{@code method} (String): HTTP method(GET or POST).</li>
+   * <li>{@code encoding} (String): HTTP encoding method.  Can be JSON, XML, or RAW (form data).</li>
+   * <li>{@code headers} (Object): Additional request headers.</li>
+   * <li>{@code body} (Object): Additional body parameters.</li>
+   * <li>{@code raw_body} (String): raw body text</li>
+   * <li>{@code file_as_body} (Boolean): Send the file data as the request body?</li>
+   * <li>{@code file_form_field} (String): Send the file data as a named parameter in the request POST body</li>
+   * <li>{@code action} (String): action for test body</li>
+   * <li>{@code use_dedicated_ips} (Boolean): Use dedicated IPs for sending the webhook?</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code WebhookTest}
+   */
   public static WebhookTest create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().webhookTests().create(parameters, options);
   }

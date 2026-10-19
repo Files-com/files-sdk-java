@@ -17,12 +17,9 @@
 
 ## List Workspaces
 
-```
-ListIterator<Workspace> workspace = Workspace.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<Workspace> workspaces = Workspace.list(parameters, null);
 ```
 
 ### Parameters
@@ -38,12 +35,9 @@ ListIterator<Workspace> workspace = Workspace.list(
 
 ## Show Workspace
 
-```
-Workspace workspace = Workspace.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Workspace workspace = Workspace.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -55,65 +49,25 @@ Workspace workspace = Workspace.find(
 
 ## Create Workspace
 
-```
-Workspace workspace = Workspace.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `name` (String): Workspace name
-
-
----
-
-## Update Workspace
-
-```
-Workspace workspace = Workspace.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Workspace ID.
-* `name` (String): Workspace name
-
-
----
-
-## Delete Workspace
-
-```
-void workspace = Workspace.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Workspace ID.
-
-
----
-
-## Update Workspace
-
-```
-Workspace workspace = Workspace.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "Project Alpha");
+Workspace workspace = Workspace.create(parameters, null);
+```
 
-workspace.update(parameters);
+### Parameters
+
+* `name` (String): Workspace name
+
+
+---
+
+## Update Workspace
+
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "Project Alpha");
+Workspace workspace = Workspace.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -126,11 +80,40 @@ workspace.update(parameters);
 
 ## Delete Workspace
 
-```
-Workspace workspace = Workspace.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
+Workspace.delete(1L, parameters, null);
+```
 
+### Parameters
+
+* `id` (Long): Required - Workspace ID.
+
+
+---
+
+## Update Workspace
+
+```java
+Workspace workspace = Workspace.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "Project Alpha");
+Workspace result = workspace.update(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - Workspace ID.
+* `name` (String): Workspace name
+
+
+---
+
+## Delete Workspace
+
+```java
+Workspace workspace = Workspace.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
 workspace.delete(parameters);
 ```
 

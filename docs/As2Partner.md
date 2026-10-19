@@ -58,12 +58,9 @@
 
 ## List AS2 Partners
 
-```
-ListIterator<As2Partner> as2Partner = As2Partner.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<As2Partner> as2Partners = As2Partner.list(parameters, null);
 ```
 
 ### Parameters
@@ -78,12 +75,9 @@ ListIterator<As2Partner> as2Partner = As2Partner.list(
 
 ## Show AS2 Partner
 
-```
-As2Partner as2Partner = As2Partner.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+As2Partner as2Partner = As2Partner.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -95,12 +89,22 @@ As2Partner as2Partner = As2Partner.find(
 
 ## Create AS2 Partner
 
-```
-As2Partner as2Partner = As2Partner.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("enable_dedicated_ips", true);
+parameters.put("http_auth_username", "username");
+parameters.put("mdn_validation_level", "none");
+parameters.put("signature_validation_level", "normal");
+parameters.put("server_certificate", "require_match");
+parameters.put("default_mime_type", "application/octet-stream");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("X-Partner", "acme");
+parameters.put("additional_http_headers", map1);
+parameters.put("as2_station_id", 1L);
+parameters.put("name", "AS2 Partner Name");
+parameters.put("uri", "example");
+parameters.put("public_certificate", "example");
+As2Partner as2Partner = As2Partner.create(parameters, null);
 ```
 
 ### Parameters
@@ -125,12 +129,21 @@ As2Partner as2Partner = As2Partner.create(
 
 ## Update AS2 Partner
 
-```
-As2Partner as2Partner = As2Partner.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("enable_dedicated_ips", true);
+parameters.put("http_auth_username", "username");
+parameters.put("mdn_validation_level", "none");
+parameters.put("signature_validation_level", "normal");
+parameters.put("server_certificate", "require_match");
+parameters.put("default_mime_type", "application/octet-stream");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("X-Partner", "acme");
+parameters.put("additional_http_headers", map1);
+parameters.put("name", "AS2 Partner Name");
+parameters.put("uri", "example");
+parameters.put("public_certificate", "example");
+As2Partner as2Partner = As2Partner.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -155,12 +168,9 @@ As2Partner as2Partner = As2Partner.update(
 
 ## Delete AS2 Partner
 
-```
-void as2Partner = As2Partner.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+As2Partner.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -172,9 +182,8 @@ void as2Partner = As2Partner.delete(
 
 ## Update AS2 Partner
 
-```
-As2Partner as2Partner = As2Partner.find(id);
-
+```java
+As2Partner as2Partner = As2Partner.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("enable_dedicated_ips", true);
 parameters.put("http_auth_username", "username");
@@ -182,12 +191,13 @@ parameters.put("mdn_validation_level", "none");
 parameters.put("signature_validation_level", "normal");
 parameters.put("server_certificate", "require_match");
 parameters.put("default_mime_type", "application/octet-stream");
-parameters.put("additional_http_headers", {"X-Partner":"acme"});
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("X-Partner", "acme");
+parameters.put("additional_http_headers", map1);
 parameters.put("name", "AS2 Partner Name");
 parameters.put("uri", "example");
 parameters.put("public_certificate", "example");
-
-as2Partner.update(parameters);
+As2Partner result = as2Partner.update(parameters);
 ```
 
 ### Parameters
@@ -212,11 +222,9 @@ as2Partner.update(parameters);
 
 ## Delete AS2 Partner
 
-```
-As2Partner as2Partner = As2Partner.find(id);
-
+```java
+As2Partner as2Partner = As2Partner.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 as2Partner.delete(parameters);
 ```
 

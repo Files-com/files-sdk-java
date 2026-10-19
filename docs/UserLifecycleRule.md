@@ -47,12 +47,9 @@
 
 ## List User Lifecycle Rules
 
-```
-ListIterator<UserLifecycleRule> userLifecycleRule = UserLifecycleRule.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<UserLifecycleRule> userLifecycleRules = UserLifecycleRule.list(parameters, null);
 ```
 
 ### Parameters
@@ -67,12 +64,9 @@ ListIterator<UserLifecycleRule> userLifecycleRule = UserLifecycleRule.list(
 
 ## Show User Lifecycle Rule
 
-```
-UserLifecycleRule userLifecycleRule = UserLifecycleRule.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+UserLifecycleRule userLifecycleRule = UserLifecycleRule.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -84,90 +78,12 @@ UserLifecycleRule userLifecycleRule = UserLifecycleRule.find(
 
 ## Create User Lifecycle Rule
 
-```
-UserLifecycleRule userLifecycleRule = UserLifecycleRule.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `action` (String): Action to take on inactive users (disable or delete)
-* `apply_to_all_workspaces` (Boolean): If true, a Default Workspace rule also applies to users in all Custom Workspaces. Can only be enabled when `workspace_id` is `0`.
-* `authentication_method` (String): User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.
-* `group_ids` (Long[]): Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
-* `inactivity_days` (Long): Number of days of inactivity before the rule applies
-* `include_site_admins` (Boolean): If true, the rule includes Site Administrators, who always belong to the Default Workspace. Can only be enabled when `workspace_id` is `0`.
-* `include_folder_admins` (Boolean): If true, the rule will apply to folder admins.
-* `name` (String): User Lifecycle Rule name
-* `notify_users` (Boolean): If true, users will be emailed before the rule disables or deletes them.
-* `partner_tag` (String): If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
-* `user_state` (String): State of the users to apply the rule to (inactive or disabled)
-* `user_tag` (String): If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
-* `workspace_id` (Long): Workspace whose users the rule applies to. `0` means the Default Workspace. A Custom Workspace rule applies only to users who belong to that Workspace, regardless of access granted to other users.
-
-
----
-
-## Update User Lifecycle Rule
-
-```
-UserLifecycleRule userLifecycleRule = UserLifecycleRule.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - User Lifecycle Rule ID.
-* `action` (String): Action to take on inactive users (disable or delete)
-* `apply_to_all_workspaces` (Boolean): If true, a Default Workspace rule also applies to users in all Custom Workspaces. Can only be enabled when `workspace_id` is `0`.
-* `authentication_method` (String): User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.
-* `group_ids` (Long[]): Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
-* `inactivity_days` (Long): Number of days of inactivity before the rule applies
-* `include_site_admins` (Boolean): If true, the rule includes Site Administrators, who always belong to the Default Workspace. Can only be enabled when `workspace_id` is `0`.
-* `include_folder_admins` (Boolean): If true, the rule will apply to folder admins.
-* `name` (String): User Lifecycle Rule name
-* `notify_users` (Boolean): If true, users will be emailed before the rule disables or deletes them.
-* `partner_tag` (String): If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
-* `user_state` (String): State of the users to apply the rule to (inactive or disabled)
-* `user_tag` (String): If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
-* `workspace_id` (Long): Workspace whose users the rule applies to. `0` means the Default Workspace. A Custom Workspace rule applies only to users who belong to that Workspace, regardless of access granted to other users.
-
-
----
-
-## Delete User Lifecycle Rule
-
-```
-void userLifecycleRule = UserLifecycleRule.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - User Lifecycle Rule ID.
-
-
----
-
-## Update User Lifecycle Rule
-
-```
-UserLifecycleRule userLifecycleRule = UserLifecycleRule.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("apply_to_all_workspaces", true);
 parameters.put("authentication_method", "all_non_sso");
-parameters.put("group_ids", [1,2,3]);
-parameters.put("inactivity_days", 12);
+parameters.put("group_ids", new Long[] {1L, 2L, 3L});
+parameters.put("inactivity_days", 12L);
 parameters.put("include_site_admins", true);
 parameters.put("include_folder_admins", true);
 parameters.put("name", "password specific rules");
@@ -175,9 +91,46 @@ parameters.put("notify_users", true);
 parameters.put("partner_tag", "guest");
 parameters.put("user_state", "inactive");
 parameters.put("user_tag", "guest");
-parameters.put("workspace_id", 0);
+parameters.put("workspace_id", 0L);
+UserLifecycleRule userLifecycleRule = UserLifecycleRule.create(parameters, null);
+```
 
-userLifecycleRule.update(parameters);
+### Parameters
+
+* `action` (String): Action to take on inactive users (disable or delete)
+* `apply_to_all_workspaces` (Boolean): If true, a Default Workspace rule also applies to users in all Custom Workspaces. Can only be enabled when `workspace_id` is `0`.
+* `authentication_method` (String): User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.
+* `group_ids` (Long[]): Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
+* `inactivity_days` (Long): Number of days of inactivity before the rule applies
+* `include_site_admins` (Boolean): If true, the rule includes Site Administrators, who always belong to the Default Workspace. Can only be enabled when `workspace_id` is `0`.
+* `include_folder_admins` (Boolean): If true, the rule will apply to folder admins.
+* `name` (String): User Lifecycle Rule name
+* `notify_users` (Boolean): If true, users will be emailed before the rule disables or deletes them.
+* `partner_tag` (String): If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
+* `user_state` (String): State of the users to apply the rule to (inactive or disabled)
+* `user_tag` (String): If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
+* `workspace_id` (Long): Workspace whose users the rule applies to. `0` means the Default Workspace. A Custom Workspace rule applies only to users who belong to that Workspace, regardless of access granted to other users.
+
+
+---
+
+## Update User Lifecycle Rule
+
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("apply_to_all_workspaces", true);
+parameters.put("authentication_method", "all_non_sso");
+parameters.put("group_ids", new Long[] {1L, 2L, 3L});
+parameters.put("inactivity_days", 12L);
+parameters.put("include_site_admins", true);
+parameters.put("include_folder_admins", true);
+parameters.put("name", "password specific rules");
+parameters.put("notify_users", true);
+parameters.put("partner_tag", "guest");
+parameters.put("user_state", "inactive");
+parameters.put("user_tag", "guest");
+parameters.put("workspace_id", 0L);
+UserLifecycleRule userLifecycleRule = UserLifecycleRule.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -202,11 +155,63 @@ userLifecycleRule.update(parameters);
 
 ## Delete User Lifecycle Rule
 
-```
-UserLifecycleRule userLifecycleRule = UserLifecycleRule.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
+UserLifecycleRule.delete(1L, parameters, null);
+```
 
+### Parameters
+
+* `id` (Long): Required - User Lifecycle Rule ID.
+
+
+---
+
+## Update User Lifecycle Rule
+
+```java
+UserLifecycleRule userLifecycleRule = UserLifecycleRule.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("apply_to_all_workspaces", true);
+parameters.put("authentication_method", "all_non_sso");
+parameters.put("group_ids", new Long[] {1L, 2L, 3L});
+parameters.put("inactivity_days", 12L);
+parameters.put("include_site_admins", true);
+parameters.put("include_folder_admins", true);
+parameters.put("name", "password specific rules");
+parameters.put("notify_users", true);
+parameters.put("partner_tag", "guest");
+parameters.put("user_state", "inactive");
+parameters.put("user_tag", "guest");
+parameters.put("workspace_id", 0L);
+UserLifecycleRule result = userLifecycleRule.update(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - User Lifecycle Rule ID.
+* `action` (String): Action to take on inactive users (disable or delete)
+* `apply_to_all_workspaces` (Boolean): If true, a Default Workspace rule also applies to users in all Custom Workspaces. Can only be enabled when `workspace_id` is `0`.
+* `authentication_method` (String): User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.
+* `group_ids` (Long[]): Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
+* `inactivity_days` (Long): Number of days of inactivity before the rule applies
+* `include_site_admins` (Boolean): If true, the rule includes Site Administrators, who always belong to the Default Workspace. Can only be enabled when `workspace_id` is `0`.
+* `include_folder_admins` (Boolean): If true, the rule will apply to folder admins.
+* `name` (String): User Lifecycle Rule name
+* `notify_users` (Boolean): If true, users will be emailed before the rule disables or deletes them.
+* `partner_tag` (String): If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
+* `user_state` (String): State of the users to apply the rule to (inactive or disabled)
+* `user_tag` (String): If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
+* `workspace_id` (Long): Workspace whose users the rule applies to. `0` means the Default Workspace. A Custom Workspace rule applies only to users who belong to that Workspace, regardless of access granted to other users.
+
+
+---
+
+## Delete User Lifecycle Rule
+
+```java
+UserLifecycleRule userLifecycleRule = UserLifecycleRule.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
 userLifecycleRule.delete(parameters);
 ```
 

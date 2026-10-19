@@ -33,6 +33,11 @@ public class Image implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -56,14 +61,29 @@ public class Image implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code Image} with no attributes set.
+   */
   public Image() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code Image} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public Image(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code Image} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public Image(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -81,6 +101,11 @@ public class Image implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
@@ -91,6 +116,11 @@ public class Image implements ModelInterface {
   @JsonProperty("uri")
   public String uri;
 
+  /**
+   * Gets {@link #uri}.
+   *
+   * @return the value of {@link #uri}
+   */
   public String getUri() {
     return uri;
   }

@@ -35,6 +35,11 @@ public class EventRecord implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class EventRecord implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code EventRecord} with no attributes set.
+   */
   public EventRecord() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code EventRecord} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public EventRecord(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code EventRecord} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public EventRecord(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,6 +103,11 @@ public class EventRecord implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -93,6 +118,11 @@ public class EventRecord implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
@@ -103,6 +133,11 @@ public class EventRecord implements ModelInterface {
   @JsonProperty("event_uuid")
   public String eventUuid;
 
+  /**
+   * Gets {@link #eventUuid}.
+   *
+   * @return the value of {@link #eventUuid}
+   */
   public String getEventUuid() {
     return eventUuid;
   }
@@ -113,6 +148,11 @@ public class EventRecord implements ModelInterface {
   @JsonProperty("event_type")
   public String eventType;
 
+  /**
+   * Gets {@link #eventType}.
+   *
+   * @return the value of {@link #eventType}
+   */
   public String getEventType() {
     return eventType;
   }
@@ -123,6 +163,11 @@ public class EventRecord implements ModelInterface {
   @JsonProperty("severity")
   public String severity;
 
+  /**
+   * Gets {@link #severity}.
+   *
+   * @return the value of {@link #severity}
+   */
   public String getSeverity() {
     return severity;
   }
@@ -133,6 +178,11 @@ public class EventRecord implements ModelInterface {
   @JsonProperty("source_type")
   public String sourceType;
 
+  /**
+   * Gets {@link #sourceType}.
+   *
+   * @return the value of {@link #sourceType}
+   */
   public String getSourceType() {
     return sourceType;
   }
@@ -143,6 +193,11 @@ public class EventRecord implements ModelInterface {
   @JsonProperty("source_id")
   public Long sourceId;
 
+  /**
+   * Gets {@link #sourceId}.
+   *
+   * @return the value of {@link #sourceId}
+   */
   public Long getSourceId() {
     return sourceId;
   }
@@ -153,6 +208,11 @@ public class EventRecord implements ModelInterface {
   @JsonProperty("occurred_at")
   public Date occurredAt;
 
+  /**
+   * Gets {@link #occurredAt}.
+   *
+   * @return the value of {@link #occurredAt}
+   */
   public Date getOccurredAt() {
     return occurredAt;
   }
@@ -163,6 +223,11 @@ public class EventRecord implements ModelInterface {
   @JsonProperty("human_title")
   public String humanTitle;
 
+  /**
+   * Gets {@link #humanTitle}.
+   *
+   * @return the value of {@link #humanTitle}
+   */
   public String getHumanTitle() {
     return humanTitle;
   }
@@ -173,6 +238,11 @@ public class EventRecord implements ModelInterface {
   @JsonProperty("human_summary")
   public String humanSummary;
 
+  /**
+   * Gets {@link #humanSummary}.
+   *
+   * @return the value of {@link #humanSummary}
+   */
   public String getHumanSummary() {
     return humanSummary;
   }
@@ -183,6 +253,11 @@ public class EventRecord implements ModelInterface {
   @JsonProperty("human_fields")
   public Object[] humanFields;
 
+  /**
+   * Gets {@link #humanFields}.
+   *
+   * @return the value of {@link #humanFields}
+   */
   public Object[] getHumanFields() {
     return humanFields;
   }
@@ -193,6 +268,11 @@ public class EventRecord implements ModelInterface {
   @JsonProperty("actor")
   public Object actor;
 
+  /**
+   * Gets {@link #actor}.
+   *
+   * @return the value of {@link #actor}
+   */
   public Object getActor() {
     return actor;
   }
@@ -203,6 +283,11 @@ public class EventRecord implements ModelInterface {
   @JsonProperty("resources")
   public Object[] resources;
 
+  /**
+   * Gets {@link #resources}.
+   *
+   * @return the value of {@link #resources}
+   */
   public Object[] getResources() {
     return resources;
   }
@@ -213,6 +298,11 @@ public class EventRecord implements ModelInterface {
   @JsonProperty("payload")
   public Object payload;
 
+  /**
+   * Gets {@link #payload}.
+   *
+   * @return the value of {@link #payload}
+   */
   public Object getPayload() {
     return payload;
   }
@@ -223,68 +313,129 @@ public class EventRecord implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `event_type`, `created_at` or `workspace_id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `event_type` or `workspace_id`. Valid field combinations are `[ event_type, created_at ]`, `[ workspace_id, created_at ]`, `[ workspace_id, event_type ]` or `[ workspace_id, event_type, created_at ]`.
-   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
-   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
-   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `event_type`.
-   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
-   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
+   * List Event Records
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<EventRecord> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Event Records
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<EventRecord> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Event Records
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `event_type`, `created_at` or `workspace_id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `event_type` or `workspace_id`. Valid field combinations are `[ event_type, created_at ]`, `[ workspace_id, created_at ]`, `[ workspace_id, event_type ]` or `[ workspace_id, event_type, created_at ]`.</li>
+   * <li>{@code filter_gt} (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_gteq} (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_prefix} (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `event_type`.</li>
+   * <li>{@code filter_lt} (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_lteq} (Object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code EventRecord} records, in a {@code ListIterator}
+   */
   public static ListIterator<EventRecord> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().eventRecords().list(parameters, options);
   }
 
+  /**
+   * List Event Records
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<EventRecord> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Event Records
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<EventRecord> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Event Record ID.
+   * Show Event Record
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static EventRecord find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Event Record
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static EventRecord find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Event Record
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static EventRecord find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Event Record
+   *
+   * @param id Event Record ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code EventRecord}
+   */
   public static EventRecord find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().eventRecords().find(id, parameters, options);
   }
 
+  /**
+   * Show Event Record
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static EventRecord get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Event Record
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static EventRecord get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }

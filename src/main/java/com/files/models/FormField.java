@@ -33,6 +33,11 @@ public class FormField implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -56,14 +61,29 @@ public class FormField implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code FormField} with no attributes set.
+   */
   public FormField() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code FormField} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public FormField(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code FormField} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public FormField(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -81,6 +101,11 @@ public class FormField implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -91,6 +116,11 @@ public class FormField implements ModelInterface {
   @JsonProperty("label")
   public String label;
 
+  /**
+   * Gets {@link #label}.
+   *
+   * @return the value of {@link #label}
+   */
   public String getLabel() {
     return label;
   }
@@ -101,6 +131,11 @@ public class FormField implements ModelInterface {
   @JsonProperty("required")
   public Boolean required;
 
+  /**
+   * Gets {@link #required}.
+   *
+   * @return the value of {@link #required}
+   */
   public Boolean getRequired() {
     return required;
   }
@@ -111,6 +146,11 @@ public class FormField implements ModelInterface {
   @JsonProperty("help_text")
   public String helpText;
 
+  /**
+   * Gets {@link #helpText}.
+   *
+   * @return the value of {@link #helpText}
+   */
   public String getHelpText() {
     return helpText;
   }
@@ -121,6 +161,11 @@ public class FormField implements ModelInterface {
   @JsonProperty("field_type")
   public String fieldType;
 
+  /**
+   * Gets {@link #fieldType}.
+   *
+   * @return the value of {@link #fieldType}
+   */
   public String getFieldType() {
     return fieldType;
   }
@@ -131,6 +176,11 @@ public class FormField implements ModelInterface {
   @JsonProperty("options_for_select")
   public String[] optionsForSelect;
 
+  /**
+   * Gets {@link #optionsForSelect}.
+   *
+   * @return the value of {@link #optionsForSelect}
+   */
   public String[] getOptionsForSelect() {
     return optionsForSelect;
   }
@@ -141,6 +191,11 @@ public class FormField implements ModelInterface {
   @JsonProperty("default_option")
   public String defaultOption;
 
+  /**
+   * Gets {@link #defaultOption}.
+   *
+   * @return the value of {@link #defaultOption}
+   */
   public String getDefaultOption() {
     return defaultOption;
   }
@@ -151,6 +206,11 @@ public class FormField implements ModelInterface {
   @JsonProperty("form_field_set_id")
   public Long formFieldSetId;
 
+  /**
+   * Gets {@link #formFieldSetId}.
+   *
+   * @return the value of {@link #formFieldSetId}
+   */
   public Long getFormFieldSetId() {
     return formFieldSetId;
   }

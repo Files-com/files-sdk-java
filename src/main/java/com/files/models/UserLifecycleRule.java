@@ -36,6 +36,11 @@ public class UserLifecycleRule implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -59,14 +64,29 @@ public class UserLifecycleRule implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code UserLifecycleRule} with no attributes set.
+   */
   public UserLifecycleRule() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code UserLifecycleRule} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public UserLifecycleRule(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code UserLifecycleRule} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public UserLifecycleRule(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -84,10 +104,20 @@ public class UserLifecycleRule implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -98,10 +128,20 @@ public class UserLifecycleRule implements ModelInterface {
   @JsonProperty("authentication_method")
   public String authenticationMethod;
 
+  /**
+   * Gets {@link #authenticationMethod}.
+   *
+   * @return the value of {@link #authenticationMethod}
+   */
   public String getAuthenticationMethod() {
     return authenticationMethod;
   }
 
+  /**
+   * Sets {@link #authenticationMethod}.
+   *
+   * @param authenticationMethod the new value
+   */
   public void setAuthenticationMethod(String authenticationMethod) {
     this.authenticationMethod = authenticationMethod;
   }
@@ -112,10 +152,20 @@ public class UserLifecycleRule implements ModelInterface {
   @JsonProperty("group_ids")
   public Long[] groupIds;
 
+  /**
+   * Gets {@link #groupIds}.
+   *
+   * @return the value of {@link #groupIds}
+   */
   public Long[] getGroupIds() {
     return groupIds;
   }
 
+  /**
+   * Sets {@link #groupIds}.
+   *
+   * @param groupIds the new value
+   */
   public void setGroupIds(Long[] groupIds) {
     this.groupIds = groupIds;
   }
@@ -126,10 +176,20 @@ public class UserLifecycleRule implements ModelInterface {
   @JsonProperty("action")
   public String action;
 
+  /**
+   * Gets {@link #action}.
+   *
+   * @return the value of {@link #action}
+   */
   public String getAction() {
     return action;
   }
 
+  /**
+   * Sets {@link #action}.
+   *
+   * @param action the new value
+   */
   public void setAction(String action) {
     this.action = action;
   }
@@ -140,10 +200,20 @@ public class UserLifecycleRule implements ModelInterface {
   @JsonProperty("inactivity_days")
   public Long inactivityDays;
 
+  /**
+   * Gets {@link #inactivityDays}.
+   *
+   * @return the value of {@link #inactivityDays}
+   */
   public Long getInactivityDays() {
     return inactivityDays;
   }
 
+  /**
+   * Sets {@link #inactivityDays}.
+   *
+   * @param inactivityDays the new value
+   */
   public void setInactivityDays(Long inactivityDays) {
     this.inactivityDays = inactivityDays;
   }
@@ -154,10 +224,20 @@ public class UserLifecycleRule implements ModelInterface {
   @JsonProperty("include_folder_admins")
   public Boolean includeFolderAdmins;
 
+  /**
+   * Gets {@link #includeFolderAdmins}.
+   *
+   * @return the value of {@link #includeFolderAdmins}
+   */
   public Boolean getIncludeFolderAdmins() {
     return includeFolderAdmins;
   }
 
+  /**
+   * Sets {@link #includeFolderAdmins}.
+   *
+   * @param includeFolderAdmins the new value
+   */
   public void setIncludeFolderAdmins(Boolean includeFolderAdmins) {
     this.includeFolderAdmins = includeFolderAdmins;
   }
@@ -168,10 +248,20 @@ public class UserLifecycleRule implements ModelInterface {
   @JsonProperty("include_site_admins")
   public Boolean includeSiteAdmins;
 
+  /**
+   * Gets {@link #includeSiteAdmins}.
+   *
+   * @return the value of {@link #includeSiteAdmins}
+   */
   public Boolean getIncludeSiteAdmins() {
     return includeSiteAdmins;
   }
 
+  /**
+   * Sets {@link #includeSiteAdmins}.
+   *
+   * @param includeSiteAdmins the new value
+   */
   public void setIncludeSiteAdmins(Boolean includeSiteAdmins) {
     this.includeSiteAdmins = includeSiteAdmins;
   }
@@ -182,10 +272,20 @@ public class UserLifecycleRule implements ModelInterface {
   @JsonProperty("apply_to_all_workspaces")
   public Boolean applyToAllWorkspaces;
 
+  /**
+   * Gets {@link #applyToAllWorkspaces}.
+   *
+   * @return the value of {@link #applyToAllWorkspaces}
+   */
   public Boolean getApplyToAllWorkspaces() {
     return applyToAllWorkspaces;
   }
 
+  /**
+   * Sets {@link #applyToAllWorkspaces}.
+   *
+   * @param applyToAllWorkspaces the new value
+   */
   public void setApplyToAllWorkspaces(Boolean applyToAllWorkspaces) {
     this.applyToAllWorkspaces = applyToAllWorkspaces;
   }
@@ -196,10 +296,20 @@ public class UserLifecycleRule implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -210,10 +320,20 @@ public class UserLifecycleRule implements ModelInterface {
   @JsonProperty("notify_users")
   public Boolean notifyUsers;
 
+  /**
+   * Gets {@link #notifyUsers}.
+   *
+   * @return the value of {@link #notifyUsers}
+   */
   public Boolean getNotifyUsers() {
     return notifyUsers;
   }
 
+  /**
+   * Sets {@link #notifyUsers}.
+   *
+   * @param notifyUsers the new value
+   */
   public void setNotifyUsers(Boolean notifyUsers) {
     this.notifyUsers = notifyUsers;
   }
@@ -224,10 +344,20 @@ public class UserLifecycleRule implements ModelInterface {
   @JsonProperty("partner_tag")
   public String partnerTag;
 
+  /**
+   * Gets {@link #partnerTag}.
+   *
+   * @return the value of {@link #partnerTag}
+   */
   public String getPartnerTag() {
     return partnerTag;
   }
 
+  /**
+   * Sets {@link #partnerTag}.
+   *
+   * @param partnerTag the new value
+   */
   public void setPartnerTag(String partnerTag) {
     this.partnerTag = partnerTag;
   }
@@ -238,10 +368,20 @@ public class UserLifecycleRule implements ModelInterface {
   @JsonProperty("site_id")
   public Long siteId;
 
+  /**
+   * Gets {@link #siteId}.
+   *
+   * @return the value of {@link #siteId}
+   */
   public Long getSiteId() {
     return siteId;
   }
 
+  /**
+   * Sets {@link #siteId}.
+   *
+   * @param siteId the new value
+   */
   public void setSiteId(Long siteId) {
     this.siteId = siteId;
   }
@@ -252,10 +392,20 @@ public class UserLifecycleRule implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
 
+  /**
+   * Sets {@link #workspaceId}.
+   *
+   * @param workspaceId the new value
+   */
   public void setWorkspaceId(Long workspaceId) {
     this.workspaceId = workspaceId;
   }
@@ -266,10 +416,20 @@ public class UserLifecycleRule implements ModelInterface {
   @JsonProperty("user_state")
   public String userState;
 
+  /**
+   * Gets {@link #userState}.
+   *
+   * @return the value of {@link #userState}
+   */
   public String getUserState() {
     return userState;
   }
 
+  /**
+   * Sets {@link #userState}.
+   *
+   * @param userState the new value
+   */
   public void setUserState(String userState) {
     this.userState = userState;
   }
@@ -280,30 +440,46 @@ public class UserLifecycleRule implements ModelInterface {
   @JsonProperty("user_tag")
   public String userTag;
 
+  /**
+   * Gets {@link #userTag}.
+   *
+   * @return the value of {@link #userTag}
+   */
   public String getUserTag() {
     return userTag;
   }
 
+  /**
+   * Sets {@link #userTag}.
+   *
+   * @param userTag the new value
+   */
   public void setUserTag(String userTag) {
     this.userTag = userTag;
   }
 
   /**
    * Updates this UserLifecycleRule. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   action - string - Action to take on inactive users (disable or delete)
-   *   apply_to_all_workspaces - boolean - If true, a Default Workspace rule also applies to users in all Custom Workspaces. Can only be enabled when `workspace_id` is `0`.
-   *   authentication_method - string - User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.
-   *   group_ids - array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
-   *   inactivity_days - int64 - Number of days of inactivity before the rule applies
-   *   include_site_admins - boolean - If true, the rule includes Site Administrators, who always belong to the Default Workspace. Can only be enabled when `workspace_id` is `0`.
-   *   include_folder_admins - boolean - If true, the rule will apply to folder admins.
-   *   name - string - User Lifecycle Rule name
-   *   notify_users - boolean - If true, users will be emailed before the rule disables or deletes them.
-   *   partner_tag - string - If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
-   *   user_state - string - State of the users to apply the rule to (inactive or disabled)
-   *   user_tag - string - If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
-   *   workspace_id - int64 - Workspace whose users the rule applies to. `0` means the Default Workspace. A Custom Workspace rule applies only to users who belong to that Workspace, regardless of access granted to other users.
+   * <p>Update User Lifecycle Rule
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code action} (String): Action to take on inactive users (disable or delete)</li>
+   * <li>{@code apply_to_all_workspaces} (Boolean): If true, a Default Workspace rule also applies to users in all Custom Workspaces. Can only be enabled when `workspace_id` is `0`.</li>
+   * <li>{@code authentication_method} (String): User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.</li>
+   * <li>{@code group_ids} (Long[]): Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.</li>
+   * <li>{@code inactivity_days} (Long): Number of days of inactivity before the rule applies</li>
+   * <li>{@code include_site_admins} (Boolean): If true, the rule includes Site Administrators, who always belong to the Default Workspace. Can only be enabled when `workspace_id` is `0`.</li>
+   * <li>{@code include_folder_admins} (Boolean): If true, the rule will apply to folder admins.</li>
+   * <li>{@code name} (String): User Lifecycle Rule name</li>
+   * <li>{@code notify_users} (Boolean): If true, users will be emailed before the rule disables or deletes them.</li>
+   * <li>{@code partner_tag} (String): If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.</li>
+   * <li>{@code user_state} (String): State of the users to apply the rule to (inactive or disabled)</li>
+   * <li>{@code user_tag} (String): If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.</li>
+   * <li>{@code workspace_id} (Long): Workspace whose users the rule applies to. `0` means the Default Workspace. A Custom Workspace rule applies only to users who belong to that Workspace, regardless of access granted to other users.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code UserLifecycleRule}
    */
   public UserLifecycleRule update(HashMap<String, Object> parameters) throws IOException {
     UserLifecycleRule updated = filesClient().userLifecycleRules().update(this.id, parameters, this.options);
@@ -312,11 +488,19 @@ public class UserLifecycleRule implements ModelInterface {
   }
 
   /**
+   * Delete User Lifecycle Rule
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().userLifecycleRules().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete User Lifecycle Rule
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -367,146 +551,272 @@ public class UserLifecycleRule implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id` and `workspace_id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
+   * List User Lifecycle Rules
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<UserLifecycleRule> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List User Lifecycle Rules
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<UserLifecycleRule> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List User Lifecycle Rules
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id` and `workspace_id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code UserLifecycleRule} records, in a {@code ListIterator}
+   */
   public static ListIterator<UserLifecycleRule> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().userLifecycleRules().list(parameters, options);
   }
 
+  /**
+   * List User Lifecycle Rules
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<UserLifecycleRule> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List User Lifecycle Rules
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<UserLifecycleRule> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - User Lifecycle Rule ID.
+   * Show User Lifecycle Rule
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static UserLifecycleRule find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show User Lifecycle Rule
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static UserLifecycleRule find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show User Lifecycle Rule
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static UserLifecycleRule find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show User Lifecycle Rule
+   *
+   * @param id User Lifecycle Rule ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code UserLifecycleRule}
+   */
   public static UserLifecycleRule find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().userLifecycleRules().find(id, parameters, options);
   }
 
+  /**
+   * Show User Lifecycle Rule
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static UserLifecycleRule get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show User Lifecycle Rule
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static UserLifecycleRule get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   action - string - Action to take on inactive users (disable or delete)
-   *   apply_to_all_workspaces - boolean - If true, a Default Workspace rule also applies to users in all Custom Workspaces. Can only be enabled when `workspace_id` is `0`.
-   *   authentication_method - string - User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.
-   *   group_ids - array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
-   *   inactivity_days - int64 - Number of days of inactivity before the rule applies
-   *   include_site_admins - boolean - If true, the rule includes Site Administrators, who always belong to the Default Workspace. Can only be enabled when `workspace_id` is `0`.
-   *   include_folder_admins - boolean - If true, the rule will apply to folder admins.
-   *   name - string - User Lifecycle Rule name
-   *   notify_users - boolean - If true, users will be emailed before the rule disables or deletes them.
-   *   partner_tag - string - If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
-   *   user_state - string - State of the users to apply the rule to (inactive or disabled)
-   *   user_tag - string - If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
-   *   workspace_id - int64 - Workspace whose users the rule applies to. `0` means the Default Workspace. A Custom Workspace rule applies only to users who belong to that Workspace, regardless of access granted to other users.
+   * Create User Lifecycle Rule
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static UserLifecycleRule create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create User Lifecycle Rule
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static UserLifecycleRule create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create User Lifecycle Rule
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code action} (String): Action to take on inactive users (disable or delete)</li>
+   * <li>{@code apply_to_all_workspaces} (Boolean): If true, a Default Workspace rule also applies to users in all Custom Workspaces. Can only be enabled when `workspace_id` is `0`.</li>
+   * <li>{@code authentication_method} (String): User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.</li>
+   * <li>{@code group_ids} (Long[]): Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.</li>
+   * <li>{@code inactivity_days} (Long): Number of days of inactivity before the rule applies</li>
+   * <li>{@code include_site_admins} (Boolean): If true, the rule includes Site Administrators, who always belong to the Default Workspace. Can only be enabled when `workspace_id` is `0`.</li>
+   * <li>{@code include_folder_admins} (Boolean): If true, the rule will apply to folder admins.</li>
+   * <li>{@code name} (String): User Lifecycle Rule name</li>
+   * <li>{@code notify_users} (Boolean): If true, users will be emailed before the rule disables or deletes them.</li>
+   * <li>{@code partner_tag} (String): If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.</li>
+   * <li>{@code user_state} (String): State of the users to apply the rule to (inactive or disabled)</li>
+   * <li>{@code user_tag} (String): If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.</li>
+   * <li>{@code workspace_id} (Long): Workspace whose users the rule applies to. `0` means the Default Workspace. A Custom Workspace rule applies only to users who belong to that Workspace, regardless of access granted to other users.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code UserLifecycleRule}
+   */
   public static UserLifecycleRule create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().userLifecycleRules().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   action - string - Action to take on inactive users (disable or delete)
-   *   apply_to_all_workspaces - boolean - If true, a Default Workspace rule also applies to users in all Custom Workspaces. Can only be enabled when `workspace_id` is `0`.
-   *   authentication_method - string - User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.
-   *   group_ids - array(int64) - Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.
-   *   inactivity_days - int64 - Number of days of inactivity before the rule applies
-   *   include_site_admins - boolean - If true, the rule includes Site Administrators, who always belong to the Default Workspace. Can only be enabled when `workspace_id` is `0`.
-   *   include_folder_admins - boolean - If true, the rule will apply to folder admins.
-   *   name - string - User Lifecycle Rule name
-   *   notify_users - boolean - If true, users will be emailed before the rule disables or deletes them.
-   *   partner_tag - string - If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
-   *   user_state - string - State of the users to apply the rule to (inactive or disabled)
-   *   user_tag - string - If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.
-   *   workspace_id - int64 - Workspace whose users the rule applies to. `0` means the Default Workspace. A Custom Workspace rule applies only to users who belong to that Workspace, regardless of access granted to other users.
+   * Update User Lifecycle Rule
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static UserLifecycleRule update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update User Lifecycle Rule
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static UserLifecycleRule update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update User Lifecycle Rule
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static UserLifecycleRule update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update User Lifecycle Rule
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code action} (String): Action to take on inactive users (disable or delete)</li>
+   * <li>{@code apply_to_all_workspaces} (Boolean): If true, a Default Workspace rule also applies to users in all Custom Workspaces. Can only be enabled when `workspace_id` is `0`.</li>
+   * <li>{@code authentication_method} (String): User authentication method for which the rule will apply. Use `all_non_sso` to target every non-SSO authentication method with one rule.</li>
+   * <li>{@code group_ids} (Long[]): Array of Group IDs to which the rule applies. If empty or not set, the rule applies to all users.</li>
+   * <li>{@code inactivity_days} (Long): Number of days of inactivity before the rule applies</li>
+   * <li>{@code include_site_admins} (Boolean): If true, the rule includes Site Administrators, who always belong to the Default Workspace. Can only be enabled when `workspace_id` is `0`.</li>
+   * <li>{@code include_folder_admins} (Boolean): If true, the rule will apply to folder admins.</li>
+   * <li>{@code name} (String): User Lifecycle Rule name</li>
+   * <li>{@code notify_users} (Boolean): If true, users will be emailed before the rule disables or deletes them.</li>
+   * <li>{@code partner_tag} (String): If provided, only users belonging to Partners with this tag at the Partner level will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.</li>
+   * <li>{@code user_state} (String): State of the users to apply the rule to (inactive or disabled)</li>
+   * <li>{@code user_tag} (String): If provided, only users with this tag will be affected by the rule. Tags must only contain lowercase letters, numbers, and hyphens.</li>
+   * <li>{@code workspace_id} (Long): Workspace whose users the rule applies to. `0` means the Default Workspace. A Custom Workspace rule applies only to users who belong to that Workspace, regardless of access granted to other users.</li>
+   * </ul>
+   *
+   * @param id User Lifecycle Rule ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code UserLifecycleRule}
+   */
   public static UserLifecycleRule update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().userLifecycleRules().update(id, parameters, options);
   }
 
 
   /**
+   * Delete User Lifecycle Rule
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete User Lifecycle Rule
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete User Lifecycle Rule
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete User Lifecycle Rule
+   *
+   * @param id User Lifecycle Rule ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().userLifecycleRules().delete(id, parameters, options);
   }
 
+  /**
+   * Delete User Lifecycle Rule
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete User Lifecycle Rule
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

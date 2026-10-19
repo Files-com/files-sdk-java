@@ -25,7 +25,7 @@
 }
 ```
 
-* `inbox_registration` / `inboxRegistration`  (inboxRegistration): 
+* `inbox_registration` / `inboxRegistration`  (inboxRegistration): Inbox registration associated with this upload log record.
 * `path` / `path`  (string): Upload path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `created_at` / `createdAt`  (date-time): Upload date/time
 
@@ -34,12 +34,9 @@
 
 ## List Inbox Uploads
 
-```
-ListIterator<InboxUpload> inboxUpload = InboxUpload.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<InboxUpload> inboxUploads = InboxUpload.list(parameters, null);
 ```
 
 ### Parameters

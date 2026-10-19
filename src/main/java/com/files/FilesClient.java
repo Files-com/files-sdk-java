@@ -177,18 +177,21 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
  *
  * <p><b>Retries.</b> A request that fails in a way that may be temporary is sent again, up to
  * {@link Builder#maxRetries(int)} times (3 by default): after a connection or read failure, HTTP
- * 429, HTTP 502 or above, or HTTP 500 in answer to a GET. HTTP 501 is never retried, and neither is
- * a request that cannot be sent as written, a server certificate or host name that does not verify,
- * or redirects that loop or go past the limit. The first retry waits
+ * 429, or HTTP 500 or above, whatever the request's method. HTTP 501 is never retried, and neither
+ * is a request that cannot be sent as written, a server certificate or host name that does not
+ * verify, or redirects that loop or go past the limit. The first retry waits
  * {@link Builder#retryDelay(Duration)} (100 ms), and each later one twice as long as the one before,
  * up to {@link Builder#maxRetryDelay(Duration)}; after HTTP 429 or 503, a longer Retry-After within
  * that maximum is waited instead. When Files.com answers that the site must be reached through
  * another server, the client follows as its
  * {@link Builder#regionRelocation(RegionRelocationPolicy) region relocation policy} allows, and
  * that uses one of the same retries. A request that changes data may take effect twice when an
- * earlier attempt reached Files.com but its answer was lost. The default client reads its retry
- * limit and wait from {@link FilesConfig} again before each attempt of its API requests and of the
- * storage requests of {@link #getFileInputStream} and {@link #putBuffer}; transfers, and every
+ * earlier attempt reached Files.com but its answer was lost or was a server error. The request that
+ * completes an upload is the exception: once it may have reached Files.com it is never sent again,
+ * and unless Files.com refused it, a failure then leaves the upload's outcome unknown
+ * ({@link com.files.exceptions.UploadCompletionUnknownException}). The default client reads its
+ * retry limit and wait from {@link FilesConfig} again before each attempt of its API requests and of
+ * the storage requests of {@link #getFileInputStream} and {@link #putBuffer}; transfers, and every
  * other client, keep the values they began with.
  *
  * <p><b>Cancellation.</b> A call stops when its {@link CancellationToken}, given as the {@code
@@ -345,9 +348,9 @@ public final class FilesClient implements Closeable {
    * for them to stop, including any transfer thread; a transfer blocked reading your own stream
    * stops once that read returns. It keeps waiting if the closing thread is interrupted, and then
    * returns with the thread's interrupt status set. Then the client's own transport is closed; a
-   * transport you gave it with {@link Builder#transport(HttpTransport)} stays open. Afterwards the
-   * client, and the objects and listings it returned, throw {@link IllegalStateException} when used
-   * to send a request.
+   * transport you gave it with {@link Builder#transport(HttpTransport)} stays open, and so does the
+   * Apache client that transport uses. Afterwards the client, and the objects and listings it
+   * returned, throw {@link IllegalStateException} when used to send a request.
    *
    * <p>Closing it again waits the same way and has no other effect. Only a close made while its
    * thread is doing the work of a call or transfer, of this client or another, such as in a
@@ -1563,7 +1566,11 @@ public final class FilesClient implements Closeable {
     }
 
     /**
-     * Sends requests over a transport you manage and share. Closing the client leaves it open.
+     * Sends requests over a transport you manage and share. Closing the client leaves it open. To
+     * send them with an Apache HttpClient of your own, build a
+     * {@link com.files.net.GuardedApacheClient} with {@link HttpTransport.Builder#buildClient()} and
+     * give the client a transport using it, such as
+     * {@link HttpTransport#borrowed(com.files.net.GuardedApacheClient)}.
      */
     public Builder transport(HttpTransport transport) {
       if (transport == null) {

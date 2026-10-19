@@ -45,12 +45,9 @@
 
 ## List Partner Channel Templates
 
-```
-ListIterator<PartnerChannelTemplate> partnerChannelTemplate = PartnerChannelTemplate.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<PartnerChannelTemplate> partnerChannelTemplates = PartnerChannelTemplate.list(parameters, null);
 ```
 
 ### Parameters
@@ -65,12 +62,9 @@ ListIterator<PartnerChannelTemplate> partnerChannelTemplate = PartnerChannelTemp
 
 ## Show Partner Channel Template
 
-```
-PartnerChannelTemplate partnerChannelTemplate = PartnerChannelTemplate.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+PartnerChannelTemplate partnerChannelTemplate = PartnerChannelTemplate.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -82,12 +76,20 @@ PartnerChannelTemplate partnerChannelTemplate = PartnerChannelTemplate.find(
 
 ## Create Partner Channel Template
 
-```
-PartnerChannelTemplate partnerChannelTemplate = PartnerChannelTemplate.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("direction", "two_way");
+parameters.put("use_channel_root", false);
+parameters.put("from_partner_folder_name", "incoming");
+parameters.put("from_partner_managed_folder_paths", new String[] {"claims/received"});
+parameters.put("from_partner_route_path_pattern", "processing/{{partner_name}}/from-partner");
+parameters.put("to_partner_folder_name", "outgoing");
+parameters.put("to_partner_managed_folder_paths", new String[] {"reports/monthly"});
+parameters.put("to_partner_route_path_pattern", "delivery/{{partner_name}}/to-partner");
+parameters.put("name", "Claims Template");
+parameters.put("path", "claims/medical");
+parameters.put("workspace_id", 0L);
+PartnerChannelTemplate partnerChannelTemplate = PartnerChannelTemplate.create(parameters, null);
 ```
 
 ### Parameters
@@ -109,12 +111,19 @@ PartnerChannelTemplate partnerChannelTemplate = PartnerChannelTemplate.create(
 
 ## Update Partner Channel Template
 
-```
-PartnerChannelTemplate partnerChannelTemplate = PartnerChannelTemplate.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("direction", "two_way");
+parameters.put("use_channel_root", false);
+parameters.put("from_partner_folder_name", "incoming");
+parameters.put("from_partner_managed_folder_paths", new String[] {"claims/received"});
+parameters.put("from_partner_route_path_pattern", "processing/{{partner_name}}/from-partner");
+parameters.put("to_partner_folder_name", "outgoing");
+parameters.put("to_partner_managed_folder_paths", new String[] {"reports/monthly"});
+parameters.put("to_partner_route_path_pattern", "delivery/{{partner_name}}/to-partner");
+parameters.put("name", "Claims Template");
+parameters.put("path", "claims/medical");
+PartnerChannelTemplate partnerChannelTemplate = PartnerChannelTemplate.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -136,12 +145,9 @@ PartnerChannelTemplate partnerChannelTemplate = PartnerChannelTemplate.update(
 
 ## Delete Partner Channel Template
 
-```
-void partnerChannelTemplate = PartnerChannelTemplate.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+PartnerChannelTemplate.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -153,22 +159,20 @@ void partnerChannelTemplate = PartnerChannelTemplate.delete(
 
 ## Update Partner Channel Template
 
-```
-PartnerChannelTemplate partnerChannelTemplate = PartnerChannelTemplate.find(id);
-
+```java
+PartnerChannelTemplate partnerChannelTemplate = PartnerChannelTemplate.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("direction", "two_way");
 parameters.put("use_channel_root", false);
 parameters.put("from_partner_folder_name", "incoming");
-parameters.put("from_partner_managed_folder_paths", ["claims/received"]);
+parameters.put("from_partner_managed_folder_paths", new String[] {"claims/received"});
 parameters.put("from_partner_route_path_pattern", "processing/{{partner_name}}/from-partner");
 parameters.put("to_partner_folder_name", "outgoing");
-parameters.put("to_partner_managed_folder_paths", ["reports/monthly"]);
+parameters.put("to_partner_managed_folder_paths", new String[] {"reports/monthly"});
 parameters.put("to_partner_route_path_pattern", "delivery/{{partner_name}}/to-partner");
 parameters.put("name", "Claims Template");
 parameters.put("path", "claims/medical");
-
-partnerChannelTemplate.update(parameters);
+PartnerChannelTemplate result = partnerChannelTemplate.update(parameters);
 ```
 
 ### Parameters
@@ -190,11 +194,9 @@ partnerChannelTemplate.update(parameters);
 
 ## Delete Partner Channel Template
 
-```
-PartnerChannelTemplate partnerChannelTemplate = PartnerChannelTemplate.find(id);
-
+```java
+PartnerChannelTemplate partnerChannelTemplate = PartnerChannelTemplate.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 partnerChannelTemplate.delete(parameters);
 ```
 

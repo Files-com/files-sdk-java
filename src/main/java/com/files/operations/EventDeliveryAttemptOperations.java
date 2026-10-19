@@ -25,20 +25,37 @@ public final class EventDeliveryAttemptOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`, `status`, `event_record_id`, `event_target_id` or `workspace_id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `status`, `workspace_id`, `event_record_id` or `event_target_id`. Valid field combinations are `[ workspace_id, status ]`, `[ workspace_id, event_record_id ]` or `[ workspace_id, event_target_id ]`.
+   * List Event Delivery Attempts
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<EventDeliveryAttempt> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Event Delivery Attempts
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<EventDeliveryAttempt> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Event Delivery Attempts
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`, `status`, `event_record_id`, `event_target_id` or `workspace_id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `status`, `workspace_id`, `event_record_id` or `event_target_id`. Valid field combinations are `[ workspace_id, status ]`, `[ workspace_id, event_record_id ]` or `[ workspace_id, event_target_id ]`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code EventDeliveryAttempt} records, in a {@code ListIterator}
+   */
   public ListIterator<EventDeliveryAttempt> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -64,30 +81,59 @@ public final class EventDeliveryAttemptOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Event Delivery Attempts
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<EventDeliveryAttempt> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Event Delivery Attempts
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<EventDeliveryAttempt> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Event Delivery Attempt ID.
+   * Show Event Delivery Attempt
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public EventDeliveryAttempt find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Event Delivery Attempt
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public EventDeliveryAttempt find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Event Delivery Attempt
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public EventDeliveryAttempt find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Event Delivery Attempt
+   *
+   * @param id Event Delivery Attempt ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code EventDeliveryAttempt}
+   */
   public EventDeliveryAttempt find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -109,10 +155,20 @@ public final class EventDeliveryAttemptOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Event Delivery Attempt
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public EventDeliveryAttempt get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Event Delivery Attempt
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public EventDeliveryAttempt get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }

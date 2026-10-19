@@ -76,12 +76,11 @@
 
 ## List Notifications
 
-```
-ListIterator<Notification> notification = Notification.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("include_ancestors", false);
+parameters.put("group_id", "1");
+ListIterator<Notification> notifications = Notification.list(parameters, null);
 ```
 
 ### Parameters
@@ -100,12 +99,9 @@ ListIterator<Notification> notification = Notification.list(
 
 ## Show Notification
 
-```
-Notification notification = Notification.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Notification notification = Notification.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -117,12 +113,28 @@ Notification notification = Notification.find(
 
 ## Create Notification
 
-```
-Notification notification = Notification.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("notify_on_copy", false);
+parameters.put("notify_on_delete", true);
+parameters.put("notify_on_download", true);
+parameters.put("notify_on_move", true);
+parameters.put("notify_on_upload", true);
+parameters.put("notify_user_actions", false);
+parameters.put("recursive", false);
+parameters.put("send_interval", "daily");
+parameters.put("subject", "Vendor A CSV Activity");
+parameters.put("message", "custom notification email message");
+parameters.put("triggering_filenames", new String[] {"*.jpg", "notify_file.txt"});
+parameters.put("triggering_group_ids", new Long[] {1L});
+parameters.put("triggering_user_ids", new Long[] {1L});
+parameters.put("trigger_by_share_recipients", true);
+parameters.put("workspace_id", 1L);
+parameters.put("group_id", 1L);
+parameters.put("group_ids", new Object[] {1});
+parameters.put("username", "User");
+Notification notification = Notification.create(parameters, null);
 ```
 
 ### Parameters
@@ -153,58 +165,7 @@ Notification notification = Notification.create(
 
 ## Update Notification
 
-```
-Notification notification = Notification.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Notification ID.
-* `notify_on_copy` (Boolean): If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
-* `notify_on_delete` (Boolean): Trigger on files deleted in this path?
-* `notify_on_download` (Boolean): Trigger on files downloaded in this path?
-* `notify_on_move` (Boolean): Trigger on files moved to this path?
-* `notify_on_upload` (Boolean): Trigger on files created/uploaded/updated/changed in this path?
-* `notify_user_actions` (Boolean): If `true` actions initiated by the user will still result in a notification
-* `recursive` (Boolean): If `true`, enable notifications for each subfolder in this path
-* `send_interval` (String): The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
-* `subject` (String): Custom subject line to use for notification emails
-* `message` (String): Custom message to include in notification emails
-* `triggering_filenames` (String[]): Array of filenames (possibly with wildcards) to scope trigger
-* `triggering_group_ids` (Long[]): If set, will only notify on actions made by a member of one of the specified groups
-* `triggering_user_ids` (Long[]): If set, will only notify on actions made one of the specified users
-* `trigger_by_share_recipients` (Boolean): Notify when actions are performed by a share recipient?
-* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
-
-
----
-
-## Delete Notification
-
-```
-void notification = Notification.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Notification ID.
-
-
----
-
-## Update Notification
-
-```
-Notification notification = Notification.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("notify_on_copy", false);
 parameters.put("notify_on_delete", true);
@@ -216,13 +177,12 @@ parameters.put("recursive", false);
 parameters.put("send_interval", "daily");
 parameters.put("subject", "Vendor A CSV Activity");
 parameters.put("message", "custom notification email message");
-parameters.put("triggering_filenames", ["*.jpg","notify_file.txt"]);
-parameters.put("triggering_group_ids", [1]);
-parameters.put("triggering_user_ids", [1]);
+parameters.put("triggering_filenames", new String[] {"*.jpg", "notify_file.txt"});
+parameters.put("triggering_group_ids", new Long[] {1L});
+parameters.put("triggering_user_ids", new Long[] {1L});
 parameters.put("trigger_by_share_recipients", true);
-parameters.put("workspace_id", 1);
-
-notification.update(parameters);
+parameters.put("workspace_id", 1L);
+Notification notification = Notification.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -249,11 +209,68 @@ notification.update(parameters);
 
 ## Delete Notification
 
-```
-Notification notification = Notification.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
+Notification.delete(1L, parameters, null);
+```
 
+### Parameters
+
+* `id` (Long): Required - Notification ID.
+
+
+---
+
+## Update Notification
+
+```java
+Notification notification = Notification.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("notify_on_copy", false);
+parameters.put("notify_on_delete", true);
+parameters.put("notify_on_download", true);
+parameters.put("notify_on_move", true);
+parameters.put("notify_on_upload", true);
+parameters.put("notify_user_actions", false);
+parameters.put("recursive", false);
+parameters.put("send_interval", "daily");
+parameters.put("subject", "Vendor A CSV Activity");
+parameters.put("message", "custom notification email message");
+parameters.put("triggering_filenames", new String[] {"*.jpg", "notify_file.txt"});
+parameters.put("triggering_group_ids", new Long[] {1L});
+parameters.put("triggering_user_ids", new Long[] {1L});
+parameters.put("trigger_by_share_recipients", true);
+parameters.put("workspace_id", 1L);
+Notification result = notification.update(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - Notification ID.
+* `notify_on_copy` (Boolean): If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
+* `notify_on_delete` (Boolean): Trigger on files deleted in this path?
+* `notify_on_download` (Boolean): Trigger on files downloaded in this path?
+* `notify_on_move` (Boolean): Trigger on files moved to this path?
+* `notify_on_upload` (Boolean): Trigger on files created/uploaded/updated/changed in this path?
+* `notify_user_actions` (Boolean): If `true` actions initiated by the user will still result in a notification
+* `recursive` (Boolean): If `true`, enable notifications for each subfolder in this path
+* `send_interval` (String): The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
+* `subject` (String): Custom subject line to use for notification emails
+* `message` (String): Custom message to include in notification emails
+* `triggering_filenames` (String[]): Array of filenames (possibly with wildcards) to scope trigger
+* `triggering_group_ids` (Long[]): If set, will only notify on actions made by a member of one of the specified groups
+* `triggering_user_ids` (Long[]): If set, will only notify on actions made one of the specified users
+* `trigger_by_share_recipients` (Boolean): Notify when actions are performed by a share recipient?
+* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
+
+
+---
+
+## Delete Notification
+
+```java
+Notification notification = Notification.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
 notification.delete(parameters);
 ```
 

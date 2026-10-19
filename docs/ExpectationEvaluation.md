@@ -56,12 +56,9 @@
 
 ## List Expectation Evaluations
 
-```
-ListIterator<ExpectationEvaluation> expectationEvaluation = ExpectationEvaluation.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<ExpectationEvaluation> expectationEvaluations = ExpectationEvaluation.list(parameters, null);
 ```
 
 ### Parameters
@@ -76,12 +73,9 @@ ListIterator<ExpectationEvaluation> expectationEvaluation = ExpectationEvaluatio
 
 ## Show Expectation Evaluation
 
-```
-ExpectationEvaluation expectationEvaluation = ExpectationEvaluation.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ExpectationEvaluation expectationEvaluation = ExpectationEvaluation.find(1L, parameters, null);
 ```
 
 ### Parameters

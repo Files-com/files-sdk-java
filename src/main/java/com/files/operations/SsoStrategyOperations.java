@@ -25,19 +25,36 @@ public final class SsoStrategyOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
+   * List SSO Strategies
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<SsoStrategy> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List SSO Strategies
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<SsoStrategy> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List SSO Strategies
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code SsoStrategy} records, in a {@code ListIterator}
+   */
   public ListIterator<SsoStrategy> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -59,30 +76,59 @@ public final class SsoStrategyOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List SSO Strategies
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<SsoStrategy> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List SSO Strategies
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<SsoStrategy> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Sso Strategy ID.
+   * Show SSO Strategy
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public SsoStrategy find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show SSO Strategy
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public SsoStrategy find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show SSO Strategy
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public SsoStrategy find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show SSO Strategy
+   *
+   * @param id Sso Strategy ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code SsoStrategy}
+   */
   public SsoStrategy find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -104,29 +150,58 @@ public final class SsoStrategyOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show SSO Strategy
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public SsoStrategy get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show SSO Strategy
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public SsoStrategy get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
    * Synchronize provisioning data with the SSO remote server
+   *
+   * @see #sync(Long, HashMap, HashMap)
    */
   public void sync() throws RuntimeException {
     sync(null, null, null);
   }
 
+  /**
+   * Synchronize provisioning data with the SSO remote server
+   *
+   * @see #sync(Long, HashMap, HashMap)
+   */
   public void sync(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     sync(id, parameters, null);
   }
 
+  /**
+   * Synchronize provisioning data with the SSO remote server
+   *
+   * @see #sync(Long, HashMap, HashMap)
+   */
   public void sync(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     sync(null, parameters, options);
   }
 
+  /**
+   * Synchronize provisioning data with the SSO remote server
+   *
+   * @param id Sso Strategy ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void sync(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);

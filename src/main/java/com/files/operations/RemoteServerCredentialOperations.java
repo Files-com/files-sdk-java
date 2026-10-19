@@ -25,21 +25,38 @@ public final class RemoteServerCredentialOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id` and `name`. Valid field combinations are `[ workspace_id, name ]`.
-   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
+   * List Remote Server Credentials
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<RemoteServerCredential> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Remote Server Credentials
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<RemoteServerCredential> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Remote Server Credentials
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id` and `name`. Valid field combinations are `[ workspace_id, name ]`.</li>
+   * <li>{@code filter_prefix} (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code RemoteServerCredential} records, in a {@code ListIterator}
+   */
   public ListIterator<RemoteServerCredential> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -69,30 +86,59 @@ public final class RemoteServerCredentialOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Remote Server Credentials
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<RemoteServerCredential> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Remote Server Credentials
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<RemoteServerCredential> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Remote Server Credential ID.
+   * Show Remote Server Credential
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public RemoteServerCredential find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Remote Server Credential
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public RemoteServerCredential find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Remote Server Credential
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public RemoteServerCredential find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Remote Server Credential
+   *
+   * @param id Remote Server Credential ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code RemoteServerCredential}
+   */
   public RemoteServerCredential find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -114,61 +160,88 @@ public final class RemoteServerCredentialOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Remote Server Credential
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public RemoteServerCredential get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Remote Server Credential
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public RemoteServerCredential get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   name - string - Internal name for your reference
-   *   description - string - Internal description for your reference
-   *   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
-   *   aws_access_key - string - AWS Access Key.
-   *   s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
-   *   s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
-   *   cloudflare_access_key - string - Cloudflare: Access Key.
-   *   filebase_access_key - string - Filebase: Access Key.
-   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
-   *   linode_access_key - string - Linode: Access Key
-   *   s3_compatible_access_key - string - S3-compatible: Access Key
-   *   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
-   *   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
-   *   username - string - Remote server username.
-   *   wasabi_access_key - string - Wasabi: Access Key.
-   *   password - string - Password, if needed.
-   *   private_key - string - Private key, if needed.
-   *   private_key_passphrase - string - Passphrase for private key if needed.
-   *   aws_secret_key - string - AWS: secret key.
-   *   azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
-   *   azure_blob_storage_sas_token - string - Azure Blob Storage: Shared Access Signature (SAS) token
-   *   azure_files_storage_access_key - string - Azure File Storage: Access Key
-   *   azure_files_storage_sas_token - string - Azure File Storage: Shared Access Signature (SAS) token
-   *   backblaze_b2_application_key - string - Backblaze B2 Cloud Storage: applicationKey
-   *   backblaze_b2_key_id - string - Backblaze B2 Cloud Storage: keyID
-   *   cloudflare_secret_key - string - Cloudflare: Secret Key
-   *   filebase_secret_key - string - Filebase: Secret Key
-   *   google_cloud_storage_credentials_json - string - Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
-   *   google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
-   *   linode_secret_key - string - Linode: Secret Key
-   *   s3_compatible_secret_key - string - S3-compatible: Secret Key
-   *   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
-   *   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
-   *   wasabi_secret_key - string - Wasabi: Secret Key
-   *   workspace_id - int64 - Workspace ID (0 for default workspace)
-   *   copy_values_from_credential_id - int64 - ID of Remote Server Credential to copy omitted values from.
+   * Create Remote Server Credential
+   *
+   * @see #create(HashMap, HashMap)
    */
   public RemoteServerCredential create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Remote Server Credential
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public RemoteServerCredential create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Remote Server Credential
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Internal name for your reference</li>
+   * <li>{@code description} (String): Internal description for your reference</li>
+   * <li>{@code server_type} (String): Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.</li>
+   * <li>{@code aws_access_key} (String): AWS Access Key.</li>
+   * <li>{@code s3_assume_role_arn} (String): AWS IAM Role ARN for AssumeRole authentication.</li>
+   * <li>{@code s3_assume_role_duration_seconds} (Long): Session duration in seconds for AssumeRole authentication (900-43200).</li>
+   * <li>{@code cloudflare_access_key} (String): Cloudflare: Access Key.</li>
+   * <li>{@code filebase_access_key} (String): Filebase: Access Key.</li>
+   * <li>{@code google_cloud_storage_s3_compatible_access_key} (String): Google Cloud Storage: S3-compatible Access Key.</li>
+   * <li>{@code linode_access_key} (String): Linode: Access Key</li>
+   * <li>{@code s3_compatible_access_key} (String): S3-compatible: Access Key</li>
+   * <li>{@code sharepoint_client_id} (String): SharePoint: Microsoft Entra application client ID for app-only authentication.</li>
+   * <li>{@code sharepoint_tenant_id} (String): SharePoint: Microsoft Entra tenant ID for app-only authentication.</li>
+   * <li>{@code username} (String): Remote server username.</li>
+   * <li>{@code wasabi_access_key} (String): Wasabi: Access Key.</li>
+   * <li>{@code password} (String): Password, if needed.</li>
+   * <li>{@code private_key} (String): Private key, if needed.</li>
+   * <li>{@code private_key_passphrase} (String): Passphrase for private key if needed.</li>
+   * <li>{@code aws_secret_key} (String): AWS: secret key.</li>
+   * <li>{@code azure_blob_storage_access_key} (String): Azure Blob Storage: Access Key</li>
+   * <li>{@code azure_blob_storage_sas_token} (String): Azure Blob Storage: Shared Access Signature (SAS) token</li>
+   * <li>{@code azure_files_storage_access_key} (String): Azure File Storage: Access Key</li>
+   * <li>{@code azure_files_storage_sas_token} (String): Azure File Storage: Shared Access Signature (SAS) token</li>
+   * <li>{@code backblaze_b2_application_key} (String): Backblaze B2 Cloud Storage: applicationKey</li>
+   * <li>{@code backblaze_b2_key_id} (String): Backblaze B2 Cloud Storage: keyID</li>
+   * <li>{@code cloudflare_secret_key} (String): Cloudflare: Secret Key</li>
+   * <li>{@code filebase_secret_key} (String): Filebase: Secret Key</li>
+   * <li>{@code google_cloud_storage_credentials_json} (String): Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey</li>
+   * <li>{@code google_cloud_storage_s3_compatible_secret_key} (String): Google Cloud Storage: S3-compatible secret key</li>
+   * <li>{@code linode_secret_key} (String): Linode: Secret Key</li>
+   * <li>{@code s3_compatible_secret_key} (String): S3-compatible: Secret Key</li>
+   * <li>{@code sharepoint_client_certificate} (String): SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.</li>
+   * <li>{@code sharepoint_client_secret} (String): SharePoint: Microsoft Entra application client secret for app-only authentication.</li>
+   * <li>{@code wasabi_secret_key} (String): Wasabi: Secret Key</li>
+   * <li>{@code workspace_id} (Long): Workspace ID (0 for default workspace)</li>
+   * <li>{@code copy_values_from_credential_id} (Long): ID of Remote Server Credential to copy omitted values from.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code RemoteServerCredential}
+   */
   public RemoteServerCredential create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -323,54 +396,77 @@ public final class RemoteServerCredentialOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   name - string - Internal name for your reference
-   *   description - string - Internal description for your reference
-   *   server_type - string - Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.
-   *   aws_access_key - string - AWS Access Key.
-   *   s3_assume_role_arn - string - AWS IAM Role ARN for AssumeRole authentication.
-   *   s3_assume_role_duration_seconds - int64 - Session duration in seconds for AssumeRole authentication (900-43200).
-   *   cloudflare_access_key - string - Cloudflare: Access Key.
-   *   filebase_access_key - string - Filebase: Access Key.
-   *   google_cloud_storage_s3_compatible_access_key - string - Google Cloud Storage: S3-compatible Access Key.
-   *   linode_access_key - string - Linode: Access Key
-   *   s3_compatible_access_key - string - S3-compatible: Access Key
-   *   sharepoint_client_id - string - SharePoint: Microsoft Entra application client ID for app-only authentication.
-   *   sharepoint_tenant_id - string - SharePoint: Microsoft Entra tenant ID for app-only authentication.
-   *   username - string - Remote server username.
-   *   wasabi_access_key - string - Wasabi: Access Key.
-   *   password - string - Password, if needed.
-   *   private_key - string - Private key, if needed.
-   *   private_key_passphrase - string - Passphrase for private key if needed.
-   *   aws_secret_key - string - AWS: secret key.
-   *   azure_blob_storage_access_key - string - Azure Blob Storage: Access Key
-   *   azure_blob_storage_sas_token - string - Azure Blob Storage: Shared Access Signature (SAS) token
-   *   azure_files_storage_access_key - string - Azure File Storage: Access Key
-   *   azure_files_storage_sas_token - string - Azure File Storage: Shared Access Signature (SAS) token
-   *   backblaze_b2_application_key - string - Backblaze B2 Cloud Storage: applicationKey
-   *   backblaze_b2_key_id - string - Backblaze B2 Cloud Storage: keyID
-   *   cloudflare_secret_key - string - Cloudflare: Secret Key
-   *   filebase_secret_key - string - Filebase: Secret Key
-   *   google_cloud_storage_credentials_json - string - Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
-   *   google_cloud_storage_s3_compatible_secret_key - string - Google Cloud Storage: S3-compatible secret key
-   *   linode_secret_key - string - Linode: Secret Key
-   *   s3_compatible_secret_key - string - S3-compatible: Secret Key
-   *   sharepoint_client_certificate - string - SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
-   *   sharepoint_client_secret - string - SharePoint: Microsoft Entra application client secret for app-only authentication.
-   *   wasabi_secret_key - string - Wasabi: Secret Key
+   * Update Remote Server Credential
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public RemoteServerCredential update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Remote Server Credential
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public RemoteServerCredential update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Remote Server Credential
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public RemoteServerCredential update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Remote Server Credential
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Internal name for your reference</li>
+   * <li>{@code description} (String): Internal description for your reference</li>
+   * <li>{@code server_type} (String): Remote server type.  Remote Server Credentials are only valid for a single type of Remote Server.</li>
+   * <li>{@code aws_access_key} (String): AWS Access Key.</li>
+   * <li>{@code s3_assume_role_arn} (String): AWS IAM Role ARN for AssumeRole authentication.</li>
+   * <li>{@code s3_assume_role_duration_seconds} (Long): Session duration in seconds for AssumeRole authentication (900-43200).</li>
+   * <li>{@code cloudflare_access_key} (String): Cloudflare: Access Key.</li>
+   * <li>{@code filebase_access_key} (String): Filebase: Access Key.</li>
+   * <li>{@code google_cloud_storage_s3_compatible_access_key} (String): Google Cloud Storage: S3-compatible Access Key.</li>
+   * <li>{@code linode_access_key} (String): Linode: Access Key</li>
+   * <li>{@code s3_compatible_access_key} (String): S3-compatible: Access Key</li>
+   * <li>{@code sharepoint_client_id} (String): SharePoint: Microsoft Entra application client ID for app-only authentication.</li>
+   * <li>{@code sharepoint_tenant_id} (String): SharePoint: Microsoft Entra tenant ID for app-only authentication.</li>
+   * <li>{@code username} (String): Remote server username.</li>
+   * <li>{@code wasabi_access_key} (String): Wasabi: Access Key.</li>
+   * <li>{@code password} (String): Password, if needed.</li>
+   * <li>{@code private_key} (String): Private key, if needed.</li>
+   * <li>{@code private_key_passphrase} (String): Passphrase for private key if needed.</li>
+   * <li>{@code aws_secret_key} (String): AWS: secret key.</li>
+   * <li>{@code azure_blob_storage_access_key} (String): Azure Blob Storage: Access Key</li>
+   * <li>{@code azure_blob_storage_sas_token} (String): Azure Blob Storage: Shared Access Signature (SAS) token</li>
+   * <li>{@code azure_files_storage_access_key} (String): Azure File Storage: Access Key</li>
+   * <li>{@code azure_files_storage_sas_token} (String): Azure File Storage: Shared Access Signature (SAS) token</li>
+   * <li>{@code backblaze_b2_application_key} (String): Backblaze B2 Cloud Storage: applicationKey</li>
+   * <li>{@code backblaze_b2_key_id} (String): Backblaze B2 Cloud Storage: keyID</li>
+   * <li>{@code cloudflare_secret_key} (String): Cloudflare: Secret Key</li>
+   * <li>{@code filebase_secret_key} (String): Filebase: Secret Key</li>
+   * <li>{@code google_cloud_storage_credentials_json} (String): Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey</li>
+   * <li>{@code google_cloud_storage_s3_compatible_secret_key} (String): Google Cloud Storage: S3-compatible secret key</li>
+   * <li>{@code linode_secret_key} (String): Linode: Secret Key</li>
+   * <li>{@code s3_compatible_secret_key} (String): S3-compatible: Secret Key</li>
+   * <li>{@code sharepoint_client_certificate} (String): SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.</li>
+   * <li>{@code sharepoint_client_secret} (String): SharePoint: Microsoft Entra application client secret for app-only authentication.</li>
+   * <li>{@code wasabi_secret_key} (String): Wasabi: Secret Key</li>
+   * </ul>
+   *
+   * @param id Remote Server Credential ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code RemoteServerCredential}
+   */
   public RemoteServerCredential update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -529,19 +625,39 @@ public final class RemoteServerCredentialOperations extends ResourceOperations {
   }
 
   /**
+   * Delete Remote Server Credential
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Remote Server Credential
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Remote Server Credential
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Remote Server Credential
+   *
+   * @param id Remote Server Credential ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -562,10 +678,20 @@ public final class RemoteServerCredentialOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Remote Server Credential
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Remote Server Credential
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

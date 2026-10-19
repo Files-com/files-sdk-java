@@ -46,12 +46,10 @@
 
 ## List Public Keys
 
-```
-ListIterator<PublicKey> publicKey = PublicKey.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+ListIterator<PublicKey> publicKeys = PublicKey.list(parameters, null);
 ```
 
 ### Parameters
@@ -71,12 +69,9 @@ ListIterator<PublicKey> publicKey = PublicKey.list(
 
 ## Show Public Key
 
-```
-PublicKey publicKey = PublicKey.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+PublicKey publicKey = PublicKey.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -88,12 +83,15 @@ PublicKey publicKey = PublicKey.find(
 
 ## Create Public Key
 
-```
-PublicKey publicKey = PublicKey.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("title", "My Main Key");
+parameters.put("generate_keypair", false);
+parameters.put("generate_private_key_password", "[your private key password]");
+parameters.put("generate_algorithm", "rsa");
+parameters.put("generate_length", 4096L);
+PublicKey publicKey = PublicKey.create(parameters, null);
 ```
 
 ### Parameters
@@ -111,12 +109,10 @@ PublicKey publicKey = PublicKey.create(
 
 ## Update Public Key
 
-```
-PublicKey publicKey = PublicKey.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("title", "My Main Key");
+PublicKey publicKey = PublicKey.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -129,12 +125,9 @@ PublicKey publicKey = PublicKey.update(
 
 ## Delete Public Key
 
-```
-void publicKey = PublicKey.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+PublicKey.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -146,13 +139,11 @@ void publicKey = PublicKey.delete(
 
 ## Update Public Key
 
-```
-PublicKey publicKey = PublicKey.find(id);
-
+```java
+PublicKey publicKey = PublicKey.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("title", "My Main Key");
-
-publicKey.update(parameters);
+PublicKey result = publicKey.update(parameters);
 ```
 
 ### Parameters
@@ -165,11 +156,9 @@ publicKey.update(parameters);
 
 ## Delete Public Key
 
-```
-PublicKey publicKey = PublicKey.find(id);
-
+```java
+PublicKey publicKey = PublicKey.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 publicKey.delete(parameters);
 ```
 

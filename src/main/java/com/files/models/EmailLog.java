@@ -35,6 +35,11 @@ public class EmailLog implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class EmailLog implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code EmailLog} with no attributes set.
+   */
   public EmailLog() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code EmailLog} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public EmailLog(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code EmailLog} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public EmailLog(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,6 +103,11 @@ public class EmailLog implements ModelInterface {
   @JsonProperty("timestamp")
   public Date timestamp;
 
+  /**
+   * Gets {@link #timestamp}.
+   *
+   * @return the value of {@link #timestamp}
+   */
   public Date getTimestamp() {
     return timestamp;
   }
@@ -93,6 +118,11 @@ public class EmailLog implements ModelInterface {
   @JsonProperty("message")
   public String message;
 
+  /**
+   * Gets {@link #message}.
+   *
+   * @return the value of {@link #message}
+   */
   public String getMessage() {
     return message;
   }
@@ -103,6 +133,11 @@ public class EmailLog implements ModelInterface {
   @JsonProperty("status")
   public String status;
 
+  /**
+   * Gets {@link #status}.
+   *
+   * @return the value of {@link #status}
+   */
   public String getStatus() {
     return status;
   }
@@ -113,6 +148,11 @@ public class EmailLog implements ModelInterface {
   @JsonProperty("subject")
   public String subject;
 
+  /**
+   * Gets {@link #subject}.
+   *
+   * @return the value of {@link #subject}
+   */
   public String getSubject() {
     return subject;
   }
@@ -123,6 +163,11 @@ public class EmailLog implements ModelInterface {
   @JsonProperty("to")
   public String to;
 
+  /**
+   * Gets {@link #to}.
+   *
+   * @return the value of {@link #to}
+   */
   public String getTo() {
     return to;
   }
@@ -133,6 +178,11 @@ public class EmailLog implements ModelInterface {
   @JsonProperty("cc")
   public String cc;
 
+  /**
+   * Gets {@link #cc}.
+   *
+   * @return the value of {@link #cc}
+   */
   public String getCc() {
     return cc;
   }
@@ -143,6 +193,11 @@ public class EmailLog implements ModelInterface {
   @JsonProperty("delivery_method")
   public String deliveryMethod;
 
+  /**
+   * Gets {@link #deliveryMethod}.
+   *
+   * @return the value of {@link #deliveryMethod}
+   */
   public String getDeliveryMethod() {
     return deliveryMethod;
   }
@@ -153,6 +208,11 @@ public class EmailLog implements ModelInterface {
   @JsonProperty("smtp_hostname")
   public String smtpHostname;
 
+  /**
+   * Gets {@link #smtpHostname}.
+   *
+   * @return the value of {@link #smtpHostname}
+   */
   public String getSmtpHostname() {
     return smtpHostname;
   }
@@ -163,6 +223,11 @@ public class EmailLog implements ModelInterface {
   @JsonProperty("smtp_ip")
   public String smtpIp;
 
+  /**
+   * Gets {@link #smtpIp}.
+   *
+   * @return the value of {@link #smtpIp}
+   */
   public String getSmtpIp() {
     return smtpIp;
   }
@@ -173,38 +238,70 @@ public class EmailLog implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 1000, 1,000 or less is recommended).
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `status` and `created_at`. Valid field combinations are `[ status ]`, `[ created_at ]` or `[ status, created_at ]`.
-   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`. Valid field combinations are `[ status ]`, `[ created_at ]` or `[ status, created_at ]`.
-   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`. Valid field combinations are `[ status ]`, `[ created_at ]` or `[ status, created_at ]`.
-   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`. Valid field combinations are `[ status ]`, `[ created_at ]` or `[ status, created_at ]`.
-   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`. Valid field combinations are `[ status ]`, `[ created_at ]` or `[ status, created_at ]`.
+   * List Email Logs
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<EmailLog> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Email Logs
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<EmailLog> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Email Logs
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 1000, 1,000 or less is recommended).</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `status` and `created_at`. Valid field combinations are `[ status ]`, `[ created_at ]` or `[ status, created_at ]`.</li>
+   * <li>{@code filter_gt} (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`. Valid field combinations are `[ status ]`, `[ created_at ]` or `[ status, created_at ]`.</li>
+   * <li>{@code filter_gteq} (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`. Valid field combinations are `[ status ]`, `[ created_at ]` or `[ status, created_at ]`.</li>
+   * <li>{@code filter_lt} (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`. Valid field combinations are `[ status ]`, `[ created_at ]` or `[ status, created_at ]`.</li>
+   * <li>{@code filter_lteq} (Object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`. Valid field combinations are `[ status ]`, `[ created_at ]` or `[ status, created_at ]`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code EmailLog} records, in a {@code ListIterator}
+   */
   public static ListIterator<EmailLog> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().emailLogs().list(parameters, options);
   }
 
+  /**
+   * List Email Logs
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<EmailLog> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Email Logs
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<EmailLog> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }

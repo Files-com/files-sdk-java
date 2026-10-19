@@ -59,12 +59,9 @@
 
 ## List Apps
 
-```
-ListIterator<App> app = App.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<App> apps = App.list(parameters, null);
 ```
 
 ### Parameters

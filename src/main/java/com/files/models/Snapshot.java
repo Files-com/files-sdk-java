@@ -37,6 +37,11 @@ public class Snapshot implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -60,14 +65,29 @@ public class Snapshot implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code Snapshot} with no attributes set.
+   */
   public Snapshot() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code Snapshot} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public Snapshot(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code Snapshot} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public Snapshot(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -85,10 +105,20 @@ public class Snapshot implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -99,10 +129,20 @@ public class Snapshot implements ModelInterface {
   @JsonProperty("expires_at")
   public Date expiresAt;
 
+  /**
+   * Gets {@link #expiresAt}.
+   *
+   * @return the value of {@link #expiresAt}
+   */
   public Date getExpiresAt() {
     return expiresAt;
   }
 
+  /**
+   * Sets {@link #expiresAt}.
+   *
+   * @param expiresAt the new value
+   */
   public void setExpiresAt(Date expiresAt) {
     this.expiresAt = expiresAt;
   }
@@ -113,10 +153,20 @@ public class Snapshot implements ModelInterface {
   @JsonProperty("finalized_at")
   public Date finalizedAt;
 
+  /**
+   * Gets {@link #finalizedAt}.
+   *
+   * @return the value of {@link #finalizedAt}
+   */
   public Date getFinalizedAt() {
     return finalizedAt;
   }
 
+  /**
+   * Sets {@link #finalizedAt}.
+   *
+   * @param finalizedAt the new value
+   */
   public void setFinalizedAt(Date finalizedAt) {
     this.finalizedAt = finalizedAt;
   }
@@ -127,10 +177,20 @@ public class Snapshot implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -141,10 +201,20 @@ public class Snapshot implements ModelInterface {
   @JsonProperty("user_id")
   public Long userId;
 
+  /**
+   * Gets {@link #userId}.
+   *
+   * @return the value of {@link #userId}
+   */
   public Long getUserId() {
     return userId;
   }
 
+  /**
+   * Sets {@link #userId}.
+   *
+   * @param userId the new value
+   */
   public void setUserId(Long userId) {
     this.userId = userId;
   }
@@ -155,10 +225,20 @@ public class Snapshot implements ModelInterface {
   @JsonProperty("bundle_id")
   public Long bundleId;
 
+  /**
+   * Gets {@link #bundleId}.
+   *
+   * @return the value of {@link #bundleId}
+   */
   public Long getBundleId() {
     return bundleId;
   }
 
+  /**
+   * Sets {@link #bundleId}.
+   *
+   * @param bundleId the new value
+   */
   public void setBundleId(Long bundleId) {
     this.bundleId = bundleId;
   }
@@ -169,10 +249,20 @@ public class Snapshot implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
 
+  /**
+   * Sets {@link #workspaceId}.
+   *
+   * @param workspaceId the new value
+   */
   public void setWorkspaceId(Long workspaceId) {
     this.workspaceId = workspaceId;
   }
@@ -183,16 +273,28 @@ public class Snapshot implements ModelInterface {
   @JsonProperty("paths")
   public String[] paths;
 
+  /**
+   * Gets {@link #paths}.
+   *
+   * @return the value of {@link #paths}
+   */
   public String[] getPaths() {
     return paths;
   }
 
+  /**
+   * Sets {@link #paths}.
+   *
+   * @param paths the new value
+   */
   public void setPaths(String[] paths) {
     this.paths = paths;
   }
 
   /**
    * Finalize Snapshot
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void performFinalize(HashMap<String, Object> parameters) throws IOException {
     filesClient().snapshots().performFinalize(this.id, parameters, this.options);
@@ -200,10 +302,16 @@ public class Snapshot implements ModelInterface {
 
   /**
    * Updates this Snapshot. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   expires_at - string - When the snapshot expires.
-   *   name - string - A name for the snapshot.
-   *   paths - array(string) - An array of paths to add to the snapshot.
+   * <p>Update Snapshot
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code expires_at} (String): When the snapshot expires.</li>
+   * <li>{@code name} (String): A name for the snapshot.</li>
+   * <li>{@code paths} (String[]): An array of paths to add to the snapshot.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code Snapshot}
    */
   public Snapshot update(HashMap<String, Object> parameters) throws IOException {
     Snapshot updated = filesClient().snapshots().update(this.id, parameters, this.options);
@@ -212,11 +320,19 @@ public class Snapshot implements ModelInterface {
   }
 
   /**
+   * Delete Snapshot
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().snapshots().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Snapshot
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -260,75 +376,148 @@ public class Snapshot implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   * List Snapshots
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<Snapshot> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Snapshots
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Snapshot> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Snapshots
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Snapshot} records, in a {@code ListIterator}
+   */
   public static ListIterator<Snapshot> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().snapshots().list(parameters, options);
   }
 
+  /**
+   * List Snapshots
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Snapshot> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Snapshots
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Snapshot> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Snapshot ID.
+   * Show Snapshot
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static Snapshot find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Snapshot
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Snapshot find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Snapshot
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Snapshot find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Snapshot
+   *
+   * @param id Snapshot ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Snapshot}
+   */
   public static Snapshot find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().snapshots().find(id, parameters, options);
   }
 
+  /**
+   * Show Snapshot
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Snapshot get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Snapshot
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Snapshot get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   expires_at - string - When the snapshot expires.
-   *   name - string - A name for the snapshot.
-   *   paths - array(string) - An array of paths to add to the snapshot.
-   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   * Create Snapshot
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static Snapshot create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Snapshot
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static Snapshot create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Snapshot
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code expires_at} (String): When the snapshot expires.</li>
+   * <li>{@code name} (String): A name for the snapshot.</li>
+   * <li>{@code paths} (String[]): An array of paths to add to the snapshot.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. `0` means the default workspace.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Snapshot}
+   */
   public static Snapshot create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().snapshots().create(parameters, options);
   }
@@ -336,69 +525,141 @@ public class Snapshot implements ModelInterface {
 
   /**
    * Finalize Snapshot
+   *
+   * @see #performFinalize(Long, HashMap, HashMap)
    */
   public static void performFinalize() throws RuntimeException {
     performFinalize(null, null, null);
   }
 
+  /**
+   * Finalize Snapshot
+   *
+   * @see #performFinalize(Long, HashMap, HashMap)
+   */
   public static void performFinalize(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     performFinalize(id, parameters, null);
   }
 
+  /**
+   * Finalize Snapshot
+   *
+   * @see #performFinalize(Long, HashMap, HashMap)
+   */
   public static void performFinalize(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     performFinalize(null, parameters, options);
   }
 
+  /**
+   * Finalize Snapshot
+   *
+   * @param id Snapshot ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void performFinalize(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().snapshots().performFinalize(id, parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   expires_at - string - When the snapshot expires.
-   *   name - string - A name for the snapshot.
-   *   paths - array(string) - An array of paths to add to the snapshot.
+   * Update Snapshot
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static Snapshot update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Snapshot
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static Snapshot update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Snapshot
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static Snapshot update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Snapshot
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code expires_at} (String): When the snapshot expires.</li>
+   * <li>{@code name} (String): A name for the snapshot.</li>
+   * <li>{@code paths} (String[]): An array of paths to add to the snapshot.</li>
+   * </ul>
+   *
+   * @param id Snapshot ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Snapshot}
+   */
   public static Snapshot update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().snapshots().update(id, parameters, options);
   }
 
 
   /**
+   * Delete Snapshot
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Snapshot
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Snapshot
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Snapshot
+   *
+   * @param id Snapshot ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().snapshots().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Snapshot
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Snapshot
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

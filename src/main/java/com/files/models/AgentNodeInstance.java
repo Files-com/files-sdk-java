@@ -34,6 +34,11 @@ public class AgentNodeInstance implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -57,14 +62,29 @@ public class AgentNodeInstance implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code AgentNodeInstance} with no attributes set.
+   */
   public AgentNodeInstance() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code AgentNodeInstance} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public AgentNodeInstance(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code AgentNodeInstance} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public AgentNodeInstance(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -82,6 +102,11 @@ public class AgentNodeInstance implements ModelInterface {
   @JsonProperty("instance_id")
   public String instanceId;
 
+  /**
+   * Gets {@link #instanceId}.
+   *
+   * @return the value of {@link #instanceId}
+   */
   public String getInstanceId() {
     return instanceId;
   }
@@ -92,6 +117,11 @@ public class AgentNodeInstance implements ModelInterface {
   @JsonProperty("process_state")
   public String processState;
 
+  /**
+   * Gets {@link #processState}.
+   *
+   * @return the value of {@link #processState}
+   */
   public String getProcessState() {
     return processState;
   }
@@ -102,6 +132,11 @@ public class AgentNodeInstance implements ModelInterface {
   @JsonProperty("status")
   public String status;
 
+  /**
+   * Gets {@link #status}.
+   *
+   * @return the value of {@link #status}
+   */
   public String getStatus() {
     return status;
   }
@@ -112,6 +147,11 @@ public class AgentNodeInstance implements ModelInterface {
   @JsonProperty("is_default")
   public Boolean isDefault;
 
+  /**
+   * Gets {@link #isDefault}.
+   *
+   * @return the value of {@link #isDefault}
+   */
   public Boolean getIsDefault() {
     return isDefault;
   }
@@ -122,6 +162,11 @@ public class AgentNodeInstance implements ModelInterface {
   @JsonProperty("agent_version")
   public String agentVersion;
 
+  /**
+   * Gets {@link #agentVersion}.
+   *
+   * @return the value of {@link #agentVersion}
+   */
   public String getAgentVersion() {
     return agentVersion;
   }
@@ -132,6 +177,11 @@ public class AgentNodeInstance implements ModelInterface {
   @JsonProperty("last_seen_at")
   public Date lastSeenAt;
 
+  /**
+   * Gets {@link #lastSeenAt}.
+   *
+   * @return the value of {@link #lastSeenAt}
+   */
   public Date getLastSeenAt() {
     return lastSeenAt;
   }
@@ -142,6 +192,11 @@ public class AgentNodeInstance implements ModelInterface {
   @JsonProperty("connections")
   public AgentNodeConnection[] connections;
 
+  /**
+   * Gets {@link #connections}.
+   *
+   * @return the value of {@link #connections}
+   */
   public AgentNodeConnection[] getConnections() {
     return connections;
   }

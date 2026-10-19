@@ -47,12 +47,9 @@
 
 ## List Event Records
 
-```
-ListIterator<EventRecord> eventRecord = EventRecord.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<EventRecord> eventRecords = EventRecord.list(parameters, null);
 ```
 
 ### Parameters
@@ -72,12 +69,9 @@ ListIterator<EventRecord> eventRecord = EventRecord.list(
 
 ## Show Event Record
 
-```
-EventRecord eventRecord = EventRecord.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+EventRecord eventRecord = EventRecord.find(1L, parameters, null);
 ```
 
 ### Parameters

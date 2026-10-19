@@ -33,12 +33,9 @@
 
 ## List Email Logs
 
-```
-ListIterator<EmailLog> emailLog = EmailLog.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<EmailLog> emailLogs = EmailLog.list(parameters, null);
 ```
 
 ### Parameters

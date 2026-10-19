@@ -34,6 +34,11 @@ public class AutomationExecutionNode implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -57,14 +62,29 @@ public class AutomationExecutionNode implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code AutomationExecutionNode} with no attributes set.
+   */
   public AutomationExecutionNode() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code AutomationExecutionNode} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public AutomationExecutionNode(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code AutomationExecutionNode} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public AutomationExecutionNode(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -82,6 +102,11 @@ public class AutomationExecutionNode implements ModelInterface {
   @JsonProperty("node_id")
   public String nodeId;
 
+  /**
+   * Gets {@link #nodeId}.
+   *
+   * @return the value of {@link #nodeId}
+   */
   public String getNodeId() {
     return nodeId;
   }
@@ -92,6 +117,11 @@ public class AutomationExecutionNode implements ModelInterface {
   @JsonProperty("node_type")
   public String nodeType;
 
+  /**
+   * Gets {@link #nodeType}.
+   *
+   * @return the value of {@link #nodeType}
+   */
   public String getNodeType() {
     return nodeType;
   }
@@ -102,6 +132,11 @@ public class AutomationExecutionNode implements ModelInterface {
   @JsonProperty("status")
   public String status;
 
+  /**
+   * Gets {@link #status}.
+   *
+   * @return the value of {@link #status}
+   */
   public String getStatus() {
     return status;
   }
@@ -112,6 +147,11 @@ public class AutomationExecutionNode implements ModelInterface {
   @JsonProperty("run_stage")
   public String runStage;
 
+  /**
+   * Gets {@link #runStage}.
+   *
+   * @return the value of {@link #runStage}
+   */
   public String getRunStage() {
     return runStage;
   }
@@ -122,6 +162,11 @@ public class AutomationExecutionNode implements ModelInterface {
   @JsonProperty("reused")
   public Boolean reused;
 
+  /**
+   * Gets {@link #reused}.
+   *
+   * @return the value of {@link #reused}
+   */
   public Boolean getReused() {
     return reused;
   }
@@ -132,6 +177,11 @@ public class AutomationExecutionNode implements ModelInterface {
   @JsonProperty("successful_operations")
   public Long successfulOperations;
 
+  /**
+   * Gets {@link #successfulOperations}.
+   *
+   * @return the value of {@link #successfulOperations}
+   */
   public Long getSuccessfulOperations() {
     return successfulOperations;
   }
@@ -142,6 +192,11 @@ public class AutomationExecutionNode implements ModelInterface {
   @JsonProperty("failed_operations")
   public Long failedOperations;
 
+  /**
+   * Gets {@link #failedOperations}.
+   *
+   * @return the value of {@link #failedOperations}
+   */
   public Long getFailedOperations() {
     return failedOperations;
   }
@@ -152,6 +207,11 @@ public class AutomationExecutionNode implements ModelInterface {
   @JsonProperty("started_at")
   public Date startedAt;
 
+  /**
+   * Gets {@link #startedAt}.
+   *
+   * @return the value of {@link #startedAt}
+   */
   public Date getStartedAt() {
     return startedAt;
   }
@@ -162,6 +222,11 @@ public class AutomationExecutionNode implements ModelInterface {
   @JsonProperty("completed_at")
   public Date completedAt;
 
+  /**
+   * Gets {@link #completedAt}.
+   *
+   * @return the value of {@link #completedAt}
+   */
   public Date getCompletedAt() {
     return completedAt;
   }
@@ -172,6 +237,11 @@ public class AutomationExecutionNode implements ModelInterface {
   @JsonProperty("duration_ms")
   public Long durationMs;
 
+  /**
+   * Gets {@link #durationMs}.
+   *
+   * @return the value of {@link #durationMs}
+   */
   public Long getDurationMs() {
     return durationMs;
   }
@@ -182,6 +252,11 @@ public class AutomationExecutionNode implements ModelInterface {
   @JsonProperty("inputs")
   public Object[] inputs;
 
+  /**
+   * Gets {@link #inputs}.
+   *
+   * @return the value of {@link #inputs}
+   */
   public Object[] getInputs() {
     return inputs;
   }
@@ -192,6 +267,11 @@ public class AutomationExecutionNode implements ModelInterface {
   @JsonProperty("outputs")
   public Object outputs;
 
+  /**
+   * Gets {@link #outputs}.
+   *
+   * @return the value of {@link #outputs}
+   */
   public Object getOutputs() {
     return outputs;
   }
@@ -202,6 +282,11 @@ public class AutomationExecutionNode implements ModelInterface {
   @JsonProperty("input_items")
   public Object inputItems;
 
+  /**
+   * Gets {@link #inputItems}.
+   *
+   * @return the value of {@link #inputItems}
+   */
   public Object getInputItems() {
     return inputItems;
   }
@@ -212,6 +297,11 @@ public class AutomationExecutionNode implements ModelInterface {
   @JsonProperty("output_items")
   public Object outputItems;
 
+  /**
+   * Gets {@link #outputItems}.
+   *
+   * @return the value of {@link #outputItems}
+   */
   public Object getOutputItems() {
     return outputItems;
   }

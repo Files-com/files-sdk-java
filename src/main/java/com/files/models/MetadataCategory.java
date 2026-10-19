@@ -37,6 +37,11 @@ public class MetadataCategory implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -60,14 +65,29 @@ public class MetadataCategory implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code MetadataCategory} with no attributes set.
+   */
   public MetadataCategory() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code MetadataCategory} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public MetadataCategory(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code MetadataCategory} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public MetadataCategory(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -85,10 +105,20 @@ public class MetadataCategory implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -99,10 +129,20 @@ public class MetadataCategory implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -113,10 +153,20 @@ public class MetadataCategory implements ModelInterface {
   @JsonProperty("definitions")
   public Map<String, String[]> definitions;
 
+  /**
+   * Gets {@link #definitions}.
+   *
+   * @return the value of {@link #definitions}
+   */
   public Map<String, String[]> getDefinitions() {
     return definitions;
   }
 
+  /**
+   * Sets {@link #definitions}.
+   *
+   * @param definitions the new value
+   */
   public void setDefinitions(Map<String, String[]> definitions) {
     this.definitions = definitions;
   }
@@ -127,19 +177,35 @@ public class MetadataCategory implements ModelInterface {
   @JsonProperty("default_columns")
   public String[] defaultColumns;
 
+  /**
+   * Gets {@link #defaultColumns}.
+   *
+   * @return the value of {@link #defaultColumns}
+   */
   public String[] getDefaultColumns() {
     return defaultColumns;
   }
 
+  /**
+   * Sets {@link #defaultColumns}.
+   *
+   * @param defaultColumns the new value
+   */
   public void setDefaultColumns(String[] defaultColumns) {
     this.defaultColumns = defaultColumns;
   }
 
   /**
    * Updates this MetadataCategory. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   name - string - Name of the metadata category.
-   *   default_columns - array(string) - Metadata keys that should appear as columns in the UI by default.
+   * <p>Update Metadata Category
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Name of the metadata category.</li>
+   * <li>{@code default_columns} (String[]): Metadata keys that should appear as columns in the UI by default.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code MetadataCategory}
    */
   public MetadataCategory update(HashMap<String, Object> parameters) throws IOException {
     MetadataCategory updated = filesClient().metadataCategories().update(this.id, parameters, this.options);
@@ -148,11 +214,19 @@ public class MetadataCategory implements ModelInterface {
   }
 
   /**
+   * Delete Metadata Category
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().metadataCategories().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Metadata Category
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -192,146 +266,294 @@ public class MetadataCategory implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
+   * List Metadata Categories
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<MetadataCategory> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Metadata Categories
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<MetadataCategory> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Metadata Categories
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code MetadataCategory} records, in a {@code ListIterator}
+   */
   public static ListIterator<MetadataCategory> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().metadataCategories().list(parameters, options);
   }
 
+  /**
+   * List Metadata Categories
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<MetadataCategory> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Metadata Categories
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<MetadataCategory> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Metadata Category ID.
+   * Show Metadata Category
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static MetadataCategory find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Metadata Category
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static MetadataCategory find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Metadata Category
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static MetadataCategory find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Metadata Category
+   *
+   * @param id Metadata Category ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code MetadataCategory}
+   */
   public static MetadataCategory find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().metadataCategories().find(id, parameters, options);
   }
 
+  /**
+   * Show Metadata Category
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static MetadataCategory get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Metadata Category
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static MetadataCategory get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   path (required) - string - Path to operate on.
+   * List Metadata Categories by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
    */
   public static ListIterator<MetadataCategory> listFor() throws RuntimeException {
     return listFor(null, null, null);
   }
 
+  /**
+   * List Metadata Categories by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
   public static ListIterator<MetadataCategory> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return listFor(path, parameters, null);
   }
 
+  /**
+   * List Metadata Categories by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
   public static ListIterator<MetadataCategory> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return listFor(null, parameters, options);
   }
 
+  /**
+   * List Metadata Categories by Path
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param path Path to operate on.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code MetadataCategory} records, in a {@code ListIterator}
+   */
   public static ListIterator<MetadataCategory> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().metadataCategories().listFor(path, parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   name (required) - string - Name of the metadata category.
-   *   default_columns - array(string) - Metadata keys that should appear as columns in the UI by default.
+   * Create Metadata Category
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static MetadataCategory create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Metadata Category
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static MetadataCategory create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Metadata Category
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Required. Name of the metadata category.</li>
+   * <li>{@code default_columns} (String[]): Metadata keys that should appear as columns in the UI by default.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code MetadataCategory}
+   */
   public static MetadataCategory create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().metadataCategories().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   name - string - Name of the metadata category.
-   *   default_columns - array(string) - Metadata keys that should appear as columns in the UI by default.
+   * Update Metadata Category
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static MetadataCategory update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Metadata Category
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static MetadataCategory update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Metadata Category
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static MetadataCategory update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Metadata Category
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Name of the metadata category.</li>
+   * <li>{@code default_columns} (String[]): Metadata keys that should appear as columns in the UI by default.</li>
+   * </ul>
+   *
+   * @param id Metadata Category ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code MetadataCategory}
+   */
   public static MetadataCategory update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().metadataCategories().update(id, parameters, options);
   }
 
 
   /**
+   * Delete Metadata Category
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Metadata Category
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Metadata Category
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Metadata Category
+   *
+   * @param id Metadata Category ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().metadataCategories().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Metadata Category
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Metadata Category
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

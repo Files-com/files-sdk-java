@@ -87,12 +87,9 @@
 
 ## List AS2 Incoming Messages
 
-```
-ListIterator<As2IncomingMessage> as2IncomingMessage = As2IncomingMessage.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<As2IncomingMessage> as2IncomingMessages = As2IncomingMessage.list(parameters, null);
 ```
 
 ### Parameters

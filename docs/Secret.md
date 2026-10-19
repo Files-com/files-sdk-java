@@ -35,12 +35,9 @@
 
 ## List Secrets
 
-```
-ListIterator<Secret> secret = Secret.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<Secret> secrets = Secret.list(parameters, null);
 ```
 
 ### Parameters
@@ -56,12 +53,9 @@ ListIterator<Secret> secret = Secret.list(
 
 ## Show Secret
 
-```
-Secret secret = Secret.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Secret secret = Secret.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -73,12 +67,16 @@ Secret secret = Secret.find(
 
 ## Create Secret
 
-```
-Secret secret = Secret.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "Production API token");
+parameters.put("description", "Used by production API integrations.");
+parameters.put("secret_type", "token");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("header_name", "Authorization");
+parameters.put("metadata", map1);
+parameters.put("workspace_id", 0L);
+Secret secret = Secret.create(parameters, null);
 ```
 
 ### Parameters
@@ -94,12 +92,15 @@ Secret secret = Secret.create(
 
 ## Update Secret
 
-```
-Secret secret = Secret.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "Production API token");
+parameters.put("description", "Used by production API integrations.");
+parameters.put("secret_type", "token");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("header_name", "Authorization");
+parameters.put("metadata", map1);
+Secret secret = Secret.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -115,12 +116,9 @@ Secret secret = Secret.update(
 
 ## Delete Secret
 
-```
-void secret = Secret.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Secret.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -132,16 +130,16 @@ void secret = Secret.delete(
 
 ## Update Secret
 
-```
-Secret secret = Secret.find(id);
-
+```java
+Secret secret = Secret.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "Production API token");
 parameters.put("description", "Used by production API integrations.");
 parameters.put("secret_type", "token");
-parameters.put("metadata", {"header_name":"Authorization"});
-
-secret.update(parameters);
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("header_name", "Authorization");
+parameters.put("metadata", map1);
+Secret result = secret.update(parameters);
 ```
 
 ### Parameters
@@ -157,11 +155,9 @@ secret.update(parameters);
 
 ## Delete Secret
 
-```
-Secret secret = Secret.find(id);
-
+```java
+Secret secret = Secret.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 secret.delete(parameters);
 ```
 

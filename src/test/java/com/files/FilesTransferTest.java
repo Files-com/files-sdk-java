@@ -17,6 +17,7 @@ import com.files.models.File;
 import com.files.models.FileUploadPart;
 import com.files.net.ConcurrencyMode;
 import com.files.net.DownloadOptions;
+import com.files.net.GuardedApacheClient;
 import com.files.net.HttpTransport;
 import com.files.net.PartSizeSource;
 import com.files.net.PartSizing;
@@ -67,9 +68,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.Callable;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -151,6 +154,8 @@ public class FilesTransferTest {
       assertEquals("transfer-key", request.header("X-FilesAPI-Key"));
       assertEquals("0", request.header("X-Files-Workspace-Id"));
       assertEquals("/api/rest/v1/file_actions/begin_upload/dir%2Freport.bin", request.rawPath);
+      assertTrue("every negotiation, the first and the next, asks for direct connection information",
+          request.json().path("with_direct_connection_info").asBoolean());
     }
 
     assertEquals(3, files.parts.size());
@@ -171,10 +176,151 @@ public class FilesTransferTest {
     assertEquals("end", end.get("action").asText());
     assertEquals("put-1", end.get("ref").asText());
     assertEquals(12, end.get("size").asLong());
+    assertFalse("the final request is not a negotiation", end.has("with_direct_connection_info"));
     assertEquals(modified.truncatedTo(ChronoUnit.SECONDS).toString(), end.get("provided_mtime").asText());
     assertEquals("[{\"etag\":\"\\\"etag-1-1\\\"\",\"part\":1},{\"etag\":\"\\\"etag-2-1\\\"\",\"part\":2},{\"etag\":\"\\\"etag-3-1\\\"\",\"part\":3}]",
         end.get("etags").toString());
     assertEquals("transfer-key", files.finishes.get(0).header("X-FilesAPI-Key"));
+  }
+
+  @Test(timeout = 20000)
+  public void eachExternalDestinationUploadSendsTheBaseUploadOfItsNormalizedPath() throws Exception {
+    byte[] contents = bytes(12, 7);
+    Path source = file("quarterly.bin", contents);
+    // An option sent only when chosen, and parts asked for in a fixed way, so that each helper's
+    // upload and the base upload can be compared request for request.
+    UploadOptions options = UploadOptions.builder().mkdirParents(Boolean.TRUE).concurrencyMode(ConcurrencyMode.STATIC).build();
+
+    // Both slash kinds separate folders, and empty, . and .. components are dropped: the folders the
+    // path names are kept, and it cannot leave the destination's folder.
+    JsonNode remoteServer = assertDestinationUploadAsBase(source, contents, "_/RemoteServers/42/reports/2026/q1.bin", options,
+        () -> client.transfers().uploadToRemoteServer(source, 42L, "\\reports//./2026/../q1.bin", options));
+    JsonNode snapshot = assertDestinationUploadAsBase(source, contents, "_/Snapshots/7/archive/q1.bin", options,
+        () -> client.transfers().uploadToSnapshot(source, 7L, "/./archive\\q1.bin/", options));
+    JsonNode childSite = assertDestinationUploadAsBase(source, contents, "_/Sites/3/outside.bin", options,
+        () -> client.transfers().uploadToChildSite(source, 3L, "../../outside.bin", options));
+
+    for (JsonNode begin : Arrays.asList(remoteServer, snapshot, childSite)) {
+      assertTrue("the upload's own options are sent", begin.path("mkdir_parents").asBoolean());
+    }
+  }
+
+  @Test(timeout = 20000)
+  public void anExternalDestinationUploadWithoutAPathKeepsTheLocalFilesName() throws Exception {
+    byte[] contents = bytes(7, 2);
+    Path source = file("summary.csv", contents);
+    UploadOptions defaults = UploadOptions.defaults();
+
+    JsonNode snapshot = assertDestinationUploadAsBase(source, contents, "_/Snapshots/7/summary.csv", defaults,
+        () -> client.transfers().uploadToSnapshot(source, 7L));
+    JsonNode childSite = assertDestinationUploadAsBase(source, contents, "_/Sites/3/summary.csv", defaults,
+        () -> client.transfers().uploadToChildSite(source, 3L, null));
+    JsonNode remoteServer = assertDestinationUploadAsBase(source, contents, "_/RemoteServers/42/summary.csv", defaults,
+        () -> client.transfers().uploadToRemoteServer(source, 42L, null, defaults));
+    // An empty path is not a missing one: it names the destination's folder itself.
+    JsonNode destinationFolder = assertDestinationUploadAsBase(source, contents, "_/RemoteServers/42", defaults,
+        () -> client.transfers().uploadToRemoteServer(source, 42L, "", defaults));
+
+    for (JsonNode begin : Arrays.asList(snapshot, childSite, remoteServer, destinationFolder)) {
+      assertFalse("mkdir_parents is sent only when chosen", begin.has("mkdir_parents"));
+    }
+  }
+
+  // Uploads with a destination helper, then the same file with the base upload of the path the helper
+  // should build: the two must negotiate, send and complete alike, for that path, with this client's
+  // credentials, and upload the file's bytes. Returns the helper's first negotiation.
+  private JsonNode assertDestinationUploadAsBase(Path source, byte[] contents, String expectedPath, UploadOptions options,
+      Callable<UploadResult> helper) throws Exception {
+    DestinationUpload sent = destinationUpload(helper);
+    DestinationUpload base = destinationUpload(() -> client.transfers().upload(source, expectedPath, options));
+    String beginPath = base.begins.get(0).rawPath;
+    assertEquals(expectedPath, decodedPath(beginPath, "/api/rest/v1/file_actions/begin_upload/"));
+    for (FakeFiles.Received begin : sent.begins) {
+      assertEquals("every negotiation is for the destination's path", beginPath, begin.rawPath);
+      assertEquals("transfer-key", begin.header("X-FilesAPI-Key"));
+      assertEquals("0", begin.header("X-Files-Workspace-Id"));
+    }
+    JsonNode first = sent.begins.get(0).json();
+    JsonNode baseFirst = base.begins.get(0).json();
+    assertEquals(baseFirst.path("size"), first.path("size"));
+    assertEquals(baseFirst.path("mkdir_parents"), first.path("mkdir_parents"));
+
+    assertArrayEquals("the file's bytes are uploaded", contents, sent.bytes());
+    assertArrayEquals(contents, base.bytes());
+
+    assertEquals(base.finish.rawPath, sent.finish.rawPath);
+    assertEquals(expectedPath, decodedPath(sent.finish.rawPath, "/api/rest/v1/files/"));
+    assertEquals("transfer-key", sent.finish.header("X-FilesAPI-Key"));
+    ObjectNode end = (ObjectNode) sent.finish.json();
+    assertEquals("end", end.get("action").asText());
+    assertEquals(contents.length, end.get("size").asLong());
+    end.remove("ref");
+    ObjectNode baseEnd = (ObjectNode) base.finish.json();
+    baseEnd.remove("ref");
+    assertEquals("the base upload's completion, for an upload of its own", baseEnd, end);
+
+    assertEquals(expectedPath, sent.result.getFile().getPath());
+    assertEquals(contents.length, sent.result.getSize());
+    return first;
+  }
+
+  // What one upload sent the service, copied once it ended: the service's lists go on growing with
+  // later uploads, so no view of them is kept.
+  private static final class DestinationUpload {
+    final UploadResult result;
+    final List<FakeFiles.Received> begins;
+    final List<FakeFiles.Received> parts;
+    final FakeFiles.Received finish;
+
+    DestinationUpload(UploadResult result, List<FakeFiles.Received> begins, List<FakeFiles.Received> parts,
+        FakeFiles.Received finish) {
+      this.result = result;
+      this.begins = begins;
+      this.parts = parts;
+      this.finish = finish;
+    }
+
+    // The bytes the parts carried, in part order; each part was sent once.
+    byte[] bytes() {
+      List<FakeFiles.Received> ordered = new ArrayList<>(parts);
+      ordered.sort((a, b) -> Long.compare(a.part, b.part));
+      ByteArrayOutputStream uploaded = new ByteArrayOutputStream();
+      for (FakeFiles.Received part : ordered) {
+        assertEquals("part " + part.part + " is sent once", 1, part.attempt);
+        uploaded.write(part.body, 0, part.body.length);
+      }
+      return uploaded.toByteArray();
+    }
+  }
+
+  // Runs an upload and copies what it sent: its negotiations, the parts sent for it and its completion.
+  private DestinationUpload destinationUpload(Callable<UploadResult> upload) throws Exception {
+    final int beginsBefore = files.begins.size();
+    final int partsBefore = files.parts.size();
+    final int finishesBefore = files.finishes.size();
+    final UploadResult result = upload.call();
+    List<FakeFiles.Received> finishes = receivedSince(files.finishes, finishesBefore);
+    assertEquals("one completion for each upload", 1, finishes.size());
+    String storage = "/storage/" + finishes.get(0).json().get("ref").asText() + "/";
+    List<FakeFiles.Received> parts = new ArrayList<>();
+    for (FakeFiles.Received part : receivedSince(files.parts, partsBefore)) {
+      if (part.rawPath.startsWith(storage)) {
+        parts.add(part);
+      }
+    }
+    return new DestinationUpload(result, receivedSince(files.begins, beginsBefore), parts, finishes.get(0));
+  }
+
+  // The requests a service list received after its first ones, as a copy of their own.
+  private static List<FakeFiles.Received> receivedSince(List<FakeFiles.Received> received, int before) {
+    List<FakeFiles.Received> all = new ArrayList<>(received);
+    return new ArrayList<>(all.subList(before, all.size()));
+  }
+
+  // The remote path a request names after the given prefix, decoded.
+  private static String decodedPath(String rawPath, String prefix) throws IOException {
+    assertTrue(rawPath, rawPath.startsWith(prefix));
+    return java.net.URLDecoder.decode(rawPath.substring(prefix.length()), "UTF-8");
   }
 
   @Test(timeout = 20000)
@@ -268,6 +414,15 @@ public class FilesTransferTest {
     assertEquals(0, progress.get(0).getTransferredBytes());
     assertEquals(15, progress.get(3).getTransferredBytes());
     assertEquals(1, files.finishes.size());
+    // Nothing is transferred at the start. Once the parts are accepted, the run's rate is the bytes it
+    // transferred, the part sent again counted once, per second of the time it reports.
+    assertEquals(0, progress.get(0).getBytesPerSecond(), 0);
+    for (TransferProgress report : Arrays.asList(progress.get(3), result.getFinalProgress())) {
+      assertEquals(0, report.getResumedBytes());
+      assertTrue(String.valueOf(report.getElapsed()), report.getElapsed().toNanos() > 0);
+      assertTrue(String.valueOf(report.getBytesPerSecond()), report.getBytesPerSecond() > 0 && Double.isFinite(report.getBytesPerSecond()));
+      assertEquals(15, report.getBytesPerSecond() * report.getElapsed().toNanos() / 1e9, 1e-6);
+    }
   }
 
   @Test(timeout = 20000)
@@ -313,6 +468,31 @@ public class FilesTransferTest {
     assertEquals(2, files.parts.stream().filter(p -> p.rawPath.equals("/storage/put-3/2")).count());
     assertEquals(2, result.getParts().get(1).getAttempts());
     assertEquals(1, files.finishes.size());
+
+    // Again, but the renewal before the retry both withdraws retrying parts and gives a URL that had
+    // already expired, and the answer after it would allow retrying parts with a URL still valid. The
+    // withdrawal ends the part with its own failure: Files.com is not asked again, and nothing more is
+    // sent or completed.
+    AtomicInteger expiredAnswers = new AtomicInteger();
+    files.partEditor = part -> {
+      if (part.get("part_number").asLong() == 2) {
+        int answer = expiredAnswers.incrementAndGet();
+        Instant expires = answer < 3 ? Instant.now().plusSeconds(10) : answer == 3 ? Instant.now().minusSeconds(1)
+            : Instant.now().plus(1, ChronoUnit.HOURS);
+        part.put("expires", expires.toString());
+        part.put("retry_parts", answer != 3);
+      }
+      return part;
+    };
+    try {
+      client.transfers().upload(file("expired-withdrawn.bin", bytes(15, 8)), "expired-withdrawn.bin");
+      fail("Expected the failed part not to be sent again");
+    } catch (ApiErrorException.ApiConnectionException e) {
+      assertEquals("The storage server answered part 2 of the upload to expired-withdrawn.bin with HTTP status 503", e.getMessage());
+    }
+    assertEquals("negotiated, renewed before its first attempt, and once before its retry", 3, expiredAnswers.get());
+    assertEquals("sent once", 1, files.parts.stream().filter(p -> p.rawPath.equals("/storage/put-4/2")).count());
+    assertEquals("nothing more is completed", 1, files.finishes.size());
   }
 
   @Test(timeout = 20000)
@@ -330,6 +510,75 @@ public class FilesTransferTest {
     assertFalse(result.isParallelParts());
     for (FakeFiles.Received begin : files.begins) {
       assertFalse("serial parts are negotiated one at a time", begin.json().has("parts"));
+    }
+  }
+
+  @Test(timeout = 30000)
+  public void aStreamOfUnknownLengthSendsOnePartAtATimeThoughFilesComAllowsParallelParts() throws Exception {
+    // Files.com allows parallel parts, and the upload may send four at once from the start; each part
+    // takes a while.
+    UploadOptions fourAtOnce = UploadOptions.builder().startup(UploadStartup.AGGRESSIVE).maxConcurrency(4).build();
+    files.storage = (part, attempt) -> {
+      Thread.sleep(100);
+      return null;
+    };
+    byte[] contents = bytes(18, 39);
+    UploadResult piped = client.transfers().upload(new ByteArrayInputStream(contents), "piped.bin", fourAtOnce);
+
+    assertEquals("one part in flight at a time", 1, files.maxConcurrentParts());
+    List<Long> order = files.parts.stream().map(p -> p.part).collect(Collectors.toList());
+    assertEquals("each part sent once, in order", order.stream().sorted().distinct().collect(Collectors.toList()), order);
+    partLengths(piped, contents);
+    assertFalse(piped.isParallelParts());
+
+    // The same stream with its length given sends parts at the same time, as a file does.
+    CountDownLatch arrived = new CountDownLatch(2);
+    CountDownLatch release = holdParts(arrived, new CountDownLatch(1));
+    ExecutorService uploads = Executors.newSingleThreadExecutor();
+    try {
+      Future<UploadResult> sized = uploads.submit(() -> client.transfers().upload(new ByteArrayInputStream(contents), contents.length,
+          "sized.bin", fourAtOnce));
+      assertTrue("two parts at once before either was answered", arrived.await(10, TimeUnit.SECONDS));
+      release.countDown();
+      assertTrue(sized.get(10, TimeUnit.SECONDS).isParallelParts());
+    } finally {
+      release.countDown();
+      uploads.shutdownNow();
+    }
+  }
+
+  @Test(timeout = 30000)
+  public void aStreamOfUnknownLengthLeavesTheOtherUploadsOfItsScopeTheirParallelParts() throws Exception {
+    AtomicInteger arrivals = new AtomicInteger();
+    CountDownLatch release = new CountDownLatch(1);
+    files.storage = (part, attempt) -> {
+      arrivals.incrementAndGet();
+      return FakeFiles.Answer.holdUntil(release);
+    };
+    ExecutorService callers = Executors.newFixedThreadPool(2);
+    try (TransferScope job = new TransferScope()) {
+      UploadOptions options = UploadOptions.builder().startup(UploadStartup.AGGRESSIVE).maxConcurrency(4).scope(job).build();
+      final Future<UploadResult> piped = callers.submit(() -> client.transfers().upload(new ByteArrayInputStream(bytes(18, 40)), "piped.bin",
+          options));
+      awaitTrue(() -> arrivals.get() == 1);
+      Thread.sleep(300);
+      assertEquals("the stream's first part is its only one in flight", 1, arrivals.get());
+
+      // A file of the same scope still sends parts at the same time, beside the stream's one part.
+      Path source = file("sized.bin", bytes(18, 41));
+      Future<UploadResult> sized = callers.submit(() -> client.transfers().upload(source, "sized.bin", options));
+      awaitTrue(() -> arrivals.get() >= 3);
+      assertTrue("parts at once: " + files.maxConcurrentParts(), files.maxConcurrentParts() >= 3);
+      release.countDown();
+      UploadResult pipedResult = piped.get(20, TimeUnit.SECONDS);
+      UploadResult sizedResult = sized.get(20, TimeUnit.SECONDS);
+      assertFalse(pipedResult.isParallelParts());
+      assertTrue(sizedResult.isParallelParts());
+      assertTrue("the two uploads share the scope's target", pipedResult.getFinalProgress().getConcurrency().isShared()
+          && sizedResult.getFinalProgress().getConcurrency().isShared());
+    } finally {
+      release.countDown();
+      callers.shutdownNow();
     }
   }
 
@@ -390,6 +639,7 @@ public class FilesTransferTest {
     JsonNode renewal = files.begins.get(1).json();
     assertEquals("the same upload", "put-1", renewal.get("ref").asText());
     assertEquals(1, renewal.get("part").asLong());
+    assertTrue("the renewal asks for direct connection information too", renewal.path("with_direct_connection_info").asBoolean());
     assertEquals(FakeFiles.SIGNATURE + "&renewed=2", files.parts.get(0).rawQuery);
     assertEquals("put-1", files.finishes.get(0).json().get("ref").asText());
   }
@@ -420,6 +670,303 @@ public class FilesTransferTest {
   }
 
   @Test(timeout = 20000)
+  public void renewedUrlsThatHaveAlreadyExpiredAreNeverSentAndTheUploadStopsWithinItsAttempts() throws Exception {
+    // The first URL is about to expire, so it is renewed before the part is sent; every renewal gives a
+    // URL whose expiry, the part's expires time, has already passed.
+    AtomicInteger negotiations = new AtomicInteger();
+    files.partEditor = part -> {
+      Instant expires = negotiations.incrementAndGet() == 1 ? Instant.now().plusSeconds(10) : Instant.now().minusSeconds(1);
+      part.put("expires", expires.toString());
+      return part;
+    };
+    try {
+      client.transfers().upload(file("stale.bin", bytes(5, 52)), "stale.bin");
+      fail("Expected the upload to stop");
+    } catch (ApiErrorException.ApiConnectionException e) {
+      assertEquals("Files.com gave part 1 of the upload to stale.bin a new URL that had already expired", e.getMessage());
+    }
+    assertEquals("the first URL, then one renewal for each of the part's four attempts", 5, negotiations.get());
+    assertEquals("no request reached storage", 0, files.parts.size());
+    assertEquals(0, files.finishes.size());
+
+    // With no retries, the one renewal that gives an expired URL stops the upload.
+    negotiations.set(0);
+    try (FilesClient once = FilesClient.builder().apiKey("transfer-key").apiRoot(files.root()).maxRetries(0).build()) {
+      try {
+        once.transfers().upload(file("once.bin", bytes(5, 53)), "once.bin");
+        fail("Expected the upload to stop");
+      } catch (ApiErrorException.ApiConnectionException e) {
+        assertEquals("Files.com gave part 1 of the upload to once.bin a new URL that had already expired", e.getMessage());
+      }
+    }
+    assertEquals(2, negotiations.get());
+    assertEquals(0, files.parts.size());
+    assertEquals(0, files.finishes.size());
+  }
+
+  @Test(timeout = 30000)
+  public void aPartWhoseUrlExpiresWhileItWaitsForTheOnlyPooledConnectionIsNeverSentWithIt() throws Exception {
+    // One pooled connection for the API and storage together. As Files.com renews the part's URL, for
+    // two seconds, another upload's begin_upload asks for that connection, and is seen waiting for it.
+    // It gets the connection once the renewal is answered, and Files.com holds that begin_upload,
+    // unanswered, while the part is seen waiting for the connection behind it and until the part's URL
+    // has expired; then plans its parts as usual. The part's request must be refused before any of it
+    // is written, its connection given back before the URL is renewed, which needs that one
+    // connection, and the part sent with the new URL, to another host.
+    PoolingHttpClientConnectionManager pool = new PoolingHttpClientConnectionManager();
+    pool.setMaxTotal(1);
+    pool.setDefaultMaxPerRoute(1);
+    CountDownLatch holding = new CountDownLatch(1);
+    CountDownLatch release = new CountDownLatch(1);
+    AtomicBoolean holderWaited = new AtomicBoolean();
+    AtomicInteger negotiations = new AtomicInteger();
+    AtomicReference<Instant> renewedExpires = new AtomicReference<>();
+    AtomicReference<Future<UploadResult>> holder = new AtomicReference<>();
+    ExecutorService callers = Executors.newFixedThreadPool(2);
+    try (FilesClient shared = FilesClient.builder().apiKey("transfer-key").apiRoot(files.root()).retryDelay(Duration.ofMillis(1))
+             .transport(HttpTransport.builder().connectionManager(pool)).build()) {
+      final Path held = file("holder.bin", bytes(5, 54));
+      files.beginAnswer = request -> {
+        if (request.rawPath.endsWith("holder.bin") && release.getCount() > 0) {
+          // Holds the one connection, then plans the holder's parts as for any upload.
+          holding.countDown();
+          release.await(20, TimeUnit.SECONDS);
+        }
+        return null;
+      };
+      files.partEditor = part -> {
+        if (!"put-1".equals(part.get("ref").asText())) {
+          // The holder's parts keep their URLs.
+          return part;
+        }
+        int negotiation = negotiations.incrementAndGet();
+        if (negotiation == 2) {
+          holder.set(callers.submit(() -> shared.transfers().upload(held, "holder.bin")));
+          // This answer holds the one connection: the holder's begin_upload is seen waiting for it.
+          holderWaited.set(eventually(() -> pool.getTotalStats().getPending() == 1, Duration.ofSeconds(10)));
+        }
+        if (negotiation <= 2) {
+          Instant expires = Instant.now().plusSeconds(2);
+          part.put("expires", expires.toString());
+          if (negotiation == 2) {
+            renewedExpires.set(expires);
+          }
+        } else {
+          part.put("upload_uri", part.get("upload_uri").asText().replace("127.0.0.1", "localhost"));
+        }
+        part.put("upload_uri", part.get("upload_uri").asText() + "&negotiation=" + negotiation);
+        return part;
+      };
+      final byte[] contents = bytes(5, 55);
+      final Path source = file("waiting.bin", contents);
+      final Future<UploadResult> waiting = callers.submit(() -> shared.transfers().upload(source, "waiting.bin"));
+      assertTrue("the holder's begin_upload has the connection", holding.await(20, TimeUnit.SECONDS));
+      assertTrue("it had waited for the connection the renewal held", holderWaited.get());
+      // The part, its URL renewed, is seen waiting for the connection the holder's begin_upload holds,
+      // with nothing of it at storage; it still waits once its URL has expired. One snapshot of the pool
+      // shows it waiting, taken before the URL expires: until then the part finds its URL still valid
+      // when it has read it, so what waits is its storage request, not a renewal of its URL. A sighting
+      // only after the URL expired would not tell them apart, and fails.
+      AtomicReference<org.apache.http.pool.PoolStats> queued = new AtomicReference<>();
+      AtomicReference<Instant> queuedAt = new AtomicReference<>();
+      assertTrue("the part waits for the one connection: " + pool.getTotalStats(), eventually(() -> {
+        org.apache.http.pool.PoolStats stats = pool.getTotalStats();
+        queuedAt.set(Instant.now());
+        queued.set(stats);
+        return stats.getLeased() == 1 && stats.getPending() == 1;
+      }, Duration.ofSeconds(10)));
+      assertEquals(1, queued.get().getMax());
+      assertTrue("seen waiting at " + queuedAt.get() + ", before its URL expired at " + renewedExpires.get(),
+          queuedAt.get().isBefore(renewedExpires.get()));
+      assertTrue("nothing of the part has reached storage", files.parts.stream().noneMatch(p -> p.rawPath.startsWith("/storage/put-1/")));
+      assertTrue(eventually(() -> Instant.now().isAfter(renewedExpires.get()), Duration.ofSeconds(10)));
+      assertEquals("still waiting, with a URL that has expired", 1, pool.getTotalStats().getPending());
+      release.countDown();
+
+      assertEquals(5, waiting.get(20, TimeUnit.SECONDS).getSize());
+      assertEquals(5, holder.get().get(20, TimeUnit.SECONDS).getSize());
+      List<FakeFiles.Received> sent = files.parts.stream().filter(p -> p.rawPath.startsWith("/storage/put-1/")).collect(Collectors.toList());
+      assertEquals("the part reached storage once, never with the URL that expired while it waited", 1, sent.size());
+      assertTrue(sent.get(0).rawQuery, sent.get(0).rawQuery.endsWith("&negotiation=3"));
+      assertArrayEquals("the part's own bytes", contents, sent.get(0).body);
+      assertTrue("sent to the renewed URL's host: " + sent.get(0).header("Host"), sent.get(0).header("Host").startsWith("localhost"));
+      assertEquals("the first URL, its renewal before the part was sent, and one after the refusal", 3, negotiations.get());
+      int renewals = 0;
+      for (FakeFiles.Received begin : files.begins) {
+        JsonNode parameters = begin.json();
+        if ("put-1".equals(parameters.path("ref").asText())) {
+          renewals++;
+          assertEquals("each renewal is for the same part", 1, parameters.get("part").asLong());
+        }
+      }
+      assertEquals(2, renewals);
+      assertEquals(1, files.finishes.stream().filter(request -> request.rawPath.endsWith("waiting.bin")).count());
+      assertEquals("every connection was given back", 0, pool.getTotalStats().getLeased());
+      assertEquals(0, pool.getTotalStats().getPending());
+    } finally {
+      release.countDown();
+      callers.shutdownNow();
+      pool.shutdown();
+    }
+  }
+
+  @Test(timeout = 120000)
+  public void aRangeWhoseUrlExpiresWhileItWaitsForTheOnlyPooledConnectionIsAskedForAgainWithARenewedUrl() throws Exception {
+    // One pooled connection for the API and storage together, and one part at a time. The download's
+    // URL is valid for 40 seconds, so it is not within the 30 seconds before expiry in which it would
+    // be renewed before a part is asked for. Bytes 5000-5999 are answered 503 at first; while that
+    // answer holds the connection, an upload's begin_upload is seen waiting for it. The begin_upload
+    // gets it as the part waits to retry, and Files.com holds it while the retry is seen waiting for the
+    // connection behind it and until the URL has expired; then plans its parts as usual. The retry
+    // must be refused before any of it is written, its connection given back before the URL is renewed,
+    // which needs that one connection, and the bytes not yet written asked for again, of the same
+    // version, with the renewed URL.
+    //
+    // The file is 6,000 bytes on storage that serves ranges of one version, fetched in parts of 1,000
+    // bytes, so 5000-5999 is its last part: once that part is answered 503 nothing else is left to ask
+    // for, and its retry is the only request that can wait behind the holder.
+    byte[] contents = bytes(6000, 56);
+    files.contents = contents;
+    files.describedSize = (long) contents.length;
+    files.ranges = true;
+    files.etag = "\"v1\"";
+    Instant signed = Instant.now().truncatedTo(ChronoUnit.SECONDS);
+    Instant expires = signed.plusSeconds(40);
+    files.downloadQuery = signedQuery(signed, 40);
+    PoolingHttpClientConnectionManager pool = new PoolingHttpClientConnectionManager();
+    pool.setMaxTotal(1);
+    pool.setDefaultMaxPerRoute(1);
+    CountDownLatch holding = new CountDownLatch(1);
+    CountDownLatch release = new CountDownLatch(1);
+    AtomicBoolean holderWaited = new AtomicBoolean();
+    AtomicReference<Future<UploadResult>> holder = new AtomicReference<>();
+    ExecutorService callers = Executors.newFixedThreadPool(2);
+    // This request must keep waiting through the URL's expiry. The default ten-second acquisition
+    // timeout could retry and renew it before the final-send guard gets the connection.
+    try (FilesClient shared = FilesClient.builder().apiKey("transfer-key").apiRoot(files.root()).retryDelay(Duration.ofSeconds(1))
+             .connectionAcquisitionTimeout(Duration.ofSeconds(60)).transport(HttpTransport.builder().connectionManager(pool)).build()) {
+      final Path held = file("holder.bin", bytes(5, 57));
+      files.beginAnswer = request -> {
+        if (request.rawPath.endsWith("holder.bin") && release.getCount() > 0) {
+          holding.countDown();
+          release.await(60, TimeUnit.SECONDS);
+        }
+        return null;
+      };
+      files.rangeAnswer = (start, attempt) -> {
+        if (start == 5000 && attempt == 1) {
+          holder.set(callers.submit(() -> shared.transfers().upload(held, "holder.bin")));
+          // This request holds the one connection: the holder's begin_upload is seen waiting for it.
+          holderWaited.set(eventually(() -> pool.getTotalStats().getPending() == 1, Duration.ofSeconds(10)));
+          return FakeFiles.Answer.status(503, "");
+        }
+        return null;
+      };
+      Path destination = file("waited.bin", "old".getBytes(StandardCharsets.UTF_8));
+      final Future<com.files.net.DownloadResult> download = callers.submit(() -> shared.transfers().download("remote/waited.bin", destination,
+          inParts().maxConcurrency(1).build()));
+      assertTrue("the holder's begin_upload has the connection", holding.await(30, TimeUnit.SECONDS));
+      assertTrue("it had waited for the connection the first answer held", holderWaited.get());
+      // One snapshot of the pool shows the retry waiting, taken before the URL comes within the 30 seconds
+      // before its expiry in which a part renews it before asking: until then the part asks storage with
+      // it, so what waits is the retry's storage request, not a renewal of the URL. A sighting only once
+      // the URL could have been renewed would not tell them apart, and fails.
+      Instant renewableFrom = expires.minusSeconds(30);
+      AtomicReference<org.apache.http.pool.PoolStats> queued = new AtomicReference<>();
+      AtomicReference<Instant> queuedAt = new AtomicReference<>();
+      final boolean retryQueued = eventually(() -> {
+        org.apache.http.pool.PoolStats stats = pool.getTotalStats();
+        queuedAt.set(Instant.now());
+        queued.set(stats);
+        return stats.getLeased() == 1 && stats.getPending() == 1;
+      }, Duration.ofSeconds(20));
+      if (!retryQueued) {
+        System.err.println("POOL_QUEUE_DIAGNOSTIC downloadDone=" + download.isDone()
+            + " cancelled=" + download.isCancelled() + " stats=" + pool.getTotalStats());
+        if (download.isDone()) {
+          try {
+            download.get(0, TimeUnit.SECONDS);
+            System.err.println("POOL_QUEUE_DIAGNOSTIC download completed successfully");
+          } catch (Exception diagnosticFailure) {
+            diagnosticFailure.printStackTrace(System.err);
+          }
+        }
+        int printed = 0;
+        for (java.util.Map.Entry<Thread, StackTraceElement[]> entry : Thread.getAllStackTraces().entrySet()) {
+          String name = entry.getKey().getName();
+          if ((name.startsWith("files-sdk") || name.startsWith("pool-")) && printed++ < 20) {
+            System.err.println("POOL_QUEUE_DIAGNOSTIC thread=" + name + " state=" + entry.getKey().getState());
+            StackTraceElement[] frames = entry.getValue();
+            for (int frame = 0; frame < Math.min(12, frames.length); frame++) {
+              System.err.println("  " + frames[frame]);
+            }
+          }
+        }
+      }
+      assertTrue("the retry waits for the one connection: " + pool.getTotalStats(), retryQueued);
+      assertEquals(1, queued.get().getMax());
+      assertTrue("seen waiting at " + queuedAt.get() + ", before its URL could be renewed from " + renewableFrom,
+          queuedAt.get().isBefore(renewableFrom));
+      final int asked = files.rangeRequests.size();
+      int described = files.describes.size();
+      assertEquals("the retry has not reached storage", 1, files.rangeRequests.stream().filter(r -> r.part == 5000).count());
+      assertTrue(eventually(() -> Instant.now().isAfter(expires), Duration.ofSeconds(60)));
+      assertEquals("still waiting, with a URL that has expired", 1, pool.getTotalStats().getPending());
+      assertEquals("not renewed while it waited", described, files.describes.size());
+      // Files.com's next URL for the file is valid for an hour.
+      files.downloadQuery = signedQuery(Instant.now().truncatedTo(ChronoUnit.SECONDS), 3600) + "&renewed=1";
+      int describedBefore = files.describes.size();
+      release.countDown();
+
+      com.files.net.DownloadResult result = download.get(30, TimeUnit.SECONDS);
+      assertTrue(result.isVersionBound());
+      assertArrayEquals(contents, Files.readAllBytes(destination));
+      assertTrue("renewed after the refusal", files.describes.size() > describedBefore);
+      List<FakeFiles.Received> afterWait = files.rangeRequests.subList(asked, files.rangeRequests.size());
+      assertFalse(afterWait.isEmpty());
+      assertEquals("the retry is the only request after the wait: " + afterWait.size(), 1, afterWait.size());
+      for (FakeFiles.Received range : afterWait) {
+        assertTrue("only the renewed URL reached storage after the wait: " + range.rawQuery, range.rawQuery.endsWith("&renewed=1"));
+      }
+      FakeFiles.Received retried = afterWait.get(0);
+      assertEquals("the bytes not yet written", "bytes=5000-5999", retried.header("Range"));
+      assertEquals("of the same version", "\"v1\"", retried.header("If-Match"));
+      assertEquals(2, files.rangeRequests.stream().filter(r -> r.part == 5000).count());
+      assertEquals(5, holder.get().get(30, TimeUnit.SECONDS).getSize());
+      assertEquals("every connection was given back", 0, pool.getTotalStats().getLeased());
+      assertEquals(0, pool.getTotalStats().getPending());
+    } finally {
+      release.countDown();
+      callers.shutdownNow();
+      pool.shutdown();
+    }
+  }
+
+  // Whether condition holds within limit, checked every 10 ms; false, not a failure, otherwise, so that
+  // it can be asked on a server thread and asserted on the test's own.
+  private static boolean eventually(java.util.function.BooleanSupplier condition, Duration limit) {
+    long deadline = System.nanoTime() + limit.toNanos();
+    while (!condition.getAsBoolean()) {
+      if (System.nanoTime() - deadline > 0) {
+        return false;
+      }
+      try {
+        Thread.sleep(10);
+      } catch (InterruptedException e) {
+        Thread.currentThread().interrupt();
+        return false;
+      }
+    }
+    return true;
+  }
+
+  // The query a URL signed at signed, valid for seconds, adds after its signature.
+  private static String signedQuery(Instant signed, long seconds) {
+    return "&X-Amz-Date=" + java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'").withZone(java.time.ZoneOffset.UTC)
+        .format(signed) + "&X-Amz-Expires=" + seconds;
+  }
+
+  @Test(timeout = 20000)
   public void storageUrlsAreSentExactlyAsGivenWithTheNegotiatedMethodAndHeaders() throws Exception {
     files.extraQuery = "&x-id=PutObject&weird=%2Fa%2Bb%3D&empty=&dup=1&dup=2&tilde=~&plus=a+b";
     files.httpMethod = "post";
@@ -431,6 +978,20 @@ public class FilesTransferTest {
     assertEquals("POST", part.method);
     assertEquals("BlockBlob", part.header("x-ms-blob-type"));
     assertEquals("4", part.header("Content-Length"));
+
+    // The same through an Apache client of the caller's, which the client borrows: the request the
+    // transfer made is the one sent, with its own settings.
+    try (GuardedApacheClient http = HttpTransport.builder().buildClient()) {
+      try (FilesClient adopted = FilesClient.builder().apiKey("transfer-key").apiRoot(files.root())
+               .transport(HttpTransport.borrowed(http)).build()) {
+        adopted.transfers().upload(file("adopted.bin", bytes(4, 9)), "exact.bin");
+      }
+    }
+    FakeFiles.Received adoptedPart = files.parts.get(files.parts.size() - 1);
+    assertEquals(FakeFiles.SIGNATURE + files.extraQuery, adoptedPart.rawQuery);
+    assertEquals("POST", adoptedPart.method);
+    assertEquals("BlockBlob", adoptedPart.header("x-ms-blob-type"));
+    assertEquals("4", adoptedPart.header("Content-Length"));
   }
 
   @Test(timeout = 20000)
@@ -468,6 +1029,28 @@ public class FilesTransferTest {
     }
     assertEquals("sent once", 1, files.finishes.size());
     assertEquals("no replacement upload", 2, files.begins.size());
+  }
+
+  @Test(timeout = 20000)
+  public void aServerErrorIsRetriedForBeginUploadButNeverForTheFinalRequest() throws Exception {
+    // begin_upload, a POST, answered once with HTTP 500, is asked again with the same parameters.
+    List<JsonNode> negotiations = new CopyOnWriteArrayList<>();
+    files.beginAnswer = request -> {
+      negotiations.add(request.json());
+      return negotiations.size() == 1 ? FakeFiles.Answer.status(500, "") : null;
+    };
+    // The final request answered with HTTP 500 may have completed the upload, so it is not sent again.
+    files.finish = request -> FakeFiles.Answer.status(500, "");
+    try {
+      client.transfers().upload(file("server-error.bin", bytes(4, 38)), "server-error.bin");
+      fail("Expected the outcome to be unknown");
+    } catch (UploadCompletionUnknownException e) {
+      assertEquals("server-error.bin", e.getPath());
+      assertTrue(String.valueOf(e.getCause()), e.getCause() instanceof ApiErrorException.ApiConnectionException);
+    }
+    assertEquals("begin_upload was asked again after its server error", 2, negotiations.size());
+    assertEquals(negotiations.get(0), negotiations.get(1));
+    assertEquals("the final request was sent once", 1, files.finishes.size());
   }
 
   @Test(timeout = 20000)
@@ -1252,6 +1835,11 @@ public class FilesTransferTest {
       assertEquals(ConcurrencyMode.AUTOMATIC, last.getConcurrency().getMode());
       assertEquals(4, last.getConcurrency().getMaxTarget());
       assertTrue("reported as parts were written", progress.stream().anyMatch(p -> p.getTransferredBytes() > 1000 && p.getTransferredBytes() < 10_000));
+      // The run's rate is the bytes it transferred, none of them resumed, per second of the time it reports.
+      assertEquals(0, last.getResumedBytes());
+      assertTrue(String.valueOf(last.getElapsed()), last.getElapsed().toNanos() > 0);
+      assertTrue(String.valueOf(last.getBytesPerSecond()), last.getBytesPerSecond() > 0 && Double.isFinite(last.getBytesPerSecond()));
+      assertEquals(10_000, last.getBytesPerSecond() * last.getElapsed().toNanos() / 1e9, 1e-6);
     } finally {
       release.countDown();
       downloads.shutdownNow();
@@ -1384,6 +1972,592 @@ public class FilesTransferTest {
     }
     assertEquals("old", new String(Files.readAllBytes(other), StandardCharsets.UTF_8));
     assertEquals(1, files.rangeRequests.size());
+  }
+
+  @Test(timeout = 20000)
+  public void aDownloadUrlRenewedAlreadyExpiredIsNeverUsed() throws Exception {
+    rangedFile(49);
+    String signed = java.time.format.DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'Z'").withZone(java.time.ZoneOffset.UTC)
+        .format(Instant.now().minusSeconds(120));
+    // Every URL Files.com gives for the file expired a minute ago: the first is renewed before it is
+    // used, and its renewal is no better.
+    files.downloadQuery = "&X-Amz-Date=" + signed + "&X-Amz-Expires=60";
+    Path destination = file("expired.bin", "old".getBytes(StandardCharsets.UTF_8));
+    try {
+      client.transfers().download("remote/expired.bin", destination, inParts().build());
+      fail("Expected the download to stop");
+    } catch (ApiErrorException.ApiConnectionException e) {
+      assertTrue(e.getMessage(), e.getMessage().endsWith("that had already expired"));
+    }
+    assertTrue("nothing was asked of storage", files.rangeRequests.isEmpty() && files.downloads.isEmpty());
+    assertEquals("old", new String(Files.readAllBytes(destination), StandardCharsets.UTF_8));
+  }
+
+  @Test(timeout = 20000)
+  public void aRedirectToAnotherUrlIsFollowedOnceTheUrlItCameFromHasExpired() throws Exception {
+    // Each URL Files.com gives is valid for three seconds: about to expire, so renewed before it is
+    // used, and the renewal, still valid however briefly, used. Storage holds its answer to that URL, a
+    // redirect to another URL of the same origin that states no expiry, until the URL has expired. The
+    // redirect is followed: the URL it leads to is not refused for the expiry of the one it came from.
+    files.contents = bytes(1000, 58);
+    Instant signed = Instant.now().truncatedTo(ChronoUnit.SECONDS);
+    Instant expires = signed.plusSeconds(3);
+    files.downloadQuery = signedQuery(signed, 3);
+    String elsewhere = files.root() + "/download/elsewhere.bin?" + FakeFiles.SIGNATURE + "&hop=valid";
+    CountDownLatch expired = new CountDownLatch(1);
+    files.download = attempt -> attempt == 1 ? heldRedirect(elsewhere, expired) : null;
+    Path destination = folder.getRoot().toPath().resolve("redirected.bin");
+    ExecutorService downloads = Executors.newSingleThreadExecutor();
+    try {
+      Future<com.files.net.DownloadResult> download = downloads.submit(() -> client.transfers().download("remote/redirected.bin", destination));
+      assertTrue("the first request's answer is held", eventually(() -> files.downloads.size() == 1, Duration.ofSeconds(10)));
+      assertTrue(eventually(() -> Instant.now().isAfter(expires), Duration.ofSeconds(10)));
+      expired.countDown();
+      download.get(10, TimeUnit.SECONDS);
+    } finally {
+      expired.countDown();
+      downloads.shutdownNow();
+    }
+    assertArrayEquals(files.contents, Files.readAllBytes(destination));
+    assertEquals(2, files.downloads.size());
+    assertEquals("/download/elsewhere.bin", files.downloads.get(1).rawPath);
+    assertEquals(FakeFiles.SIGNATURE + "&hop=valid", files.downloads.get(1).rawQuery);
+    assertEquals("described, then renewed once before the first request; not after the redirect", 2, files.describes.size());
+  }
+
+  @Test(timeout = 20000)
+  public void aRedirectToAUrlThatHasExpiredIsNeverFollowedAndTheUrlItCameFromIsRenewed() throws Exception {
+    // Until the download's URL is renewed, storage answers it with a redirect to a URL that states it
+    // expired a minute ago. The redirect is refused before anything is asked of that URL, whether the
+    // download's own URL states no expiry or one an hour away; then the download's URL is renewed,
+    // though it has not expired, before the file is asked for again. When storage redirects every
+    // request so, the download stops once its retries are spent.
+    files.contents = bytes(1000, 59);
+    String stale = files.root() + "/download/stale.bin?" + FakeFiles.SIGNATURE + signedQuery(Instant.now().minusSeconds(120), 60)
+        + "&hop=expired";
+    files.download = attempt -> files.describes.size() < 2 ? FakeFiles.Answer.status(302, "").header("Location", stale) : null;
+    String[] queries = {"", signedQuery(Instant.now().truncatedTo(ChronoUnit.SECONDS), 3600)};
+    for (int i = 0; i < queries.length; i++) {
+      files.downloadQuery = queries[i];
+      files.describes.clear();
+      files.downloads.clear();
+      Path destination = folder.getRoot().toPath().resolve("stale-" + i + ".bin");
+
+      client.transfers().download("remote/stale-" + i + ".bin", destination);
+
+      assertArrayEquals(files.contents, Files.readAllBytes(destination));
+      assertTrue("nothing was asked of the expired URL", files.downloads.stream().noneMatch(d -> d.rawPath.equals("/download/stale.bin")));
+      assertEquals("described, then renewed after the refusal, though still valid", 2, files.describes.size());
+      assertEquals(2, files.downloads.size());
+      // The signed URL keeps the API path's encoded slash as Files.com issued it, and is sent as given.
+      assertEquals("/download/remote%2Fstale-" + i + ".bin", files.downloads.get(1).rawPath);
+      assertEquals(FakeFiles.SIGNATURE + queries[i], files.downloads.get(1).rawQuery);
+    }
+
+    // Storage now redirects every request for the download's URL, which states no expiry, to the URL
+    // that has expired, and the client retries a download once at most. The first request is refused
+    // at the redirect; the URL is renewed, though still valid, and the file asked for once more, refused
+    // the same way; then the download fails, its retries spent, with nothing asked of the expired URL
+    // and the file already at the destination left as it was.
+    files.download = attempt -> FakeFiles.Answer.status(302, "").header("Location", stale);
+    files.downloadQuery = "";
+    files.describes.clear();
+    files.downloads.clear();
+    Path kept = file("kept-stale.bin", "old".getBytes(StandardCharsets.UTF_8));
+    try (FilesClient once = FilesClient.builder().apiKey("transfer-key").apiRoot(files.root()).maxRetries(1)
+             .retryDelay(Duration.ofMillis(1)).build()) {
+      try {
+        once.transfers().download("remote/kept-stale.bin", kept);
+        fail("Expected the download to stop once its retries were spent");
+      } catch (ApiErrorException.ApiConnectionException e) {
+        assertTrue(e.getMessage(), e.getMessage().contains("kept-stale.bin") && e.getMessage().endsWith("expired before it could be used"));
+      }
+    }
+    assertEquals("the download's URL, then its renewal, and no more", 2, files.downloads.size());
+    for (FakeFiles.Received request : files.downloads) {
+      assertEquals("/download/remote%2Fkept-stale.bin", request.rawPath);
+      assertEquals(FakeFiles.SIGNATURE, request.rawQuery);
+    }
+    assertEquals("described, then renewed once after the first refusal", 2, files.describes.size());
+    assertTrue("nothing was asked of the expired URL", files.downloads.stream().noneMatch(d -> d.rawPath.equals("/download/stale.bin")));
+    assertEquals("old", new String(Files.readAllBytes(kept), StandardCharsets.UTF_8));
+  }
+
+  // A redirect to location, answered once latch is released.
+  private static FakeFiles.Answer heldRedirect(String location, CountDownLatch latch) {
+    FakeFiles.Answer answer = FakeFiles.Answer.status(302, "").header("Location", location);
+    answer.hold = latch;
+    return answer;
+  }
+
+  @Test(timeout = 20000)
+  public void aDownloadToAStreamWritesEachByteOnceInOrderAndLeavesTheStreamOpen() throws Exception {
+    // A file bound to one version comes in parts; to a stream they are asked for one at a time, in
+    // order, each once, after one description made with this client's key, and written as they arrive.
+    // The stream is neither flushed nor closed, and the result has no destination. Progress counts a
+    // part only once the stream holds all of it.
+    byte[] contents = rangedFile(70);
+    CallerStream out = new CallerStream();
+    List<TransferProgress> progress = new CopyOnWriteArrayList<>();
+    List<Integer> held = new CopyOnWriteArrayList<>();
+    com.files.net.DownloadResult result = client.transfers().download("remote/streamed.bin", out,
+        inParts().maxConcurrency(4).progressListener(p -> {
+          progress.add(p);
+          held.add(out.size());
+        }).build());
+
+    assertArrayEquals(contents, out.toByteArray());
+    assertFalse("never closed", out.closed);
+    assertEquals("never flushed", 0, out.flushes);
+    assertNull(result.getDestination());
+    assertTrue(result.isVersionBound());
+    assertEquals(10_000, result.getSize());
+    assertEquals(10_000, result.getFinalProgress().getTransferredBytes());
+    assertTrue("reported as parts were written", progress.stream().anyMatch(p -> p.getTransferredBytes() > 0 && p.getTransferredBytes() < 10_000));
+    for (int i = 0; i < progress.size(); i++) {
+      assertTrue("reported once written: " + progress.get(i), progress.get(i).getTransferredBytes() <= held.get(i));
+    }
+    assertEquals(1, files.describes.size());
+    assertEquals("transfer-key", files.describes.get(0).header("X-FilesAPI-Key"));
+    assertEquals(10, files.rangeRequests.size());
+    for (int i = 0; i < files.rangeRequests.size(); i++) {
+      assertEquals("in order, each once", "bytes=" + (i * 1000) + "-" + (i * 1000 + 999), files.rangeRequests.get(i).header("Range"));
+      assertNull("no credentials to storage", files.rangeRequests.get(i).header("X-FilesAPI-Key"));
+    }
+    assertEquals("one range at a time", 1, files.maxConcurrentRanges());
+
+    // A File already described is not described again; its contents come from its own URL.
+    files.describes.clear();
+    CallerStream again = new CallerStream();
+    client.transfers().download(result.getFile(), again, DownloadOptions.defaults());
+    assertArrayEquals(contents, again.toByteArray());
+    assertTrue(files.describes.isEmpty());
+    assertFalse(again.closed);
+  }
+
+  @Test(timeout = 30000)
+  public void aStreamDownloadAsksAgainOnlyForTheBytesItHasNotWritten() throws Exception {
+    // A part is cut short after 400 bytes: the stream already holds them, so only the rest of the part
+    // is asked for again, right away, of the same version, and no byte is written twice. The first
+    // part, which binds the version, is no exception: once the stream holds its first 400 bytes, bytes
+    // 400-999 are asked for, never the file from its start again.
+    byte[] contents = rangedFile(71);
+    for (int cut : new int[]{0, 3000}) {
+      files.rangeRequests.clear();
+      AtomicBoolean cutOnce = new AtomicBoolean();
+      files.rangeAnswer = (start, attempt) -> start == cut && cutOnce.compareAndSet(false, true) ? FakeFiles.Answer.cutShortAfter(400) : null;
+      CallerStream out = new CallerStream();
+
+      client.transfers().download("remote/resumed-" + cut + ".bin", out, inParts().build());
+
+      String what = "cut at " + cut;
+      assertArrayEquals(what, contents, out.toByteArray());
+      List<String> asked = files.rangeRequests.stream().map(r -> r.header("Range")).collect(Collectors.toList());
+      assertEquals(what + ": ten parts and the rest of one: " + asked, 11, asked.size());
+      int index = cut / 1000;
+      assertEquals(what, "bytes=" + cut + "-" + (cut + 999), asked.get(index));
+      assertEquals(what + ": the rest of the part, next", "bytes=" + (cut + 400) + "-" + (cut + 999), asked.get(index + 1));
+      assertEquals(what + ": of the same version", "\"v1\"", files.rangeRequests.get(index + 1).header("If-Match"));
+      assertEquals(what + ": the start asked for once", 1, asked.stream().filter(range -> range.startsWith("bytes=0-")).count());
+      assertFalse(what, out.closed);
+      assertEquals(what, 0, out.flushes);
+    }
+
+    // With one retry, the first part's cut uses it: when the rest of the part, 400-999, is cut short
+    // too, after 200 bytes, the download stops with that failure, the stream holding the first 600
+    // bytes, and 600-999 is never asked for.
+    files.rangeRequests.clear();
+    AtomicBoolean firstCut = new AtomicBoolean();
+    AtomicBoolean restCut = new AtomicBoolean();
+    files.rangeAnswer = (start, attempt) -> start == 0 && firstCut.compareAndSet(false, true) ? FakeFiles.Answer.cutShortAfter(400)
+        : start == 400 && restCut.compareAndSet(false, true) ? FakeFiles.Answer.cutShortAfter(200) : null;
+    try (FilesClient once = FilesClient.builder().apiKey("transfer-key").apiRoot(files.root()).maxRetries(1)
+             .retryDelay(Duration.ofMillis(1)).build()) {
+      CallerStream partial = new CallerStream();
+      try {
+        once.transfers().download("remote/spent.bin", partial, inParts().build());
+        fail("Expected the second cut to stop the download, its one retry used");
+      } catch (ApiErrorException.ApiConnectionException e) {
+        assertTrue(e.getMessage(), e.getMessage().contains("spent.bin"));
+      }
+      assertArrayEquals(Arrays.copyOf(contents, 600), partial.toByteArray());
+      assertEquals(Arrays.asList("bytes=0-999", "bytes=400-999"),
+          files.rangeRequests.stream().map(r -> r.header("Range")).collect(Collectors.toList()));
+      assertFalse(partial.closed);
+    }
+
+    // The same with a URL renewed between the cut and the rest of the part, to a stream and, through
+    // the same download, to a path. Each URL is valid for about 33 seconds when Files.com gives it: not
+    // within the 30 seconds before its expiry in which the SDK renews a URL before asking with it.
+    // Storage holds its answer to 3000-3999 until the URL is within them, has Files.com give another
+    // URL, valid for an hour, then cuts the answer short after 400 bytes. The URL has not expired: it is
+    // renewed ahead of its expiry, as about to expire, before the rest of the part is asked for.
+    for (boolean toStream : new boolean[]{true, false}) {
+      files.rangeRequests.clear();
+      files.describes.clear();
+      Instant signed = Instant.now().minusSeconds(27).truncatedTo(ChronoUnit.SECONDS);
+      String first = signedQuery(signed, 60);
+      String renewed = signedQuery(Instant.now().truncatedTo(ChronoUnit.SECONDS), 3600);
+      files.downloadQuery = first;
+      AtomicBoolean cut = new AtomicBoolean();
+      files.rangeAnswer = (start, attempt) -> {
+        if (start != 3000 || !cut.compareAndSet(false, true)) {
+          return null;
+        }
+        while (!Instant.now().isAfter(signed.plusSeconds(30))) {
+          Thread.sleep(10);
+        }
+        files.downloadQuery = renewed;
+        return FakeFiles.Answer.cutShortAfter(400);
+      };
+      String what = toStream ? "to a stream" : "to a path";
+      byte[] written;
+      if (toStream) {
+        CallerStream stream = new CallerStream();
+        client.transfers().download("remote/renewed-stream.bin", stream, inParts().build());
+        written = stream.toByteArray();
+      } else {
+        Path destination = folder.getRoot().toPath().resolve("renewed-path.bin");
+        client.transfers().download("remote/renewed-path.bin", destination, inParts().build());
+        written = Files.readAllBytes(destination);
+      }
+
+      assertArrayEquals(what, contents, written);
+      List<String> asked = files.rangeRequests.stream().map(r -> r.header("Range")).collect(Collectors.toList());
+      assertEquals(what + ": ten parts and the rest of one: " + asked, 11, asked.size());
+      assertEquals(what + ": described, then renewed once", 2, files.describes.size());
+      FakeFiles.Received cutShort = files.rangeRequests.get(asked.indexOf("bytes=3000-3999"));
+      FakeFiles.Received rest = files.rangeRequests.get(asked.indexOf("bytes=3400-3999"));
+      assertEquals(what + ": asked for once", asked.indexOf("bytes=3000-3999"), asked.lastIndexOf("bytes=3000-3999"));
+      assertEquals(what + ": asked for once", asked.indexOf("bytes=3400-3999"), asked.lastIndexOf("bytes=3400-3999"));
+      assertEquals(what + ": cut short with the first URL", FakeFiles.SIGNATURE + first, cutShort.rawQuery);
+      assertEquals(what + ": the rest with the renewed URL", FakeFiles.SIGNATURE + renewed, rest.rawQuery);
+      assertEquals(what + ": of the same storage resource", cutShort.rawPath, rest.rawPath);
+      assertEquals(what + ": of the same version", "\"v1\"", rest.header("If-Match"));
+    }
+  }
+
+  @Test(timeout = 20000)
+  public void aStreamDownloadStopsWhenTheVersionChangesBeforeItsRestIsWritten() throws Exception {
+    // As above, but the file changes on storage before the rest of the part is asked for: the download
+    // stops, and the stream keeps exactly the bytes of the first version it was given.
+    byte[] contents = rangedFile(72);
+    files.rangeAnswer = (start, attempt) -> {
+      if (start == 3000 && attempt == 1) {
+        return FakeFiles.Answer.cutShortAfter(400);
+      }
+      if (start == 3400) {
+        files.etag = "\"v2\"";
+      }
+      return null;
+    };
+    CallerStream out = new CallerStream();
+    try {
+      client.transfers().download("remote/changed.bin", out, inParts().build());
+      fail("Expected the changed version to stop the download");
+    } catch (ApiErrorException.ApiConnectionException e) {
+      assertTrue(e.getMessage(), e.getMessage().contains("changed while it was being downloaded"));
+    }
+    assertArrayEquals(Arrays.copyOf(contents, 3400), out.toByteArray());
+    assertEquals("nothing asked for after the change", "bytes=3400-3999", files.rangeRequests.get(files.rangeRequests.size() - 1).header("Range"));
+    assertFalse(out.closed);
+  }
+
+  @Test(timeout = 20000)
+  public void aStreamDownloadThatBindsNoVersionIsTriedAgainOnlyBeforeItsFirstByteIsWritten() throws Exception {
+    // The file comes in one request. A first answer that may be temporary, before anything is written,
+    // is tried again.
+    files.contents = bytes(1000, 73);
+    files.download = attempt -> attempt == 1 ? FakeFiles.Answer.status(503, "") : null;
+    CallerStream out = new CallerStream();
+    client.transfers().download("remote/unbound.bin", out);
+    assertArrayEquals(files.contents, out.toByteArray());
+    assertEquals(2, files.downloads.size());
+
+    // Once the stream holds some of the file, a failure stops the download with that failure: the
+    // bytes written cannot be taken back, and the file is not asked for again from its start.
+    files.downloads.clear();
+    files.download = attempt -> FakeFiles.Answer.cutShortAfter(400);
+    CallerStream partial = new CallerStream();
+    try {
+      client.transfers().download("remote/cut.bin", partial);
+      fail("Expected the download to stop");
+    } catch (ApiErrorException.ApiConnectionException e) {
+      assertTrue(e.getMessage(), e.getMessage().contains("cut.bin"));
+    }
+    assertEquals("asked for once", 1, files.downloads.size());
+    assertArrayEquals("what was written stays, written once", Arrays.copyOf(files.contents, 400), partial.toByteArray());
+    assertFalse(partial.closed);
+  }
+
+  @Test(timeout = 20000)
+  public void aStreamThatFailsToWriteStopsTheDownloadWithItsOwnFailure() throws Exception {
+    // The stream takes 300 bytes, then fails: that failure stops the download, the stream is not written
+    // to again, and nothing more is asked of storage.
+    files.contents = bytes(1000, 74);
+    CallerStream out = new CallerStream(300);
+    try {
+      client.transfers().download("remote/full.bin", out);
+      fail("Expected the stream's failure to stop the download");
+    } catch (IOException e) {
+      assertTrue("the stream's own failure: " + e, e == out.failure);
+    }
+    assertEquals("not written to again", 0, out.lateWrites);
+    assertEquals("not asked for again", 1, files.downloads.size());
+    assertArrayEquals(Arrays.copyOf(files.contents, 300), out.toByteArray());
+    assertFalse(out.closed);
+    assertEquals(0, out.flushes);
+  }
+
+  @Test(timeout = 20000)
+  public void aStreamDownloadRefusesACheckpointAndStopsWhenCancelledBetweenWrites() throws Exception {
+    files.contents = bytes(1000, 76);
+    try {
+      client.transfers().download("remote/kept.bin", new CallerStream(),
+          DownloadOptions.builder().checkpointDirectory(folder.newFolder("checkpoints").toPath()).build());
+      fail("Expected the checkpoint to be refused");
+    } catch (IllegalArgumentException e) {
+      assertTrue(e.getMessage(), e.getMessage().contains("checkpoint"));
+    }
+    assertTrue("nothing was asked for", files.describes.isEmpty() && files.downloads.isEmpty());
+
+    // Cancelled as the stream takes its first bytes: the check after that write stops the download.
+    CancellationToken token = new CancellationToken();
+    CallerStream cancelling = new CallerStream() {
+      @Override
+      public void write(byte[] b, int off, int len) throws IOException {
+        super.write(b, off, len);
+        token.cancel();
+      }
+    };
+    try {
+      client.transfers().download("remote/cancelled.bin", cancelling, DownloadOptions.builder().cancellation(token).build());
+      fail("Expected the download to be cancelled");
+    } catch (OperationCancelledException e) {
+      assertEquals(OperationCancelledException.Reason.CANCELLED, e.getReason());
+    }
+    assertEquals("no write after the cancellation", 1, cancelling.writes);
+    assertFalse(cancelling.closed);
+  }
+
+  @Test(timeout = 20000)
+  public void anOpenedDownloadIgnoresItsBoundsAndRefusesAWebApplicationAnswerOrAnExpiredUrl() throws Exception {
+    files.contents = bytes(1000, 75);
+    String fresh = files.root() + "/download/remote.bin?" + FakeFiles.SIGNATURE;
+    // The bounds are not used: the whole file is read, asked for without a range.
+    try (InputStream in = storedFile("remote.bin", fresh).getInputStream(10, 20)) {
+      assertArrayEquals(files.contents, FakeFiles.readAll(in));
+    }
+    assertNull(files.downloads.get(0).header("Range"));
+
+    // An answer from the web application is refused before any of it can be read.
+    files.download = attempt -> FakeFiles.Answer.status(200, "<html>app</html>").header("X-Files-Frontend-App", "1");
+    try {
+      client.transfers().openDownload(storedFile("remote.bin", fresh));
+      fail("Expected the web application's answer to be refused");
+    } catch (ApiErrorException.ApiConnectionException e) {
+      assertTrue(e.getMessage(), e.getMessage().contains("web application"));
+    }
+    files.download = attempt -> null;
+
+    // A URL alone that states it has expired is never sent: there is nothing to renew it with.
+    String expired = fresh + signedQuery(Instant.now().minusSeconds(120), 60);
+    files.downloads.clear();
+    try {
+      client.runtime().openDownload(expired);
+      fail("Expected the expired URL to be refused");
+    } catch (ApiErrorException.ApiConnectionException e) {
+      assertTrue(e.getMessage(), e.getMessage().contains("expired"));
+    }
+    assertTrue("nothing was asked of storage", files.downloads.isEmpty());
+
+    // A File's expired URL is renewed with the File's path, its client and the request options it keeps.
+    HashMap<String, Object> kept = new HashMap<>();
+    kept.put("api_key", "kept-key");
+    File stale = storedFile("remote.bin", expired);
+    stale.setOptions(kept);
+    try (InputStream in = stale.getInputStream()) {
+      assertArrayEquals(files.contents, FakeFiles.readAll(in));
+    }
+    assertEquals("renewed once", 1, files.describes.size());
+    assertEquals("with the key the File keeps", "kept-key", files.describes.get(0).header("X-FilesAPI-Key"));
+    assertEquals(1, files.downloads.size());
+    assertEquals(FakeFiles.SIGNATURE, files.downloads.get(0).rawQuery);
+
+    // The client retries three times, but this opening's max_retries of 0 is its own: storage
+    // answering 503 is asked once, and nothing is renewed.
+    try (FilesClient retrying = FilesClient.builder().apiKey("transfer-key").apiRoot(files.root()).maxRetries(3)
+             .retryDelay(Duration.ofMillis(1)).build()) {
+      HashMap<String, Object> noRetries = new HashMap<>();
+      noRetries.put("max_retries", 0);
+      File unavailable = storedFile("remote.bin", fresh);
+      unavailable.setClient(retrying);
+      files.describes.clear();
+      files.downloads.clear();
+      files.download = attempt -> FakeFiles.Answer.status(503, "");
+      try {
+        retrying.transfers().openDownload(unavailable, DownloadOptions.builder().requestOptions(noRetries).build()).close();
+        fail("Expected the opening to stop without retrying");
+      } catch (RuntimeException e) {
+        // The storage server's answer.
+      }
+      assertEquals("asked once", 1, files.downloads.size());
+      assertTrue("nothing renewed", files.describes.isEmpty());
+
+      // With an explicit max_retries of 1, the URL is answered 503, then, retried, with a redirect to a URL that
+      // has expired, which is refused before anything is asked of it; the renewed URL is answered 503,
+      // and would be answered on another try, but the opening has used its retry: renewing gives it no
+      // more.
+      final String expiredRedirect = files.root() + "/download/stale.bin?" + FakeFiles.SIGNATURE + signedQuery(Instant.now().minusSeconds(120), 60);
+      HashMap<String, Object> oneRetry = new HashMap<>();
+      oneRetry.put("max_retries", 1);
+      File redirected = storedFile("remote.bin", fresh);
+      redirected.setClient(retrying);
+      files.describes.clear();
+      files.downloads.clear();
+      files.downloadQuery = "&renewed=1";
+      files.download = attempt -> attempt == 1 || attempt == 3 ? FakeFiles.Answer.status(503, "")
+          : attempt == 2 ? FakeFiles.Answer.status(302, "").header("Location", expiredRedirect) : null;
+      try {
+        retrying.transfers().openDownload(redirected, DownloadOptions.builder().requestOptions(oneRetry).build()).close();
+        fail("Expected the opening to stop once its retry was used");
+      } catch (RuntimeException e) {
+        // The storage server's answer to the renewed URL.
+      }
+      assertEquals("the File's URL twice, the renewed URL once", 3, files.downloads.size());
+      assertEquals(FakeFiles.SIGNATURE, files.downloads.get(0).rawQuery);
+      assertEquals(FakeFiles.SIGNATURE, files.downloads.get(1).rawQuery);
+      assertEquals(FakeFiles.SIGNATURE + "&renewed=1", files.downloads.get(2).rawQuery);
+      assertTrue("nothing was asked of the expired URL", files.downloads.stream().noneMatch(d -> d.rawPath.equals("/download/stale.bin")));
+      assertEquals("renewed once, after the refusal", 1, files.describes.size());
+    }
+  }
+
+  @Test(timeout = 20000)
+  public void aStreamDownloadWaitsForAndTeachesTheTargetItsScopeShares() throws Exception {
+    // A download to a path holds four parts, all its scope's target allows. A download to a stream in
+    // the same scope binds its version with its first part, asked for alone, outside the target, then
+    // waits for the target before it asks for its next part.
+    byte[] contents = rangedFile(77);
+    CountDownLatch release = new CountDownLatch(1);
+    files.rangeAnswer = (start, attempt) -> start != 0 ? FakeFiles.Answer.holdUntil(release) : null;
+    ExecutorService downloads = Executors.newFixedThreadPool(2);
+    try (TransferScope job = new TransferScope()) {
+      Path destination = folder.getRoot().toPath().resolve("holding.bin");
+      final Future<com.files.net.DownloadResult> holding = downloads.submit(() -> client.transfers().download("remote/holding.bin", destination,
+          inParts().maxConcurrency(4).scope(job).build()));
+      awaitTrue(() -> files.rangeRequests.stream().filter(request -> request.header("If-Match") != null).count() >= 4);
+      CallerStream out = new CallerStream();
+      final Future<com.files.net.DownloadResult> streamed = downloads.submit(() -> client.transfers().download("remote/waiting.bin", out,
+          inParts().maxConcurrency(4).scope(job).build()));
+      awaitTrue(() -> out.size() == 1000);
+      Thread.sleep(300);
+      assertTrue("the stream's next part waits for the target", files.rangeRequests.stream()
+          .noneMatch(request -> request.rawPath.endsWith("waiting.bin") && request.header("If-Match") != null));
+      assertEquals("four parts at once for the two downloads together", 4, files.maxConcurrentBoundRanges());
+      release.countDown();
+      com.files.net.DownloadResult result = streamed.get(10, TimeUnit.SECONDS);
+      holding.get(10, TimeUnit.SECONDS);
+      assertArrayEquals(contents, out.toByteArray());
+      assertArrayEquals(contents, Files.readAllBytes(destination));
+      assertTrue(result.getFinalProgress().getConcurrency().isShared());
+    } finally {
+      release.countDown();
+      downloads.shutdownNow();
+    }
+
+    // A stream's part answered 503, with a Retry-After of 0, lowers the target its scope shares; the
+    // scope's next download starts from where the stream left it.
+    AtomicBoolean throttled = new AtomicBoolean();
+    files.rangeAnswer = (start, attempt) -> start == 9000 && throttled.compareAndSet(false, true)
+        ? FakeFiles.Answer.status(503, "").header("Retry-After", "0") : null;
+    try (TransferScope job = new TransferScope()) {
+      CallerStream out = new CallerStream();
+      com.files.net.DownloadResult result = client.transfers().download("remote/throttled.bin", out,
+          inParts().maxConcurrency(20).scope(job).build());
+      assertArrayEquals(contents, out.toByteArray());
+      TransferConcurrency learned = result.getFinalProgress().getConcurrency();
+      assertTrue(learned.isShared());
+      assertEquals(1, learned.getThrottles());
+      assertTrue("lowered after throttling: " + learned.getTarget(), learned.getTarget() < 20);
+      assertEquals(1, result.getFinalProgress().getRetries());
+
+      files.contents = bytes(100, 78);
+      files.describedSize = 100L;
+      com.files.net.DownloadResult next = client.transfers().download("remote/next.bin", folder.getRoot().toPath().resolve("next.bin"),
+          inParts().maxConcurrency(20).scope(job).build());
+      assertEquals("the scope's next download starts where the stream left the target", learned.getTarget(),
+          next.getFinalProgress().getConcurrency().getTarget());
+    }
+  }
+
+  // A File as Files.com describes it, with this test's client.
+  private File storedFile(String path, String downloadUri) {
+    HashMap<String, Object> attributes = new HashMap<>();
+    attributes.put("path", path);
+    attributes.put("download_uri", downloadUri);
+    File described = new File(attributes);
+    described.setClient(client);
+    return described;
+  }
+
+  // A stream of the caller's: it keeps what it is given and whether it was flushed or closed, and,
+  // given more than acceptBytes, takes the first of them and then fails, counting any later write.
+  private static class CallerStream extends OutputStream {
+    private final ByteArrayOutputStream taken = new ByteArrayOutputStream();
+    private final long acceptBytes;
+    volatile boolean closed;
+    volatile int flushes;
+    volatile int writes;
+    volatile int lateWrites;
+    volatile IOException failure;
+
+    CallerStream() {
+      this(Long.MAX_VALUE);
+    }
+
+    CallerStream(long acceptBytes) {
+      this.acceptBytes = acceptBytes;
+    }
+
+    @Override
+    public void write(int b) throws IOException {
+      write(new byte[]{(byte) b}, 0, 1);
+    }
+
+    @Override
+    public void write(byte[] b, int off, int len) throws IOException {
+      writes++;
+      if (failure != null) {
+        lateWrites++;
+        throw failure;
+      }
+      long room = acceptBytes - taken.size();
+      if (len > room) {
+        taken.write(b, off, (int) room);
+        failure = new IOException("The stream is full");
+        throw failure;
+      }
+      taken.write(b, off, len);
+    }
+
+    @Override
+    public void flush() {
+      flushes++;
+    }
+
+    @Override
+    public void close() {
+      closed = true;
+    }
+
+    byte[] toByteArray() {
+      return taken.toByteArray();
+    }
+
+    int size() {
+      return taken.size();
+    }
   }
 
   @Test(timeout = 20000)
@@ -1722,6 +2896,17 @@ public class FilesTransferTest {
         .build();
   }
 
+  // As above, over a transport given to the client, which the client leaves open.
+  private FilesClient leaseIntolerantClient(HttpTransport transport) {
+    return FilesClient.builder()
+        .apiKey("transfer-key")
+        .apiRoot(files.root())
+        .maxRetries(0)
+        .connectionAcquisitionTimeout(Duration.ofMillis(100))
+        .transport(transport)
+        .build();
+  }
+
   @Test(timeout = 30000)
   public void aCallersLowerLimitForTheStorageHostsRouteHoldsTheDownloadsToIt() throws Exception {
     byte[] contents = rangedFile(64);
@@ -1731,8 +2916,16 @@ public class FilesTransferTest {
     pool.setMaxPerRoute(new HttpRoute(new HttpHost("storage-a.test", files.port(), "http")), 1);
     Path destination = folder.getRoot().toPath().resolve("narrow.bin");
     CountDownLatch release = new CountDownLatch(1);
-    ExecutorService downloads = Executors.newFixedThreadPool(2);
-    try (FilesClient narrow = leaseIntolerantClient(pool)) {
+    ExecutorService downloads = Executors.newFixedThreadPool(3);
+    // One Apache client of the caller's, over the caller's pool, used by three transports, each
+    // borrowing it for a client of its own.
+    GuardedApacheClient http = HttpTransport.builder().connectionManager(pool).buildClient();
+    HttpTransport narrowTransport = HttpTransport.borrowed(http);
+    HttpTransport otherTransport = HttpTransport.borrowed(http);
+    HttpTransport closingTransport = HttpTransport.borrowed(http);
+    try (FilesClient narrow = leaseIntolerantClient(narrowTransport);
+         FilesClient other = leaseIntolerantClient(otherTransport);
+         FilesClient closing = leaseIntolerantClient(closingTransport)) {
       com.files.net.DownloadResult result = narrow.transfers().download("remote/narrow.bin", destination,
           inParts().concurrencyMode(ConcurrencyMode.STATIC).maxConcurrency(8).build());
 
@@ -1741,8 +2934,9 @@ public class FilesTransferTest {
       assertEquals("one range at a time, as the pool's limit for the route", 1, files.maxConcurrentRanges());
 
       // One download's parts hold the route's one connection. Another download to the same storage
-      // host then asks for its first range, which binds its version: it waits its turn at the
-      // transport, rather than for a connection from the pool, which it would give up after 100 ms.
+      // host, through the other transport, then asks for its first range, which binds its version: it
+      // waits its turn at the Apache client both transports use, rather than for a connection from the
+      // pool, which it would give up after 100 ms.
       files.rangeAnswer = (start, attempt) -> start == 0 ? null : FakeFiles.Answer.holdUntil(release);
       int earlier = files.rangeRequests.size();
       Future<com.files.net.DownloadResult> holding = downloads.submit(() -> narrow.transfers().download("remote/holding.bin",
@@ -1751,15 +2945,37 @@ public class FilesTransferTest {
           .anyMatch(request -> request.header("If-Match") != null));
       assertFalse("its part is held", holding.isDone());
       int ranges = files.rangeRequests.size();
-      Future<com.files.net.DownloadResult> waiting = downloads.submit(() -> narrow.transfers().download("remote/waiting.bin",
+      Future<com.files.net.DownloadResult> waiting = downloads.submit(() -> other.transfers().download("remote/waiting.bin",
           folder.getRoot().toPath().resolve("waiting.bin"), inParts().concurrencyMode(ConcurrencyMode.STATIC).maxConcurrency(8).build()));
+      // A third client, over a third transport borrowing the same Apache client, asks for the route too.
+      Future<com.files.net.DownloadResult> closed = downloads.submit(() -> closing.transfers().download("remote/closing.bin",
+          folder.getRoot().toPath().resolve("closing.bin"), inParts().concurrencyMode(ConcurrencyMode.STATIC).maxConcurrency(8).build()));
       awaitTrue(() -> files.describes.stream().anyMatch(request -> request.rawPath.contains("waiting.bin")));
+      awaitTrue(() -> files.describes.stream().anyMatch(request -> request.rawPath.contains("closing.bin")));
       try {
         waiting.get(1, TimeUnit.SECONDS);
         fail("Expected the second download to wait while the route is full");
       } catch (TimeoutException e) {
         // Still waiting, ten times as long as its pool would let it wait for a connection.
       }
+      assertFalse("the third download waits too", closed.isDone());
+      assertEquals("nothing more reached storage meanwhile", ranges, files.rangeRequests.size());
+
+      // Closing the third transport ends its download's wait at once, while the route is still held
+      // and the second download still waits.
+      closingTransport.close();
+      try {
+        closed.get(5, TimeUnit.SECONDS);
+        fail("Expected the closed transport's waiting download to end");
+      } catch (ExecutionException e) {
+        boolean refused = false;
+        for (Throwable cause = e; cause != null; cause = cause.getCause()) {
+          refused |= cause instanceof IllegalStateException && "The HTTP transport has been closed".equals(cause.getMessage());
+        }
+        assertTrue(String.valueOf(e.getCause()), refused);
+      }
+      assertFalse("the route is still held", holding.isDone());
+      assertFalse("the second download still waits", waiting.isDone());
       assertEquals("nothing more reached storage meanwhile", ranges, files.rangeRequests.size());
 
       release.countDown();
@@ -1770,6 +2986,10 @@ public class FilesTransferTest {
     } finally {
       release.countDown();
       downloads.shutdownNow();
+      narrowTransport.close();
+      otherTransport.close();
+      closingTransport.close();
+      http.close();
       pool.shutdown();
     }
   }
@@ -2037,6 +3257,54 @@ public class FilesTransferTest {
     }
     assertEquals("old", new String(Files.readAllBytes(destination), StandardCharsets.UTF_8));
     assertEquals(Arrays.asList("kept.bin"), directoryListing());
+
+    // Storage answers with fewer bytes than Files.com described, and that answer is cut short: a
+    // short answer, which is tried again, not yet a size mismatch. The retry gives the whole file.
+    byte[] whole = bytes(1000, 29);
+    files.describedSize = 1000L;
+    files.contents = Arrays.copyOf(whole, 600);
+    files.downloads.clear();
+    files.download = attempt -> {
+      if (attempt == 1) {
+        FakeFiles.Answer cut = new FakeFiles.Answer();
+        cut.truncateTo = 300;
+        return cut;
+      }
+      files.contents = whole;
+      return null;
+    };
+    client.transfers().download("remote/kept.bin", destination);
+    assertEquals("asked for again", 2, files.downloads.size());
+    assertArrayEquals(whole, Files.readAllBytes(destination));
+    List<FakeFiles.Received> wholeRequests = new ArrayList<>(files.downloads);
+    assertNull("the retry asks for the whole file again, from its first byte", wholeRequests.get(1).header("Range"));
+    assertEquals("nothing of the download is left", Arrays.asList("kept.bin"), directoryListing());
+
+    // A later range of a download bound to a version is answered with its length, the version's entity
+    // tag and the file's total, but with another interval: the download fails without writing those
+    // bytes, and the destination is kept. One range at a time, so that the ranges asked for are exact.
+    rangedFile(30);
+    files.download = attempt -> null;
+    files.downloads.clear();
+    files.rangeRequests.clear();
+    char[] other = new char[1000];
+    Arrays.fill(other, 'x');
+    files.rangeAnswer = (start, attempt) -> start == 3000
+        ? FakeFiles.Answer.status(206, new String(other)).header("Content-Range", "bytes 4000-4999/10000").header("ETag", "\"v1\"")
+        : null;
+    try {
+      client.transfers().download("remote/kept.bin", destination, inParts().concurrencyMode(ConcurrencyMode.STATIC).maxConcurrency(1).build());
+      fail("Expected the bytes of another interval to fail the download");
+    } catch (ApiErrorException.ApiConnectionException e) {
+      assertTrue(e.getMessage(), e.getMessage().contains("answered bytes 3000-3999 of the download of")
+          && e.getMessage().contains("with other bytes than those asked for"));
+    }
+    List<FakeFiles.Received> asked = new ArrayList<>(files.rangeRequests);
+    assertEquals(Arrays.asList(0L, 1000L, 2000L, 3000L), asked.stream().map(r -> r.part).collect(Collectors.toList()));
+    assertEquals("the range asked for is of the version", "\"v1\"", asked.get(3).header("If-Match"));
+    assertTrue("not fetched in one request instead", files.downloads.isEmpty());
+    assertArrayEquals("the destination is kept", whole, Files.readAllBytes(destination));
+    assertEquals("nothing of the download is left", Arrays.asList("kept.bin"), directoryListing());
   }
 
   @Test(timeout = 20000)

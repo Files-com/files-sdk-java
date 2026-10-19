@@ -36,6 +36,11 @@ public class Partner implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -59,14 +64,29 @@ public class Partner implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code Partner} with no attributes set.
+   */
   public Partner() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code Partner} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public Partner(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code Partner} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public Partner(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -84,10 +104,20 @@ public class Partner implements ModelInterface {
   @JsonProperty("allow_bypassing_2fa_policies")
   public Boolean allowBypassing2faPolicies;
 
+  /**
+   * Gets {@link #allowBypassing2faPolicies}.
+   *
+   * @return the value of {@link #allowBypassing2faPolicies}
+   */
   public Boolean getAllowBypassing2faPolicies() {
     return allowBypassing2faPolicies;
   }
 
+  /**
+   * Sets {@link #allowBypassing2faPolicies}.
+   *
+   * @param allowBypassing2faPolicies the new value
+   */
   public void setAllowBypassing2faPolicies(Boolean allowBypassing2faPolicies) {
     this.allowBypassing2faPolicies = allowBypassing2faPolicies;
   }
@@ -98,10 +128,20 @@ public class Partner implements ModelInterface {
   @JsonProperty("allowed_ips")
   public String allowedIps;
 
+  /**
+   * Gets {@link #allowedIps}.
+   *
+   * @return the value of {@link #allowedIps}
+   */
   public String getAllowedIps() {
     return allowedIps;
   }
 
+  /**
+   * Sets {@link #allowedIps}.
+   *
+   * @param allowedIps the new value
+   */
   public void setAllowedIps(String allowedIps) {
     this.allowedIps = allowedIps;
   }
@@ -112,10 +152,20 @@ public class Partner implements ModelInterface {
   @JsonProperty("allow_credential_changes")
   public Boolean allowCredentialChanges;
 
+  /**
+   * Gets {@link #allowCredentialChanges}.
+   *
+   * @return the value of {@link #allowCredentialChanges}
+   */
   public Boolean getAllowCredentialChanges() {
     return allowCredentialChanges;
   }
 
+  /**
+   * Sets {@link #allowCredentialChanges}.
+   *
+   * @param allowCredentialChanges the new value
+   */
   public void setAllowCredentialChanges(Boolean allowCredentialChanges) {
     this.allowCredentialChanges = allowCredentialChanges;
   }
@@ -126,10 +176,20 @@ public class Partner implements ModelInterface {
   @JsonProperty("allow_providing_gpg_keys")
   public Boolean allowProvidingGpgKeys;
 
+  /**
+   * Gets {@link #allowProvidingGpgKeys}.
+   *
+   * @return the value of {@link #allowProvidingGpgKeys}
+   */
   public Boolean getAllowProvidingGpgKeys() {
     return allowProvidingGpgKeys;
   }
 
+  /**
+   * Sets {@link #allowProvidingGpgKeys}.
+   *
+   * @param allowProvidingGpgKeys the new value
+   */
   public void setAllowProvidingGpgKeys(Boolean allowProvidingGpgKeys) {
     this.allowProvidingGpgKeys = allowProvidingGpgKeys;
   }
@@ -140,10 +200,20 @@ public class Partner implements ModelInterface {
   @JsonProperty("allow_user_creation")
   public Boolean allowUserCreation;
 
+  /**
+   * Gets {@link #allowUserCreation}.
+   *
+   * @return the value of {@link #allowUserCreation}
+   */
   public Boolean getAllowUserCreation() {
     return allowUserCreation;
   }
 
+  /**
+   * Sets {@link #allowUserCreation}.
+   *
+   * @param allowUserCreation the new value
+   */
   public void setAllowUserCreation(Boolean allowUserCreation) {
     this.allowUserCreation = allowUserCreation;
   }
@@ -154,10 +224,20 @@ public class Partner implements ModelInterface {
   @JsonProperty("cc_emails_to_responsible_party")
   public Boolean ccEmailsToResponsibleParty;
 
+  /**
+   * Gets {@link #ccEmailsToResponsibleParty}.
+   *
+   * @return the value of {@link #ccEmailsToResponsibleParty}
+   */
   public Boolean getCcEmailsToResponsibleParty() {
     return ccEmailsToResponsibleParty;
   }
 
+  /**
+   * Sets {@link #ccEmailsToResponsibleParty}.
+   *
+   * @param ccEmailsToResponsibleParty the new value
+   */
   public void setCcEmailsToResponsibleParty(Boolean ccEmailsToResponsibleParty) {
     this.ccEmailsToResponsibleParty = ccEmailsToResponsibleParty;
   }
@@ -168,10 +248,20 @@ public class Partner implements ModelInterface {
   @JsonProperty("connections")
   public PartnerConnection[] connections;
 
+  /**
+   * Gets {@link #connections}.
+   *
+   * @return the value of {@link #connections}
+   */
   public PartnerConnection[] getConnections() {
     return connections;
   }
 
+  /**
+   * Sets {@link #connections}.
+   *
+   * @param connections the new value
+   */
   public void setConnections(PartnerConnection[] connections) {
     this.connections = connections;
   }
@@ -182,10 +272,20 @@ public class Partner implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -196,10 +296,20 @@ public class Partner implements ModelInterface {
   @JsonProperty("ai_assistant_personality_id")
   public Long aiAssistantPersonalityId;
 
+  /**
+   * Gets {@link #aiAssistantPersonalityId}.
+   *
+   * @return the value of {@link #aiAssistantPersonalityId}
+   */
   public Long getAiAssistantPersonalityId() {
     return aiAssistantPersonalityId;
   }
 
+  /**
+   * Sets {@link #aiAssistantPersonalityId}.
+   *
+   * @param aiAssistantPersonalityId the new value
+   */
   public void setAiAssistantPersonalityId(Long aiAssistantPersonalityId) {
     this.aiAssistantPersonalityId = aiAssistantPersonalityId;
   }
@@ -210,10 +320,20 @@ public class Partner implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
 
+  /**
+   * Sets {@link #workspaceId}.
+   *
+   * @param workspaceId the new value
+   */
   public void setWorkspaceId(Long workspaceId) {
     this.workspaceId = workspaceId;
   }
@@ -224,10 +344,20 @@ public class Partner implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -238,10 +368,20 @@ public class Partner implements ModelInterface {
   @JsonProperty("notes")
   public String notes;
 
+  /**
+   * Gets {@link #notes}.
+   *
+   * @return the value of {@link #notes}
+   */
   public String getNotes() {
     return notes;
   }
 
+  /**
+   * Sets {@link #notes}.
+   *
+   * @param notes the new value
+   */
   public void setNotes(String notes) {
     this.notes = notes;
   }
@@ -252,10 +392,20 @@ public class Partner implements ModelInterface {
   @JsonProperty("partner_admin_ids")
   public Long[] partnerAdminIds;
 
+  /**
+   * Gets {@link #partnerAdminIds}.
+   *
+   * @return the value of {@link #partnerAdminIds}
+   */
   public Long[] getPartnerAdminIds() {
     return partnerAdminIds;
   }
 
+  /**
+   * Sets {@link #partnerAdminIds}.
+   *
+   * @param partnerAdminIds the new value
+   */
   public void setPartnerAdminIds(Long[] partnerAdminIds) {
     this.partnerAdminIds = partnerAdminIds;
   }
@@ -266,10 +416,20 @@ public class Partner implements ModelInterface {
   @JsonProperty("partner_channel_template_id")
   public Long partnerChannelTemplateId;
 
+  /**
+   * Gets {@link #partnerChannelTemplateId}.
+   *
+   * @return the value of {@link #partnerChannelTemplateId}
+   */
   public Long getPartnerChannelTemplateId() {
     return partnerChannelTemplateId;
   }
 
+  /**
+   * Sets {@link #partnerChannelTemplateId}.
+   *
+   * @param partnerChannelTemplateId the new value
+   */
   public void setPartnerChannelTemplateId(Long partnerChannelTemplateId) {
     this.partnerChannelTemplateId = partnerChannelTemplateId;
   }
@@ -280,10 +440,20 @@ public class Partner implements ModelInterface {
   @JsonProperty("partnership_role")
   public String partnershipRole;
 
+  /**
+   * Gets {@link #partnershipRole}.
+   *
+   * @return the value of {@link #partnershipRole}
+   */
   public String getPartnershipRole() {
     return partnershipRole;
   }
 
+  /**
+   * Sets {@link #partnershipRole}.
+   *
+   * @param partnershipRole the new value
+   */
   public void setPartnershipRole(String partnershipRole) {
     this.partnershipRole = partnershipRole;
   }
@@ -294,10 +464,20 @@ public class Partner implements ModelInterface {
   @JsonProperty("responsible_group_id")
   public Long responsibleGroupId;
 
+  /**
+   * Gets {@link #responsibleGroupId}.
+   *
+   * @return the value of {@link #responsibleGroupId}
+   */
   public Long getResponsibleGroupId() {
     return responsibleGroupId;
   }
 
+  /**
+   * Sets {@link #responsibleGroupId}.
+   *
+   * @param responsibleGroupId the new value
+   */
   public void setResponsibleGroupId(Long responsibleGroupId) {
     this.responsibleGroupId = responsibleGroupId;
   }
@@ -308,10 +488,20 @@ public class Partner implements ModelInterface {
   @JsonProperty("responsible_user_id")
   public Long responsibleUserId;
 
+  /**
+   * Gets {@link #responsibleUserId}.
+   *
+   * @return the value of {@link #responsibleUserId}
+   */
   public Long getResponsibleUserId() {
     return responsibleUserId;
   }
 
+  /**
+   * Sets {@link #responsibleUserId}.
+   *
+   * @param responsibleUserId the new value
+   */
   public void setResponsibleUserId(Long responsibleUserId) {
     this.responsibleUserId = responsibleUserId;
   }
@@ -322,10 +512,20 @@ public class Partner implements ModelInterface {
   @JsonProperty("root_folder")
   public String rootFolder;
 
+  /**
+   * Gets {@link #rootFolder}.
+   *
+   * @return the value of {@link #rootFolder}
+   */
   public String getRootFolder() {
     return rootFolder;
   }
 
+  /**
+   * Sets {@link #rootFolder}.
+   *
+   * @param rootFolder the new value
+   */
   public void setRootFolder(String rootFolder) {
     this.rootFolder = rootFolder;
   }
@@ -336,10 +536,20 @@ public class Partner implements ModelInterface {
   @JsonProperty("show_partner_channel_home_page")
   public Boolean showPartnerChannelHomePage;
 
+  /**
+   * Gets {@link #showPartnerChannelHomePage}.
+   *
+   * @return the value of {@link #showPartnerChannelHomePage}
+   */
   public Boolean getShowPartnerChannelHomePage() {
     return showPartnerChannelHomePage;
   }
 
+  /**
+   * Sets {@link #showPartnerChannelHomePage}.
+   *
+   * @param showPartnerChannelHomePage the new value
+   */
   public void setShowPartnerChannelHomePage(Boolean showPartnerChannelHomePage) {
     this.showPartnerChannelHomePage = showPartnerChannelHomePage;
   }
@@ -350,10 +560,20 @@ public class Partner implements ModelInterface {
   @JsonProperty("tags")
   public String tags;
 
+  /**
+   * Gets {@link #tags}.
+   *
+   * @return the value of {@link #tags}
+   */
   public String getTags() {
     return tags;
   }
 
+  /**
+   * Sets {@link #tags}.
+   *
+   * @param tags the new value
+   */
   public void setTags(String tags) {
     this.tags = tags;
   }
@@ -364,33 +584,49 @@ public class Partner implements ModelInterface {
   @JsonProperty("user_ids")
   public Long[] userIds;
 
+  /**
+   * Gets {@link #userIds}.
+   *
+   * @return the value of {@link #userIds}
+   */
   public Long[] getUserIds() {
     return userIds;
   }
 
+  /**
+   * Sets {@link #userIds}.
+   *
+   * @param userIds the new value
+   */
   public void setUserIds(Long[] userIds) {
     this.userIds = userIds;
   }
 
   /**
    * Updates this Partner. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
-   *   allowed_ips - string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
-   *   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
-   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
-   *   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
-   *   allow_user_creation - boolean - Allow Partner Admins to create users.
-   *   cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
-   *   notes - string - Notes about this Partner.
-   *   partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
-   *   responsible_group_id - int64 - ID of the Group responsible for this Partner.
-   *   responsible_user_id - int64 - ID of the User responsible for this Partner.
-   *   show_partner_channel_home_page - boolean - Show Partner users a simplified home page built from this Partner's Channels.
-   *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
-   *   name - string - The name of the Partner.
-   *   partnership_role - string - This site's role for this Partner in Connected Sites relationships. `host` is a Partner this site configured. `guest` is a Partner created by approving another site's connection request; it has no root folder and cannot hold users, permissions, or Partner Channels, or host a connection. `host_and_guest` is a configured Partner that is also the guest side of a connection. Promote a `guest` Partner by setting this to `host_and_guest` together with a `root_folder`.
-   *   root_folder - string - The root folder path for this Partner.
+   * <p>Update Partner
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code ai_assistant_personality_id} (Long): AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.</li>
+   * <li>{@code allowed_ips} (String): A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.</li>
+   * <li>{@code allow_bypassing_2fa_policies} (Boolean): Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.</li>
+   * <li>{@code allow_credential_changes} (Boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.</li>
+   * <li>{@code allow_providing_gpg_keys} (Boolean): Allow Partner Admins to provide GPG keys.</li>
+   * <li>{@code allow_user_creation} (Boolean): Allow Partner Admins to create users.</li>
+   * <li>{@code cc_emails_to_responsible_party} (Boolean): When `true`, emails sent to Partner users are copied to the responsible User or Group.</li>
+   * <li>{@code notes} (String): Notes about this Partner.</li>
+   * <li>{@code partner_channel_template_id} (Long): ID of the Partner Channel Template assigned to this Partner.</li>
+   * <li>{@code responsible_group_id} (Long): ID of the Group responsible for this Partner.</li>
+   * <li>{@code responsible_user_id} (Long): ID of the User responsible for this Partner.</li>
+   * <li>{@code show_partner_channel_home_page} (Boolean): Show Partner users a simplified home page built from this Partner's Channels.</li>
+   * <li>{@code tags} (String): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.</li>
+   * <li>{@code name} (String): The name of the Partner.</li>
+   * <li>{@code partnership_role} (String): This site's role for this Partner in Connected Sites relationships. `host` is a Partner this site configured. `guest` is a Partner created by approving another site's connection request; it has no root folder and cannot hold users, permissions, or Partner Channels, or host a connection. `host_and_guest` is a configured Partner that is also the guest side of a connection. Promote a `guest` Partner by setting this to `host_and_guest` together with a `root_folder`.</li>
+   * <li>{@code root_folder} (String): The root folder path for this Partner.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code Partner}
    */
   public Partner update(HashMap<String, Object> parameters) throws IOException {
     Partner updated = filesClient().partners().update(this.id, parameters, this.options);
@@ -399,11 +635,19 @@ public class Partner implements ModelInterface {
   }
 
   /**
+   * Delete Partner
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().partners().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Partner
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -456,152 +700,278 @@ public class Partner implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
+   * List Partners
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<Partner> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Partners
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Partner> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Partners
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id` and `name`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Partner} records, in a {@code ListIterator}
+   */
   public static ListIterator<Partner> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().partners().list(parameters, options);
   }
 
+  /**
+   * List Partners
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Partner> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Partners
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Partner> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Partner ID.
+   * Show Partner
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static Partner find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Partner
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Partner find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Partner
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Partner find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Partner
+   *
+   * @param id Partner ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Partner}
+   */
   public static Partner find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().partners().find(id, parameters, options);
   }
 
+  /**
+   * Show Partner
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Partner get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Partner
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Partner get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
-   *   allowed_ips - string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
-   *   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
-   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
-   *   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
-   *   allow_user_creation - boolean - Allow Partner Admins to create users.
-   *   cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
-   *   notes - string - Notes about this Partner.
-   *   partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
-   *   responsible_group_id - int64 - ID of the Group responsible for this Partner.
-   *   responsible_user_id - int64 - ID of the User responsible for this Partner.
-   *   show_partner_channel_home_page - boolean - Show Partner users a simplified home page built from this Partner's Channels.
-   *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
-   *   name (required) - string - The name of the Partner.
-   *   root_folder (required) - string - The root folder path for this Partner.
-   *   workspace_id - int64 - ID of the Workspace associated with this Partner.
+   * Create Partner
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static Partner create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Partner
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static Partner create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Partner
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code ai_assistant_personality_id} (Long): AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.</li>
+   * <li>{@code allowed_ips} (String): A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.</li>
+   * <li>{@code allow_bypassing_2fa_policies} (Boolean): Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.</li>
+   * <li>{@code allow_credential_changes} (Boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.</li>
+   * <li>{@code allow_providing_gpg_keys} (Boolean): Allow Partner Admins to provide GPG keys.</li>
+   * <li>{@code allow_user_creation} (Boolean): Allow Partner Admins to create users.</li>
+   * <li>{@code cc_emails_to_responsible_party} (Boolean): When `true`, emails sent to Partner users are copied to the responsible User or Group.</li>
+   * <li>{@code notes} (String): Notes about this Partner.</li>
+   * <li>{@code partner_channel_template_id} (Long): ID of the Partner Channel Template assigned to this Partner.</li>
+   * <li>{@code responsible_group_id} (Long): ID of the Group responsible for this Partner.</li>
+   * <li>{@code responsible_user_id} (Long): ID of the User responsible for this Partner.</li>
+   * <li>{@code show_partner_channel_home_page} (Boolean): Show Partner users a simplified home page built from this Partner's Channels.</li>
+   * <li>{@code tags} (String): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.</li>
+   * <li>{@code name} (String): Required. The name of the Partner.</li>
+   * <li>{@code root_folder} (String): Required. The root folder path for this Partner.</li>
+   * <li>{@code workspace_id} (Long): ID of the Workspace associated with this Partner.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Partner}
+   */
   public static Partner create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().partners().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
-   *   allowed_ips - string - A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.
-   *   allow_bypassing_2fa_policies - boolean - Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.
-   *   allow_credential_changes - boolean - Allow Partner Admins to change or reset credentials for users belonging to this Partner.
-   *   allow_providing_gpg_keys - boolean - Allow Partner Admins to provide GPG keys.
-   *   allow_user_creation - boolean - Allow Partner Admins to create users.
-   *   cc_emails_to_responsible_party - boolean - When `true`, emails sent to Partner users are copied to the responsible User or Group.
-   *   notes - string - Notes about this Partner.
-   *   partner_channel_template_id - int64 - ID of the Partner Channel Template assigned to this Partner.
-   *   responsible_group_id - int64 - ID of the Group responsible for this Partner.
-   *   responsible_user_id - int64 - ID of the User responsible for this Partner.
-   *   show_partner_channel_home_page - boolean - Show Partner users a simplified home page built from this Partner's Channels.
-   *   tags - string - Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
-   *   name - string - The name of the Partner.
-   *   partnership_role - string - This site's role for this Partner in Connected Sites relationships. `host` is a Partner this site configured. `guest` is a Partner created by approving another site's connection request; it has no root folder and cannot hold users, permissions, or Partner Channels, or host a connection. `host_and_guest` is a configured Partner that is also the guest side of a connection. Promote a `guest` Partner by setting this to `host_and_guest` together with a `root_folder`.
-   *   root_folder - string - The root folder path for this Partner.
+   * Update Partner
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static Partner update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Partner
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static Partner update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Partner
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static Partner update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Partner
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code ai_assistant_personality_id} (Long): AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.</li>
+   * <li>{@code allowed_ips} (String): A list of allowed IPs for this Partner. Newline delimited. Partner User IP access is allowed when the IP matches the Partner, User, or Site allowed IP lists.</li>
+   * <li>{@code allow_bypassing_2fa_policies} (Boolean): Allow Partner Admins to change Two-Factor Authentication requirements for Partner Users.</li>
+   * <li>{@code allow_credential_changes} (Boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.</li>
+   * <li>{@code allow_providing_gpg_keys} (Boolean): Allow Partner Admins to provide GPG keys.</li>
+   * <li>{@code allow_user_creation} (Boolean): Allow Partner Admins to create users.</li>
+   * <li>{@code cc_emails_to_responsible_party} (Boolean): When `true`, emails sent to Partner users are copied to the responsible User or Group.</li>
+   * <li>{@code notes} (String): Notes about this Partner.</li>
+   * <li>{@code partner_channel_template_id} (Long): ID of the Partner Channel Template assigned to this Partner.</li>
+   * <li>{@code responsible_group_id} (Long): ID of the Group responsible for this Partner.</li>
+   * <li>{@code responsible_user_id} (Long): ID of the User responsible for this Partner.</li>
+   * <li>{@code show_partner_channel_home_page} (Boolean): Show Partner users a simplified home page built from this Partner's Channels.</li>
+   * <li>{@code tags} (String): Comma-separated list of Tags for this Partner. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.</li>
+   * <li>{@code name} (String): The name of the Partner.</li>
+   * <li>{@code partnership_role} (String): This site's role for this Partner in Connected Sites relationships. `host` is a Partner this site configured. `guest` is a Partner created by approving another site's connection request; it has no root folder and cannot hold users, permissions, or Partner Channels, or host a connection. `host_and_guest` is a configured Partner that is also the guest side of a connection. Promote a `guest` Partner by setting this to `host_and_guest` together with a `root_folder`.</li>
+   * <li>{@code root_folder} (String): The root folder path for this Partner.</li>
+   * </ul>
+   *
+   * @param id Partner ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Partner}
+   */
   public static Partner update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().partners().update(id, parameters, options);
   }
 
 
   /**
+   * Delete Partner
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Partner
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Partner
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Partner
+   *
+   * @param id Partner ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().partners().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Partner
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Partner
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

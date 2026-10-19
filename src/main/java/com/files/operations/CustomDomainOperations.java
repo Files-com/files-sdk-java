@@ -25,20 +25,37 @@ public final class CustomDomainOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `id` or `available_to_all_workspaces`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.
+   * List Custom Domains
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<CustomDomain> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Custom Domains
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<CustomDomain> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Custom Domains
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `id` or `available_to_all_workspaces`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code CustomDomain} records, in a {@code ListIterator}
+   */
   public ListIterator<CustomDomain> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -64,30 +81,59 @@ public final class CustomDomainOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Custom Domains
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<CustomDomain> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Custom Domains
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<CustomDomain> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Custom Domain ID.
+   * Show Custom Domain
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public CustomDomain find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Custom Domain
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public CustomDomain find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Custom Domain
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public CustomDomain find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Custom Domain
+   *
+   * @param id Custom Domain ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code CustomDomain}
+   */
   public CustomDomain find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -109,31 +155,63 @@ public final class CustomDomainOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Custom Domain
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public CustomDomain get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Custom Domain
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public CustomDomain get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Custom Domain ID.
-   *   count (required) - int64 - Number of dedicated IP addresses to allocate.
+   * Allocate dedicated IP addresses to this Custom Domain
+   *
+   * @see #createAllocateIp(Long, HashMap, HashMap)
    */
   public CustomDomain createAllocateIp() throws RuntimeException {
     return createAllocateIp(null, null, null);
   }
 
+  /**
+   * Allocate dedicated IP addresses to this Custom Domain
+   *
+   * @see #createAllocateIp(Long, HashMap, HashMap)
+   */
   public CustomDomain createAllocateIp(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return createAllocateIp(id, parameters, null);
   }
 
+  /**
+   * Allocate dedicated IP addresses to this Custom Domain
+   *
+   * @see #createAllocateIp(Long, HashMap, HashMap)
+   */
   public CustomDomain createAllocateIp(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return createAllocateIp(null, parameters, options);
   }
 
+  /**
+   * Allocate dedicated IP addresses to this Custom Domain
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code count} (Long): Required. Number of dedicated IP addresses to allocate.</li>
+   * </ul>
+   *
+   * @param id Custom Domain ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code CustomDomain}
+   */
   public CustomDomain createAllocateIp(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -164,22 +242,39 @@ public final class CustomDomainOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   available_to_all_workspaces - boolean - Allow all workspaces to use this default-workspace Custom Domain.
-   *   workspace_id - int64 - Workspace ID (0 for the default workspace).
-   *   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
-   *   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
-   *   ssl_certificate_id - int64 - Current SSL certificate ID.
-   *   domain (required) - string - Customer-owned domain name.
+   * Create Custom Domain
+   *
+   * @see #create(HashMap, HashMap)
    */
   public CustomDomain create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Custom Domain
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public CustomDomain create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Custom Domain
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code available_to_all_workspaces} (Boolean): Allow all workspaces to use this default-workspace Custom Domain.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID (0 for the default workspace).</li>
+   * <li>{@code destination} (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.</li>
+   * <li>{@code folder_behavior_id} (Long): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.</li>
+   * <li>{@code ssl_certificate_id} (Long): Current SSL certificate ID.</li>
+   * <li>{@code domain} (String): Required. Customer-owned domain name.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code CustomDomain}
+   */
   public CustomDomain create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -218,26 +313,49 @@ public final class CustomDomainOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   available_to_all_workspaces - boolean - Allow all workspaces to use this default-workspace Custom Domain.
-   *   workspace_id - int64 - Workspace ID (0 for the default workspace).
-   *   destination - string - Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
-   *   folder_behavior_id - int64 - Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
-   *   ssl_certificate_id - int64 - Current SSL certificate ID.
-   *   domain - string - Customer-owned domain name.
+   * Update Custom Domain
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public CustomDomain update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Custom Domain
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public CustomDomain update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Custom Domain
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public CustomDomain update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Custom Domain
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code available_to_all_workspaces} (Boolean): Allow all workspaces to use this default-workspace Custom Domain.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID (0 for the default workspace).</li>
+   * <li>{@code destination} (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.</li>
+   * <li>{@code folder_behavior_id} (Long): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.</li>
+   * <li>{@code ssl_certificate_id} (Long): Current SSL certificate ID.</li>
+   * <li>{@code domain} (String): Customer-owned domain name.</li>
+   * </ul>
+   *
+   * @param id Custom Domain ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code CustomDomain}
+   */
   public CustomDomain update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -284,19 +402,39 @@ public final class CustomDomainOperations extends ResourceOperations {
   }
 
   /**
+   * Delete Custom Domain
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Custom Domain
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Custom Domain
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Custom Domain
+   *
+   * @param id Custom Domain ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -317,10 +455,20 @@ public final class CustomDomainOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Custom Domain
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Custom Domain
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

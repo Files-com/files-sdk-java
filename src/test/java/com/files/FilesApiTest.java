@@ -2076,6 +2076,219 @@ public class FilesApiTest {
   }
 
   @Test
+  public void externalDestinationCopiesAndMovesSendTheBaseRequestOfTheirNormalizedPaths() throws Exception {
+    // The calls' api_root option names another server than the global one, so their requests reach it
+    // only if the helpers pass the options on.
+    WireMockServer target = loopbackServer();
+    target.start();
+    try {
+      HashMap<String, Object> options = new HashMap<>();
+      options.put("api_root", "http://localhost:" + target.port());
+      HashMap<String, Object> parameters = new HashMap<>();
+      parameters.put("overwrite", true);
+      // Both slash kinds separate folders, and empty, . and .. components are dropped.
+      String destinationPath = "/archive\\./2026/../q1";
+
+      assertDestinationActionAsBase(target, "copy", "remote-server", "_/RemoteServers/42/archive/2026/q1", parameters, options,
+          () -> File.copyToRemoteServer("remote-server", 42L, destinationPath, parameters, options));
+      assertDestinationActionAsBase(target, "copy", "snapshot", "_/Snapshots/7/archive/2026/q1", parameters, options,
+          () -> File.copyToSnapshot("snapshot", 7L, destinationPath, parameters, options));
+      assertDestinationActionAsBase(target, "copy", "child-site", "_/Sites/3/archive/2026/q1", parameters, options,
+          () -> File.copyToChildSite("child-site", 3L, destinationPath, parameters, options));
+      assertDestinationActionAsBase(target, "move", "remote-server", "_/RemoteServers/42/archive/2026/q1", parameters, options,
+          () -> File.moveToRemoteServer("remote-server", 42L, destinationPath, parameters, options));
+      assertDestinationActionAsBase(target, "move", "snapshot", "_/Snapshots/7/archive/2026/q1", parameters, options,
+          () -> File.moveToSnapshot("snapshot", 7L, destinationPath, parameters, options));
+      assertDestinationActionAsBase(target, "move", "child-site", "_/Sites/3/archive/2026/q1", parameters, options,
+          () -> File.moveToChildSite("child-site", 3L, destinationPath, parameters, options));
+
+      assertEquals("the parameters passed are not changed", Collections.singletonMap("overwrite", true), parameters);
+    } finally {
+      target.stop();
+    }
+  }
+
+  @Test
+  public void aFilesExternalDestinationCopiesAndMovesRunWithTheClientThatFoundIt() throws Exception {
+    // The file is found with a built client whose credentials and API root are not the global ones:
+    // its copies and moves, and the waits for their migrations, use that client.
+    WireMockServer bound = loopbackServer();
+    bound.start();
+    try (FilesClient client = FilesClient.builder().apiKey("client-key").apiRoot("http://localhost:" + bound.port()).build()) {
+      bound.stubFor(get(urlEqualTo("/api/rest/v1/file_actions/metadata/reports"))
+          .willReturn(destinationAnswer(200, "{\"path\":\"reports\",\"type\":\"file\"}")));
+      bound.stubFor(post(urlEqualTo("/api/rest/v1/file_actions/copy/reports"))
+          .willReturn(destinationAnswer(201, "{\"status\":\"pending\",\"file_migration_id\":11}")));
+      bound.stubFor(post(urlEqualTo("/api/rest/v1/file_actions/move/reports"))
+          .willReturn(destinationAnswer(201, "{\"status\":\"pending\",\"file_migration_id\":12}")));
+      bound.stubFor(get(urlEqualTo("/api/rest/v1/file_migrations/11"))
+          .willReturn(destinationAnswer(200, "{\"id\":11,\"operation\":\"copy\",\"status\":\"completed\"}")));
+      bound.stubFor(get(urlEqualTo("/api/rest/v1/file_migrations/12"))
+          .willReturn(destinationAnswer(200, "{\"id\":12,\"operation\":\"move\",\"status\":\"completed\"}")));
+      HashMap<String, Object> parameters = new HashMap<>();
+      parameters.put("overwrite", true);
+
+      // Each action starts from a file just found, so that none depends on what an earlier one did.
+      List<FileAction> actions = Arrays.asList(
+          client.files().find("reports", null, null).copyToRemoteServer(42L, "/archive\\./2026/../q1", parameters),
+          client.files().find("reports", null, null).copyToSnapshot(7L, "archive//q1", parameters),
+          client.files().find("reports", null, null).copyToChildSite(3L, "../../q1", parameters),
+          client.files().find("reports", null, null).moveToRemoteServer(42L, "archive/q1"),
+          client.files().find("reports", null, null).moveToSnapshot(7L, "\\archive\\q1"),
+          client.files().find("reports", null, null).moveToChildSite(3L, "./archive/./q1/"));
+      for (FileAction action : actions) {
+        assertEquals("completed", action.waitForCompletion(30, TimeUnit.SECONDS).getStatus());
+      }
+
+      assertEquals(Arrays.asList("_/RemoteServers/42/archive/2026/q1", "_/Sites/3/q1", "_/Snapshots/7/archive/q1"),
+          boundDestinations(bound, "copy", true));
+      assertEquals(Arrays.asList("_/RemoteServers/42/archive/q1", "_/Sites/3/archive/q1", "_/Snapshots/7/archive/q1"),
+          boundDestinations(bound, "move", false));
+      List<LoggedRequest> finds = bound.findAll(getRequestedFor(urlEqualTo("/api/rest/v1/file_actions/metadata/reports")));
+      assertEquals(6, finds.size());
+      for (LoggedRequest find : finds) {
+        assertEquals("client-key", find.getHeader("X-FilesAPI-Key"));
+      }
+      for (String migration : Arrays.asList("11", "12")) {
+        List<LoggedRequest> polls = bound.findAll(getRequestedFor(urlEqualTo("/api/rest/v1/file_migrations/" + migration)));
+        assertEquals("one wait for each of three actions", 3, polls.size());
+        for (LoggedRequest poll : polls) {
+          assertEquals("client-key", poll.getHeader("X-FilesAPI-Key"));
+        }
+      }
+      assertEquals("nothing goes to the global API root", 0,
+          wireMockServer.findAll(postRequestedFor(urlEqualTo("/api/rest/v1/file_actions/copy/reports"))).size()
+              + wireMockServer.findAll(postRequestedFor(urlEqualTo("/api/rest/v1/file_actions/move/reports"))).size());
+    } finally {
+      bound.stop();
+    }
+  }
+
+  // Runs a destination helper, then the base call it stands for, File.copy or File.move with the full
+  // destination path and the same parameters and options: the two requests must be the same, sent
+  // where the options say, with the destination normalized and the other parameters as given.
+  private void assertDestinationActionAsBase(WireMockServer target, String action, String path, String destination,
+      HashMap<String, Object> parameters, HashMap<String, Object> options, Callable<FileAction> helper) throws Exception {
+    String url = "/api/rest/v1/file_actions/" + action + "/" + path;
+    target.stubFor(post(urlEqualTo(url)).willReturn(destinationAnswer(201, "{\"status\":\"completed\"}")));
+    assertEquals("completed", helper.call().getStatus());
+    HashMap<String, Object> full = new HashMap<>(parameters);
+    full.put("destination", destination);
+    FileAction base = "copy".equals(action) ? File.copy(path, full, options) : File.move(path, full, options);
+    assertEquals("completed", base.getStatus());
+
+    List<LoggedRequest> sent = target.findAll(postRequestedFor(urlEqualTo(url)));
+    assertEquals("the helper's request and the base request", 2, sent.size());
+    ObjectMapper mapper = new ObjectMapper();
+    JsonNode body = mapper.readTree(sent.get(0).getBodyAsString());
+    assertEquals(mapper.readTree(sent.get(1).getBodyAsString()), body);
+    assertEquals(destination, body.get("destination").asText());
+    assertTrue("the other parameters are sent as given", body.get("overwrite").asBoolean());
+    for (LoggedRequest request : sent) {
+      assertEquals("test-key", request.getHeader("X-FilesAPI-Key"));
+    }
+    assertEquals("nothing goes to the global API root", 0, wireMockServer.findAll(postRequestedFor(urlEqualTo(url))).size());
+  }
+
+  // The destinations of the copies or moves of "reports" a server received, sorted, each sent with the
+  // built client's credentials and, where they were given, the other parameters.
+  private static List<String> boundDestinations(WireMockServer server, String action, boolean overwrite) throws IOException {
+    List<String> destinations = new ArrayList<>();
+    for (LoggedRequest request : server.findAll(postRequestedFor(urlEqualTo("/api/rest/v1/file_actions/" + action + "/reports")))) {
+      assertEquals("client-key", request.getHeader("X-FilesAPI-Key"));
+      JsonNode body = new ObjectMapper().readTree(request.getBodyAsString());
+      assertEquals(overwrite, body.path("overwrite").asBoolean());
+      destinations.add(body.get("destination").asText());
+    }
+    Collections.sort(destinations);
+    return destinations;
+  }
+
+  private static ResponseDefinitionBuilder destinationAnswer(int status, String body) {
+    return aResponse().withStatus(status).withHeader("Content-Type", "application/json").withBody(body);
+  }
+
+  @Test
+  public void waitsForADeleteThatContinuesInTheBackgroundOnlyWhenAskedWithTheClientThatBeganIt() throws Exception {
+    // The delete is accepted while its file migration is still processing. beginDelete returns at
+    // once, without asking about the migration; awaitCompletion then polls it, with the client that
+    // began the delete, and returns only once it has completed.
+    server.stub("POST", "/api/rest/v1/file_actions/delete/archive", response(201)
+        .withHeader("Content-Type", "application/json")
+        .withBody("{\"status\":\"processing\",\"file_migration_id\":12}"));
+    stubFirstThen("/api/rest/v1/file_migrations/12",
+        200, "{\"id\":12,\"operation\":\"delete\",\"status\":\"processing\"}",
+        200, "{\"id\":12,\"operation\":\"delete\",\"status\":\"completed\"}");
+    HashMap<String, Object> parameters = new HashMap<>();
+    parameters.put("recursive", true);
+    try (FilesClient client = FilesClient.builder().apiKey("client-key").apiRoot(server.baseUrl()).build()) {
+      FileAction action = client.files().beginDelete("archive", parameters, null);
+
+      assertEquals("processing", action.getStatus());
+      assertEquals(Long.valueOf(12), action.getFileMigrationId());
+      server.verify(0, request("GET", "/api/rest/v1/file_migrations/12"));
+
+      action.awaitCompletion(30, TimeUnit.SECONDS);
+
+      // Returned only after the migration was seen completed, so a request that follows comes after.
+      server.verify(2, request("GET", "/api/rest/v1/file_migrations/12").withHeader("X-FilesAPI-Key", "client-key"));
+    }
+    server.verify(1, request("POST", "/api/rest/v1/file_actions/delete/archive").withHeader("X-FilesAPI-Key", "client-key"));
+  }
+
+  @Test
+  public void anActionThatEndedWhenTheApiAnsweredIsJudgedByItsOwnStatusWithoutPolling() throws Exception {
+    // A delete that finished at once, or had nothing to do (skipped), returns; one that failed or was
+    // cancelled throws its own outcome, not a missing migration ID. Neither asks about a migration,
+    // even one the action names.
+    String[] paths = {"completed", "skipped", "failed", "cancelled", "completed-migration", "cancelled-migration"};
+    String[] bodies = {"{\"status\":\"completed\"}", "{\"status\":\"skipped\"}", "{\"status\":\"failed\"}",
+        "{\"status\":\"cancelled\"}", "{\"status\":\"completed\",\"file_migration_id\":13}",
+        "{\"status\":\"cancelled\",\"file_migration_id\":14}"};
+    for (int i = 0; i < paths.length; i++) {
+      wireMockServer.stubFor(post(urlEqualTo("/api/rest/v1/file_actions/delete/" + paths[i]))
+          .willReturn(aResponse().withStatus(201).withHeader("Content-Type", "application/json").withBody(bodies[i])));
+      final FileAction action = File.beginDelete(paths[i], new HashMap<>(), null);
+      if ("completed".equals(action.getStatus()) || "skipped".equals(action.getStatus())) {
+        action.awaitCompletion(30, TimeUnit.SECONDS);
+        assertEquals("a skipped action stays told apart from one carried out", paths[i].replace("-migration", ""), action.getStatus());
+        assertThrows("the arguments are checked even so", IllegalArgumentException.class, () -> action.awaitCompletion(0, TimeUnit.SECONDS));
+      } else {
+        FileAction.UnsuccessfulActionException error = assertThrows(FileAction.UnsuccessfulActionException.class,
+            () -> action.awaitCompletion(30, TimeUnit.SECONDS));
+        assertSame(action, error.getFileAction());
+        assertEquals("The file action ended with status " + action.getStatus()
+            + (action.getFileMigrationId() == null ? "" : " (file migration " + action.getFileMigrationId() + ")"), error.getMessage());
+      }
+      if (action.getFileMigrationId() == null) {
+        // The released wait keeps its contract: without a migration it has nothing to return.
+        assertThrows(paths[i], IllegalStateException.class, () -> action.waitForCompletion(30, TimeUnit.SECONDS));
+      }
+    }
+    wireMockServer.verify(0, anyRequestedFor(urlPathMatching("/api/rest/v1/file_migrations.*")));
+    assertEquals(paths.length, wireMockServer.getAllServeEvents().size());
+  }
+
+  @Test
+  public void anActionThatHasNotFinishedAndNamesNoMigrationIsNotTakenAsFinished() throws Exception {
+    // Pending, processing, a status the SDK does not know, or none, without a file migration ID:
+    // nothing shows the action finished and nothing can be polled.
+    String[] bodies = {"{\"status\":\"pending\"}", "{\"status\":\"processing\"}", "{\"status\":\"queued\"}", "{}"};
+    for (int i = 0; i < bodies.length; i++) {
+      wireMockServer.stubFor(post(urlEqualTo("/api/rest/v1/file_actions/delete/unresolved-" + i))
+          .willReturn(aResponse().withStatus(201).withHeader("Content-Type", "application/json").withBody(bodies[i])));
+      final FileAction action = File.beginDelete("unresolved-" + i, new HashMap<>(), null);
+
+      IllegalStateException error = assertThrows(bodies[i], IllegalStateException.class,
+          () -> action.awaitCompletion(30, TimeUnit.SECONDS));
+
+      assertEquals("This file action has not finished and has no file migration to wait for; its status is " + action.getStatus(),
+          error.getMessage());
+    }
+    wireMockServer.verify(0, anyRequestedFor(urlPathMatching("/api/rest/v1/file_migrations.*")));
+  }
+
+  @Test
   public void stopsWaitingAtTheTimeoutWhileAStatusRequestIsOutstanding() throws Exception {
     // A raw local server reads the status request and does not answer until the test releases it.
     // The SDK's own read timeout is much longer, so the wait can end at its one-second timeout only

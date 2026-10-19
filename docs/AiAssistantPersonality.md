@@ -29,12 +29,9 @@
 
 ## List Ai Assistant Personalities
 
-```
-ListIterator<AiAssistantPersonality> aiAssistantPersonality = AiAssistantPersonality.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<AiAssistantPersonality> aiAssistantPersonalities = AiAssistantPersonality.list(parameters, null);
 ```
 
 ### Parameters
@@ -49,12 +46,9 @@ ListIterator<AiAssistantPersonality> aiAssistantPersonality = AiAssistantPersona
 
 ## Show Ai Assistant Personality
 
-```
-AiAssistantPersonality aiAssistantPersonality = AiAssistantPersonality.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+AiAssistantPersonality aiAssistantPersonality = AiAssistantPersonality.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -66,12 +60,14 @@ AiAssistantPersonality aiAssistantPersonality = AiAssistantPersonality.find(
 
 ## Create Ai Assistant Personality
 
-```
-AiAssistantPersonality aiAssistantPersonality = AiAssistantPersonality.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("apply_to_all_workspaces", false);
+parameters.put("name", "Concise Assistant");
+parameters.put("system_prompt", "Respond as a concise operations assistant.");
+parameters.put("use_by_default", false);
+parameters.put("workspace_id", 0L);
+AiAssistantPersonality aiAssistantPersonality = AiAssistantPersonality.create(parameters, null);
 ```
 
 ### Parameters
@@ -87,12 +83,14 @@ AiAssistantPersonality aiAssistantPersonality = AiAssistantPersonality.create(
 
 ## Update Ai Assistant Personality
 
-```
-AiAssistantPersonality aiAssistantPersonality = AiAssistantPersonality.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("apply_to_all_workspaces", false);
+parameters.put("name", "Concise Assistant");
+parameters.put("system_prompt", "Respond as a concise operations assistant.");
+parameters.put("use_by_default", false);
+parameters.put("workspace_id", 0L);
+AiAssistantPersonality aiAssistantPersonality = AiAssistantPersonality.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -109,12 +107,9 @@ AiAssistantPersonality aiAssistantPersonality = AiAssistantPersonality.update(
 
 ## Delete Ai Assistant Personality
 
-```
-void aiAssistantPersonality = AiAssistantPersonality.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+AiAssistantPersonality.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -126,17 +121,15 @@ void aiAssistantPersonality = AiAssistantPersonality.delete(
 
 ## Update Ai Assistant Personality
 
-```
-AiAssistantPersonality aiAssistantPersonality = AiAssistantPersonality.find(id);
-
+```java
+AiAssistantPersonality aiAssistantPersonality = AiAssistantPersonality.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("apply_to_all_workspaces", false);
 parameters.put("name", "Concise Assistant");
 parameters.put("system_prompt", "Respond as a concise operations assistant.");
 parameters.put("use_by_default", false);
-parameters.put("workspace_id", 0);
-
-aiAssistantPersonality.update(parameters);
+parameters.put("workspace_id", 0L);
+AiAssistantPersonality result = aiAssistantPersonality.update(parameters);
 ```
 
 ### Parameters
@@ -153,11 +146,9 @@ aiAssistantPersonality.update(parameters);
 
 ## Delete Ai Assistant Personality
 
-```
-AiAssistantPersonality aiAssistantPersonality = AiAssistantPersonality.find(id);
-
+```java
+AiAssistantPersonality aiAssistantPersonality = AiAssistantPersonality.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 aiAssistantPersonality.delete(parameters);
 ```
 

@@ -35,12 +35,9 @@
 
 ## List Inbound S3 Logs
 
-```
-ListIterator<InboundS3Log> inboundS3Log = InboundS3Log.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<InboundS3Log> inboundS3Logs = InboundS3Log.list(parameters, null);
 ```
 
 ### Parameters

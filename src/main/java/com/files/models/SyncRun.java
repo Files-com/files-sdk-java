@@ -35,6 +35,11 @@ public class SyncRun implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class SyncRun implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code SyncRun} with no attributes set.
+   */
   public SyncRun() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code SyncRun} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public SyncRun(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code SyncRun} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public SyncRun(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,6 +103,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -93,6 +118,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("body")
   public String body;
 
+  /**
+   * Gets {@link #body}.
+   *
+   * @return the value of {@link #body}
+   */
   public String getBody() {
     return body;
   }
@@ -103,6 +133,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("bytes_synced")
   public Long bytesSynced;
 
+  /**
+   * Gets {@link #bytesSynced}.
+   *
+   * @return the value of {@link #bytesSynced}
+   */
   public Long getBytesSynced() {
     return bytesSynced;
   }
@@ -113,6 +148,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("compared_files")
   public Long comparedFiles;
 
+  /**
+   * Gets {@link #comparedFiles}.
+   *
+   * @return the value of {@link #comparedFiles}
+   */
   public Long getComparedFiles() {
     return comparedFiles;
   }
@@ -123,6 +163,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("compared_folders")
   public Long comparedFolders;
 
+  /**
+   * Gets {@link #comparedFolders}.
+   *
+   * @return the value of {@link #comparedFolders}
+   */
   public Long getComparedFolders() {
     return comparedFolders;
   }
@@ -133,6 +178,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("completed_at")
   public Date completedAt;
 
+  /**
+   * Gets {@link #completedAt}.
+   *
+   * @return the value of {@link #completedAt}
+   */
   public Date getCompletedAt() {
     return completedAt;
   }
@@ -143,6 +193,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -153,6 +208,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("dest_remote_server_type")
   public String destRemoteServerType;
 
+  /**
+   * Gets {@link #destRemoteServerType}.
+   *
+   * @return the value of {@link #destRemoteServerType}
+   */
   public String getDestRemoteServerType() {
     return destRemoteServerType;
   }
@@ -163,6 +223,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("dry_run")
   public Boolean dryRun;
 
+  /**
+   * Gets {@link #dryRun}.
+   *
+   * @return the value of {@link #dryRun}
+   */
   public Boolean getDryRun() {
     return dryRun;
   }
@@ -173,6 +238,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("errored_files")
   public Long erroredFiles;
 
+  /**
+   * Gets {@link #erroredFiles}.
+   *
+   * @return the value of {@link #erroredFiles}
+   */
   public Long getErroredFiles() {
     return erroredFiles;
   }
@@ -183,6 +253,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("estimated_bytes_count")
   public Long estimatedBytesCount;
 
+  /**
+   * Gets {@link #estimatedBytesCount}.
+   *
+   * @return the value of {@link #estimatedBytesCount}
+   */
   public Long getEstimatedBytesCount() {
     return estimatedBytesCount;
   }
@@ -193,6 +268,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("event_errors")
   public String[] eventErrors;
 
+  /**
+   * Gets {@link #eventErrors}.
+   *
+   * @return the value of {@link #eventErrors}
+   */
   public String[] getEventErrors() {
     return eventErrors;
   }
@@ -203,6 +283,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("log_url")
   public String logUrl;
 
+  /**
+   * Gets {@link #logUrl}.
+   *
+   * @return the value of {@link #logUrl}
+   */
   public String getLogUrl() {
     return logUrl;
   }
@@ -213,6 +298,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("runtime")
   public Double runtime;
 
+  /**
+   * Gets {@link #runtime}.
+   *
+   * @return the value of {@link #runtime}
+   */
   public Double getRuntime() {
     return runtime;
   }
@@ -223,6 +313,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("site_id")
   public Long siteId;
 
+  /**
+   * Gets {@link #siteId}.
+   *
+   * @return the value of {@link #siteId}
+   */
   public Long getSiteId() {
     return siteId;
   }
@@ -233,6 +328,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
@@ -243,6 +343,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("src_remote_server_type")
   public String srcRemoteServerType;
 
+  /**
+   * Gets {@link #srcRemoteServerType}.
+   *
+   * @return the value of {@link #srcRemoteServerType}
+   */
   public String getSrcRemoteServerType() {
     return srcRemoteServerType;
   }
@@ -253,6 +358,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("status")
   public String status;
 
+  /**
+   * Gets {@link #status}.
+   *
+   * @return the value of {@link #status}
+   */
   public String getStatus() {
     return status;
   }
@@ -263,6 +373,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("successful_files")
   public Long successfulFiles;
 
+  /**
+   * Gets {@link #successfulFiles}.
+   *
+   * @return the value of {@link #successfulFiles}
+   */
   public Long getSuccessfulFiles() {
     return successfulFiles;
   }
@@ -273,6 +388,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("sync_id")
   public Long syncId;
 
+  /**
+   * Gets {@link #syncId}.
+   *
+   * @return the value of {@link #syncId}
+   */
   public Long getSyncId() {
     return syncId;
   }
@@ -283,6 +403,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("sync_name")
   public String syncName;
 
+  /**
+   * Gets {@link #syncName}.
+   *
+   * @return the value of {@link #syncName}
+   */
   public String getSyncName() {
     return syncName;
   }
@@ -293,6 +418,11 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("updated_at")
   public Date updatedAt;
 
+  /**
+   * Gets {@link #updatedAt}.
+   *
+   * @return the value of {@link #updatedAt}
+   */
   public Date getUpdatedAt() {
     return updatedAt;
   }
@@ -303,68 +433,129 @@ public class SyncRun implements ModelInterface {
   @JsonProperty("live_transfers")
   public SyncRunLiveTransfer[] liveTransfers;
 
+  /**
+   * Gets {@link #liveTransfers}.
+   *
+   * @return the value of {@link #liveTransfers}
+   */
   public SyncRunLiveTransfer[] getLiveTransfers() {
     return liveTransfers;
   }
 
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `workspace_id`, `sync_id`, `created_at` or `status`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `status`, `dry_run`, `workspace_id`, `src_remote_server_type`, `dest_remote_server_type` or `sync_id`. Valid field combinations are `[ status, created_at ]`, `[ workspace_id, created_at ]`, `[ src_remote_server_type, created_at ]`, `[ dest_remote_server_type, created_at ]`, `[ sync_id, created_at ]`, `[ workspace_id, status ]`, `[ src_remote_server_type, status ]`, `[ dest_remote_server_type, status ]`, `[ sync_id, status ]`, `[ workspace_id, src_remote_server_type ]`, `[ workspace_id, dest_remote_server_type ]`, `[ workspace_id, sync_id ]`, `[ workspace_id, status, created_at ]`, `[ src_remote_server_type, status, created_at ]`, `[ dest_remote_server_type, status, created_at ]`, `[ sync_id, status, created_at ]`, `[ workspace_id, src_remote_server_type, created_at ]`, `[ workspace_id, dest_remote_server_type, created_at ]`, `[ workspace_id, sync_id, created_at ]`, `[ workspace_id, src_remote_server_type, status ]`, `[ workspace_id, dest_remote_server_type, status ]`, `[ workspace_id, sync_id, status ]`, `[ workspace_id, src_remote_server_type, status, created_at ]`, `[ workspace_id, dest_remote_server_type, status, created_at ]` or `[ workspace_id, sync_id, status, created_at ]`.
-   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
-   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
-   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
-   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
+   * List Sync Runs
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<SyncRun> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Sync Runs
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<SyncRun> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Sync Runs
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `workspace_id`, `sync_id`, `created_at` or `status`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `status`, `dry_run`, `workspace_id`, `src_remote_server_type`, `dest_remote_server_type` or `sync_id`. Valid field combinations are `[ status, created_at ]`, `[ workspace_id, created_at ]`, `[ src_remote_server_type, created_at ]`, `[ dest_remote_server_type, created_at ]`, `[ sync_id, created_at ]`, `[ workspace_id, status ]`, `[ src_remote_server_type, status ]`, `[ dest_remote_server_type, status ]`, `[ sync_id, status ]`, `[ workspace_id, src_remote_server_type ]`, `[ workspace_id, dest_remote_server_type ]`, `[ workspace_id, sync_id ]`, `[ workspace_id, status, created_at ]`, `[ src_remote_server_type, status, created_at ]`, `[ dest_remote_server_type, status, created_at ]`, `[ sync_id, status, created_at ]`, `[ workspace_id, src_remote_server_type, created_at ]`, `[ workspace_id, dest_remote_server_type, created_at ]`, `[ workspace_id, sync_id, created_at ]`, `[ workspace_id, src_remote_server_type, status ]`, `[ workspace_id, dest_remote_server_type, status ]`, `[ workspace_id, sync_id, status ]`, `[ workspace_id, src_remote_server_type, status, created_at ]`, `[ workspace_id, dest_remote_server_type, status, created_at ]` or `[ workspace_id, sync_id, status, created_at ]`.</li>
+   * <li>{@code filter_gt} (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_gteq} (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_lt} (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_lteq} (Object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code SyncRun} records, in a {@code ListIterator}
+   */
   public static ListIterator<SyncRun> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().syncRuns().list(parameters, options);
   }
 
+  /**
+   * List Sync Runs
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<SyncRun> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Sync Runs
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<SyncRun> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Sync Run ID.
+   * Show Sync Run
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static SyncRun find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Sync Run
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static SyncRun find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Sync Run
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static SyncRun find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Sync Run
+   *
+   * @param id Sync Run ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code SyncRun}
+   */
   public static SyncRun find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().syncRuns().find(id, parameters, options);
   }
 
+  /**
+   * Show Sync Run
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static SyncRun get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Sync Run
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static SyncRun get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }

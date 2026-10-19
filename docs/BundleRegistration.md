@@ -43,12 +43,11 @@
 
 ## List Share Link Registrations
 
-```
-ListIterator<BundleRegistration> bundleRegistration = BundleRegistration.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("bundle_id", 1L);
+ListIterator<BundleRegistration> bundleRegistrations = BundleRegistration.list(parameters, null);
 ```
 
 ### Parameters

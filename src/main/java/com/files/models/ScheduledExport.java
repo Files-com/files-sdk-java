@@ -37,6 +37,11 @@ public class ScheduledExport implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -60,14 +65,29 @@ public class ScheduledExport implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code ScheduledExport} with no attributes set.
+   */
   public ScheduledExport() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code ScheduledExport} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public ScheduledExport(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code ScheduledExport} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public ScheduledExport(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -85,10 +105,20 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -99,10 +129,20 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -113,10 +153,20 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("export_type")
   public String exportType;
 
+  /**
+   * Gets {@link #exportType}.
+   *
+   * @return the value of {@link #exportType}
+   */
   public String getExportType() {
     return exportType;
   }
 
+  /**
+   * Sets {@link #exportType}.
+   *
+   * @param exportType the new value
+   */
   public void setExportType(String exportType) {
     this.exportType = exportType;
   }
@@ -127,10 +177,20 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("report_name")
   public String reportName;
 
+  /**
+   * Gets {@link #reportName}.
+   *
+   * @return the value of {@link #reportName}
+   */
   public String getReportName() {
     return reportName;
   }
 
+  /**
+   * Sets {@link #reportName}.
+   *
+   * @param reportName the new value
+   */
   public void setReportName(String reportName) {
     this.reportName = reportName;
   }
@@ -141,10 +201,20 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("export_options")
   public Object exportOptions;
 
+  /**
+   * Gets {@link #exportOptions}.
+   *
+   * @return the value of {@link #exportOptions}
+   */
   public Object getExportOptions() {
     return exportOptions;
   }
 
+  /**
+   * Sets {@link #exportOptions}.
+   *
+   * @param exportOptions the new value
+   */
   public void setExportOptions(Object exportOptions) {
     this.exportOptions = exportOptions;
   }
@@ -155,10 +225,20 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("user_id")
   public Long userId;
 
+  /**
+   * Gets {@link #userId}.
+   *
+   * @return the value of {@link #userId}
+   */
   public Long getUserId() {
     return userId;
   }
 
+  /**
+   * Sets {@link #userId}.
+   *
+   * @param userId the new value
+   */
   public void setUserId(Long userId) {
     this.userId = userId;
   }
@@ -169,10 +249,20 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("disabled")
   public Boolean disabled;
 
+  /**
+   * Gets {@link #disabled}.
+   *
+   * @return the value of {@link #disabled}
+   */
   public Boolean getDisabled() {
     return disabled;
   }
 
+  /**
+   * Sets {@link #disabled}.
+   *
+   * @param disabled the new value
+   */
   public void setDisabled(Boolean disabled) {
     this.disabled = disabled;
   }
@@ -183,10 +273,20 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("trigger")
   public String trigger;
 
+  /**
+   * Gets {@link #trigger}.
+   *
+   * @return the value of {@link #trigger}
+   */
   public String getTrigger() {
     return trigger;
   }
 
+  /**
+   * Sets {@link #trigger}.
+   *
+   * @param trigger the new value
+   */
   public void setTrigger(String trigger) {
     this.trigger = trigger;
   }
@@ -197,10 +297,20 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("interval")
   public String interval;
 
+  /**
+   * Gets {@link #interval}.
+   *
+   * @return the value of {@link #interval}
+   */
   public String getInterval() {
     return interval;
   }
 
+  /**
+   * Sets {@link #interval}.
+   *
+   * @param interval the new value
+   */
   public void setInterval(String interval) {
     this.interval = interval;
   }
@@ -211,10 +321,20 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("recurring_day")
   public Long recurringDay;
 
+  /**
+   * Gets {@link #recurringDay}.
+   *
+   * @return the value of {@link #recurringDay}
+   */
   public Long getRecurringDay() {
     return recurringDay;
   }
 
+  /**
+   * Sets {@link #recurringDay}.
+   *
+   * @param recurringDay the new value
+   */
   public void setRecurringDay(Long recurringDay) {
     this.recurringDay = recurringDay;
   }
@@ -225,10 +345,20 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("recurring_days")
   public Long[] recurringDays;
 
+  /**
+   * Gets {@link #recurringDays}.
+   *
+   * @return the value of {@link #recurringDays}
+   */
   public Long[] getRecurringDays() {
     return recurringDays;
   }
 
+  /**
+   * Sets {@link #recurringDays}.
+   *
+   * @param recurringDays the new value
+   */
   public void setRecurringDays(Long[] recurringDays) {
     this.recurringDays = recurringDays;
   }
@@ -239,10 +369,20 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("schedule_id")
   public Long scheduleId;
 
+  /**
+   * Gets {@link #scheduleId}.
+   *
+   * @return the value of {@link #scheduleId}
+   */
   public Long getScheduleId() {
     return scheduleId;
   }
 
+  /**
+   * Sets {@link #scheduleId}.
+   *
+   * @param scheduleId the new value
+   */
   public void setScheduleId(Long scheduleId) {
     this.scheduleId = scheduleId;
   }
@@ -253,10 +393,20 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("schedule_days_of_week")
   public Long[] scheduleDaysOfWeek;
 
+  /**
+   * Gets {@link #scheduleDaysOfWeek}.
+   *
+   * @return the value of {@link #scheduleDaysOfWeek}
+   */
   public Long[] getScheduleDaysOfWeek() {
     return scheduleDaysOfWeek;
   }
 
+  /**
+   * Sets {@link #scheduleDaysOfWeek}.
+   *
+   * @param scheduleDaysOfWeek the new value
+   */
   public void setScheduleDaysOfWeek(Long[] scheduleDaysOfWeek) {
     this.scheduleDaysOfWeek = scheduleDaysOfWeek;
   }
@@ -267,10 +417,20 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("schedule_times_of_day")
   public String[] scheduleTimesOfDay;
 
+  /**
+   * Gets {@link #scheduleTimesOfDay}.
+   *
+   * @return the value of {@link #scheduleTimesOfDay}
+   */
   public String[] getScheduleTimesOfDay() {
     return scheduleTimesOfDay;
   }
 
+  /**
+   * Sets {@link #scheduleTimesOfDay}.
+   *
+   * @param scheduleTimesOfDay the new value
+   */
   public void setScheduleTimesOfDay(String[] scheduleTimesOfDay) {
     this.scheduleTimesOfDay = scheduleTimesOfDay;
   }
@@ -281,10 +441,20 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("schedule_time_zone")
   public String scheduleTimeZone;
 
+  /**
+   * Gets {@link #scheduleTimeZone}.
+   *
+   * @return the value of {@link #scheduleTimeZone}
+   */
   public String getScheduleTimeZone() {
     return scheduleTimeZone;
   }
 
+  /**
+   * Sets {@link #scheduleTimeZone}.
+   *
+   * @param scheduleTimeZone the new value
+   */
   public void setScheduleTimeZone(String scheduleTimeZone) {
     this.scheduleTimeZone = scheduleTimeZone;
   }
@@ -295,10 +465,20 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("holiday_region")
   public String holidayRegion;
 
+  /**
+   * Gets {@link #holidayRegion}.
+   *
+   * @return the value of {@link #holidayRegion}
+   */
   public String getHolidayRegion() {
     return holidayRegion;
   }
 
+  /**
+   * Sets {@link #holidayRegion}.
+   *
+   * @param holidayRegion the new value
+   */
   public void setHolidayRegion(String holidayRegion) {
     this.holidayRegion = holidayRegion;
   }
@@ -309,10 +489,20 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("human_readable_schedule")
   public String humanReadableSchedule;
 
+  /**
+   * Gets {@link #humanReadableSchedule}.
+   *
+   * @return the value of {@link #humanReadableSchedule}
+   */
   public String getHumanReadableSchedule() {
     return humanReadableSchedule;
   }
 
+  /**
+   * Sets {@link #humanReadableSchedule}.
+   *
+   * @param humanReadableSchedule the new value
+   */
   public void setHumanReadableSchedule(String humanReadableSchedule) {
     this.humanReadableSchedule = humanReadableSchedule;
   }
@@ -323,10 +513,20 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("last_run_at")
   public Date lastRunAt;
 
+  /**
+   * Gets {@link #lastRunAt}.
+   *
+   * @return the value of {@link #lastRunAt}
+   */
   public Date getLastRunAt() {
     return lastRunAt;
   }
 
+  /**
+   * Sets {@link #lastRunAt}.
+   *
+   * @param lastRunAt the new value
+   */
   public void setLastRunAt(Date lastRunAt) {
     this.lastRunAt = lastRunAt;
   }
@@ -337,10 +537,20 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("last_export_id")
   public Long lastExportId;
 
+  /**
+   * Gets {@link #lastExportId}.
+   *
+   * @return the value of {@link #lastExportId}
+   */
   public Long getLastExportId() {
     return lastExportId;
   }
 
+  /**
+   * Sets {@link #lastExportId}.
+   *
+   * @param lastExportId the new value
+   */
   public void setLastExportId(Long lastExportId) {
     this.lastExportId = lastExportId;
   }
@@ -351,10 +561,20 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("last_error")
   public String lastError;
 
+  /**
+   * Gets {@link #lastError}.
+   *
+   * @return the value of {@link #lastError}
+   */
   public String getLastError() {
     return lastError;
   }
 
+  /**
+   * Sets {@link #lastError}.
+   *
+   * @param lastError the new value
+   */
   public void setLastError(String lastError) {
     this.lastError = lastError;
   }
@@ -365,6 +585,11 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -375,27 +600,38 @@ public class ScheduledExport implements ModelInterface {
   @JsonProperty("updated_at")
   public Date updatedAt;
 
+  /**
+   * Gets {@link #updatedAt}.
+   *
+   * @return the value of {@link #updatedAt}
+   */
   public Date getUpdatedAt() {
     return updatedAt;
   }
 
   /**
    * Updates this ScheduledExport. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   name - string - Name for this scheduled export.
-   *   export_type - string - Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit
-   *   export_options - object - Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.
-   *   user_id - int64 - Site Admin user who receives the completed export e-mail.
-   *   disabled - boolean - If true, this scheduled export will not run.
-   *   trigger - string - Schedule trigger type: `daily` or `custom_schedule`.
-   *   interval - string - If trigger is `daily`, this specifies how often to run the scheduled export.
-   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
-   *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
-   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-   *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the scheduled export schedule.
-   *   schedule_time_zone - string - Time zone used by the scheduled export schedule.
-   *   holiday_region - string - Optional holiday region used by the scheduled export schedule.
+   * <p>Update Scheduled Export
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Name for this scheduled export.</li>
+   * <li>{@code export_type} (String): Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit</li>
+   * <li>{@code export_options} (Object): Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.</li>
+   * <li>{@code user_id} (Long): Site Admin user who receives the completed export e-mail.</li>
+   * <li>{@code disabled} (Boolean): If true, this scheduled export will not run.</li>
+   * <li>{@code trigger} (String): Schedule trigger type: `daily` or `custom_schedule`.</li>
+   * <li>{@code interval} (String): If trigger is `daily`, this specifies how often to run the scheduled export.</li>
+   * <li>{@code recurring_day} (Long): If trigger is `daily`, this selects the day number inside the chosen interval.</li>
+   * <li>{@code recurring_days} (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.</li>
+   * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.</li>
+   * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the scheduled export schedule.</li>
+   * <li>{@code schedule_time_zone} (String): Time zone used by the scheduled export schedule.</li>
+   * <li>{@code holiday_region} (String): Optional holiday region used by the scheduled export schedule.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code ScheduledExport}
    */
   public ScheduledExport update(HashMap<String, Object> parameters) throws IOException {
     ScheduledExport updated = filesClient().scheduledExports().update(this.id, parameters, this.options);
@@ -404,11 +640,19 @@ public class ScheduledExport implements ModelInterface {
   }
 
   /**
+   * Delete Scheduled Export
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().scheduledExports().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Scheduled Export
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -472,149 +716,275 @@ public class ScheduledExport implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`, `export_type` or `disabled`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled` and `export_type`.
-   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `export_type`.
+   * List Scheduled Exports
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<ScheduledExport> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Scheduled Exports
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ScheduledExport> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Scheduled Exports
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name`, `export_type` or `disabled`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled` and `export_type`.</li>
+   * <li>{@code filter_prefix} (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `export_type`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ScheduledExport} records, in a {@code ListIterator}
+   */
   public static ListIterator<ScheduledExport> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().scheduledExports().list(parameters, options);
   }
 
+  /**
+   * List Scheduled Exports
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ScheduledExport> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Scheduled Exports
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ScheduledExport> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Scheduled Export ID.
+   * Show Scheduled Export
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static ScheduledExport find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Scheduled Export
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ScheduledExport find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Scheduled Export
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ScheduledExport find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Scheduled Export
+   *
+   * @param id Scheduled Export ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ScheduledExport}
+   */
   public static ScheduledExport find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().scheduledExports().find(id, parameters, options);
   }
 
+  /**
+   * Show Scheduled Export
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ScheduledExport get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Scheduled Export
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static ScheduledExport get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   name (required) - string - Name for this scheduled export.
-   *   export_type (required) - string - Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit
-   *   export_options - object - Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.
-   *   user_id - int64 - Site Admin user who receives the completed export e-mail.
-   *   disabled - boolean - If true, this scheduled export will not run.
-   *   trigger - string - Schedule trigger type: `daily` or `custom_schedule`.
-   *   interval - string - If trigger is `daily`, this specifies how often to run the scheduled export.
-   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
-   *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
-   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-   *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the scheduled export schedule.
-   *   schedule_time_zone - string - Time zone used by the scheduled export schedule.
-   *   holiday_region - string - Optional holiday region used by the scheduled export schedule.
+   * Create Scheduled Export
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static ScheduledExport create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Scheduled Export
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static ScheduledExport create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Scheduled Export
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Required. Name for this scheduled export.</li>
+   * <li>{@code export_type} (String): Required. Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit</li>
+   * <li>{@code export_options} (Object): Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.</li>
+   * <li>{@code user_id} (Long): Site Admin user who receives the completed export e-mail.</li>
+   * <li>{@code disabled} (Boolean): If true, this scheduled export will not run.</li>
+   * <li>{@code trigger} (String): Schedule trigger type: `daily` or `custom_schedule`.</li>
+   * <li>{@code interval} (String): If trigger is `daily`, this specifies how often to run the scheduled export.</li>
+   * <li>{@code recurring_day} (Long): If trigger is `daily`, this selects the day number inside the chosen interval.</li>
+   * <li>{@code recurring_days} (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.</li>
+   * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.</li>
+   * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the scheduled export schedule.</li>
+   * <li>{@code schedule_time_zone} (String): Time zone used by the scheduled export schedule.</li>
+   * <li>{@code holiday_region} (String): Optional holiday region used by the scheduled export schedule.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ScheduledExport}
+   */
   public static ScheduledExport create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().scheduledExports().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   name - string - Name for this scheduled export.
-   *   export_type - string - Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit
-   *   export_options - object - Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.
-   *   user_id - int64 - Site Admin user who receives the completed export e-mail.
-   *   disabled - boolean - If true, this scheduled export will not run.
-   *   trigger - string - Schedule trigger type: `daily` or `custom_schedule`.
-   *   interval - string - If trigger is `daily`, this specifies how often to run the scheduled export.
-   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
-   *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.
-   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-   *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the scheduled export schedule.
-   *   schedule_time_zone - string - Time zone used by the scheduled export schedule.
-   *   holiday_region - string - Optional holiday region used by the scheduled export schedule.
+   * Update Scheduled Export
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static ScheduledExport update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Scheduled Export
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static ScheduledExport update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Scheduled Export
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static ScheduledExport update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Scheduled Export
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Name for this scheduled export.</li>
+   * <li>{@code export_type} (String): Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit</li>
+   * <li>{@code export_options} (Object): Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.</li>
+   * <li>{@code user_id} (Long): Site Admin user who receives the completed export e-mail.</li>
+   * <li>{@code disabled} (Boolean): If true, this scheduled export will not run.</li>
+   * <li>{@code trigger} (String): Schedule trigger type: `daily` or `custom_schedule`.</li>
+   * <li>{@code interval} (String): If trigger is `daily`, this specifies how often to run the scheduled export.</li>
+   * <li>{@code recurring_day} (Long): If trigger is `daily`, this selects the day number inside the chosen interval.</li>
+   * <li>{@code recurring_days} (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.</li>
+   * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the scheduled export's schedule fields.</li>
+   * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the scheduled export schedule.</li>
+   * <li>{@code schedule_time_zone} (String): Time zone used by the scheduled export schedule.</li>
+   * <li>{@code holiday_region} (String): Optional holiday region used by the scheduled export schedule.</li>
+   * </ul>
+   *
+   * @param id Scheduled Export ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ScheduledExport}
+   */
   public static ScheduledExport update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().scheduledExports().update(id, parameters, options);
   }
 
 
   /**
+   * Delete Scheduled Export
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Scheduled Export
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Scheduled Export
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Scheduled Export
+   *
+   * @param id Scheduled Export ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().scheduledExports().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Scheduled Export
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Scheduled Export
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

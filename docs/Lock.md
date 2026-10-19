@@ -21,13 +21,13 @@
 
 * `path` / `path`  (string): Path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `timeout` / `timeout`  (int64): Lock timeout in seconds
-* `depth` / `depth`  (string): 
+* `depth` / `depth`  (string): Deprecated WebDAV lock-depth field. Use recursive to determine whether the lock applies to subfolders.
 * `recursive` / `recursive`  (boolean): Does lock apply to subfolders?
 * `owner` / `owner`  (string): Arbitrary descriptive label for the lock. Does not change the lock creator or permissions.
-* `scope` / `scope`  (string): 
+* `scope` / `scope`  (string): Deprecated WebDAV lock-scope field. Use exclusive to determine whether the lock is exclusive.
 * `exclusive` / `exclusive`  (boolean): Is lock exclusive?
 * `token` / `token`  (string): Lock token.  Use to release lock.
-* `type` / `type`  (string): 
+* `type` / `type`  (string): Deprecated WebDAV lock-type field.
 * `allow_access_by_any_user` / `allowAccessByAnyUser`  (boolean): Can lock be modified by users other than its creator?
 * `user_id` / `userId`  (int64): Lock creator user ID
 * `username` / `username`  (string): Lock creator username
@@ -38,12 +38,10 @@
 
 ## List Locks by Path
 
-```
-ListIterator<Lock> lock = Lock.listFor(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("include_children", false);
+ListIterator<Lock> locks = Lock.listFor("path", parameters, null);
 ```
 
 ### Parameters
@@ -58,12 +56,15 @@ ListIterator<Lock> lock = Lock.listFor(
 
 ## Create Lock
 
-```
-Lock lock = Lock.create(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("token", "17c54824e9931a4688ca032d03f6663c");
+parameters.put("allow_access_by_any_user", false);
+parameters.put("exclusive", false);
+parameters.put("recursive", true);
+parameters.put("owner", "user");
+parameters.put("timeout", 1L);
+Lock lock = Lock.create("locked_file", parameters, null);
 ```
 
 ### Parameters
@@ -82,12 +83,10 @@ Lock lock = Lock.create(
 
 ## Delete Lock
 
-```
-void lock = Lock.delete(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("token", "token");
+Lock.delete("locked_file", parameters, null);
 ```
 
 ### Parameters
@@ -100,12 +99,12 @@ void lock = Lock.delete(
 
 ## Delete Lock
 
-```
-Lock lock = Lock.list()[0];
-
+```java
+HashMap<String, Object> attributes = new HashMap<>();
+attributes.put("path", "locked_file");
+Lock lock = new Lock(attributes);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("token", "token");
-
 lock.delete(parameters);
 ```
 

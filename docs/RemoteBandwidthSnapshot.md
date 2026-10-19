@@ -23,12 +23,9 @@
 
 ## List Remote Bandwidth Snapshots
 
-```
-ListIterator<RemoteBandwidthSnapshot> remoteBandwidthSnapshot = RemoteBandwidthSnapshot.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<RemoteBandwidthSnapshot> remoteBandwidthSnapshots = RemoteBandwidthSnapshot.list(parameters, null);
 ```
 
 ### Parameters

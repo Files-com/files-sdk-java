@@ -33,6 +33,11 @@ public class FileAction implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -59,9 +64,11 @@ public class FileAction implements ModelInterface {
   private static final long MAX_POLL_DELAY_MILLIS = 10000;
 
   /**
-   * Waits, up to the timeout, for the copy or move that returned this action to finish, and returns
-   * its completed file migration. This is opt-in: {@code File.copy} and {@code File.move} still
-   * return this action as soon as the API accepts the request, without waiting.
+   * Waits, up to the timeout, for the copy, move or delete that returned this action to finish, and
+   * returns its completed file migration. This is opt-in: {@code File.copy}, {@code File.move} and
+   * {@code File.beginDelete} still return this action as soon as the API accepts the request,
+   * without waiting. To wait for an action that may have finished already, without a file
+   * migration, use {@link #awaitCompletion(long, java.util.concurrent.TimeUnit)}.
    *
    * <p>The wait looks up this action's {@link #getFileMigrationId() file migration}, as
    * {@link FileMigration#find(Long, HashMap, HashMap)} does, with the client that returned this
@@ -82,10 +89,12 @@ public class FileAction implements ModelInterface {
    * <p>A status request that fails, for example with an {@code ApiErrorException} or an
    * {@code ApiConnectionException}, ends the wait with that same exception.
    *
-   * <p>The API documents a file migration ID only when the action's status is {@code pending}. An
-   * action without one has nothing to poll, and this method throws {@code IllegalStateException};
-   * it does not assume that such an action has finished. {@code File.delete} returns no action, so
-   * deletes cannot be waited for.
+   * <p>The API gives a file migration ID when the action continues in the background: a copy or
+   * move whose status is {@code pending}, and a delete run as a file migration, including while it
+   * is {@code processing}. An action without one has nothing to poll, and this method throws
+   * {@code IllegalStateException}; it does not assume that such an action has finished, even when
+   * its status says so. {@code File.delete} returns no action, so a delete made with it cannot be
+   * waited for; one made with {@code File.beginDelete} can.
    *
    * <pre>{@code
    * FileAction action = File.copy("reports/2024", parameters);
@@ -196,6 +205,69 @@ public class FileAction implements ModelInterface {
   }
 
   /**
+   * Waits, up to the timeout, for the copy, move or delete that returned this action to finish,
+   * including one that had finished when the API answered. This is opt-in, like
+   * {@link #waitForCompletion(long, java.util.concurrent.TimeUnit)}, which it uses for an action that
+   * continues in the background; it returns nothing, as an action that finished at once has no file
+   * migration.
+   *
+   * <ul>
+   *   <li>{@code completed} or {@code skipped}: returns at once, without asking the API. A skipped
+   *       action had no work to do; {@link #getStatus()} tells it from one that was carried out.</li>
+   *   <li>{@code failed} or {@code cancelled}: throws {@link UnsuccessfulActionException} at once,
+   *       without asking the API.</li>
+   *   <li>Any other status, or none, with a {@link #getFileMigrationId() file migration ID}: waits for
+   *       that file migration exactly as {@code waitForCompletion} does, with this action's client and
+   *       request options, and with its timeout, interruption and failures, including
+   *       {@link UnsuccessfulMigrationException}.</li>
+   *   <li>Any other status, or none, without one: throws {@code IllegalStateException}, as nothing
+   *       shows that the action finished and nothing can be polled.</li>
+   * </ul>
+   *
+   * <p>Ending the wait, by its timeout or an interruption, does not stop the action itself.
+   *
+   * <pre>{@code
+   * FileAction deletion = File.beginDelete("reports/2023", parameters, null);
+   * deletion.awaitCompletion(10, TimeUnit.MINUTES);
+   * // The folder is gone, or was already, so its path can be used again.
+   * }</pre>
+   *
+   * @param timeout the longest time to wait; must be positive
+   * @param unit the unit of {@code timeout}; must not be {@code null}
+   * @throws UnsuccessfulActionException if the action's status is {@code failed} or
+   *     {@code cancelled}
+   * @throws UnsuccessfulMigrationException if the file migration waited for ends as {@code failed}
+   *     or {@code cancelled}
+   * @throws java.util.concurrent.TimeoutException if the file migration has not finished when the
+   *     timeout elapses
+   * @throws InterruptedException if the waiting thread is interrupted
+   * @throws IllegalStateException if the action has not finished and has no file migration ID
+   * @throws IllegalArgumentException if {@code timeout} is not positive
+   * @throws NullPointerException if {@code unit} is {@code null}
+   */
+  public void awaitCompletion(long timeout, java.util.concurrent.TimeUnit unit)
+      throws InterruptedException, java.util.concurrent.TimeoutException {
+    if (unit == null) {
+      throw new NullPointerException("unit");
+    }
+    if (timeout <= 0) {
+      throw new IllegalArgumentException("timeout must be positive");
+    }
+    final String actionStatus = getStatus();
+    if ("completed".equals(actionStatus) || "skipped".equals(actionStatus)) {
+      return;
+    }
+    if ("failed".equals(actionStatus) || "cancelled".equals(actionStatus)) {
+      throw new UnsuccessfulActionException(this);
+    }
+    if (getFileMigrationId() == null) {
+      throw new IllegalStateException("This file action has not finished and has no file migration to wait for; its status is "
+          + actionStatus);
+    }
+    waitForCompletion(timeout, unit);
+  }
+
+  /**
    * Thrown by {@link FileAction#waitForCompletion} when the file migration ends with the status
    * {@code failed} or {@code cancelled}. The message gives the migration's ID, status and, if it
    * has one, its failure message.
@@ -221,14 +293,55 @@ public class FileAction implements ModelInterface {
     }
   }
 
+  /**
+   * Thrown by {@link FileAction#awaitCompletion} when the action itself reports the status
+   * {@code failed} or {@code cancelled}. The API gives no failure message for an action, so the
+   * message gives only its status and, if it has one, its file migration ID.
+   */
+  public static class UnsuccessfulActionException extends com.files.exceptions.SdkException {
+    private static final long serialVersionUID = 1L;
+
+    private final transient FileAction fileAction;
+
+    private UnsuccessfulActionException(FileAction fileAction) {
+      super("The file action ended with status " + fileAction.getStatus()
+          + (fileAction.getFileMigrationId() == null ? "" : " (file migration " + fileAction.getFileMigrationId() + ")"));
+      this.fileAction = fileAction;
+    }
+
+    /**
+     * Returns the file action as the API returned it, with its status.
+     *
+     * @return the file action
+     */
+    public FileAction getFileAction() {
+      return fileAction;
+    }
+  }
+
+  /**
+   * Creates a {@code FileAction} with no attributes set.
+   */
   public FileAction() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code FileAction} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public FileAction(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code FileAction} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public FileAction(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -246,6 +359,11 @@ public class FileAction implements ModelInterface {
   @JsonProperty("status")
   public String status;
 
+  /**
+   * Gets {@link #status}.
+   *
+   * @return the value of {@link #status}
+   */
   public String getStatus() {
     return status;
   }
@@ -256,6 +374,11 @@ public class FileAction implements ModelInterface {
   @JsonProperty("file_migration_id")
   public Long fileMigrationId;
 
+  /**
+   * Gets {@link #fileMigrationId}.
+   *
+   * @return the value of {@link #fileMigrationId}
+   */
   public Long getFileMigrationId() {
     return fileMigrationId;
   }

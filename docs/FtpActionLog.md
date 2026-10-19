@@ -53,12 +53,9 @@
 
 ## List FTP Action Logs
 
-```
-ListIterator<FtpActionLog> ftpActionLog = FtpActionLog.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<FtpActionLog> ftpActionLogs = FtpActionLog.list(parameters, null);
 ```
 
 ### Parameters

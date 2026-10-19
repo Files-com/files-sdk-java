@@ -35,6 +35,11 @@ public class BundleAction implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class BundleAction implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code BundleAction} with no attributes set.
+   */
   public BundleAction() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code BundleAction} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public BundleAction(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code BundleAction} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public BundleAction(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,6 +103,11 @@ public class BundleAction implements ModelInterface {
   @JsonProperty("action")
   public String action;
 
+  /**
+   * Gets {@link #action}.
+   *
+   * @return the value of {@link #action}
+   */
   public String getAction() {
     return action;
   }
@@ -93,6 +118,11 @@ public class BundleAction implements ModelInterface {
   @JsonProperty("bundle_registration")
   public BundleRegistration bundleRegistration;
 
+  /**
+   * Gets {@link #bundleRegistration}.
+   *
+   * @return the value of {@link #bundleRegistration}
+   */
   public BundleRegistration getBundleRegistration() {
     return bundleRegistration;
   }
@@ -103,6 +133,11 @@ public class BundleAction implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -113,6 +148,11 @@ public class BundleAction implements ModelInterface {
   @JsonProperty("destination")
   public String destination;
 
+  /**
+   * Gets {@link #destination}.
+   *
+   * @return the value of {@link #destination}
+   */
   public String getDestination() {
     return destination;
   }
@@ -123,6 +163,11 @@ public class BundleAction implements ModelInterface {
   @JsonProperty("path")
   public String path;
 
+  /**
+   * Gets {@link #path}.
+   *
+   * @return the value of {@link #path}
+   */
   public String getPath() {
     return path;
   }
@@ -133,6 +178,11 @@ public class BundleAction implements ModelInterface {
   @JsonProperty("source")
   public String source;
 
+  /**
+   * Gets {@link #source}.
+   *
+   * @return the value of {@link #source}
+   */
   public String getSource() {
     return source;
   }
@@ -143,6 +193,11 @@ public class BundleAction implements ModelInterface {
   @JsonProperty("bundle_registration_id")
   public Long bundleRegistrationId;
 
+  /**
+   * Gets {@link #bundleRegistrationId}.
+   *
+   * @return the value of {@link #bundleRegistrationId}
+   */
   public Long getBundleRegistrationId() {
     return bundleRegistrationId;
   }
@@ -153,6 +208,11 @@ public class BundleAction implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
@@ -163,6 +223,11 @@ public class BundleAction implements ModelInterface {
   @JsonProperty("bundle_registration_name")
   public String bundleRegistrationName;
 
+  /**
+   * Gets {@link #bundleRegistrationName}.
+   *
+   * @return the value of {@link #bundleRegistrationName}
+   */
   public String getBundleRegistrationName() {
     return bundleRegistrationName;
   }
@@ -173,6 +238,11 @@ public class BundleAction implements ModelInterface {
   @JsonProperty("bundle_registration_email")
   public String bundleRegistrationEmail;
 
+  /**
+   * Gets {@link #bundleRegistrationEmail}.
+   *
+   * @return the value of {@link #bundleRegistrationEmail}
+   */
   public String getBundleRegistrationEmail() {
     return bundleRegistrationEmail;
   }
@@ -183,6 +253,11 @@ public class BundleAction implements ModelInterface {
   @JsonProperty("bundle_registration_ip")
   public String bundleRegistrationIp;
 
+  /**
+   * Gets {@link #bundleRegistrationIp}.
+   *
+   * @return the value of {@link #bundleRegistrationIp}
+   */
   public String getBundleRegistrationIp() {
     return bundleRegistrationIp;
   }
@@ -193,6 +268,11 @@ public class BundleAction implements ModelInterface {
   @JsonProperty("form_field_set_id")
   public Long formFieldSetId;
 
+  /**
+   * Gets {@link #formFieldSetId}.
+   *
+   * @return the value of {@link #formFieldSetId}
+   */
   public Long getFormFieldSetId() {
     return formFieldSetId;
   }
@@ -203,42 +283,74 @@ public class BundleAction implements ModelInterface {
   @JsonProperty("form_field_data")
   public Object formFieldData;
 
+  /**
+   * Gets {@link #formFieldData}.
+   *
+   * @return the value of {@link #formFieldData}
+   */
   public Object getFormFieldData() {
     return formFieldData;
   }
 
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `created_at` or `bundle_registration_id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `bundle_id` or `bundle_registration_id`. Valid field combinations are `[ bundle_id, created_at ]`, `[ bundle_registration_id, created_at ]`, `[ bundle_id, bundle_registration_id ]` or `[ bundle_id, bundle_registration_id, created_at ]`.
-   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
-   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
-   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
-   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
-   *   bundle_id - int64 - Bundle ID
-   *   bundle_registration_id - int64 - Bundle Registration ID
+   * List Bundle Actions
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<BundleAction> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Bundle Actions
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<BundleAction> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Bundle Actions
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `created_at` or `bundle_registration_id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `bundle_id` or `bundle_registration_id`. Valid field combinations are `[ bundle_id, created_at ]`, `[ bundle_registration_id, created_at ]`, `[ bundle_id, bundle_registration_id ]` or `[ bundle_id, bundle_registration_id, created_at ]`.</li>
+   * <li>{@code filter_gt} (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_gteq} (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_lt} (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_lteq} (Object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code bundle_id} (Long): Bundle ID</li>
+   * <li>{@code bundle_registration_id} (Long): Bundle Registration ID</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code BundleAction} records, in a {@code ListIterator}
+   */
   public static ListIterator<BundleAction> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().bundleActions().list(parameters, options);
   }
 
+  /**
+   * List Bundle Actions
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<BundleAction> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Bundle Actions
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<BundleAction> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }

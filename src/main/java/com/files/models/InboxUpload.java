@@ -35,6 +35,11 @@ public class InboxUpload implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class InboxUpload implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code InboxUpload} with no attributes set.
+   */
   public InboxUpload() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code InboxUpload} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public InboxUpload(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code InboxUpload} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public InboxUpload(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -78,10 +98,16 @@ public class InboxUpload implements ModelInterface {
 
 
   /**
+   * Inbox registration associated with this upload log record.
    */
   @JsonProperty("inbox_registration")
   public InboxRegistration inboxRegistration;
 
+  /**
+   * Gets {@link #inboxRegistration}.
+   *
+   * @return the value of {@link #inboxRegistration}
+   */
   public InboxRegistration getInboxRegistration() {
     return inboxRegistration;
   }
@@ -92,6 +118,11 @@ public class InboxUpload implements ModelInterface {
   @JsonProperty("path")
   public String path;
 
+  /**
+   * Gets {@link #path}.
+   *
+   * @return the value of {@link #path}
+   */
   public String getPath() {
     return path;
   }
@@ -102,39 +133,71 @@ public class InboxUpload implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `folder_behavior_id` or `inbox_registration_id`. Valid field combinations are `[ folder_behavior_id, created_at ]`, `[ inbox_registration_id, created_at ]`, `[ folder_behavior_id, inbox_registration_id ]` or `[ folder_behavior_id, inbox_registration_id, created_at ]`.
-   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
-   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
-   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
-   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
+   * List Inbox Uploads
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<InboxUpload> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Inbox Uploads
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<InboxUpload> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Inbox Uploads
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `folder_behavior_id` or `inbox_registration_id`. Valid field combinations are `[ folder_behavior_id, created_at ]`, `[ inbox_registration_id, created_at ]`, `[ folder_behavior_id, inbox_registration_id ]` or `[ folder_behavior_id, inbox_registration_id, created_at ]`.</li>
+   * <li>{@code filter_gt} (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_gteq} (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_lt} (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.</li>
+   * <li>{@code filter_lteq} (Object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code InboxUpload} records, in a {@code ListIterator}
+   */
   public static ListIterator<InboxUpload> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().inboxUploads().list(parameters, options);
   }
 
+  /**
+   * List Inbox Uploads
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<InboxUpload> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Inbox Uploads
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<InboxUpload> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }

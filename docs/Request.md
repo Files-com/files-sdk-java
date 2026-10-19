@@ -27,12 +27,11 @@
 
 ## List Requests
 
-```
-ListIterator<Request> request = Request.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("mine", false);
+parameters.put("path", "example");
+ListIterator<Request> requests = Request.list(parameters, null);
 ```
 
 ### Parameters
@@ -48,12 +47,10 @@ ListIterator<Request> request = Request.list(
 
 ## List Requests
 
-```
-Request request = Request.getFolder(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("mine", false);
+Request request = Request.getFolder("path", parameters, null);
 ```
 
 ### Parameters
@@ -69,12 +66,11 @@ Request request = Request.getFolder(
 
 ## Create Request
 
-```
-Request request = Request.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("path", "path");
+parameters.put("destination", "destination");
+Request request = Request.create(parameters, null);
 ```
 
 ### Parameters
@@ -89,12 +85,9 @@ Request request = Request.create(
 
 ## Delete Request
 
-```
-void request = Request.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Request.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -106,11 +99,10 @@ void request = Request.delete(
 
 ## Delete Request
 
-```
-Request request = Request.list()[0];
-
+```java
+// The first Request listed: the list must not be empty.
+Request request = Request.list(null, null).iterator().next();
 HashMap<String, Object> parameters = new HashMap<>();
-
 request.delete(parameters);
 ```
 

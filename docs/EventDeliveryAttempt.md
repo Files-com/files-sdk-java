@@ -45,12 +45,9 @@
 
 ## List Event Delivery Attempts
 
-```
-ListIterator<EventDeliveryAttempt> eventDeliveryAttempt = EventDeliveryAttempt.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<EventDeliveryAttempt> eventDeliveryAttempts = EventDeliveryAttempt.list(parameters, null);
 ```
 
 ### Parameters
@@ -65,12 +62,9 @@ ListIterator<EventDeliveryAttempt> eventDeliveryAttempt = EventDeliveryAttempt.l
 
 ## Show Event Delivery Attempt
 
-```
-EventDeliveryAttempt eventDeliveryAttempt = EventDeliveryAttempt.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+EventDeliveryAttempt eventDeliveryAttempt = EventDeliveryAttempt.find(1L, parameters, null);
 ```
 
 ### Parameters

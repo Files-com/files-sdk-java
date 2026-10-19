@@ -78,12 +78,11 @@
 
 ## List Automation Runs
 
-```
-ListIterator<AutomationRun> automationRun = AutomationRun.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("automation_id", 1L);
+ListIterator<AutomationRun> automationRuns = AutomationRun.list(parameters, null);
 ```
 
 ### Parameters
@@ -100,12 +99,9 @@ ListIterator<AutomationRun> automationRun = AutomationRun.list(
 
 ## Show Automation Run
 
-```
-AutomationRun automationRun = AutomationRun.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+AutomationRun automationRun = AutomationRun.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -117,12 +113,10 @@ AutomationRun automationRun = AutomationRun.find(
 
 ## Show Automation Run Node
 
-```
-AutomationExecutionNode automationRun = AutomationRun.findNode(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("node_id", "node_id");
+AutomationExecutionNode automationExecutionNode = AutomationRun.findNode(1L, parameters, null);
 ```
 
 ### Parameters
@@ -135,12 +129,9 @@ AutomationExecutionNode automationRun = AutomationRun.findNode(
 
 ## Cancel Automation Run
 
-```
-AutomationRun automationRun = AutomationRun.cancel(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+AutomationRun automationRun = AutomationRun.cancel(1L, parameters, null);
 ```
 
 ### Parameters
@@ -152,12 +143,10 @@ AutomationRun automationRun = AutomationRun.cancel(
 
 ## Re-run Automation from Node
 
-```
-AutomationRun automationRun = AutomationRun.rerun(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("node_id", "node_id");
+AutomationRun automationRun = AutomationRun.rerun(1L, parameters, null);
 ```
 
 ### Parameters
@@ -170,12 +159,10 @@ AutomationRun automationRun = AutomationRun.rerun(
 
 ## Cancel Automation Run
 
-```
-AutomationRun automationRun = AutomationRun.find(id);
-
+```java
+AutomationRun automationRun = AutomationRun.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
-automationRun.cancel(parameters);
+AutomationRun result = automationRun.cancel(parameters);
 ```
 
 ### Parameters
@@ -187,13 +174,11 @@ automationRun.cancel(parameters);
 
 ## Re-run Automation from Node
 
-```
-AutomationRun automationRun = AutomationRun.find(id);
-
+```java
+AutomationRun automationRun = AutomationRun.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("node_id", "node_id");
-
-automationRun.rerun(parameters);
+AutomationRun result = automationRun.rerun(parameters);
 ```
 
 ### Parameters

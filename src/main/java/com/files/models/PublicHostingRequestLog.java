@@ -35,6 +35,11 @@ public class PublicHostingRequestLog implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class PublicHostingRequestLog implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code PublicHostingRequestLog} with no attributes set.
+   */
   public PublicHostingRequestLog() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code PublicHostingRequestLog} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public PublicHostingRequestLog(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code PublicHostingRequestLog} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public PublicHostingRequestLog(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,6 +103,11 @@ public class PublicHostingRequestLog implements ModelInterface {
   @JsonProperty("timestamp")
   public Date timestamp;
 
+  /**
+   * Gets {@link #timestamp}.
+   *
+   * @return the value of {@link #timestamp}
+   */
   public Date getTimestamp() {
     return timestamp;
   }
@@ -93,6 +118,11 @@ public class PublicHostingRequestLog implements ModelInterface {
   @JsonProperty("remote_ip")
   public String remoteIp;
 
+  /**
+   * Gets {@link #remoteIp}.
+   *
+   * @return the value of {@link #remoteIp}
+   */
   public String getRemoteIp() {
     return remoteIp;
   }
@@ -103,6 +133,11 @@ public class PublicHostingRequestLog implements ModelInterface {
   @JsonProperty("server_ip")
   public String serverIp;
 
+  /**
+   * Gets {@link #serverIp}.
+   *
+   * @return the value of {@link #serverIp}
+   */
   public String getServerIp() {
     return serverIp;
   }
@@ -113,6 +148,11 @@ public class PublicHostingRequestLog implements ModelInterface {
   @JsonProperty("hostname")
   public String hostname;
 
+  /**
+   * Gets {@link #hostname}.
+   *
+   * @return the value of {@link #hostname}
+   */
   public String getHostname() {
     return hostname;
   }
@@ -123,6 +163,11 @@ public class PublicHostingRequestLog implements ModelInterface {
   @JsonProperty("path")
   public String path;
 
+  /**
+   * Gets {@link #path}.
+   *
+   * @return the value of {@link #path}
+   */
   public String getPath() {
     return path;
   }
@@ -133,6 +178,11 @@ public class PublicHostingRequestLog implements ModelInterface {
   @JsonProperty("responseCode")
   public Long responseCode;
 
+  /**
+   * Gets {@link #responseCode}.
+   *
+   * @return the value of {@link #responseCode}
+   */
   public Long getResponseCode() {
     return responseCode;
   }
@@ -143,6 +193,11 @@ public class PublicHostingRequestLog implements ModelInterface {
   @JsonProperty("success")
   public Boolean success;
 
+  /**
+   * Gets {@link #success}.
+   *
+   * @return the value of {@link #success}
+   */
   public Boolean getSuccess() {
     return success;
   }
@@ -153,6 +208,11 @@ public class PublicHostingRequestLog implements ModelInterface {
   @JsonProperty("duration_ms")
   public Long durationMs;
 
+  /**
+   * Gets {@link #durationMs}.
+   *
+   * @return the value of {@link #durationMs}
+   */
   public Long getDurationMs() {
     return durationMs;
   }
@@ -163,6 +223,11 @@ public class PublicHostingRequestLog implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -173,6 +238,11 @@ public class PublicHostingRequestLog implements ModelInterface {
   @JsonProperty("bytes_transferred")
   public Long bytesTransferred;
 
+  /**
+   * Gets {@link #bytesTransferred}.
+   *
+   * @return the value of {@link #bytesTransferred}
+   */
   public Long getBytesTransferred() {
     return bytesTransferred;
   }
@@ -183,39 +253,71 @@ public class PublicHostingRequestLog implements ModelInterface {
   @JsonProperty("http_method")
   public String httpMethod;
 
+  /**
+   * Gets {@link #httpMethod}.
+   *
+   * @return the value of {@link #httpMethod}
+   */
   public String getHttpMethod() {
     return httpMethod;
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 1000, 1,000 or less is recommended).
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `remote_ip`, `success` or `created_at`. Valid field combinations are `[ path ]`, `[ remote_ip ]`, `[ success ]`, `[ created_at ]`, `[ path, remote_ip ]`, `[ path, success ]`, `[ path, created_at ]`, `[ remote_ip, success ]`, `[ remote_ip, created_at ]`, `[ success, created_at ]`, `[ path, remote_ip, success ]`, `[ path, remote_ip, created_at ]`, `[ path, success, created_at ]`, `[ remote_ip, success, created_at ]` or `[ path, remote_ip, success, created_at ]`.
-   *   filter_gt - object - If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`. Valid field combinations are `[ path ]`, `[ remote_ip ]`, `[ success ]`, `[ created_at ]`, `[ path, remote_ip ]`, `[ path, success ]`, `[ path, created_at ]`, `[ remote_ip, success ]`, `[ remote_ip, created_at ]`, `[ success, created_at ]`, `[ path, remote_ip, success ]`, `[ path, remote_ip, created_at ]`, `[ path, success, created_at ]`, `[ remote_ip, success, created_at ]` or `[ path, remote_ip, success, created_at ]`.
-   *   filter_gteq - object - If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`. Valid field combinations are `[ path ]`, `[ remote_ip ]`, `[ success ]`, `[ created_at ]`, `[ path, remote_ip ]`, `[ path, success ]`, `[ path, created_at ]`, `[ remote_ip, success ]`, `[ remote_ip, created_at ]`, `[ success, created_at ]`, `[ path, remote_ip, success ]`, `[ path, remote_ip, created_at ]`, `[ path, success, created_at ]`, `[ remote_ip, success, created_at ]` or `[ path, remote_ip, success, created_at ]`.
-   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`. Valid field combinations are `[ path ]`, `[ remote_ip ]`, `[ success ]`, `[ created_at ]`, `[ path, remote_ip ]`, `[ path, success ]`, `[ path, created_at ]`, `[ remote_ip, success ]`, `[ remote_ip, created_at ]`, `[ success, created_at ]`, `[ path, remote_ip, success ]`, `[ path, remote_ip, created_at ]`, `[ path, success, created_at ]`, `[ remote_ip, success, created_at ]` or `[ path, remote_ip, success, created_at ]`.
-   *   filter_lt - object - If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`. Valid field combinations are `[ path ]`, `[ remote_ip ]`, `[ success ]`, `[ created_at ]`, `[ path, remote_ip ]`, `[ path, success ]`, `[ path, created_at ]`, `[ remote_ip, success ]`, `[ remote_ip, created_at ]`, `[ success, created_at ]`, `[ path, remote_ip, success ]`, `[ path, remote_ip, created_at ]`, `[ path, success, created_at ]`, `[ remote_ip, success, created_at ]` or `[ path, remote_ip, success, created_at ]`.
-   *   filter_lteq - object - If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`. Valid field combinations are `[ path ]`, `[ remote_ip ]`, `[ success ]`, `[ created_at ]`, `[ path, remote_ip ]`, `[ path, success ]`, `[ path, created_at ]`, `[ remote_ip, success ]`, `[ remote_ip, created_at ]`, `[ success, created_at ]`, `[ path, remote_ip, success ]`, `[ path, remote_ip, created_at ]`, `[ path, success, created_at ]`, `[ remote_ip, success, created_at ]` or `[ path, remote_ip, success, created_at ]`.
+   * List Public Hosting Request Logs
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<PublicHostingRequestLog> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Public Hosting Request Logs
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<PublicHostingRequestLog> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Public Hosting Request Logs
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 1000, 1,000 or less is recommended).</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `remote_ip`, `success` or `created_at`. Valid field combinations are `[ path ]`, `[ remote_ip ]`, `[ success ]`, `[ created_at ]`, `[ path, remote_ip ]`, `[ path, success ]`, `[ path, created_at ]`, `[ remote_ip, success ]`, `[ remote_ip, created_at ]`, `[ success, created_at ]`, `[ path, remote_ip, success ]`, `[ path, remote_ip, created_at ]`, `[ path, success, created_at ]`, `[ remote_ip, success, created_at ]` or `[ path, remote_ip, success, created_at ]`.</li>
+   * <li>{@code filter_gt} (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`. Valid field combinations are `[ path ]`, `[ remote_ip ]`, `[ success ]`, `[ created_at ]`, `[ path, remote_ip ]`, `[ path, success ]`, `[ path, created_at ]`, `[ remote_ip, success ]`, `[ remote_ip, created_at ]`, `[ success, created_at ]`, `[ path, remote_ip, success ]`, `[ path, remote_ip, created_at ]`, `[ path, success, created_at ]`, `[ remote_ip, success, created_at ]` or `[ path, remote_ip, success, created_at ]`.</li>
+   * <li>{@code filter_gteq} (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`. Valid field combinations are `[ path ]`, `[ remote_ip ]`, `[ success ]`, `[ created_at ]`, `[ path, remote_ip ]`, `[ path, success ]`, `[ path, created_at ]`, `[ remote_ip, success ]`, `[ remote_ip, created_at ]`, `[ success, created_at ]`, `[ path, remote_ip, success ]`, `[ path, remote_ip, created_at ]`, `[ path, success, created_at ]`, `[ remote_ip, success, created_at ]` or `[ path, remote_ip, success, created_at ]`.</li>
+   * <li>{@code filter_prefix} (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`. Valid field combinations are `[ path ]`, `[ remote_ip ]`, `[ success ]`, `[ created_at ]`, `[ path, remote_ip ]`, `[ path, success ]`, `[ path, created_at ]`, `[ remote_ip, success ]`, `[ remote_ip, created_at ]`, `[ success, created_at ]`, `[ path, remote_ip, success ]`, `[ path, remote_ip, created_at ]`, `[ path, success, created_at ]`, `[ remote_ip, success, created_at ]` or `[ path, remote_ip, success, created_at ]`.</li>
+   * <li>{@code filter_lt} (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`. Valid field combinations are `[ path ]`, `[ remote_ip ]`, `[ success ]`, `[ created_at ]`, `[ path, remote_ip ]`, `[ path, success ]`, `[ path, created_at ]`, `[ remote_ip, success ]`, `[ remote_ip, created_at ]`, `[ success, created_at ]`, `[ path, remote_ip, success ]`, `[ path, remote_ip, created_at ]`, `[ path, success, created_at ]`, `[ remote_ip, success, created_at ]` or `[ path, remote_ip, success, created_at ]`.</li>
+   * <li>{@code filter_lteq} (Object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`. Valid field combinations are `[ path ]`, `[ remote_ip ]`, `[ success ]`, `[ created_at ]`, `[ path, remote_ip ]`, `[ path, success ]`, `[ path, created_at ]`, `[ remote_ip, success ]`, `[ remote_ip, created_at ]`, `[ success, created_at ]`, `[ path, remote_ip, success ]`, `[ path, remote_ip, created_at ]`, `[ path, success, created_at ]`, `[ remote_ip, success, created_at ]` or `[ path, remote_ip, success, created_at ]`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code PublicHostingRequestLog} records, in a {@code ListIterator}
+   */
   public static ListIterator<PublicHostingRequestLog> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().publicHostingRequestLogs().list(parameters, options);
   }
 
+  /**
+   * List Public Hosting Request Logs
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<PublicHostingRequestLog> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Public Hosting Request Logs
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<PublicHostingRequestLog> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }

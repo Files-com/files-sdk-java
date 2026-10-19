@@ -24,12 +24,11 @@
 
 ## List Group Users
 
-```
-ListIterator<GroupUser> groupUser = GroupUser.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("group_id", 1L);
+parameters.put("user_id", 1L);
+ListIterator<GroupUser> groupUsers = GroupUser.list(parameters, null);
 ```
 
 ### Parameters
@@ -44,12 +43,12 @@ ListIterator<GroupUser> groupUser = GroupUser.list(
 
 ## Create Group User
 
-```
-GroupUser groupUser = GroupUser.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("group_id", 1L);
+parameters.put("user_id", 1L);
+parameters.put("admin", false);
+GroupUser groupUser = GroupUser.create(parameters, null);
 ```
 
 ### Parameters
@@ -63,12 +62,12 @@ GroupUser groupUser = GroupUser.create(
 
 ## Update Group User
 
-```
-GroupUser groupUser = GroupUser.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("group_id", 1L);
+parameters.put("user_id", 1L);
+parameters.put("admin", false);
+GroupUser groupUser = GroupUser.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -83,12 +82,11 @@ GroupUser groupUser = GroupUser.update(
 
 ## Delete Group User
 
-```
-void groupUser = GroupUser.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("group_id", 1L);
+parameters.put("user_id", 1L);
+GroupUser.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -102,15 +100,14 @@ void groupUser = GroupUser.delete(
 
 ## Update Group User
 
-```
-GroupUser groupUser = GroupUser.list()[0];
-
+```java
+// The first GroupUser listed: the list must not be empty.
+GroupUser groupUser = GroupUser.list(null, null).iterator().next();
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("group_id", 1);
-parameters.put("user_id", 1);
+parameters.put("group_id", 1L);
+parameters.put("user_id", 1L);
 parameters.put("admin", false);
-
-groupUser.update(parameters);
+GroupUser result = groupUser.update(parameters);
 ```
 
 ### Parameters
@@ -125,13 +122,12 @@ groupUser.update(parameters);
 
 ## Delete Group User
 
-```
-GroupUser groupUser = GroupUser.list()[0];
-
+```java
+// The first GroupUser listed: the list must not be empty.
+GroupUser groupUser = GroupUser.list(null, null).iterator().next();
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("group_id", 1);
-parameters.put("user_id", 1);
-
+parameters.put("group_id", 1L);
+parameters.put("user_id", 1L);
 groupUser.delete(parameters);
 ```
 

@@ -25,20 +25,37 @@ public final class ExpectationEvaluationOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `created_at` or `expectation_id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `expectation_id` and `workspace_id`. Valid field combinations are `[ workspace_id, expectation_id ]`.
+   * List Expectation Evaluations
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<ExpectationEvaluation> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Expectation Evaluations
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<ExpectationEvaluation> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Expectation Evaluations
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `created_at` or `expectation_id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `expectation_id` and `workspace_id`. Valid field combinations are `[ workspace_id, expectation_id ]`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ExpectationEvaluation} records, in a {@code ListIterator}
+   */
   public ListIterator<ExpectationEvaluation> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -64,30 +81,59 @@ public final class ExpectationEvaluationOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Expectation Evaluations
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<ExpectationEvaluation> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Expectation Evaluations
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<ExpectationEvaluation> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Expectation Evaluation ID.
+   * Show Expectation Evaluation
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public ExpectationEvaluation find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Expectation Evaluation
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ExpectationEvaluation find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Expectation Evaluation
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ExpectationEvaluation find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Expectation Evaluation
+   *
+   * @param id Expectation Evaluation ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ExpectationEvaluation}
+   */
   public ExpectationEvaluation find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -109,10 +155,20 @@ public final class ExpectationEvaluationOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Expectation Evaluation
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ExpectationEvaluation get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Expectation Evaluation
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public ExpectationEvaluation get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }

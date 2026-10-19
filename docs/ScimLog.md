@@ -29,12 +29,9 @@
 
 ## List Scim Logs
 
-```
-ListIterator<ScimLog> scimLog = ScimLog.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<ScimLog> scimLogs = ScimLog.list(parameters, null);
 ```
 
 ### Parameters
@@ -48,12 +45,9 @@ ListIterator<ScimLog> scimLog = ScimLog.list(
 
 ## Show Scim Log
 
-```
-ScimLog scimLog = ScimLog.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ScimLog scimLog = ScimLog.find(1L, parameters, null);
 ```
 
 ### Parameters

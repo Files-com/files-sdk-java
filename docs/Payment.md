@@ -62,12 +62,9 @@
 
 ## List Payments
 
-```
-ListIterator<AccountLineItem> payment = Payment.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<AccountLineItem> accountLineItems = Payment.list(parameters, null);
 ```
 
 ### Parameters
@@ -80,12 +77,9 @@ ListIterator<AccountLineItem> payment = Payment.list(
 
 ## Show Payment
 
-```
-AccountLineItem payment = Payment.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+AccountLineItem accountLineItem = Payment.find(1L, parameters, null);
 ```
 
 ### Parameters

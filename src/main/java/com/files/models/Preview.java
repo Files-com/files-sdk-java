@@ -33,6 +33,11 @@ public class Preview implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -56,14 +61,29 @@ public class Preview implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code Preview} with no attributes set.
+   */
   public Preview() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code Preview} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public Preview(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code Preview} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public Preview(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -81,6 +101,11 @@ public class Preview implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -91,6 +116,11 @@ public class Preview implements ModelInterface {
   @JsonProperty("status")
   public String status;
 
+  /**
+   * Gets {@link #status}.
+   *
+   * @return the value of {@link #status}
+   */
   public String getStatus() {
     return status;
   }
@@ -101,6 +131,11 @@ public class Preview implements ModelInterface {
   @JsonProperty("download_uri")
   public String downloadUri;
 
+  /**
+   * Gets {@link #downloadUri}.
+   *
+   * @return the value of {@link #downloadUri}
+   */
   public String getDownloadUri() {
     return downloadUri;
   }
@@ -111,6 +146,11 @@ public class Preview implements ModelInterface {
   @JsonProperty("type")
   public String type;
 
+  /**
+   * Gets {@link #type}.
+   *
+   * @return the value of {@link #type}
+   */
   public String getType() {
     return type;
   }
@@ -121,6 +161,11 @@ public class Preview implements ModelInterface {
   @JsonProperty("size")
   public String size;
 
+  /**
+   * Gets {@link #size}.
+   *
+   * @return the value of {@link #size}
+   */
   public String getSize() {
     return size;
   }

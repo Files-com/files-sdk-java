@@ -35,6 +35,11 @@ public class Session implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class Session implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code Session} with no attributes set.
+   */
   public Session() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code Session} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public Session(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code Session} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public Session(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,10 +103,20 @@ public class Session implements ModelInterface {
   @JsonProperty("id")
   public String id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public String getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(String id) {
     this.id = id;
   }
@@ -97,10 +127,20 @@ public class Session implements ModelInterface {
   @JsonProperty("language")
   public String language;
 
+  /**
+   * Gets {@link #language}.
+   *
+   * @return the value of {@link #language}
+   */
   public String getLanguage() {
     return language;
   }
 
+  /**
+   * Sets {@link #language}.
+   *
+   * @param language the new value
+   */
   public void setLanguage(String language) {
     this.language = language;
   }
@@ -111,10 +151,20 @@ public class Session implements ModelInterface {
   @JsonProperty("read_only")
   public Boolean readOnly;
 
+  /**
+   * Gets {@link #readOnly}.
+   *
+   * @return the value of {@link #readOnly}
+   */
   public Boolean getReadOnly() {
     return readOnly;
   }
 
+  /**
+   * Sets {@link #readOnly}.
+   *
+   * @param readOnly the new value
+   */
   public void setReadOnly(Boolean readOnly) {
     this.readOnly = readOnly;
   }
@@ -125,10 +175,20 @@ public class Session implements ModelInterface {
   @JsonProperty("sftp_insecure_ciphers")
   public Boolean sftpInsecureCiphers;
 
+  /**
+   * Gets {@link #sftpInsecureCiphers}.
+   *
+   * @return the value of {@link #sftpInsecureCiphers}
+   */
   public Boolean getSftpInsecureCiphers() {
     return sftpInsecureCiphers;
   }
 
+  /**
+   * Sets {@link #sftpInsecureCiphers}.
+   *
+   * @param sftpInsecureCiphers the new value
+   */
   public void setSftpInsecureCiphers(Boolean sftpInsecureCiphers) {
     this.sftpInsecureCiphers = sftpInsecureCiphers;
   }
@@ -139,10 +199,20 @@ public class Session implements ModelInterface {
   @JsonProperty("username")
   public String username;
 
+  /**
+   * Gets {@link #username}.
+   *
+   * @return the value of {@link #username}
+   */
   public String getUsername() {
     return username;
   }
 
+  /**
+   * Sets {@link #username}.
+   *
+   * @param username the new value
+   */
   public void setUsername(String username) {
     this.username = username;
   }
@@ -153,10 +223,20 @@ public class Session implements ModelInterface {
   @JsonProperty("password")
   public String password;
 
+  /**
+   * Gets {@link #password}.
+   *
+   * @return the value of {@link #password}
+   */
   public String getPassword() {
     return password;
   }
 
+  /**
+   * Sets {@link #password}.
+   *
+   * @param password the new value
+   */
   public void setPassword(String password) {
     this.password = password;
   }
@@ -167,10 +247,20 @@ public class Session implements ModelInterface {
   @JsonProperty("otp")
   public String otp;
 
+  /**
+   * Gets {@link #otp}.
+   *
+   * @return the value of {@link #otp}
+   */
   public String getOtp() {
     return otp;
   }
 
+  /**
+   * Sets {@link #otp}.
+   *
+   * @param otp the new value
+   */
   public void setOtp(String otp) {
     this.otp = otp;
   }
@@ -181,10 +271,20 @@ public class Session implements ModelInterface {
   @JsonProperty("partial_session_id")
   public String partialSessionId;
 
+  /**
+   * Gets {@link #partialSessionId}.
+   *
+   * @return the value of {@link #partialSessionId}
+   */
   public String getPartialSessionId() {
     return partialSessionId;
   }
 
+  /**
+   * Sets {@link #partialSessionId}.
+   *
+   * @param partialSessionId the new value
+   */
   public void setPartialSessionId(String partialSessionId) {
     this.partialSessionId = partialSessionId;
   }
@@ -220,45 +320,86 @@ public class Session implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   username - string - Username to sign in as
-   *   password - string - Password for sign in
-   *   otp - string - If this user has a 2FA device, provide its OTP or code here.
-   *   partial_session_id - string - Identifier for a partially-completed login
+   * Create user session (log in)
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static Session create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create user session (log in)
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static Session create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create user session (log in)
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code username} (String): Username to sign in as</li>
+   * <li>{@code password} (String): Password for sign in</li>
+   * <li>{@code otp} (String): If this user has a 2FA device, provide its OTP or code here.</li>
+   * <li>{@code partial_session_id} (String): Identifier for a partially-completed login</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Session}
+   */
   public static Session create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().sessions().create(parameters, options);
   }
 
 
   /**
+   * Delete user session (log out)
+   *
+   * @see #delete(HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null);
   }
 
+  /**
+   * Delete user session (log out)
+   *
+   * @see #delete(HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters) throws RuntimeException {
     delete(parameters, null);
   }
 
 
+  /**
+   * Delete user session (log out)
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().sessions().delete(parameters, options);
   }
 
+  /**
+   * Delete user session (log out)
+   *
+   * @see #delete(HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null);
   }
 
+  /**
+   * Delete user session (log out)
+   *
+   * @see #delete(HashMap, HashMap)
+   */
   public static void destroy(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(parameters, options);
   }

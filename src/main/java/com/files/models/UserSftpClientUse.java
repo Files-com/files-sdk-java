@@ -35,6 +35,11 @@ public class UserSftpClientUse implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class UserSftpClientUse implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code UserSftpClientUse} with no attributes set.
+   */
   public UserSftpClientUse() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code UserSftpClientUse} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public UserSftpClientUse(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code UserSftpClientUse} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public UserSftpClientUse(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,6 +103,11 @@ public class UserSftpClientUse implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -93,6 +118,11 @@ public class UserSftpClientUse implements ModelInterface {
   @JsonProperty("sftp_client")
   public String sftpClient;
 
+  /**
+   * Gets {@link #sftpClient}.
+   *
+   * @return the value of {@link #sftpClient}
+   */
   public String getSftpClient() {
     return sftpClient;
   }
@@ -103,6 +133,11 @@ public class UserSftpClientUse implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -113,6 +148,11 @@ public class UserSftpClientUse implements ModelInterface {
   @JsonProperty("updated_at")
   public Date updatedAt;
 
+  /**
+   * Gets {@link #updatedAt}.
+   *
+   * @return the value of {@link #updatedAt}
+   */
   public Date getUpdatedAt() {
     return updatedAt;
   }
@@ -123,35 +163,67 @@ public class UserSftpClientUse implements ModelInterface {
   @JsonProperty("user_id")
   public Long userId;
 
+  /**
+   * Gets {@link #userId}.
+   *
+   * @return the value of {@link #userId}
+   */
   public Long getUserId() {
     return userId;
   }
 
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID. If provided, will return uses for this user.
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.
+   * List User SFTP Client Uses
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<UserSftpClientUse> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List User SFTP Client Uses
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<UserSftpClientUse> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List User SFTP Client Uses
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID. If provided, will return uses for this user.</li>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code UserSftpClientUse} records, in a {@code ListIterator}
+   */
   public static ListIterator<UserSftpClientUse> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().userSftpClientUses().list(parameters, options);
   }
 
+  /**
+   * List User SFTP Client Uses
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<UserSftpClientUse> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List User SFTP Client Uses
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<UserSftpClientUse> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }

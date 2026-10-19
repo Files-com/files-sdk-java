@@ -132,12 +132,9 @@
 
 ## List SIEM HTTP Destinations
 
-```
-ListIterator<SiemHttpDestination> siemHttpDestination = SiemHttpDestination.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<SiemHttpDestination> siemHttpDestinations = SiemHttpDestination.list(parameters, null);
 ```
 
 ### Parameters
@@ -150,12 +147,9 @@ ListIterator<SiemHttpDestination> siemHttpDestination = SiemHttpDestination.list
 
 ## Show SIEM HTTP Destination
 
-```
-SiemHttpDestination siemHttpDestination = SiemHttpDestination.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+SiemHttpDestination siemHttpDestination = SiemHttpDestination.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -167,12 +161,37 @@ SiemHttpDestination siemHttpDestination = SiemHttpDestination.find(
 
 ## Create SIEM HTTP Destination
 
-```
-SiemHttpDestination siemHttpDestination = SiemHttpDestination.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "example");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("Authorization", "Bearer YOUR_TOKEN");
+parameters.put("additional_headers", map1);
+parameters.put("sending_active", true);
+parameters.put("generic_payload_type", "example");
+parameters.put("file_destination_path", "example");
+parameters.put("file_format", "example");
+parameters.put("file_interval_minutes", 1L);
+parameters.put("azure_dcr_immutable_id", "example");
+parameters.put("azure_stream_name", "example");
+parameters.put("azure_oauth_client_credentials_tenant_id", "example");
+parameters.put("azure_oauth_client_credentials_client_id", "example");
+parameters.put("qradar_username", "example");
+parameters.put("action_send_enabled", true);
+parameters.put("sftp_action_send_enabled", true);
+parameters.put("ftp_action_send_enabled", true);
+parameters.put("web_dav_action_send_enabled", true);
+parameters.put("sync_send_enabled", true);
+parameters.put("outbound_connection_send_enabled", true);
+parameters.put("automation_send_enabled", true);
+parameters.put("api_request_send_enabled", true);
+parameters.put("public_hosting_request_send_enabled", true);
+parameters.put("email_send_enabled", true);
+parameters.put("exavault_api_request_send_enabled", true);
+parameters.put("settings_change_send_enabled", true);
+parameters.put("destination_type", "example");
+parameters.put("destination_url", "example");
+SiemHttpDestination siemHttpDestination = SiemHttpDestination.create(parameters, null);
 ```
 
 ### Parameters
@@ -216,12 +235,38 @@ SiemHttpDestination siemHttpDestination = SiemHttpDestination.create(
 
 ## send_test_entry SIEM HTTP Destination
 
-```
-void siemHttpDestination = SiemHttpDestination.sendTestEntry(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("siem_http_destination_id", 1L);
+parameters.put("destination_type", "example");
+parameters.put("destination_url", "example");
+parameters.put("name", "example");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("Authorization", "Bearer YOUR_TOKEN");
+parameters.put("additional_headers", map1);
+parameters.put("sending_active", true);
+parameters.put("generic_payload_type", "example");
+parameters.put("file_destination_path", "example");
+parameters.put("file_format", "example");
+parameters.put("file_interval_minutes", 1L);
+parameters.put("azure_dcr_immutable_id", "example");
+parameters.put("azure_stream_name", "example");
+parameters.put("azure_oauth_client_credentials_tenant_id", "example");
+parameters.put("azure_oauth_client_credentials_client_id", "example");
+parameters.put("qradar_username", "example");
+parameters.put("action_send_enabled", true);
+parameters.put("sftp_action_send_enabled", true);
+parameters.put("ftp_action_send_enabled", true);
+parameters.put("web_dav_action_send_enabled", true);
+parameters.put("sync_send_enabled", true);
+parameters.put("outbound_connection_send_enabled", true);
+parameters.put("automation_send_enabled", true);
+parameters.put("api_request_send_enabled", true);
+parameters.put("public_hosting_request_send_enabled", true);
+parameters.put("email_send_enabled", true);
+parameters.put("exavault_api_request_send_enabled", true);
+parameters.put("settings_change_send_enabled", true);
+SiemHttpDestination.sendTestEntry(parameters, null);
 ```
 
 ### Parameters
@@ -266,84 +311,17 @@ void siemHttpDestination = SiemHttpDestination.sendTestEntry(
 
 ## Update SIEM HTTP Destination
 
-```
-SiemHttpDestination siemHttpDestination = SiemHttpDestination.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Siem Http Destination ID.
-* `name` (String): Name for this Destination
-* `additional_headers` (Object): Additional HTTP Headers included in calls to the destination URL
-* `sending_active` (Boolean): Whether this SIEM HTTP Destination is currently being sent to or not
-* `generic_payload_type` (String): Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
-* `file_destination_path` (String): Applicable only for destination type: file. Destination folder path on Files.com.
-* `file_format` (String): Applicable only for destination type: file. Generated file format.
-* `file_interval_minutes` (Long): Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
-* `splunk_token` (String): Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
-* `crowdstrike_token` (String): Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
-* `azure_dcr_immutable_id` (String): Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
-* `azure_stream_name` (String): Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
-* `azure_oauth_client_credentials_tenant_id` (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
-* `azure_oauth_client_credentials_client_id` (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
-* `azure_oauth_client_credentials_client_secret` (String): Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
-* `qradar_username` (String): Applicable only for destination type: qradar. Basic auth username provided by QRadar.
-* `qradar_password` (String): Applicable only for destination type: qradar. Basic auth password provided by QRadar.
-* `solar_winds_token` (String): Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
-* `new_relic_api_key` (String): Applicable only for destination type: new_relic. API key provided by New Relic.
-* `datadog_api_key` (String): Applicable only for destination type: datadog. API key provided by Datadog.
-* `action_send_enabled` (Boolean): Whether or not sending is enabled for action logs.
-* `sftp_action_send_enabled` (Boolean): Whether or not sending is enabled for sftp_action logs.
-* `ftp_action_send_enabled` (Boolean): Whether or not sending is enabled for ftp_action logs.
-* `web_dav_action_send_enabled` (Boolean): Whether or not sending is enabled for web_dav_action logs.
-* `sync_send_enabled` (Boolean): Whether or not sending is enabled for sync logs.
-* `outbound_connection_send_enabled` (Boolean): Whether or not sending is enabled for outbound_connection logs.
-* `automation_send_enabled` (Boolean): Whether or not sending is enabled for automation logs.
-* `api_request_send_enabled` (Boolean): Whether or not sending is enabled for api_request logs.
-* `public_hosting_request_send_enabled` (Boolean): Whether or not sending is enabled for public_hosting_request logs.
-* `email_send_enabled` (Boolean): Whether or not sending is enabled for email logs.
-* `exavault_api_request_send_enabled` (Boolean): Whether or not sending is enabled for exavault_api_request logs.
-* `settings_change_send_enabled` (Boolean): Whether or not sending is enabled for settings_change logs.
-* `destination_type` (String): Destination Type
-* `destination_url` (String): Destination Url
-
-
----
-
-## Delete SIEM HTTP Destination
-
-```
-void siemHttpDestination = SiemHttpDestination.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Siem Http Destination ID.
-
-
----
-
-## Update SIEM HTTP Destination
-
-```
-SiemHttpDestination siemHttpDestination = SiemHttpDestination.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "example");
-parameters.put("additional_headers", {"Authorization":"Bearer YOUR_TOKEN"});
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("Authorization", "Bearer YOUR_TOKEN");
+parameters.put("additional_headers", map1);
 parameters.put("sending_active", true);
 parameters.put("generic_payload_type", "example");
 parameters.put("file_destination_path", "example");
 parameters.put("file_format", "example");
-parameters.put("file_interval_minutes", 1);
+parameters.put("file_interval_minutes", 1L);
 parameters.put("azure_dcr_immutable_id", "example");
 parameters.put("azure_stream_name", "example");
 parameters.put("azure_oauth_client_credentials_tenant_id", "example");
@@ -363,8 +341,7 @@ parameters.put("exavault_api_request_send_enabled", true);
 parameters.put("settings_change_send_enabled", true);
 parameters.put("destination_type", "example");
 parameters.put("destination_url", "example");
-
-siemHttpDestination.update(parameters);
+SiemHttpDestination siemHttpDestination = SiemHttpDestination.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -409,11 +386,99 @@ siemHttpDestination.update(parameters);
 
 ## Delete SIEM HTTP Destination
 
-```
-SiemHttpDestination siemHttpDestination = SiemHttpDestination.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
+SiemHttpDestination.delete(1L, parameters, null);
+```
 
+### Parameters
+
+* `id` (Long): Required - Siem Http Destination ID.
+
+
+---
+
+## Update SIEM HTTP Destination
+
+```java
+SiemHttpDestination siemHttpDestination = SiemHttpDestination.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "example");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("Authorization", "Bearer YOUR_TOKEN");
+parameters.put("additional_headers", map1);
+parameters.put("sending_active", true);
+parameters.put("generic_payload_type", "example");
+parameters.put("file_destination_path", "example");
+parameters.put("file_format", "example");
+parameters.put("file_interval_minutes", 1L);
+parameters.put("azure_dcr_immutable_id", "example");
+parameters.put("azure_stream_name", "example");
+parameters.put("azure_oauth_client_credentials_tenant_id", "example");
+parameters.put("azure_oauth_client_credentials_client_id", "example");
+parameters.put("qradar_username", "example");
+parameters.put("action_send_enabled", true);
+parameters.put("sftp_action_send_enabled", true);
+parameters.put("ftp_action_send_enabled", true);
+parameters.put("web_dav_action_send_enabled", true);
+parameters.put("sync_send_enabled", true);
+parameters.put("outbound_connection_send_enabled", true);
+parameters.put("automation_send_enabled", true);
+parameters.put("api_request_send_enabled", true);
+parameters.put("public_hosting_request_send_enabled", true);
+parameters.put("email_send_enabled", true);
+parameters.put("exavault_api_request_send_enabled", true);
+parameters.put("settings_change_send_enabled", true);
+parameters.put("destination_type", "example");
+parameters.put("destination_url", "example");
+SiemHttpDestination result = siemHttpDestination.update(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - Siem Http Destination ID.
+* `name` (String): Name for this Destination
+* `additional_headers` (Object): Additional HTTP Headers included in calls to the destination URL
+* `sending_active` (Boolean): Whether this SIEM HTTP Destination is currently being sent to or not
+* `generic_payload_type` (String): Applicable only for destination type: generic. Indicates the type of HTTP body. Can be json_newline or json_array. json_newline is multiple log entries as JSON separated by newlines. json_array is a single JSON array containing multiple log entries as JSON.
+* `file_destination_path` (String): Applicable only for destination type: file. Destination folder path on Files.com.
+* `file_format` (String): Applicable only for destination type: file. Generated file format.
+* `file_interval_minutes` (Long): Applicable only for destination type: file. Interval, in minutes, between file deliveries. Valid values are 5, 10, 15, 20, 30, 60, 90, 180, 240, 360.
+* `splunk_token` (String): Applicable only for destination types: splunk, splunk_compatible. Authentication token for the destination.
+* `crowdstrike_token` (String): Applicable only for destination type: crowdstrike. Authentication token provided by Crowdstrike.
+* `azure_dcr_immutable_id` (String): Applicable only for destination types: azure, azure_legacy. Immutable ID of the Data Collection Rule.
+* `azure_stream_name` (String): Applicable only for destination type: azure. Name of the stream in the DCR that represents the destination table.
+* `azure_oauth_client_credentials_tenant_id` (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Tenant ID.
+* `azure_oauth_client_credentials_client_id` (String): Applicable only for destination types: azure, azure_legacy. Client Credentials OAuth Client ID.
+* `azure_oauth_client_credentials_client_secret` (String): Applicable only for destination type: azure. Client Credentials OAuth Client Secret.
+* `qradar_username` (String): Applicable only for destination type: qradar. Basic auth username provided by QRadar.
+* `qradar_password` (String): Applicable only for destination type: qradar. Basic auth password provided by QRadar.
+* `solar_winds_token` (String): Applicable only for destination type: solar_winds. Authentication token provided by Solar Winds.
+* `new_relic_api_key` (String): Applicable only for destination type: new_relic. API key provided by New Relic.
+* `datadog_api_key` (String): Applicable only for destination type: datadog. API key provided by Datadog.
+* `action_send_enabled` (Boolean): Whether or not sending is enabled for action logs.
+* `sftp_action_send_enabled` (Boolean): Whether or not sending is enabled for sftp_action logs.
+* `ftp_action_send_enabled` (Boolean): Whether or not sending is enabled for ftp_action logs.
+* `web_dav_action_send_enabled` (Boolean): Whether or not sending is enabled for web_dav_action logs.
+* `sync_send_enabled` (Boolean): Whether or not sending is enabled for sync logs.
+* `outbound_connection_send_enabled` (Boolean): Whether or not sending is enabled for outbound_connection logs.
+* `automation_send_enabled` (Boolean): Whether or not sending is enabled for automation logs.
+* `api_request_send_enabled` (Boolean): Whether or not sending is enabled for api_request logs.
+* `public_hosting_request_send_enabled` (Boolean): Whether or not sending is enabled for public_hosting_request logs.
+* `email_send_enabled` (Boolean): Whether or not sending is enabled for email logs.
+* `exavault_api_request_send_enabled` (Boolean): Whether or not sending is enabled for exavault_api_request logs.
+* `settings_change_send_enabled` (Boolean): Whether or not sending is enabled for settings_change logs.
+* `destination_type` (String): Destination Type
+* `destination_url` (String): Destination Url
+
+
+---
+
+## Delete SIEM HTTP Destination
+
+```java
+SiemHttpDestination siemHttpDestination = SiemHttpDestination.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
 siemHttpDestination.delete(parameters);
 ```
 

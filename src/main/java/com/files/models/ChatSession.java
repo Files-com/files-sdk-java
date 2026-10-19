@@ -35,6 +35,11 @@ public class ChatSession implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class ChatSession implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code ChatSession} with no attributes set.
+   */
   public ChatSession() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code ChatSession} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public ChatSession(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code ChatSession} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public ChatSession(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,6 +103,11 @@ public class ChatSession implements ModelInterface {
   @JsonProperty("id")
   public String id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public String getId() {
     return id;
   }
@@ -93,6 +118,11 @@ public class ChatSession implements ModelInterface {
   @JsonProperty("title")
   public String title;
 
+  /**
+   * Gets {@link #title}.
+   *
+   * @return the value of {@link #title}
+   */
   public String getTitle() {
     return title;
   }
@@ -103,6 +133,11 @@ public class ChatSession implements ModelInterface {
   @JsonProperty("user_id")
   public Long userId;
 
+  /**
+   * Gets {@link #userId}.
+   *
+   * @return the value of {@link #userId}
+   */
   public Long getUserId() {
     return userId;
   }
@@ -113,6 +148,11 @@ public class ChatSession implements ModelInterface {
   @JsonProperty("ai_task_id")
   public Long aiTaskId;
 
+  /**
+   * Gets {@link #aiTaskId}.
+   *
+   * @return the value of {@link #aiTaskId}
+   */
   public Long getAiTaskId() {
     return aiTaskId;
   }
@@ -123,6 +163,11 @@ public class ChatSession implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
@@ -133,6 +178,11 @@ public class ChatSession implements ModelInterface {
   @JsonProperty("last_active_at")
   public Date lastActiveAt;
 
+  /**
+   * Gets {@link #lastActiveAt}.
+   *
+   * @return the value of {@link #lastActiveAt}
+   */
   public Date getLastActiveAt() {
     return lastActiveAt;
   }
@@ -143,6 +193,11 @@ public class ChatSession implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
@@ -153,63 +208,124 @@ public class ChatSession implements ModelInterface {
   @JsonProperty("messages")
   public ChatMessage[] messages;
 
+  /**
+   * Gets {@link #messages}.
+   *
+   * @return the value of {@link #messages}
+   */
   public ChatMessage[] getMessages() {
     return messages;
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `ai_task_id`, `user_id` or `workspace_id`.
+   * List Chat Sessions
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<ChatSession> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Chat Sessions
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ChatSession> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Chat Sessions
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `ai_task_id`, `user_id` or `workspace_id`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ChatSession} records, in a {@code ListIterator}
+   */
   public static ListIterator<ChatSession> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().chatSessions().list(parameters, options);
   }
 
+  /**
+   * List Chat Sessions
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ChatSession> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Chat Sessions
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<ChatSession> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - string - Chat Session ID.
+   * Show Chat Session
+   *
+   * @see #find(String, HashMap, HashMap)
    */
   public static ChatSession find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Chat Session
+   *
+   * @see #find(String, HashMap, HashMap)
+   */
   public static ChatSession find(String id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Chat Session
+   *
+   * @see #find(String, HashMap, HashMap)
+   */
   public static ChatSession find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Chat Session
+   *
+   * @param id Chat Session ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ChatSession}
+   */
   public static ChatSession find(String id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().chatSessions().find(id, parameters, options);
   }
 
+  /**
+   * Show Chat Session
+   *
+   * @see #find(String, HashMap, HashMap)
+   */
   public static ChatSession get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Chat Session
+   *
+   * @see #find(String, HashMap, HashMap)
+   */
   public static ChatSession get(String id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }

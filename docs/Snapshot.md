@@ -28,12 +28,9 @@
 
 ## List Snapshots
 
-```
-ListIterator<Snapshot> snapshot = Snapshot.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<Snapshot> snapshots = Snapshot.list(parameters, null);
 ```
 
 ### Parameters
@@ -46,12 +43,9 @@ ListIterator<Snapshot> snapshot = Snapshot.list(
 
 ## Show Snapshot
 
-```
-Snapshot snapshot = Snapshot.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Snapshot snapshot = Snapshot.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -63,12 +57,12 @@ Snapshot snapshot = Snapshot.find(
 
 ## Create Snapshot
 
-```
-Snapshot snapshot = Snapshot.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("expires_at", "2000-01-01T01:00:00Z");
+parameters.put("name", "My Snapshot");
+parameters.put("workspace_id", 0L);
+Snapshot snapshot = Snapshot.create(parameters, null);
 ```
 
 ### Parameters
@@ -83,12 +77,9 @@ Snapshot snapshot = Snapshot.create(
 
 ## Finalize Snapshot
 
-```
-void snapshot = Snapshot.finalize(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Snapshot.performFinalize(1L, parameters, null);
 ```
 
 ### Parameters
@@ -100,12 +91,11 @@ void snapshot = Snapshot.finalize(
 
 ## Update Snapshot
 
-```
-Snapshot snapshot = Snapshot.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("expires_at", "2000-01-01T01:00:00Z");
+parameters.put("name", "My Snapshot");
+Snapshot snapshot = Snapshot.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -120,12 +110,9 @@ Snapshot snapshot = Snapshot.update(
 
 ## Delete Snapshot
 
-```
-void snapshot = Snapshot.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Snapshot.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -137,12 +124,10 @@ void snapshot = Snapshot.delete(
 
 ## Finalize Snapshot
 
-```
-Snapshot snapshot = Snapshot.find(id);
-
+```java
+Snapshot snapshot = Snapshot.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
-snapshot.finalize(parameters);
+snapshot.performFinalize(parameters);
 ```
 
 ### Parameters
@@ -154,14 +139,12 @@ snapshot.finalize(parameters);
 
 ## Update Snapshot
 
-```
-Snapshot snapshot = Snapshot.find(id);
-
+```java
+Snapshot snapshot = Snapshot.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("expires_at", "2000-01-01T01:00:00Z");
 parameters.put("name", "My Snapshot");
-
-snapshot.update(parameters);
+Snapshot result = snapshot.update(parameters);
 ```
 
 ### Parameters
@@ -176,11 +159,9 @@ snapshot.update(parameters);
 
 ## Delete Snapshot
 
-```
-Snapshot snapshot = Snapshot.find(id);
-
+```java
+Snapshot snapshot = Snapshot.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 snapshot.delete(parameters);
 ```
 

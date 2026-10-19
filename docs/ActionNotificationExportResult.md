@@ -33,12 +33,11 @@
 
 ## List Action Notification Export Results
 
-```
-ListIterator<ActionNotificationExportResult> actionNotificationExportResult = ActionNotificationExportResult.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("action_notification_export_id", 1L);
+ListIterator<ActionNotificationExportResult> actionNotificationExportResults = ActionNotificationExportResult.list(parameters, null);
 ```
 
 ### Parameters

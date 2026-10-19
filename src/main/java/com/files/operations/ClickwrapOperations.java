@@ -25,19 +25,36 @@ public final class ClickwrapOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
+   * List Clickwraps
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<Clickwrap> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Clickwraps
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Clickwrap> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Clickwraps
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Clickwrap} records, in a {@code ListIterator}
+   */
   public ListIterator<Clickwrap> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -59,30 +76,59 @@ public final class ClickwrapOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Clickwraps
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Clickwrap> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Clickwraps
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Clickwrap> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Clickwrap ID.
+   * Show Clickwrap
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public Clickwrap find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Clickwrap
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Clickwrap find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Clickwrap
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Clickwrap find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Clickwrap
+   *
+   * @param id Clickwrap ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Clickwrap}
+   */
   public Clickwrap find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -104,30 +150,57 @@ public final class ClickwrapOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Clickwrap
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Clickwrap get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Clickwrap
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Clickwrap get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   name - string - Name of the Clickwrap agreement (used when selecting from multiple Clickwrap agreements.)
-   *   body - string - Body text of Clickwrap (supports Markdown formatting).
-   *   use_with_bundles - string - Use this Clickwrap for Bundles?
-   *   use_with_inboxes - string - Use this Clickwrap for Inboxes?
-   *   use_with_users - string - Use this Clickwrap for Users?  Values: `none`, `require` (new user signup via email invitation only), `require_all_users_once` (show to all users at their next web login; once accepted, not shown again), `require_all_users_always` (show to all users on every web login).
+   * Create Clickwrap
+   *
+   * @see #create(HashMap, HashMap)
    */
   public Clickwrap create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Clickwrap
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public Clickwrap create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Clickwrap
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Name of the Clickwrap agreement (used when selecting from multiple Clickwrap agreements.)</li>
+   * <li>{@code body} (String): Body text of Clickwrap (supports Markdown formatting).</li>
+   * <li>{@code use_with_bundles} (String): Use this Clickwrap for Bundles?</li>
+   * <li>{@code use_with_inboxes} (String): Use this Clickwrap for Inboxes?</li>
+   * <li>{@code use_with_users} (String): Use this Clickwrap for Users?  Values: `none`, `require` (new user signup via email invitation only), `require_all_users_once` (show to all users at their next web login; once accepted, not shown again), `require_all_users_always` (show to all users on every web login).</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Clickwrap}
+   */
   public Clickwrap create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -158,25 +231,48 @@ public final class ClickwrapOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   name - string - Name of the Clickwrap agreement (used when selecting from multiple Clickwrap agreements.)
-   *   body - string - Body text of Clickwrap (supports Markdown formatting).
-   *   use_with_bundles - string - Use this Clickwrap for Bundles?
-   *   use_with_inboxes - string - Use this Clickwrap for Inboxes?
-   *   use_with_users - string - Use this Clickwrap for Users?  Values: `none`, `require` (new user signup via email invitation only), `require_all_users_once` (show to all users at their next web login; once accepted, not shown again), `require_all_users_always` (show to all users on every web login).
+   * Update Clickwrap
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public Clickwrap update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Clickwrap
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public Clickwrap update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Clickwrap
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public Clickwrap update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Clickwrap
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Name of the Clickwrap agreement (used when selecting from multiple Clickwrap agreements.)</li>
+   * <li>{@code body} (String): Body text of Clickwrap (supports Markdown formatting).</li>
+   * <li>{@code use_with_bundles} (String): Use this Clickwrap for Bundles?</li>
+   * <li>{@code use_with_inboxes} (String): Use this Clickwrap for Inboxes?</li>
+   * <li>{@code use_with_users} (String): Use this Clickwrap for Users?  Values: `none`, `require` (new user signup via email invitation only), `require_all_users_once` (show to all users at their next web login; once accepted, not shown again), `require_all_users_always` (show to all users on every web login).</li>
+   * </ul>
+   *
+   * @param id Clickwrap ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Clickwrap}
+   */
   public Clickwrap update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -219,19 +315,39 @@ public final class ClickwrapOperations extends ResourceOperations {
   }
 
   /**
+   * Delete Clickwrap
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Clickwrap
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Clickwrap
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Clickwrap
+   *
+   * @param id Clickwrap ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -252,10 +368,20 @@ public final class ClickwrapOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Clickwrap
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Clickwrap
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

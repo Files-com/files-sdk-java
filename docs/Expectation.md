@@ -87,12 +87,9 @@
 
 ## List Expectations
 
-```
-ListIterator<Expectation> expectation = Expectation.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<Expectation> expectations = Expectation.list(parameters, null);
 ```
 
 ### Parameters
@@ -107,12 +104,9 @@ ListIterator<Expectation> expectation = Expectation.list(
 
 ## Show Expectation
 
-```
-Expectation expectation = Expectation.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Expectation expectation = Expectation.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -124,135 +118,7 @@ Expectation expectation = Expectation.find(
 
 ## Create Expectation
 
-```
-Expectation expectation = Expectation.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `name` (String): Expectation name.
-* `description` (String): Expectation description.
-* `path` (String): Path scope for the expectation. Supports workspace-relative presentation.
-* `source` (String): Source glob used to select candidate files.
-* `exclude_pattern` (String): Optional source exclusion glob.
-* `disabled` (Boolean): If true, the expectation is disabled.
-* `trigger` (String): How this expectation opens windows.
-* `interval` (String): If trigger is `daily`, this specifies how often to run the expectation.
-* `recurring_day` (Long): If trigger is `daily`, this selects the day number inside the chosen interval.
-* `recurring_days` (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-* `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
-* `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-* `schedule_times_of_day` (String[]): Times of day in HH:MM format for the Expectation schedule.
-* `schedule_time_zone` (String): Time zone used by the Expectation schedule.
-* `holiday_region` (String): Optional holiday region used by the Expectation schedule.
-* `lookback_interval` (Long): How many seconds before the due boundary the window starts.
-* `late_acceptance_interval` (Long): How many seconds a schedule-driven window may remain eligible to close as late.
-* `inactivity_interval` (Long): How many quiet seconds are required before final closure.
-* `max_open_interval` (Long): Hard-stop duration in seconds for unscheduled expectations.
-* `criteria` (Object): Versioned success criteria definition for the expectation, including optional Files Transform Script content validation in criteria v2.
-* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
-
-
----
-
-## Manually open an Expectation window
-
-```
-ExpectationEvaluation expectation = Expectation.triggerEvaluation(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Expectation ID.
-
-
----
-
-## Update Expectation
-
-```
-Expectation expectation = Expectation.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Expectation ID.
-* `name` (String): Expectation name.
-* `description` (String): Expectation description.
-* `path` (String): Path scope for the expectation. Supports workspace-relative presentation.
-* `source` (String): Source glob used to select candidate files.
-* `exclude_pattern` (String): Optional source exclusion glob.
-* `disabled` (Boolean): If true, the expectation is disabled.
-* `trigger` (String): How this expectation opens windows.
-* `interval` (String): If trigger is `daily`, this specifies how often to run the expectation.
-* `recurring_day` (Long): If trigger is `daily`, this selects the day number inside the chosen interval.
-* `recurring_days` (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-* `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
-* `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-* `schedule_times_of_day` (String[]): Times of day in HH:MM format for the Expectation schedule.
-* `schedule_time_zone` (String): Time zone used by the Expectation schedule.
-* `holiday_region` (String): Optional holiday region used by the Expectation schedule.
-* `lookback_interval` (Long): How many seconds before the due boundary the window starts.
-* `late_acceptance_interval` (Long): How many seconds a schedule-driven window may remain eligible to close as late.
-* `inactivity_interval` (Long): How many quiet seconds are required before final closure.
-* `max_open_interval` (Long): Hard-stop duration in seconds for unscheduled expectations.
-* `criteria` (Object): Versioned success criteria definition for the expectation, including optional Files Transform Script content validation in criteria v2.
-* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
-
-
----
-
-## Delete Expectation
-
-```
-void expectation = Expectation.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Expectation ID.
-
-
----
-
-## Manually open an Expectation window
-
-```
-Expectation expectation = Expectation.find(id);
-
-HashMap<String, Object> parameters = new HashMap<>();
-
-expectation.triggerEvaluation(parameters);
-```
-
-### Parameters
-
-* `id` (Long): Required - Expectation ID.
-
-
----
-
-## Update Expectation
-
-```
-Expectation expectation = Expectation.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "Daily Vendor Feed");
 parameters.put("description", "Wait for the vendor CSV every morning.");
@@ -262,21 +128,99 @@ parameters.put("exclude_pattern", "*.tmp");
 parameters.put("disabled", true);
 parameters.put("trigger", "manual");
 parameters.put("interval", "day");
-parameters.put("recurring_day", 3);
-parameters.put("recurring_days", [1,15]);
-parameters.put("schedule_id", 1);
-parameters.put("schedule_days_of_week", [1,3,5]);
-parameters.put("schedule_times_of_day", ["06:00"]);
+parameters.put("recurring_day", 3L);
+parameters.put("recurring_days", new Long[] {1L, 15L});
+parameters.put("schedule_id", 1L);
+parameters.put("schedule_days_of_week", new Long[] {1L, 3L, 5L});
+parameters.put("schedule_times_of_day", new String[] {"06:00"});
 parameters.put("schedule_time_zone", "UTC");
 parameters.put("holiday_region", "us");
-parameters.put("lookback_interval", 3600);
-parameters.put("late_acceptance_interval", 900);
-parameters.put("inactivity_interval", 300);
-parameters.put("max_open_interval", 43200);
-parameters.put("criteria", {"count":{"exact":1},"extensions":["csv"]});
-parameters.put("workspace_id", 0);
+parameters.put("lookback_interval", 3600L);
+parameters.put("late_acceptance_interval", 900L);
+parameters.put("inactivity_interval", 300L);
+parameters.put("max_open_interval", 43200L);
+HashMap<String, Object> map1 = new HashMap<>();
+HashMap<String, Object> map2 = new HashMap<>();
+map2.put("exact", 1);
+map1.put("count", map2);
+map1.put("extensions", new Object[] {"csv"});
+parameters.put("criteria", map1);
+parameters.put("workspace_id", 0L);
+Expectation expectation = Expectation.create(parameters, null);
+```
 
-expectation.update(parameters);
+### Parameters
+
+* `name` (String): Expectation name.
+* `description` (String): Expectation description.
+* `path` (String): Path scope for the expectation. Supports workspace-relative presentation.
+* `source` (String): Source glob used to select candidate files.
+* `exclude_pattern` (String): Optional source exclusion glob.
+* `disabled` (Boolean): If true, the expectation is disabled.
+* `trigger` (String): How this expectation opens windows.
+* `interval` (String): If trigger is `daily`, this specifies how often to run the expectation.
+* `recurring_day` (Long): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `recurring_days` (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
+* `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
+* `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
+* `schedule_times_of_day` (String[]): Times of day in HH:MM format for the Expectation schedule.
+* `schedule_time_zone` (String): Time zone used by the Expectation schedule.
+* `holiday_region` (String): Optional holiday region used by the Expectation schedule.
+* `lookback_interval` (Long): How many seconds before the due boundary the window starts.
+* `late_acceptance_interval` (Long): How many seconds a schedule-driven window may remain eligible to close as late.
+* `inactivity_interval` (Long): How many quiet seconds are required before final closure.
+* `max_open_interval` (Long): Hard-stop duration in seconds for unscheduled expectations.
+* `criteria` (Object): Versioned success criteria definition for the expectation, including optional Files Transform Script content validation in criteria v2.
+* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
+
+
+---
+
+## Manually open an Expectation window
+
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ExpectationEvaluation expectationEvaluation = Expectation.triggerEvaluation(1L, parameters, null);
+```
+
+### Parameters
+
+* `id` (Long): Required - Expectation ID.
+
+
+---
+
+## Update Expectation
+
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "Daily Vendor Feed");
+parameters.put("description", "Wait for the vendor CSV every morning.");
+parameters.put("path", "incoming/vendor_a");
+parameters.put("source", "*.csv");
+parameters.put("exclude_pattern", "*.tmp");
+parameters.put("disabled", true);
+parameters.put("trigger", "manual");
+parameters.put("interval", "day");
+parameters.put("recurring_day", 3L);
+parameters.put("recurring_days", new Long[] {1L, 15L});
+parameters.put("schedule_id", 1L);
+parameters.put("schedule_days_of_week", new Long[] {1L, 3L, 5L});
+parameters.put("schedule_times_of_day", new String[] {"06:00"});
+parameters.put("schedule_time_zone", "UTC");
+parameters.put("holiday_region", "us");
+parameters.put("lookback_interval", 3600L);
+parameters.put("late_acceptance_interval", 900L);
+parameters.put("inactivity_interval", 300L);
+parameters.put("max_open_interval", 43200L);
+HashMap<String, Object> map1 = new HashMap<>();
+HashMap<String, Object> map2 = new HashMap<>();
+map2.put("exact", 1);
+map1.put("count", map2);
+map1.put("extensions", new Object[] {"csv"});
+parameters.put("criteria", map1);
+parameters.put("workspace_id", 0L);
+Expectation expectation = Expectation.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -309,11 +253,100 @@ expectation.update(parameters);
 
 ## Delete Expectation
 
-```
-Expectation expectation = Expectation.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
+Expectation.delete(1L, parameters, null);
+```
 
+### Parameters
+
+* `id` (Long): Required - Expectation ID.
+
+
+---
+
+## Manually open an Expectation window
+
+```java
+Expectation expectation = Expectation.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+ExpectationEvaluation result = expectation.triggerEvaluation(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - Expectation ID.
+
+
+---
+
+## Update Expectation
+
+```java
+Expectation expectation = Expectation.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "Daily Vendor Feed");
+parameters.put("description", "Wait for the vendor CSV every morning.");
+parameters.put("path", "incoming/vendor_a");
+parameters.put("source", "*.csv");
+parameters.put("exclude_pattern", "*.tmp");
+parameters.put("disabled", true);
+parameters.put("trigger", "manual");
+parameters.put("interval", "day");
+parameters.put("recurring_day", 3L);
+parameters.put("recurring_days", new Long[] {1L, 15L});
+parameters.put("schedule_id", 1L);
+parameters.put("schedule_days_of_week", new Long[] {1L, 3L, 5L});
+parameters.put("schedule_times_of_day", new String[] {"06:00"});
+parameters.put("schedule_time_zone", "UTC");
+parameters.put("holiday_region", "us");
+parameters.put("lookback_interval", 3600L);
+parameters.put("late_acceptance_interval", 900L);
+parameters.put("inactivity_interval", 300L);
+parameters.put("max_open_interval", 43200L);
+HashMap<String, Object> map1 = new HashMap<>();
+HashMap<String, Object> map2 = new HashMap<>();
+map2.put("exact", 1);
+map1.put("count", map2);
+map1.put("extensions", new Object[] {"csv"});
+parameters.put("criteria", map1);
+parameters.put("workspace_id", 0L);
+Expectation result = expectation.update(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - Expectation ID.
+* `name` (String): Expectation name.
+* `description` (String): Expectation description.
+* `path` (String): Path scope for the expectation. Supports workspace-relative presentation.
+* `source` (String): Source glob used to select candidate files.
+* `exclude_pattern` (String): Optional source exclusion glob.
+* `disabled` (Boolean): If true, the expectation is disabled.
+* `trigger` (String): How this expectation opens windows.
+* `interval` (String): If trigger is `daily`, this specifies how often to run the expectation.
+* `recurring_day` (Long): If trigger is `daily`, this selects the day number inside the chosen interval.
+* `recurring_days` (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
+* `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
+* `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
+* `schedule_times_of_day` (String[]): Times of day in HH:MM format for the Expectation schedule.
+* `schedule_time_zone` (String): Time zone used by the Expectation schedule.
+* `holiday_region` (String): Optional holiday region used by the Expectation schedule.
+* `lookback_interval` (Long): How many seconds before the due boundary the window starts.
+* `late_acceptance_interval` (Long): How many seconds a schedule-driven window may remain eligible to close as late.
+* `inactivity_interval` (Long): How many quiet seconds are required before final closure.
+* `max_open_interval` (Long): Hard-stop duration in seconds for unscheduled expectations.
+* `criteria` (Object): Versioned success criteria definition for the expectation, including optional Files Transform Script content validation in criteria v2.
+* `workspace_id` (Long): Workspace ID. `0` means the default workspace.
+
+
+---
+
+## Delete Expectation
+
+```java
+Expectation expectation = Expectation.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
 expectation.delete(parameters);
 ```
 

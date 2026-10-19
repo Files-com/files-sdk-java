@@ -34,6 +34,11 @@ public class IpAddress implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -57,14 +62,29 @@ public class IpAddress implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code IpAddress} with no attributes set.
+   */
   public IpAddress() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code IpAddress} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public IpAddress(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code IpAddress} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public IpAddress(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -82,6 +102,11 @@ public class IpAddress implements ModelInterface {
   @JsonProperty("id")
   public String id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public String getId() {
     return id;
   }
@@ -92,6 +117,11 @@ public class IpAddress implements ModelInterface {
   @JsonProperty("associated_with")
   public String associatedWith;
 
+  /**
+   * Gets {@link #associatedWith}.
+   *
+   * @return the value of {@link #associatedWith}
+   */
   public String getAssociatedWith() {
     return associatedWith;
   }
@@ -102,6 +132,11 @@ public class IpAddress implements ModelInterface {
   @JsonProperty("group_id")
   public Long groupId;
 
+  /**
+   * Gets {@link #groupId}.
+   *
+   * @return the value of {@link #groupId}
+   */
   public Long getGroupId() {
     return groupId;
   }
@@ -112,89 +147,172 @@ public class IpAddress implements ModelInterface {
   @JsonProperty("ip_addresses")
   public String[] ipAddresses;
 
+  /**
+   * Gets {@link #ipAddresses}.
+   *
+   * @return the value of {@link #ipAddresses}
+   */
   public String[] getIpAddresses() {
     return ipAddresses;
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   * List IP Addresses associated with the current site
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<IpAddress> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List IP Addresses associated with the current site
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<IpAddress> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List IP Addresses associated with the current site
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code IpAddress} records, in a {@code ListIterator}
+   */
   public static ListIterator<IpAddress> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().ipAddresses().list(parameters, options);
   }
 
+  /**
+   * List IP Addresses associated with the current site
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<IpAddress> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List IP Addresses associated with the current site
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<IpAddress> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   * List all possible public SmartFile IP addresses
+   *
+   * @see #getSmartfileReserved(HashMap, HashMap)
    */
   public static PublicIpAddress getSmartfileReserved() throws RuntimeException {
     return getSmartfileReserved(null, null);
   }
 
+  /**
+   * List all possible public SmartFile IP addresses
+   *
+   * @see #getSmartfileReserved(HashMap, HashMap)
+   */
   public static PublicIpAddress getSmartfileReserved(HashMap<String, Object> parameters) throws RuntimeException {
     return getSmartfileReserved(parameters, null);
   }
 
 
+  /**
+   * List all possible public SmartFile IP addresses
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code PublicIpAddress}
+   */
   public static PublicIpAddress getSmartfileReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().ipAddresses().getSmartfileReserved(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   * List all possible public ExaVault IP addresses
+   *
+   * @see #getExavaultReserved(HashMap, HashMap)
    */
   public static PublicIpAddress getExavaultReserved() throws RuntimeException {
     return getExavaultReserved(null, null);
   }
 
+  /**
+   * List all possible public ExaVault IP addresses
+   *
+   * @see #getExavaultReserved(HashMap, HashMap)
+   */
   public static PublicIpAddress getExavaultReserved(HashMap<String, Object> parameters) throws RuntimeException {
     return getExavaultReserved(parameters, null);
   }
 
 
+  /**
+   * List all possible public ExaVault IP addresses
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code PublicIpAddress}
+   */
   public static PublicIpAddress getExavaultReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().ipAddresses().getExavaultReserved(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   * List all possible public IP addresses
+   *
+   * @see #getReserved(HashMap, HashMap)
    */
   public static PublicIpAddress getReserved() throws RuntimeException {
     return getReserved(null, null);
   }
 
+  /**
+   * List all possible public IP addresses
+   *
+   * @see #getReserved(HashMap, HashMap)
+   */
   public static PublicIpAddress getReserved(HashMap<String, Object> parameters) throws RuntimeException {
     return getReserved(parameters, null);
   }
 
 
+  /**
+   * List all possible public IP addresses
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code PublicIpAddress}
+   */
   public static PublicIpAddress getReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().ipAddresses().getReserved(parameters, options);
   }

@@ -23,12 +23,10 @@
 
 ## List User Additional Email Recipients
 
-```
-ListIterator<UserAdditionalEmailRecipient> userAdditionalEmailRecipient = UserAdditionalEmailRecipient.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+ListIterator<UserAdditionalEmailRecipient> userAdditionalEmailRecipients = UserAdditionalEmailRecipient.list(parameters, null);
 ```
 
 ### Parameters
@@ -45,12 +43,9 @@ ListIterator<UserAdditionalEmailRecipient> userAdditionalEmailRecipient = UserAd
 
 ## Show User Additional Email Recipient
 
-```
-UserAdditionalEmailRecipient userAdditionalEmailRecipient = UserAdditionalEmailRecipient.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+UserAdditionalEmailRecipient userAdditionalEmailRecipient = UserAdditionalEmailRecipient.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -62,12 +57,11 @@ UserAdditionalEmailRecipient userAdditionalEmailRecipient = UserAdditionalEmailR
 
 ## Create User Additional Email Recipient
 
-```
-UserAdditionalEmailRecipient userAdditionalEmailRecipient = UserAdditionalEmailRecipient.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("email", "user-copy@example.com");
+UserAdditionalEmailRecipient userAdditionalEmailRecipient = UserAdditionalEmailRecipient.create(parameters, null);
 ```
 
 ### Parameters
@@ -80,12 +74,10 @@ UserAdditionalEmailRecipient userAdditionalEmailRecipient = UserAdditionalEmailR
 
 ## Update User Additional Email Recipient
 
-```
-UserAdditionalEmailRecipient userAdditionalEmailRecipient = UserAdditionalEmailRecipient.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("email", "user-copy@example.com");
+UserAdditionalEmailRecipient userAdditionalEmailRecipient = UserAdditionalEmailRecipient.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -98,12 +90,9 @@ UserAdditionalEmailRecipient userAdditionalEmailRecipient = UserAdditionalEmailR
 
 ## Delete User Additional Email Recipient
 
-```
-void userAdditionalEmailRecipient = UserAdditionalEmailRecipient.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+UserAdditionalEmailRecipient.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -115,13 +104,11 @@ void userAdditionalEmailRecipient = UserAdditionalEmailRecipient.delete(
 
 ## Update User Additional Email Recipient
 
-```
-UserAdditionalEmailRecipient userAdditionalEmailRecipient = UserAdditionalEmailRecipient.find(id);
-
+```java
+UserAdditionalEmailRecipient userAdditionalEmailRecipient = UserAdditionalEmailRecipient.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("email", "user-copy@example.com");
-
-userAdditionalEmailRecipient.update(parameters);
+UserAdditionalEmailRecipient result = userAdditionalEmailRecipient.update(parameters);
 ```
 
 ### Parameters
@@ -134,11 +121,9 @@ userAdditionalEmailRecipient.update(parameters);
 
 ## Delete User Additional Email Recipient
 
-```
-UserAdditionalEmailRecipient userAdditionalEmailRecipient = UserAdditionalEmailRecipient.find(id);
-
+```java
+UserAdditionalEmailRecipient userAdditionalEmailRecipient = UserAdditionalEmailRecipient.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 userAdditionalEmailRecipient.delete(parameters);
 ```
 

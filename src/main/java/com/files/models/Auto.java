@@ -33,6 +33,11 @@ public class Auto implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -56,14 +61,29 @@ public class Auto implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code Auto} with no attributes set.
+   */
   public Auto() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code Auto} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public Auto(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code Auto} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public Auto(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -76,10 +96,16 @@ public class Auto implements ModelInterface {
 
 
   /**
+   * Schema placeholder for a dynamically structured response. The actual response is represented according to the value returned by the operation and need not contain a dynamic field.
    */
   @JsonProperty("dynamic")
   public Object dynamic;
 
+  /**
+   * Gets {@link #dynamic}.
+   *
+   * @return the value of {@link #dynamic}
+   */
   public Object getDynamic() {
     return dynamic;
   }

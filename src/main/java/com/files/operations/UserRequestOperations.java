@@ -25,18 +25,35 @@ public final class UserRequestOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   * List User Requests
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<UserRequest> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List User Requests
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<UserRequest> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List User Requests
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code UserRequest} records, in a {@code ListIterator}
+   */
   public ListIterator<UserRequest> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -54,30 +71,59 @@ public final class UserRequestOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List User Requests
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<UserRequest> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List User Requests
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<UserRequest> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - User Request ID.
+   * Show User Request
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public UserRequest find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show User Request
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public UserRequest find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show User Request
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public UserRequest find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show User Request
+   *
+   * @param id User Request ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code UserRequest}
+   */
   public UserRequest find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -99,29 +145,56 @@ public final class UserRequestOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show User Request
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public UserRequest get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show User Request
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public UserRequest get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   name (required) - string - Name of user requested
-   *   email (required) - string - Email of user requested
-   *   details (required) - string - Details of the user request
-   *   company - string - Company of the user requested
+   * Create User Request
+   *
+   * @see #create(HashMap, HashMap)
    */
   public UserRequest create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create User Request
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public UserRequest create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create User Request
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Required. Name of user requested</li>
+   * <li>{@code email} (String): Required. Email of user requested</li>
+   * <li>{@code details} (String): Required. Details of the user request</li>
+   * <li>{@code company} (String): Company of the user requested</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code UserRequest}
+   */
   public UserRequest create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -160,19 +233,39 @@ public final class UserRequestOperations extends ResourceOperations {
   }
 
   /**
+   * Delete User Request
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete User Request
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete User Request
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete User Request
+   *
+   * @param id User Request ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -193,10 +286,20 @@ public final class UserRequestOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete User Request
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete User Request
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

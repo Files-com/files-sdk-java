@@ -25,24 +25,46 @@ public final class LockOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   path (required) - string - Path to operate on.
-   *   include_children - boolean - Include locks from children objects?
+   * List Locks by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
    */
   public ListIterator<Lock> listFor() throws RuntimeException {
     return listFor(null, null, null);
   }
 
+  /**
+   * List Locks by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
   public ListIterator<Lock> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return listFor(path, parameters, null);
   }
 
+  /**
+   * List Locks by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
   public ListIterator<Lock> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return listFor(null, parameters, options);
   }
 
+  /**
+   * List Locks by Path
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code include_children} (Boolean): Include locks from children objects?</li>
+   * </ul>
+   *
+   * @param path Path to operate on.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Lock} records, in a {@code ListIterator}
+   */
   public ListIterator<Lock> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -77,28 +99,50 @@ public final class LockOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   path (required) - string - Path
-   *   token - string - Lock token. With expected_token, use the same value to refresh or a different value to replace the existing token.
-   *   expected_token - string - Require this existing, unexpired token before refreshing or replacing a lock. Set token to the same value to refresh, or a different value to replace.
-   *   allow_access_by_any_user - boolean - Can lock be modified by users other than its creator?
-   *   exclusive - boolean - Is lock exclusive?
-   *   recursive - boolean - Does lock apply to subfolders?
-   *   owner - string - Arbitrary descriptive label for the lock. Does not change the lock creator or permissions.
-   *   timeout - int64 - Lock timeout in seconds
+   * Create Lock
+   *
+   * @see #create(String, HashMap, HashMap)
    */
   public Lock create() throws RuntimeException {
     return create(null, null, null);
   }
 
+  /**
+   * Create Lock
+   *
+   * @see #create(String, HashMap, HashMap)
+   */
   public Lock create(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return create(path, parameters, null);
   }
 
+  /**
+   * Create Lock
+   *
+   * @see #create(String, HashMap, HashMap)
+   */
   public Lock create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return create(null, parameters, options);
   }
 
+  /**
+   * Create Lock
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code token} (String): Lock token. With expected_token, use the same value to refresh or a different value to replace the existing token.</li>
+   * <li>{@code expected_token} (String): Require this existing, unexpired token before refreshing or replacing a lock. Set token to the same value to refresh, or a different value to replace.</li>
+   * <li>{@code allow_access_by_any_user} (Boolean): Can lock be modified by users other than its creator?</li>
+   * <li>{@code exclusive} (Boolean): Is lock exclusive?</li>
+   * <li>{@code recursive} (Boolean): Does lock apply to subfolders?</li>
+   * <li>{@code owner} (String): Arbitrary descriptive label for the lock. Does not change the lock creator or permissions.</li>
+   * <li>{@code timeout} (Long): Lock timeout in seconds</li>
+   * </ul>
+   *
+   * @param path Path
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Lock}
+   */
   public Lock create(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -149,21 +193,43 @@ public final class LockOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   token (required) - string - Lock token
+   * Delete Lock
+   *
+   * @see #delete(String, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Lock
+   *
+   * @see #delete(String, HashMap, HashMap)
+   */
   public void delete(String path, HashMap<String, Object> parameters) throws RuntimeException {
     delete(path, parameters, null);
   }
 
+  /**
+   * Delete Lock
+   *
+   * @see #delete(String, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Lock
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code token} (String): Required. Lock token</li>
+   * </ul>
+   *
+   * @param path Path
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -192,10 +258,20 @@ public final class LockOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Lock
+   *
+   * @see #delete(String, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Lock
+   *
+   * @see #delete(String, HashMap, HashMap)
+   */
   public void destroy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(path, parameters, options);
   }

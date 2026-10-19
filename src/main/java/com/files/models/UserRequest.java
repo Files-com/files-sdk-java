@@ -35,6 +35,11 @@ public class UserRequest implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class UserRequest implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code UserRequest} with no attributes set.
+   */
   public UserRequest() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code UserRequest} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public UserRequest(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code UserRequest} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public UserRequest(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,10 +103,20 @@ public class UserRequest implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -97,10 +127,20 @@ public class UserRequest implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -111,10 +151,20 @@ public class UserRequest implements ModelInterface {
   @JsonProperty("email")
   public String email;
 
+  /**
+   * Gets {@link #email}.
+   *
+   * @return the value of {@link #email}
+   */
   public String getEmail() {
     return email;
   }
 
+  /**
+   * Sets {@link #email}.
+   *
+   * @param email the new value
+   */
   public void setEmail(String email) {
     this.email = email;
   }
@@ -125,10 +175,20 @@ public class UserRequest implements ModelInterface {
   @JsonProperty("details")
   public String details;
 
+  /**
+   * Gets {@link #details}.
+   *
+   * @return the value of {@link #details}
+   */
   public String getDetails() {
     return details;
   }
 
+  /**
+   * Sets {@link #details}.
+   *
+   * @param details the new value
+   */
   public void setDetails(String details) {
     this.details = details;
   }
@@ -139,122 +199,243 @@ public class UserRequest implements ModelInterface {
   @JsonProperty("company")
   public String company;
 
+  /**
+   * Gets {@link #company}.
+   *
+   * @return the value of {@link #company}
+   */
   public String getCompany() {
     return company;
   }
 
+  /**
+   * Sets {@link #company}.
+   *
+   * @param company the new value
+   */
   public void setCompany(String company) {
     this.company = company;
   }
 
   /**
+   * Delete User Request
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().userRequests().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete User Request
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+   * List User Requests
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<UserRequest> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List User Requests
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<UserRequest> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List User Requests
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code UserRequest} records, in a {@code ListIterator}
+   */
   public static ListIterator<UserRequest> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().userRequests().list(parameters, options);
   }
 
+  /**
+   * List User Requests
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<UserRequest> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List User Requests
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<UserRequest> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - User Request ID.
+   * Show User Request
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static UserRequest find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show User Request
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static UserRequest find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show User Request
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static UserRequest find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show User Request
+   *
+   * @param id User Request ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code UserRequest}
+   */
   public static UserRequest find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().userRequests().find(id, parameters, options);
   }
 
+  /**
+   * Show User Request
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static UserRequest get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show User Request
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static UserRequest get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   name (required) - string - Name of user requested
-   *   email (required) - string - Email of user requested
-   *   details (required) - string - Details of the user request
-   *   company - string - Company of the user requested
+   * Create User Request
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static UserRequest create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create User Request
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static UserRequest create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create User Request
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Required. Name of user requested</li>
+   * <li>{@code email} (String): Required. Email of user requested</li>
+   * <li>{@code details} (String): Required. Details of the user request</li>
+   * <li>{@code company} (String): Company of the user requested</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code UserRequest}
+   */
   public static UserRequest create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().userRequests().create(parameters, options);
   }
 
 
   /**
+   * Delete User Request
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete User Request
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete User Request
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete User Request
+   *
+   * @param id User Request ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().userRequests().delete(id, parameters, options);
   }
 
+  /**
+   * Delete User Request
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete User Request
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

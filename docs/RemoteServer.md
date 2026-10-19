@@ -199,12 +199,10 @@
 
 ## List Remote Servers
 
-```
-ListIterator<RemoteServer> remoteServer = RemoteServer.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+ListIterator<RemoteServer> remoteServers = RemoteServer.list(parameters, null);
 ```
 
 ### Parameters
@@ -221,12 +219,9 @@ ListIterator<RemoteServer> remoteServer = RemoteServer.list(
 
 ## Show Remote Server
 
-```
-RemoteServer remoteServer = RemoteServer.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+RemoteServer remoteServer = RemoteServer.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -238,12 +233,9 @@ RemoteServer remoteServer = RemoteServer.find(
 
 ## List Files.com Agent nodes
 
-```
-AgentNode remoteServer = RemoteServer.agentNodes(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+AgentNode agentNode = RemoteServer.agentNodes(1L, parameters, null);
 ```
 
 ### Parameters
@@ -255,12 +247,9 @@ AgentNode remoteServer = RemoteServer.agentNodes(
 
 ## Download configuration file (required for some Remote Server integrations, such as the Files.com Agent)
 
-```
-RemoteServerConfigurationFile remoteServer = RemoteServer.findConfigurationFile(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+RemoteServerConfigurationFile remoteServerConfigurationFile = RemoteServer.findConfigurationFile(1L, parameters, null);
 ```
 
 ### Parameters
@@ -272,12 +261,74 @@ RemoteServerConfigurationFile remoteServer = RemoteServer.findConfigurationFile(
 
 ## Create Remote Server
 
-```
-RemoteServer remoteServer = RemoteServer.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+parameters.put("reset_authentication", false);
+parameters.put("allow_relative_paths", true);
+parameters.put("aws_access_key", "example");
+parameters.put("azure_blob_storage_account", "storage-account-name");
+parameters.put("azure_blob_storage_container", "container-name");
+parameters.put("azure_blob_storage_dns_suffix", "usgovcloudapi.net");
+parameters.put("azure_blob_storage_hierarchical_namespace", true);
+parameters.put("azure_files_storage_account", "storage-account-name");
+parameters.put("azure_files_storage_dns_suffix", "file.core.windows.net");
+parameters.put("azure_files_storage_share_name", "share-name");
+parameters.put("backblaze_b2_bucket", "my-bucket");
+parameters.put("backblaze_b2_s3_endpoint", "s3.us-west-001.backblazeb2.com");
+parameters.put("buffer_uploads", "example");
+parameters.put("cloudflare_access_key", "example");
+parameters.put("cloudflare_bucket", "my-bucket");
+parameters.put("cloudflare_endpoint", "https://<ACCOUNT_ID>.r2.cloudflarestorage.com");
+parameters.put("description", "More information or notes about my server");
+parameters.put("dropbox_teams", true);
+parameters.put("enable_dedicated_ips", true);
+parameters.put("filebase_access_key", "example");
+parameters.put("filebase_bucket", "my-bucket");
+parameters.put("files_agent_permission_set", "read_write");
+parameters.put("files_agent_root", "example");
+parameters.put("files_agent_version", "example");
+parameters.put("outbound_agent_id", 1L);
+parameters.put("custom_domain_id", 1L);
+parameters.put("google_cloud_storage_authentication_method", "json");
+parameters.put("google_cloud_storage_bucket", "my-bucket");
+parameters.put("google_cloud_storage_oauth_scope", "https://www.googleapis.com/auth/devstorage.read_only");
+parameters.put("google_cloud_storage_project_id", "my-project");
+parameters.put("google_cloud_storage_s3_compatible_access_key", "example");
+parameters.put("hostname", "remote-server.com");
+parameters.put("linode_access_key", "example");
+parameters.put("linode_bucket", "my-bucket");
+parameters.put("linode_region", "us-east-1");
+parameters.put("max_connections", 1L);
+parameters.put("name", "My Remote server");
+parameters.put("one_drive_account_type", "personal");
+parameters.put("pin_to_site_region", true);
+parameters.put("port", 1L);
+parameters.put("upload_staging_path", "/tmp/uploads");
+parameters.put("remote_server_credential_id", 1L);
+parameters.put("s3_assume_role_arn", "example");
+parameters.put("s3_assume_role_duration_seconds", 1L);
+parameters.put("s3_bucket", "my-bucket");
+parameters.put("s3_compatible_access_key", "example");
+parameters.put("s3_compatible_bucket", "my-bucket");
+parameters.put("s3_compatible_endpoint", "mys3platform.com");
+parameters.put("s3_compatible_region", "us-east-1");
+parameters.put("s3_compatible_virtual_hosted_style", true);
+parameters.put("s3_kms_key_id", "arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab");
+parameters.put("s3_region", "us-east-1");
+parameters.put("server_certificate", "require_match");
+parameters.put("server_host_key", "[public key]");
+parameters.put("server_type", "s3");
+parameters.put("sharepoint_client_id", "00000000-0000-0000-0000-000000000000");
+parameters.put("sharepoint_site_url", "https://example.sharepoint.com/sites/accounting");
+parameters.put("sharepoint_tenant_id", "00000000-0000-0000-0000-000000000000");
+parameters.put("ssl", "if_available");
+parameters.put("username", "user");
+parameters.put("wasabi_access_key", "example");
+parameters.put("wasabi_bucket", "my-bucket");
+parameters.put("wasabi_region", "us-west-1");
+parameters.put("workspace_id", 0L);
+RemoteServer remoteServer = RemoteServer.create(parameters, null);
 ```
 
 ### Parameters
@@ -374,12 +425,9 @@ RemoteServer remoteServer = RemoteServer.create(
 
 ## Push update to Files Agent
 
-```
-AgentPushUpdate remoteServer = RemoteServer.agentPushUpdate(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+AgentPushUpdate agentPushUpdate = RemoteServer.agentPushUpdate(1L, parameters, null);
 ```
 
 ### Parameters
@@ -391,161 +439,7 @@ AgentPushUpdate remoteServer = RemoteServer.agentPushUpdate(
 
 ## Update Remote Server
 
-```
-RemoteServer remoteServer = RemoteServer.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Remote Server ID.
-* `password` (String): Password, if needed.
-* `private_key` (String): Private key, if needed.
-* `private_key_passphrase` (String): Passphrase for private key if needed.
-* `reset_authentication` (Boolean): Reset authenticated account?
-* `sharepoint_client_certificate` (String): SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
-* `sharepoint_client_secret` (String): SharePoint: Microsoft Entra application client secret for app-only authentication.
-* `ssl_certificate` (String): SSL client certificate.
-* `aws_secret_key` (String): AWS: secret key.
-* `azure_blob_storage_access_key` (String): Azure Blob Storage: Access Key
-* `azure_blob_storage_sas_token` (String): Azure Blob Storage: Shared Access Signature (SAS) token
-* `azure_files_storage_access_key` (String): Azure File Storage: Access Key
-* `azure_files_storage_sas_token` (String): Azure File Storage: Shared Access Signature (SAS) token
-* `backblaze_b2_application_key` (String): Backblaze B2 Cloud Storage: applicationKey
-* `backblaze_b2_key_id` (String): Backblaze B2 Cloud Storage: keyID
-* `cloudflare_secret_key` (String): Cloudflare: Secret Key
-* `filebase_secret_key` (String): Filebase: Secret Key
-* `google_cloud_storage_credentials_json` (String): Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
-* `google_cloud_storage_s3_compatible_secret_key` (String): Google Cloud Storage: S3-compatible secret key
-* `linode_secret_key` (String): Linode: Secret Key
-* `s3_compatible_secret_key` (String): S3-compatible: Secret Key
-* `wasabi_secret_key` (String): Wasabi: Secret Key
-* `allow_relative_paths` (Boolean): Allow relative paths in SFTP. If true, paths will not be forced to be absolute, allowing operations relative to the user's home directory.
-* `aws_access_key` (String): AWS Access Key.
-* `azure_blob_storage_account` (String): Azure Blob Storage: Account name
-* `azure_blob_storage_container` (String): Azure Blob Storage: Container name
-* `azure_blob_storage_dns_suffix` (String): Azure Blob Storage: Custom DNS suffix
-* `azure_blob_storage_hierarchical_namespace` (Boolean): Azure Blob Storage: Does the storage account has hierarchical namespace feature enabled?
-* `azure_files_storage_account` (String): Azure Files: Storage Account name
-* `azure_files_storage_dns_suffix` (String): Azure Files: Custom DNS suffix
-* `azure_files_storage_share_name` (String): Azure Files:  Storage Share name
-* `backblaze_b2_bucket` (String): Backblaze B2 Cloud Storage: Bucket name
-* `backblaze_b2_s3_endpoint` (String): Backblaze B2 Cloud Storage: S3 Endpoint
-* `buffer_uploads` (String): If set to always, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com. If set to auto, we will perform this optimization if we believe it to be a benefit in a given situation.
-* `cloudflare_access_key` (String): Cloudflare: Access Key.
-* `cloudflare_bucket` (String): Cloudflare: Bucket name
-* `cloudflare_endpoint` (String): Cloudflare: endpoint
-* `description` (String): Internal description for your reference
-* `dropbox_teams` (Boolean): Dropbox: If true, list Team folders in root?
-* `enable_dedicated_ips` (Boolean): `true` if remote server only accepts connections from dedicated IPs
-* `filebase_access_key` (String): Filebase: Access Key.
-* `filebase_bucket` (String): Filebase: Bucket name
-* `files_api_key` (String): Files.com direct link: API key used once to pair the remote server.
-* `files_agent_permission_set` (String): Agent file permissions: `read_only`, `write_only`, or `read_write`. Files.com writes this value as `permission_set` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the permissions in its local configuration file, controlled by the host's system administrator, and reports them at registration, replacing the stored value.
-* `files_agent_root` (String): Agent local root path. Files.com writes this value as `root` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the root in its local configuration file, controlled by the host's system administrator, and reports it at registration, replacing the stored value.
-* `files_agent_version` (String): Files.com Agent version reported by the Agent at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not update the running Agent.
-* `outbound_agent_id` (Long): Route traffic to outbound on a files-agent
-* `custom_domain_id` (Long): Custom Domain ID whose dedicated IP addresses are selected when this Remote Server uses dedicated IPs. Must be available to this Remote Server's workspace. Requires enable_dedicated_ips and cannot be combined with an outbound Agent. Set to null to use the site's default dedicated IPs.
-* `google_cloud_storage_authentication_method` (String): Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
-* `google_cloud_storage_bucket` (String): Google Cloud Storage: Bucket Name
-* `google_cloud_storage_oauth_scope` (String): Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
-* `google_cloud_storage_project_id` (String): Google Cloud Storage: Project ID
-* `google_cloud_storage_s3_compatible_access_key` (String): Google Cloud Storage: S3-compatible Access Key.
-* `hostname` (String): Hostname or IP address. For Agent Remote Servers, the Agent reports the hostname it connects from at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
-* `linode_access_key` (String): Linode: Access Key
-* `linode_bucket` (String): Linode: Bucket name
-* `linode_region` (String): Linode: region
-* `max_connections` (Long): Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
-* `name` (String): Internal name for your reference
-* `one_drive_account_type` (String): OneDrive: Either personal or business_other account types
-* `pin_to_site_region` (Boolean): If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
-* `port` (Long): Port for remote server. For Agent Remote Servers, the Agent reports its downstream proxy port at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
-* `upload_staging_path` (String): Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
-* `remote_server_credential_id` (Long): ID of Remote Server Credential, if applicable.
-* `s3_assume_role_arn` (String): AWS IAM Role ARN for AssumeRole authentication.
-* `s3_assume_role_duration_seconds` (Long): Session duration in seconds for AssumeRole authentication (900-43200).
-* `s3_bucket` (String): S3 bucket name
-* `s3_compatible_access_key` (String): S3-compatible: Access Key
-* `s3_compatible_bucket` (String): S3-compatible: Bucket name
-* `s3_compatible_endpoint` (String): S3-compatible: endpoint
-* `s3_compatible_region` (String): S3-compatible: region
-* `s3_compatible_virtual_hosted_style` (Boolean): S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
-* `s3_kms_key_id` (String): ARN of the AWS KMS key that encrypts files written to the bucket (SSE-KMS). Leave blank unless your bucket requires a specific key.
-* `s3_region` (String): S3 region
-* `server_certificate` (String): Remote server certificate
-* `server_host_key` (String): Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
-* `server_type` (String): Remote server type.
-* `sharepoint_client_id` (String): SharePoint: Microsoft Entra application client ID for app-only authentication.
-* `sharepoint_site_url` (String): SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
-* `sharepoint_tenant_id` (String): SharePoint: Microsoft Entra tenant ID for app-only authentication.
-* `ssl` (String): Should we require SSL?
-* `username` (String): Remote server username.
-* `wasabi_access_key` (String): Wasabi: Access Key.
-* `wasabi_bucket` (String): Wasabi: Bucket name
-* `wasabi_region` (String): Wasabi: Region
-
-
----
-
-## Delete Remote Server
-
-```
-void remoteServer = RemoteServer.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Remote Server ID.
-
-
----
-
-## List Files.com Agent nodes
-
-```
-RemoteServer remoteServer = RemoteServer.find(id);
-
-HashMap<String, Object> parameters = new HashMap<>();
-
-remoteServer.agentNodes(parameters);
-```
-
-### Parameters
-
-* `id` (Long): Required - Remote Server ID.
-
-
----
-
-## Push update to Files Agent
-
-```
-RemoteServer remoteServer = RemoteServer.find(id);
-
-HashMap<String, Object> parameters = new HashMap<>();
-
-remoteServer.agentPushUpdate(parameters);
-```
-
-### Parameters
-
-* `id` (Long): Required - Remote Server ID.
-
-
----
-
-## Update Remote Server
-
-```
-RemoteServer remoteServer = RemoteServer.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("reset_authentication", false);
 parameters.put("allow_relative_paths", true);
@@ -571,8 +465,8 @@ parameters.put("filebase_bucket", "my-bucket");
 parameters.put("files_agent_permission_set", "read_write");
 parameters.put("files_agent_root", "example");
 parameters.put("files_agent_version", "example");
-parameters.put("outbound_agent_id", 1);
-parameters.put("custom_domain_id", 1);
+parameters.put("outbound_agent_id", 1L);
+parameters.put("custom_domain_id", 1L);
 parameters.put("google_cloud_storage_authentication_method", "json");
 parameters.put("google_cloud_storage_bucket", "my-bucket");
 parameters.put("google_cloud_storage_oauth_scope", "https://www.googleapis.com/auth/devstorage.read_only");
@@ -582,15 +476,15 @@ parameters.put("hostname", "remote-server.com");
 parameters.put("linode_access_key", "example");
 parameters.put("linode_bucket", "my-bucket");
 parameters.put("linode_region", "us-east-1");
-parameters.put("max_connections", 1);
+parameters.put("max_connections", 1L);
 parameters.put("name", "My Remote server");
 parameters.put("one_drive_account_type", "personal");
 parameters.put("pin_to_site_region", true);
-parameters.put("port", 1);
+parameters.put("port", 1L);
 parameters.put("upload_staging_path", "/tmp/uploads");
-parameters.put("remote_server_credential_id", 1);
+parameters.put("remote_server_credential_id", 1L);
 parameters.put("s3_assume_role_arn", "example");
-parameters.put("s3_assume_role_duration_seconds", 1);
+parameters.put("s3_assume_role_duration_seconds", 1L);
 parameters.put("s3_bucket", "my-bucket");
 parameters.put("s3_compatible_access_key", "example");
 parameters.put("s3_compatible_bucket", "my-bucket");
@@ -610,8 +504,7 @@ parameters.put("username", "user");
 parameters.put("wasabi_access_key", "example");
 parameters.put("wasabi_bucket", "my-bucket");
 parameters.put("wasabi_region", "us-west-1");
-
-remoteServer.update(parameters);
+RemoteServer remoteServer = RemoteServer.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -707,11 +600,215 @@ remoteServer.update(parameters);
 
 ## Delete Remote Server
 
-```
-RemoteServer remoteServer = RemoteServer.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
+RemoteServer.delete(1L, parameters, null);
+```
 
+### Parameters
+
+* `id` (Long): Required - Remote Server ID.
+
+
+---
+
+## List Files.com Agent nodes
+
+```java
+RemoteServer remoteServer = RemoteServer.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+AgentNode result = remoteServer.agentNodes(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - Remote Server ID.
+
+
+---
+
+## Push update to Files Agent
+
+```java
+RemoteServer remoteServer = RemoteServer.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+AgentPushUpdate result = remoteServer.agentPushUpdate(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - Remote Server ID.
+
+
+---
+
+## Update Remote Server
+
+```java
+RemoteServer remoteServer = RemoteServer.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("reset_authentication", false);
+parameters.put("allow_relative_paths", true);
+parameters.put("aws_access_key", "example");
+parameters.put("azure_blob_storage_account", "storage-account-name");
+parameters.put("azure_blob_storage_container", "container-name");
+parameters.put("azure_blob_storage_dns_suffix", "usgovcloudapi.net");
+parameters.put("azure_blob_storage_hierarchical_namespace", true);
+parameters.put("azure_files_storage_account", "storage-account-name");
+parameters.put("azure_files_storage_dns_suffix", "file.core.windows.net");
+parameters.put("azure_files_storage_share_name", "share-name");
+parameters.put("backblaze_b2_bucket", "my-bucket");
+parameters.put("backblaze_b2_s3_endpoint", "s3.us-west-001.backblazeb2.com");
+parameters.put("buffer_uploads", "example");
+parameters.put("cloudflare_access_key", "example");
+parameters.put("cloudflare_bucket", "my-bucket");
+parameters.put("cloudflare_endpoint", "https://<ACCOUNT_ID>.r2.cloudflarestorage.com");
+parameters.put("description", "More information or notes about my server");
+parameters.put("dropbox_teams", true);
+parameters.put("enable_dedicated_ips", true);
+parameters.put("filebase_access_key", "example");
+parameters.put("filebase_bucket", "my-bucket");
+parameters.put("files_agent_permission_set", "read_write");
+parameters.put("files_agent_root", "example");
+parameters.put("files_agent_version", "example");
+parameters.put("outbound_agent_id", 1L);
+parameters.put("custom_domain_id", 1L);
+parameters.put("google_cloud_storage_authentication_method", "json");
+parameters.put("google_cloud_storage_bucket", "my-bucket");
+parameters.put("google_cloud_storage_oauth_scope", "https://www.googleapis.com/auth/devstorage.read_only");
+parameters.put("google_cloud_storage_project_id", "my-project");
+parameters.put("google_cloud_storage_s3_compatible_access_key", "example");
+parameters.put("hostname", "remote-server.com");
+parameters.put("linode_access_key", "example");
+parameters.put("linode_bucket", "my-bucket");
+parameters.put("linode_region", "us-east-1");
+parameters.put("max_connections", 1L);
+parameters.put("name", "My Remote server");
+parameters.put("one_drive_account_type", "personal");
+parameters.put("pin_to_site_region", true);
+parameters.put("port", 1L);
+parameters.put("upload_staging_path", "/tmp/uploads");
+parameters.put("remote_server_credential_id", 1L);
+parameters.put("s3_assume_role_arn", "example");
+parameters.put("s3_assume_role_duration_seconds", 1L);
+parameters.put("s3_bucket", "my-bucket");
+parameters.put("s3_compatible_access_key", "example");
+parameters.put("s3_compatible_bucket", "my-bucket");
+parameters.put("s3_compatible_endpoint", "mys3platform.com");
+parameters.put("s3_compatible_region", "us-east-1");
+parameters.put("s3_compatible_virtual_hosted_style", true);
+parameters.put("s3_kms_key_id", "arn:aws:kms:us-east-1:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab");
+parameters.put("s3_region", "us-east-1");
+parameters.put("server_certificate", "require_match");
+parameters.put("server_host_key", "[public key]");
+parameters.put("server_type", "s3");
+parameters.put("sharepoint_client_id", "00000000-0000-0000-0000-000000000000");
+parameters.put("sharepoint_site_url", "https://example.sharepoint.com/sites/accounting");
+parameters.put("sharepoint_tenant_id", "00000000-0000-0000-0000-000000000000");
+parameters.put("ssl", "if_available");
+parameters.put("username", "user");
+parameters.put("wasabi_access_key", "example");
+parameters.put("wasabi_bucket", "my-bucket");
+parameters.put("wasabi_region", "us-west-1");
+RemoteServer result = remoteServer.update(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - Remote Server ID.
+* `password` (String): Password, if needed.
+* `private_key` (String): Private key, if needed.
+* `private_key_passphrase` (String): Passphrase for private key if needed.
+* `reset_authentication` (Boolean): Reset authenticated account?
+* `sharepoint_client_certificate` (String): SharePoint: PEM-encoded certificate and unencrypted private key for app-only authentication.
+* `sharepoint_client_secret` (String): SharePoint: Microsoft Entra application client secret for app-only authentication.
+* `ssl_certificate` (String): SSL client certificate.
+* `aws_secret_key` (String): AWS: secret key.
+* `azure_blob_storage_access_key` (String): Azure Blob Storage: Access Key
+* `azure_blob_storage_sas_token` (String): Azure Blob Storage: Shared Access Signature (SAS) token
+* `azure_files_storage_access_key` (String): Azure File Storage: Access Key
+* `azure_files_storage_sas_token` (String): Azure File Storage: Shared Access Signature (SAS) token
+* `backblaze_b2_application_key` (String): Backblaze B2 Cloud Storage: applicationKey
+* `backblaze_b2_key_id` (String): Backblaze B2 Cloud Storage: keyID
+* `cloudflare_secret_key` (String): Cloudflare: Secret Key
+* `filebase_secret_key` (String): Filebase: Secret Key
+* `google_cloud_storage_credentials_json` (String): Google Cloud Storage: JSON file that contains the private key. To generate see https://cloud.google.com/storage/docs/json_api/v1/how-tos/authorizing#APIKey
+* `google_cloud_storage_s3_compatible_secret_key` (String): Google Cloud Storage: S3-compatible secret key
+* `linode_secret_key` (String): Linode: Secret Key
+* `s3_compatible_secret_key` (String): S3-compatible: Secret Key
+* `wasabi_secret_key` (String): Wasabi: Secret Key
+* `allow_relative_paths` (Boolean): Allow relative paths in SFTP. If true, paths will not be forced to be absolute, allowing operations relative to the user's home directory.
+* `aws_access_key` (String): AWS Access Key.
+* `azure_blob_storage_account` (String): Azure Blob Storage: Account name
+* `azure_blob_storage_container` (String): Azure Blob Storage: Container name
+* `azure_blob_storage_dns_suffix` (String): Azure Blob Storage: Custom DNS suffix
+* `azure_blob_storage_hierarchical_namespace` (Boolean): Azure Blob Storage: Does the storage account has hierarchical namespace feature enabled?
+* `azure_files_storage_account` (String): Azure Files: Storage Account name
+* `azure_files_storage_dns_suffix` (String): Azure Files: Custom DNS suffix
+* `azure_files_storage_share_name` (String): Azure Files:  Storage Share name
+* `backblaze_b2_bucket` (String): Backblaze B2 Cloud Storage: Bucket name
+* `backblaze_b2_s3_endpoint` (String): Backblaze B2 Cloud Storage: S3 Endpoint
+* `buffer_uploads` (String): If set to always, uploads to this server will be uploaded first to Files.com before being sent to the remote server. This can improve performance in certain access patterns, such as high-latency connections.  It will cause data to be temporarily stored in Files.com. If set to auto, we will perform this optimization if we believe it to be a benefit in a given situation.
+* `cloudflare_access_key` (String): Cloudflare: Access Key.
+* `cloudflare_bucket` (String): Cloudflare: Bucket name
+* `cloudflare_endpoint` (String): Cloudflare: endpoint
+* `description` (String): Internal description for your reference
+* `dropbox_teams` (Boolean): Dropbox: If true, list Team folders in root?
+* `enable_dedicated_ips` (Boolean): `true` if remote server only accepts connections from dedicated IPs
+* `filebase_access_key` (String): Filebase: Access Key.
+* `filebase_bucket` (String): Filebase: Bucket name
+* `files_api_key` (String): Files.com direct link: API key used once to pair the remote server.
+* `files_agent_permission_set` (String): Agent file permissions: `read_only`, `write_only`, or `read_write`. Files.com writes this value as `permission_set` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the permissions in its local configuration file, controlled by the host's system administrator, and reports them at registration, replacing the stored value.
+* `files_agent_root` (String): Agent local root path. Files.com writes this value as `root` in the configuration file generated for this Remote Server. Setting it on Create or Update changes the generated file, not a running Agent. The Agent enforces the root in its local configuration file, controlled by the host's system administrator, and reports it at registration, replacing the stored value.
+* `files_agent_version` (String): Files.com Agent version reported by the Agent at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not update the running Agent.
+* `outbound_agent_id` (Long): Route traffic to outbound on a files-agent
+* `custom_domain_id` (Long): Custom Domain ID whose dedicated IP addresses are selected when this Remote Server uses dedicated IPs. Must be available to this Remote Server's workspace. Requires enable_dedicated_ips and cannot be combined with an outbound Agent. Set to null to use the site's default dedicated IPs.
+* `google_cloud_storage_authentication_method` (String): Google Cloud Storage: Authentication method. Can be json, hmac, or oauth.
+* `google_cloud_storage_bucket` (String): Google Cloud Storage: Bucket Name
+* `google_cloud_storage_oauth_scope` (String): Google Cloud Storage: OAuth scope. Can be https://www.googleapis.com/auth/devstorage.read_only or https://www.googleapis.com/auth/devstorage.read_write.
+* `google_cloud_storage_project_id` (String): Google Cloud Storage: Project ID
+* `google_cloud_storage_s3_compatible_access_key` (String): Google Cloud Storage: S3-compatible Access Key.
+* `hostname` (String): Hostname or IP address. For Agent Remote Servers, the Agent reports the hostname it connects from at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
+* `linode_access_key` (String): Linode: Access Key
+* `linode_bucket` (String): Linode: Bucket name
+* `linode_region` (String): Linode: region
+* `max_connections` (Long): Max number of parallel connections.  Ignored for S3 connections (we will parallelize these as much as possible).
+* `name` (String): Internal name for your reference
+* `one_drive_account_type` (String): OneDrive: Either personal or business_other account types
+* `pin_to_site_region` (Boolean): If true, we will ensure that all communications with this remote server are made through the primary region of the site.  This setting can also be overridden by a site-wide setting which will force it to true.
+* `port` (Long): Port for remote server. For Agent Remote Servers, the Agent reports its downstream proxy port at each registration, replacing the stored value. This field is not included in the generated Agent configuration file. Setting it on Create or Update does not change the running Agent.
+* `upload_staging_path` (String): Upload staging path.  Applies to SFTP only.  If a path is provided here, files will first be uploaded to this path on the remote folder and the moved into the final correct path via an SFTP move command.  This is required by some remote MFT systems to emulate atomic uploads, which are otherwise not supoprted by SFTP.
+* `remote_server_credential_id` (Long): ID of Remote Server Credential, if applicable.
+* `s3_assume_role_arn` (String): AWS IAM Role ARN for AssumeRole authentication.
+* `s3_assume_role_duration_seconds` (Long): Session duration in seconds for AssumeRole authentication (900-43200).
+* `s3_bucket` (String): S3 bucket name
+* `s3_compatible_access_key` (String): S3-compatible: Access Key
+* `s3_compatible_bucket` (String): S3-compatible: Bucket name
+* `s3_compatible_endpoint` (String): S3-compatible: endpoint
+* `s3_compatible_region` (String): S3-compatible: region
+* `s3_compatible_virtual_hosted_style` (Boolean): S3-compatible: If true, use virtual-hosted-style URLs instead of path-style URLs
+* `s3_kms_key_id` (String): ARN of the AWS KMS key that encrypts files written to the bucket (SSE-KMS). Leave blank unless your bucket requires a specific key.
+* `s3_region` (String): S3 region
+* `server_certificate` (String): Remote server certificate
+* `server_host_key` (String): Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.
+* `server_type` (String): Remote server type.
+* `sharepoint_client_id` (String): SharePoint: Microsoft Entra application client ID for app-only authentication.
+* `sharepoint_site_url` (String): SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.
+* `sharepoint_tenant_id` (String): SharePoint: Microsoft Entra tenant ID for app-only authentication.
+* `ssl` (String): Should we require SSL?
+* `username` (String): Remote server username.
+* `wasabi_access_key` (String): Wasabi: Access Key.
+* `wasabi_bucket` (String): Wasabi: Bucket name
+* `wasabi_region` (String): Wasabi: Region
+
+
+---
+
+## Delete Remote Server
+
+```java
+RemoteServer remoteServer = RemoteServer.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
 remoteServer.delete(parameters);
 ```
 

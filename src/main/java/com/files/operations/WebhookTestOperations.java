@@ -22,26 +22,43 @@ public final class WebhookTestOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   url (required) - string - URL for testing the webhook.
-   *   method - string - HTTP method(GET or POST).
-   *   encoding - string - HTTP encoding method.  Can be JSON, XML, or RAW (form data).
-   *   headers - object - Additional request headers.
-   *   body - object - Additional body parameters.
-   *   raw_body - string - raw body text
-   *   file_as_body - boolean - Send the file data as the request body?
-   *   file_form_field - string - Send the file data as a named parameter in the request POST body
-   *   action - string - action for test body
-   *   use_dedicated_ips - boolean - Use dedicated IPs for sending the webhook?
+   * Create Webhook Test
+   *
+   * @see #create(HashMap, HashMap)
    */
   public WebhookTest create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Webhook Test
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public WebhookTest create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Webhook Test
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code url} (String): Required. URL for testing the webhook.</li>
+   * <li>{@code method} (String): HTTP method(GET or POST).</li>
+   * <li>{@code encoding} (String): HTTP encoding method.  Can be JSON, XML, or RAW (form data).</li>
+   * <li>{@code headers} (Object): Additional request headers.</li>
+   * <li>{@code body} (Object): Additional body parameters.</li>
+   * <li>{@code raw_body} (String): raw body text</li>
+   * <li>{@code file_as_body} (Boolean): Send the file data as the request body?</li>
+   * <li>{@code file_form_field} (String): Send the file data as a named parameter in the request POST body</li>
+   * <li>{@code action} (String): action for test body</li>
+   * <li>{@code use_dedicated_ips} (Boolean): Use dedicated IPs for sending the webhook?</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code WebhookTest}
+   */
   public WebhookTest create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);

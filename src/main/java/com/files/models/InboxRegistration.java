@@ -35,6 +35,11 @@ public class InboxRegistration implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -58,14 +63,29 @@ public class InboxRegistration implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code InboxRegistration} with no attributes set.
+   */
   public InboxRegistration() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code InboxRegistration} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public InboxRegistration(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code InboxRegistration} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public InboxRegistration(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -83,6 +103,11 @@ public class InboxRegistration implements ModelInterface {
   @JsonProperty("code")
   public String code;
 
+  /**
+   * Gets {@link #code}.
+   *
+   * @return the value of {@link #code}
+   */
   public String getCode() {
     return code;
   }
@@ -93,6 +118,11 @@ public class InboxRegistration implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
@@ -103,6 +133,11 @@ public class InboxRegistration implements ModelInterface {
   @JsonProperty("company")
   public String company;
 
+  /**
+   * Gets {@link #company}.
+   *
+   * @return the value of {@link #company}
+   */
   public String getCompany() {
     return company;
   }
@@ -113,6 +148,11 @@ public class InboxRegistration implements ModelInterface {
   @JsonProperty("email")
   public String email;
 
+  /**
+   * Gets {@link #email}.
+   *
+   * @return the value of {@link #email}
+   */
   public String getEmail() {
     return email;
   }
@@ -123,6 +163,11 @@ public class InboxRegistration implements ModelInterface {
   @JsonProperty("ip")
   public String ip;
 
+  /**
+   * Gets {@link #ip}.
+   *
+   * @return the value of {@link #ip}
+   */
   public String getIp() {
     return ip;
   }
@@ -133,6 +178,11 @@ public class InboxRegistration implements ModelInterface {
   @JsonProperty("clickwrap_body")
   public String clickwrapBody;
 
+  /**
+   * Gets {@link #clickwrapBody}.
+   *
+   * @return the value of {@link #clickwrapBody}
+   */
   public String getClickwrapBody() {
     return clickwrapBody;
   }
@@ -143,6 +193,11 @@ public class InboxRegistration implements ModelInterface {
   @JsonProperty("form_field_set_id")
   public Long formFieldSetId;
 
+  /**
+   * Gets {@link #formFieldSetId}.
+   *
+   * @return the value of {@link #formFieldSetId}
+   */
   public Long getFormFieldSetId() {
     return formFieldSetId;
   }
@@ -153,6 +208,11 @@ public class InboxRegistration implements ModelInterface {
   @JsonProperty("form_field_data")
   public Object formFieldData;
 
+  /**
+   * Gets {@link #formFieldData}.
+   *
+   * @return the value of {@link #formFieldData}
+   */
   public Object getFormFieldData() {
     return formFieldData;
   }
@@ -163,6 +223,11 @@ public class InboxRegistration implements ModelInterface {
   @JsonProperty("inbox_id")
   public Long inboxId;
 
+  /**
+   * Gets {@link #inboxId}.
+   *
+   * @return the value of {@link #inboxId}
+   */
   public Long getInboxId() {
     return inboxId;
   }
@@ -173,6 +238,11 @@ public class InboxRegistration implements ModelInterface {
   @JsonProperty("inbox_recipient_id")
   public Long inboxRecipientId;
 
+  /**
+   * Gets {@link #inboxRecipientId}.
+   *
+   * @return the value of {@link #inboxRecipientId}
+   */
   public Long getInboxRecipientId() {
     return inboxRecipientId;
   }
@@ -183,6 +253,11 @@ public class InboxRegistration implements ModelInterface {
   @JsonProperty("inbox_title")
   public String inboxTitle;
 
+  /**
+   * Gets {@link #inboxTitle}.
+   *
+   * @return the value of {@link #inboxTitle}
+   */
   public String getInboxTitle() {
     return inboxTitle;
   }
@@ -193,34 +268,66 @@ public class InboxRegistration implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   folder_behavior_id - int64 - ID of the associated Inbox. This is required if the user is not a site admin.
+   * List Inbox Registrations
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<InboxRegistration> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Inbox Registrations
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<InboxRegistration> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Inbox Registrations
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code folder_behavior_id} (Long): ID of the associated Inbox. This is required if the user is not a site admin.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code InboxRegistration} records, in a {@code ListIterator}
+   */
   public static ListIterator<InboxRegistration> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().inboxRegistrations().list(parameters, options);
   }
 
+  /**
+   * List Inbox Registrations
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<InboxRegistration> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Inbox Registrations
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<InboxRegistration> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }

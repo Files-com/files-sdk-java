@@ -205,12 +205,11 @@
 
 ## List Users
 
-```
-ListIterator<User> user = User.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("include_parent_site_users", false);
+parameters.put("include_default_workspace_users", false);
+ListIterator<User> users = User.list(parameters, null);
 ```
 
 ### Parameters
@@ -234,12 +233,9 @@ ListIterator<User> user = User.list(
 
 ## Show User
 
-```
-User user = User.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+User user = User.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -251,12 +247,71 @@ User user = User.find(
 
 ## Create User
 
-```
-User user = User.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("avatar_delete", false);
+parameters.put("email", "john.doe@files.com");
+parameters.put("group_id", 1L);
+parameters.put("group_ids", "example");
+parameters.put("announcements_read", false);
+parameters.put("ai_assistant_personality_id", 1L);
+parameters.put("allowed_ips", "10.0.0.0/8\n127.0.0.1");
+parameters.put("attachments_permission", true);
+parameters.put("authenticate_until", "2000-01-01T01:00:00Z");
+parameters.put("authentication_method", "password");
+parameters.put("billing_permission", false);
+parameters.put("bypass_user_lifecycle_rules", false);
+parameters.put("bypass_site_allowed_ips", false);
+parameters.put("dav_permission", true);
+parameters.put("desktop_configuration_profile_id", 1L);
+parameters.put("default_workspace_id", 1L);
+parameters.put("disabled", true);
+parameters.put("filesystem_layout", "site_root");
+parameters.put("ftp_permission", true);
+parameters.put("header_text", "User-specific message.");
+parameters.put("integration_centric_profile_id", 1L);
+parameters.put("language", "en");
+parameters.put("notification_daily_send_time", 18L);
+parameters.put("name", "John Doe");
+parameters.put("company", "ACME Corp.");
+parameters.put("notes", "Internal notes on this user.");
+parameters.put("office_integration_enabled", true);
+parameters.put("partner_admin", true);
+parameters.put("partner_id", 1L);
+parameters.put("password_validity_days", 1L);
+parameters.put("primary_group_id", 1L);
+parameters.put("readonly_site_admin", true);
+parameters.put("receive_admin_alerts", true);
+parameters.put("notify_on_all_site_warnings", true);
+parameters.put("notify_on_all_sso_failures", true);
+parameters.put("notify_on_all_user_security_events", true);
+parameters.put("notify_on_all_pending_work_failures", true);
+parameters.put("notify_on_all_siem_http_destination_failures", true);
+parameters.put("notify_on_all_sync_failures", true);
+parameters.put("notify_on_all_automation_failures", true);
+parameters.put("notify_on_all_expectation_failures", true);
+parameters.put("require_login_by", "2000-01-01T01:00:00Z");
+parameters.put("require_password_change", true);
+parameters.put("responsible_group_id", 1L);
+parameters.put("responsible_user_id", 1L);
+parameters.put("restapi_permission", true);
+parameters.put("s3_compatible_endpoint_permission", true);
+parameters.put("self_managed", true);
+parameters.put("sftp_permission", true);
+parameters.put("site_admin", true);
+parameters.put("skip_welcome_screen", true);
+parameters.put("ssl_required", "always_require");
+parameters.put("sso_strategy_id", 1L);
+parameters.put("subscribe_to_newsletter", true);
+parameters.put("require_2fa", "always_require");
+parameters.put("tags", "example");
+parameters.put("time_zone", "Pacific Time (US & Canada)");
+parameters.put("user_root", "example");
+parameters.put("user_home", "example");
+parameters.put("workspace_admin", true);
+parameters.put("username", "user");
+parameters.put("workspace_id", 1L);
+User user = User.create(parameters, null);
 ```
 
 ### Parameters
@@ -336,12 +391,9 @@ User user = User.create(
 
 ## Unlock user who has been locked out due to failed logins
 
-```
-void user = User.unlock(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+User.unlock(1L, parameters, null);
 ```
 
 ### Parameters
@@ -353,12 +405,9 @@ void user = User.unlock(
 
 ## Resend user welcome email
 
-```
-void user = User.resendWelcomeEmail(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+User.resendWelcomeEmail(1L, parameters, null);
 ```
 
 ### Parameters
@@ -370,12 +419,9 @@ void user = User.resendWelcomeEmail(
 
 ## Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
 
-```
-void user = User.user2faReset(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+User.user2faReset(1L, parameters, null);
 ```
 
 ### Parameters
@@ -387,173 +433,14 @@ void user = User.user2faReset(
 
 ## Update User
 
-```
-User user = User.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - User ID.
-* `avatar_file` (byte[] or Attachment): An image file for your user avatar.
-* `avatar_delete` (Boolean): If true, the avatar will be deleted.
-* `change_password` (String): Used for changing a password on an existing user.
-* `change_password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
-* `email` (String): User's email.
-* `grant_permission` (String): Permission to grant on the User Root upon creation, or on the Workspace root when the User Root is blank. For the Default Workspace, a blank User Root uses the site root. `admin` on a Custom Workspace's root grants Workspace Administrator access; on a subfolder it grants Folder Admin access. Can be blank or `admin`, `full`, `read`, `write`, `list`, `read+write`, `list+write`, or `history`.
-* `group_id` (Long): Group ID to associate this user with.
-* `group_ids` (String): A list of group ids to associate this user with.  Comma delimited.
-* `imported_password_hash` (String): Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
-* `password` (String): User password.
-* `password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `password`.
-* `announcements_read` (Boolean): Signifies that the user has read all the announcements in the UI.
-* `ai_assistant_personality_id` (Long): AI Assistant Personality ID assigned directly to this user, if any.
-* `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
-* `attachments_permission` (Boolean): DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
-* `authenticate_until` (String): Scheduled Date/Time at which user will be deactivated
-* `authentication_method` (String): How is this user authenticated?
-* `billing_permission` (Boolean): Allow this user to perform operations on the account, payments, and invoices?
-* `bypass_user_lifecycle_rules` (Boolean): Exempt this user from user lifecycle rules?
-* `bypass_site_allowed_ips` (Boolean): Allow this user to skip site-wide IP blacklists?
-* `dav_permission` (Boolean): Can the user connect with WebDAV?
-* `desktop_configuration_profile_id` (Long): Desktop Configuration Profile ID assigned directly to this user, if any.
-* `default_workspace_id` (Long): Workspace ID the user should land in by default when more than one Workspace is available.
-* `disabled` (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
-* `filesystem_layout` (String): File system layout
-* `ftp_permission` (Boolean): Can the user access with FTP/FTPS?
-* `header_text` (String): Text to display to the user in the header of the UI
-* `integration_centric_profile_id` (Long): Integration Centric Profile ID assigned directly to this user, if any.
-* `language` (String): Preferred language
-* `notification_daily_send_time` (Long): Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
-* `name` (String): User's full name
-* `company` (String): User's company
-* `notes` (String): Any internal notes on the user
-* `office_integration_enabled` (Boolean): Enable integration with Office for the web?
-* `partner_admin` (Boolean): Is this user a Partner administrator?
-* `partner_id` (Long): Partner ID if this user belongs to a Partner
-* `password_validity_days` (Long): Number of days to allow user to use the same password
-* `primary_group_id` (Long): Primary group ID for Group Admin scoping
-* `readonly_site_admin` (Boolean): Is the user an allowed to view all (non-billing) site configuration for this site?
-* `receive_admin_alerts` (Boolean): Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.
-* `notify_on_all_site_warnings` (Boolean): Should the user receive site warnings via email?
-* `notify_on_all_sso_failures` (Boolean): Should the user receive sso/scim/ldap configuration/sync failures via email?
-* `notify_on_all_user_security_events` (Boolean): Should the user receive user security events via email?
-* `notify_on_all_pending_work_failures` (Boolean): Should the user receive pending work failures via email?
-* `notify_on_all_siem_http_destination_failures` (Boolean): Should the user receive siem failures via email?
-* `notify_on_all_sync_failures` (Boolean): Should the user receive sync failures via email?
-* `notify_on_all_automation_failures` (Boolean): Should the user receive automation failures via email?
-* `notify_on_all_expectation_failures` (Boolean): Should the user receive expectation failures and misses via email?
-* `require_login_by` (String): Require user to login by specified date otherwise it will be disabled.
-* `require_password_change` (Boolean): Is a password change required upon next user login?
-* `responsible_group_id` (Long): ID of the internal Group responsible for this Partner User, overriding the Partner default.
-* `responsible_user_id` (Long): ID of the internal User responsible for this Partner User, overriding the Partner default.
-* `restapi_permission` (Boolean): Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
-* `s3_compatible_endpoint_permission` (Boolean): Can the user access the S3-compatible endpoint? Defaults to true.
-* `self_managed` (Boolean): Does this user manage it's own credentials or is it a shared/bot user?
-* `sftp_permission` (Boolean): Can the user access with SFTP?
-* `site_admin` (Boolean): Is the user an administrator for this site?
-* `skip_welcome_screen` (Boolean): Skip Welcome page in the UI?
-* `ssl_required` (String): SSL required setting
-* `sso_strategy_id` (Long): SSO (Single Sign On) strategy ID for the user, if applicable.
-* `subscribe_to_newsletter` (Boolean): Is the user subscribed to the newsletter?
-* `require_2fa` (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
-* `tags` (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
-* `time_zone` (String): User time zone
-* `user_root` (String): If filesystem layout is user_root, this path is the root path the user is fixed to for all interfaces. If the filesystem layout is site_root or partner_root, this acts as a root folder only for FTP and SFTP (SFTP applicability also requires a site-wide setting to be set). For partner_root layout, this path is relative to the Partner root folder for all callers and blank opts out of an additional protocol root. In this situation, this path is not applied to the API, Desktop, or Web interface.
-* `user_home` (String): Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
-* `workspace_admin` (Boolean): Whether the user is an administrator of their own Custom Workspace. Does not reflect administration granted through Permissions.
-* `username` (String): User's username
-* `workspace_id` (Long): Workspace ID. Only Site Administrators can change this field. Values supplied by Workspace Administrators, Group Administrators, or other non-Site Administrators using `/user` are ignored.
-* `clear_2fa` (Boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
-* `convert_to_partner_user` (Boolean): Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
-
-
----
-
-## Delete User
-
-```
-void user = User.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - User ID.
-* `new_owner_id` (Long): Provide a User ID here to transfer ownership of certain resources such as Automations and Share Links (Bundles) to that new user.
-
-
----
-
-## Unlock user who has been locked out due to failed logins
-
-```
-User user = User.find(id);
-
-HashMap<String, Object> parameters = new HashMap<>();
-
-user.unlock(parameters);
-```
-
-### Parameters
-
-* `id` (Long): Required - User ID.
-
-
----
-
-## Resend user welcome email
-
-```
-User user = User.find(id);
-
-HashMap<String, Object> parameters = new HashMap<>();
-
-user.resendWelcomeEmail(parameters);
-```
-
-### Parameters
-
-* `id` (Long): Required - User ID.
-
-
----
-
-## Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
-
-```
-User user = User.find(id);
-
-HashMap<String, Object> parameters = new HashMap<>();
-
-user.user2faReset(parameters);
-```
-
-### Parameters
-
-* `id` (Long): Required - User ID.
-
-
----
-
-## Update User
-
-```
-User user = User.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("avatar_delete", false);
 parameters.put("email", "john.doe@files.com");
-parameters.put("group_id", 1);
+parameters.put("group_id", 1L);
 parameters.put("group_ids", "example");
 parameters.put("announcements_read", false);
-parameters.put("ai_assistant_personality_id", 1);
+parameters.put("ai_assistant_personality_id", 1L);
 parameters.put("allowed_ips", "10.0.0.0/8\n127.0.0.1");
 parameters.put("attachments_permission", true);
 parameters.put("authenticate_until", "2000-01-01T01:00:00Z");
@@ -562,23 +449,23 @@ parameters.put("billing_permission", false);
 parameters.put("bypass_user_lifecycle_rules", false);
 parameters.put("bypass_site_allowed_ips", false);
 parameters.put("dav_permission", true);
-parameters.put("desktop_configuration_profile_id", 1);
-parameters.put("default_workspace_id", 1);
+parameters.put("desktop_configuration_profile_id", 1L);
+parameters.put("default_workspace_id", 1L);
 parameters.put("disabled", true);
 parameters.put("filesystem_layout", "site_root");
 parameters.put("ftp_permission", true);
 parameters.put("header_text", "User-specific message.");
-parameters.put("integration_centric_profile_id", 1);
+parameters.put("integration_centric_profile_id", 1L);
 parameters.put("language", "en");
-parameters.put("notification_daily_send_time", 18);
+parameters.put("notification_daily_send_time", 18L);
 parameters.put("name", "John Doe");
 parameters.put("company", "ACME Corp.");
 parameters.put("notes", "Internal notes on this user.");
 parameters.put("office_integration_enabled", true);
 parameters.put("partner_admin", true);
-parameters.put("partner_id", 1);
-parameters.put("password_validity_days", 1);
-parameters.put("primary_group_id", 1);
+parameters.put("partner_id", 1L);
+parameters.put("password_validity_days", 1L);
+parameters.put("primary_group_id", 1L);
 parameters.put("readonly_site_admin", true);
 parameters.put("receive_admin_alerts", true);
 parameters.put("notify_on_all_site_warnings", true);
@@ -591,8 +478,8 @@ parameters.put("notify_on_all_automation_failures", true);
 parameters.put("notify_on_all_expectation_failures", true);
 parameters.put("require_login_by", "2000-01-01T01:00:00Z");
 parameters.put("require_password_change", true);
-parameters.put("responsible_group_id", 1);
-parameters.put("responsible_user_id", 1);
+parameters.put("responsible_group_id", 1L);
+parameters.put("responsible_user_id", 1L);
 parameters.put("restapi_permission", true);
 parameters.put("s3_compatible_endpoint_permission", true);
 parameters.put("self_managed", true);
@@ -600,7 +487,7 @@ parameters.put("sftp_permission", true);
 parameters.put("site_admin", true);
 parameters.put("skip_welcome_screen", true);
 parameters.put("ssl_required", "always_require");
-parameters.put("sso_strategy_id", 1);
+parameters.put("sso_strategy_id", 1L);
 parameters.put("subscribe_to_newsletter", true);
 parameters.put("require_2fa", "always_require");
 parameters.put("tags", "example");
@@ -609,11 +496,10 @@ parameters.put("user_root", "example");
 parameters.put("user_home", "example");
 parameters.put("workspace_admin", true);
 parameters.put("username", "user");
-parameters.put("workspace_id", 1);
+parameters.put("workspace_id", 1L);
 parameters.put("clear_2fa", false);
 parameters.put("convert_to_partner_user", false);
-
-user.update(parameters);
+User user = User.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -696,12 +582,221 @@ user.update(parameters);
 
 ## Delete User
 
-```
-User user = User.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("new_owner_id", 1);
+parameters.put("new_owner_id", 1L);
+User.delete(1L, parameters, null);
+```
 
+### Parameters
+
+* `id` (Long): Required - User ID.
+* `new_owner_id` (Long): Provide a User ID here to transfer ownership of certain resources such as Automations and Share Links (Bundles) to that new user.
+
+
+---
+
+## Unlock user who has been locked out due to failed logins
+
+```java
+User user = User.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+user.unlock(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - User ID.
+
+
+---
+
+## Resend user welcome email
+
+```java
+User user = User.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+user.resendWelcomeEmail(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - User ID.
+
+
+---
+
+## Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
+
+```java
+User user = User.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+user.user2faReset(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - User ID.
+
+
+---
+
+## Update User
+
+```java
+User user = User.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("avatar_delete", false);
+parameters.put("email", "john.doe@files.com");
+parameters.put("group_id", 1L);
+parameters.put("group_ids", "example");
+parameters.put("announcements_read", false);
+parameters.put("ai_assistant_personality_id", 1L);
+parameters.put("allowed_ips", "10.0.0.0/8\n127.0.0.1");
+parameters.put("attachments_permission", true);
+parameters.put("authenticate_until", "2000-01-01T01:00:00Z");
+parameters.put("authentication_method", "password");
+parameters.put("billing_permission", false);
+parameters.put("bypass_user_lifecycle_rules", false);
+parameters.put("bypass_site_allowed_ips", false);
+parameters.put("dav_permission", true);
+parameters.put("desktop_configuration_profile_id", 1L);
+parameters.put("default_workspace_id", 1L);
+parameters.put("disabled", true);
+parameters.put("filesystem_layout", "site_root");
+parameters.put("ftp_permission", true);
+parameters.put("header_text", "User-specific message.");
+parameters.put("integration_centric_profile_id", 1L);
+parameters.put("language", "en");
+parameters.put("notification_daily_send_time", 18L);
+parameters.put("name", "John Doe");
+parameters.put("company", "ACME Corp.");
+parameters.put("notes", "Internal notes on this user.");
+parameters.put("office_integration_enabled", true);
+parameters.put("partner_admin", true);
+parameters.put("partner_id", 1L);
+parameters.put("password_validity_days", 1L);
+parameters.put("primary_group_id", 1L);
+parameters.put("readonly_site_admin", true);
+parameters.put("receive_admin_alerts", true);
+parameters.put("notify_on_all_site_warnings", true);
+parameters.put("notify_on_all_sso_failures", true);
+parameters.put("notify_on_all_user_security_events", true);
+parameters.put("notify_on_all_pending_work_failures", true);
+parameters.put("notify_on_all_siem_http_destination_failures", true);
+parameters.put("notify_on_all_sync_failures", true);
+parameters.put("notify_on_all_automation_failures", true);
+parameters.put("notify_on_all_expectation_failures", true);
+parameters.put("require_login_by", "2000-01-01T01:00:00Z");
+parameters.put("require_password_change", true);
+parameters.put("responsible_group_id", 1L);
+parameters.put("responsible_user_id", 1L);
+parameters.put("restapi_permission", true);
+parameters.put("s3_compatible_endpoint_permission", true);
+parameters.put("self_managed", true);
+parameters.put("sftp_permission", true);
+parameters.put("site_admin", true);
+parameters.put("skip_welcome_screen", true);
+parameters.put("ssl_required", "always_require");
+parameters.put("sso_strategy_id", 1L);
+parameters.put("subscribe_to_newsletter", true);
+parameters.put("require_2fa", "always_require");
+parameters.put("tags", "example");
+parameters.put("time_zone", "Pacific Time (US & Canada)");
+parameters.put("user_root", "example");
+parameters.put("user_home", "example");
+parameters.put("workspace_admin", true);
+parameters.put("username", "user");
+parameters.put("workspace_id", 1L);
+parameters.put("clear_2fa", false);
+parameters.put("convert_to_partner_user", false);
+User result = user.update(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - User ID.
+* `avatar_file` (byte[] or Attachment): An image file for your user avatar.
+* `avatar_delete` (Boolean): If true, the avatar will be deleted.
+* `change_password` (String): Used for changing a password on an existing user.
+* `change_password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `change_password`.
+* `email` (String): User's email.
+* `grant_permission` (String): Permission to grant on the User Root upon creation, or on the Workspace root when the User Root is blank. For the Default Workspace, a blank User Root uses the site root. `admin` on a Custom Workspace's root grants Workspace Administrator access; on a subfolder it grants Folder Admin access. Can be blank or `admin`, `full`, `read`, `write`, `list`, `read+write`, `list+write`, or `history`.
+* `group_id` (Long): Group ID to associate this user with.
+* `group_ids` (String): A list of group ids to associate this user with.  Comma delimited.
+* `imported_password_hash` (String): Pre-calculated hash of the user's password. If supplied, this will be used to authenticate the user on first login. Supported hash methods are MD5, SHA1, and SHA256.
+* `password` (String): User password.
+* `password_confirmation` (String): Optional, but if provided, we will ensure that it matches the value sent in `password`.
+* `announcements_read` (Boolean): Signifies that the user has read all the announcements in the UI.
+* `ai_assistant_personality_id` (Long): AI Assistant Personality ID assigned directly to this user, if any.
+* `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
+* `attachments_permission` (Boolean): DEPRECATED: If `true`, the user can user create Bundles (aka Share Links). Use the bundle permission instead.
+* `authenticate_until` (String): Scheduled Date/Time at which user will be deactivated
+* `authentication_method` (String): How is this user authenticated?
+* `billing_permission` (Boolean): Allow this user to perform operations on the account, payments, and invoices?
+* `bypass_user_lifecycle_rules` (Boolean): Exempt this user from user lifecycle rules?
+* `bypass_site_allowed_ips` (Boolean): Allow this user to skip site-wide IP blacklists?
+* `dav_permission` (Boolean): Can the user connect with WebDAV?
+* `desktop_configuration_profile_id` (Long): Desktop Configuration Profile ID assigned directly to this user, if any.
+* `default_workspace_id` (Long): Workspace ID the user should land in by default when more than one Workspace is available.
+* `disabled` (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
+* `filesystem_layout` (String): File system layout
+* `ftp_permission` (Boolean): Can the user access with FTP/FTPS?
+* `header_text` (String): Text to display to the user in the header of the UI
+* `integration_centric_profile_id` (Long): Integration Centric Profile ID assigned directly to this user, if any.
+* `language` (String): Preferred language
+* `notification_daily_send_time` (Long): Hour of the day at which daily notifications should be sent. Can be in range 0 to 23
+* `name` (String): User's full name
+* `company` (String): User's company
+* `notes` (String): Any internal notes on the user
+* `office_integration_enabled` (Boolean): Enable integration with Office for the web?
+* `partner_admin` (Boolean): Is this user a Partner administrator?
+* `partner_id` (Long): Partner ID if this user belongs to a Partner
+* `password_validity_days` (Long): Number of days to allow user to use the same password
+* `primary_group_id` (Long): Primary group ID for Group Admin scoping
+* `readonly_site_admin` (Boolean): Is the user an allowed to view all (non-billing) site configuration for this site?
+* `receive_admin_alerts` (Boolean): Deprecated. Use notify_on_all_site_warnings and granular failure notification preferences instead.
+* `notify_on_all_site_warnings` (Boolean): Should the user receive site warnings via email?
+* `notify_on_all_sso_failures` (Boolean): Should the user receive sso/scim/ldap configuration/sync failures via email?
+* `notify_on_all_user_security_events` (Boolean): Should the user receive user security events via email?
+* `notify_on_all_pending_work_failures` (Boolean): Should the user receive pending work failures via email?
+* `notify_on_all_siem_http_destination_failures` (Boolean): Should the user receive siem failures via email?
+* `notify_on_all_sync_failures` (Boolean): Should the user receive sync failures via email?
+* `notify_on_all_automation_failures` (Boolean): Should the user receive automation failures via email?
+* `notify_on_all_expectation_failures` (Boolean): Should the user receive expectation failures and misses via email?
+* `require_login_by` (String): Require user to login by specified date otherwise it will be disabled.
+* `require_password_change` (Boolean): Is a password change required upon next user login?
+* `responsible_group_id` (Long): ID of the internal Group responsible for this Partner User, overriding the Partner default.
+* `responsible_user_id` (Long): ID of the internal User responsible for this Partner User, overriding the Partner default.
+* `restapi_permission` (Boolean): Can this user access the Web app, Desktop app, SDKs, or REST API?  (All of these tools use the API internally, so this is one unified permission set.)
+* `s3_compatible_endpoint_permission` (Boolean): Can the user access the S3-compatible endpoint? Defaults to true.
+* `self_managed` (Boolean): Does this user manage it's own credentials or is it a shared/bot user?
+* `sftp_permission` (Boolean): Can the user access with SFTP?
+* `site_admin` (Boolean): Is the user an administrator for this site?
+* `skip_welcome_screen` (Boolean): Skip Welcome page in the UI?
+* `ssl_required` (String): SSL required setting
+* `sso_strategy_id` (Long): SSO (Single Sign On) strategy ID for the user, if applicable.
+* `subscribe_to_newsletter` (Boolean): Is the user subscribed to the newsletter?
+* `require_2fa` (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
+* `tags` (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
+* `time_zone` (String): User time zone
+* `user_root` (String): If filesystem layout is user_root, this path is the root path the user is fixed to for all interfaces. If the filesystem layout is site_root or partner_root, this acts as a root folder only for FTP and SFTP (SFTP applicability also requires a site-wide setting to be set). For partner_root layout, this path is relative to the Partner root folder for all callers and blank opts out of an additional protocol root. In this situation, this path is not applied to the API, Desktop, or Web interface.
+* `user_home` (String): Home folder for FTP/SFTP. For users with the partner_root filesystem layout, this path is relative to the Partner root folder. In all other cases, it is an absolute path. Only applies to FTP and SFTP, and not any other interface.
+* `workspace_admin` (Boolean): Whether the user is an administrator of their own Custom Workspace. Does not reflect administration granted through Permissions.
+* `username` (String): User's username
+* `workspace_id` (Long): Workspace ID. Only Site Administrators can change this field. Values supplied by Workspace Administrators, Group Administrators, or other non-Site Administrators using `/user` are ignored.
+* `clear_2fa` (Boolean): If true when changing authentication_method from `password` to `sso`, remove all two-factor methods. Ignored in all other cases.
+* `convert_to_partner_user` (Boolean): Required when assigning a Partner to an existing non-Partner user. If true, convert the user by assigning the partner_id provided.
+
+
+---
+
+## Delete User
+
+```java
+User user = User.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("new_owner_id", 1L);
 user.delete(parameters);
 ```
 

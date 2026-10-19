@@ -34,6 +34,11 @@ public class App implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -57,14 +62,29 @@ public class App implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code App} with no attributes set.
+   */
   public App() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code App} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public App(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code App} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public App(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -82,6 +102,11 @@ public class App implements ModelInterface {
   @JsonProperty("app_type")
   public String appType;
 
+  /**
+   * Gets {@link #appType}.
+   *
+   * @return the value of {@link #appType}
+   */
   public String getAppType() {
     return appType;
   }
@@ -92,6 +117,11 @@ public class App implements ModelInterface {
   @JsonProperty("documentation_links")
   public Object documentationLinks;
 
+  /**
+   * Gets {@link #documentationLinks}.
+   *
+   * @return the value of {@link #documentationLinks}
+   */
   public Object getDocumentationLinks() {
     return documentationLinks;
   }
@@ -102,6 +132,11 @@ public class App implements ModelInterface {
   @JsonProperty("extended_description")
   public String extendedDescription;
 
+  /**
+   * Gets {@link #extendedDescription}.
+   *
+   * @return the value of {@link #extendedDescription}
+   */
   public String getExtendedDescription() {
     return extendedDescription;
   }
@@ -112,6 +147,11 @@ public class App implements ModelInterface {
   @JsonProperty("extended_description_for_marketing_site")
   public String extendedDescriptionForMarketingSite;
 
+  /**
+   * Gets {@link #extendedDescriptionForMarketingSite}.
+   *
+   * @return the value of {@link #extendedDescriptionForMarketingSite}
+   */
   public String getExtendedDescriptionForMarketingSite() {
     return extendedDescriptionForMarketingSite;
   }
@@ -122,6 +162,11 @@ public class App implements ModelInterface {
   @JsonProperty("external_homepage_url")
   public String externalHomepageUrl;
 
+  /**
+   * Gets {@link #externalHomepageUrl}.
+   *
+   * @return the value of {@link #externalHomepageUrl}
+   */
   public String getExternalHomepageUrl() {
     return externalHomepageUrl;
   }
@@ -132,6 +177,11 @@ public class App implements ModelInterface {
   @JsonProperty("featured")
   public Boolean featured;
 
+  /**
+   * Gets {@link #featured}.
+   *
+   * @return the value of {@link #featured}
+   */
   public Boolean getFeatured() {
     return featured;
   }
@@ -142,6 +192,11 @@ public class App implements ModelInterface {
   @JsonProperty("folder_behavior_type")
   public String folderBehaviorType;
 
+  /**
+   * Gets {@link #folderBehaviorType}.
+   *
+   * @return the value of {@link #folderBehaviorType}
+   */
   public String getFolderBehaviorType() {
     return folderBehaviorType;
   }
@@ -152,6 +207,11 @@ public class App implements ModelInterface {
   @JsonProperty("icon_url")
   public String iconUrl;
 
+  /**
+   * Gets {@link #iconUrl}.
+   *
+   * @return the value of {@link #iconUrl}
+   */
   public String getIconUrl() {
     return iconUrl;
   }
@@ -162,6 +222,11 @@ public class App implements ModelInterface {
   @JsonProperty("logo_thumbnail_url")
   public String logoThumbnailUrl;
 
+  /**
+   * Gets {@link #logoThumbnailUrl}.
+   *
+   * @return the value of {@link #logoThumbnailUrl}
+   */
   public String getLogoThumbnailUrl() {
     return logoThumbnailUrl;
   }
@@ -172,6 +237,11 @@ public class App implements ModelInterface {
   @JsonProperty("logo_url")
   public String logoUrl;
 
+  /**
+   * Gets {@link #logoUrl}.
+   *
+   * @return the value of {@link #logoUrl}
+   */
   public String getLogoUrl() {
     return logoUrl;
   }
@@ -182,6 +252,11 @@ public class App implements ModelInterface {
   @JsonProperty("marketing_intro")
   public String marketingIntro;
 
+  /**
+   * Gets {@link #marketingIntro}.
+   *
+   * @return the value of {@link #marketingIntro}
+   */
   public String getMarketingIntro() {
     return marketingIntro;
   }
@@ -192,6 +267,11 @@ public class App implements ModelInterface {
   @JsonProperty("marketing_youtube_url")
   public String marketingYoutubeUrl;
 
+  /**
+   * Gets {@link #marketingYoutubeUrl}.
+   *
+   * @return the value of {@link #marketingYoutubeUrl}
+   */
   public String getMarketingYoutubeUrl() {
     return marketingYoutubeUrl;
   }
@@ -202,6 +282,11 @@ public class App implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
@@ -212,6 +297,11 @@ public class App implements ModelInterface {
   @JsonProperty("package_manager_install_command")
   public String packageManagerInstallCommand;
 
+  /**
+   * Gets {@link #packageManagerInstallCommand}.
+   *
+   * @return the value of {@link #packageManagerInstallCommand}
+   */
   public String getPackageManagerInstallCommand() {
     return packageManagerInstallCommand;
   }
@@ -222,6 +312,11 @@ public class App implements ModelInterface {
   @JsonProperty("remote_server_type")
   public String remoteServerType;
 
+  /**
+   * Gets {@link #remoteServerType}.
+   *
+   * @return the value of {@link #remoteServerType}
+   */
   public String getRemoteServerType() {
     return remoteServerType;
   }
@@ -232,6 +327,11 @@ public class App implements ModelInterface {
   @JsonProperty("screenshot_list_urls")
   public String[] screenshotListUrls;
 
+  /**
+   * Gets {@link #screenshotListUrls}.
+   *
+   * @return the value of {@link #screenshotListUrls}
+   */
   public String[] getScreenshotListUrls() {
     return screenshotListUrls;
   }
@@ -242,6 +342,11 @@ public class App implements ModelInterface {
   @JsonProperty("sdk_installation_instructions_link")
   public String sdkInstallationInstructionsLink;
 
+  /**
+   * Gets {@link #sdkInstallationInstructionsLink}.
+   *
+   * @return the value of {@link #sdkInstallationInstructionsLink}
+   */
   public String getSdkInstallationInstructionsLink() {
     return sdkInstallationInstructionsLink;
   }
@@ -252,6 +357,11 @@ public class App implements ModelInterface {
   @JsonProperty("short_description")
   public String shortDescription;
 
+  /**
+   * Gets {@link #shortDescription}.
+   *
+   * @return the value of {@link #shortDescription}
+   */
   public String getShortDescription() {
     return shortDescription;
   }
@@ -262,6 +372,11 @@ public class App implements ModelInterface {
   @JsonProperty("sso_strategy_type")
   public String ssoStrategyType;
 
+  /**
+   * Gets {@link #ssoStrategyType}.
+   *
+   * @return the value of {@link #ssoStrategyType}
+   */
   public String getSsoStrategyType() {
     return ssoStrategyType;
   }
@@ -272,6 +387,11 @@ public class App implements ModelInterface {
   @JsonProperty("siem_type")
   public String siemType;
 
+  /**
+   * Gets {@link #siemType}.
+   *
+   * @return the value of {@link #siemType}
+   */
   public String getSiemType() {
     return siemType;
   }
@@ -282,36 +402,68 @@ public class App implements ModelInterface {
   @JsonProperty("tutorial_youtube_url")
   public String tutorialYoutubeUrl;
 
+  /**
+   * Gets {@link #tutorialYoutubeUrl}.
+   *
+   * @return the value of {@link #tutorialYoutubeUrl}
+   */
   public String getTutorialYoutubeUrl() {
     return tutorialYoutubeUrl;
   }
 
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name` and `app_type`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `name` and `app_type`. Valid field combinations are `[ name, app_type ]`.
-   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
+   * List Apps
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<App> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Apps
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<App> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Apps
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `name` and `app_type`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `name` and `app_type`. Valid field combinations are `[ name, app_type ]`.</li>
+   * <li>{@code filter_prefix} (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code App} records, in a {@code ListIterator}
+   */
   public static ListIterator<App> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().apps().list(parameters, options);
   }
 
+  /**
+   * List Apps
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<App> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Apps
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<App> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }

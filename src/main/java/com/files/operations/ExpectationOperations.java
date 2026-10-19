@@ -26,20 +26,37 @@ public final class ExpectationOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name` or `disabled`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled` and `workspace_id`. Valid field combinations are `[ workspace_id, disabled ]`.
+   * List Expectations
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<Expectation> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Expectations
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Expectation> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Expectations
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name` or `disabled`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `disabled` and `workspace_id`. Valid field combinations are `[ workspace_id, disabled ]`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Expectation} records, in a {@code ListIterator}
+   */
   public ListIterator<Expectation> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -65,30 +82,59 @@ public final class ExpectationOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Expectations
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Expectation> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Expectations
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Expectation> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Expectation ID.
+   * Show Expectation
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public Expectation find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Expectation
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Expectation find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Expectation
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Expectation find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Expectation
+   *
+   * @param id Expectation ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Expectation}
+   */
   public Expectation find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -110,46 +156,73 @@ public final class ExpectationOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Expectation
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Expectation get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Expectation
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Expectation get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   name - string - Expectation name.
-   *   description - string - Expectation description.
-   *   path - string - Path scope for the expectation. Supports workspace-relative presentation.
-   *   source - string - Source glob used to select candidate files.
-   *   exclude_pattern - string - Optional source exclusion glob.
-   *   disabled - boolean - If true, the expectation is disabled.
-   *   trigger - string - How this expectation opens windows.
-   *   interval - string - If trigger is `daily`, this specifies how often to run the expectation.
-   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
-   *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
-   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-   *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
-   *   schedule_time_zone - string - Time zone used by the Expectation schedule.
-   *   holiday_region - string - Optional holiday region used by the Expectation schedule.
-   *   lookback_interval - int64 - How many seconds before the due boundary the window starts.
-   *   late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
-   *   inactivity_interval - int64 - How many quiet seconds are required before final closure.
-   *   max_open_interval - int64 - Hard-stop duration in seconds for unscheduled expectations.
-   *   criteria - object - Versioned success criteria definition for the expectation, including optional Files Transform Script content validation in criteria v2.
-   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   * Create Expectation
+   *
+   * @see #create(HashMap, HashMap)
    */
   public Expectation create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Expectation
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public Expectation create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Expectation
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Expectation name.</li>
+   * <li>{@code description} (String): Expectation description.</li>
+   * <li>{@code path} (String): Path scope for the expectation. Supports workspace-relative presentation.</li>
+   * <li>{@code source} (String): Source glob used to select candidate files.</li>
+   * <li>{@code exclude_pattern} (String): Optional source exclusion glob.</li>
+   * <li>{@code disabled} (Boolean): If true, the expectation is disabled.</li>
+   * <li>{@code trigger} (String): How this expectation opens windows.</li>
+   * <li>{@code interval} (String): If trigger is `daily`, this specifies how often to run the expectation.</li>
+   * <li>{@code recurring_day} (Long): If trigger is `daily`, this selects the day number inside the chosen interval.</li>
+   * <li>{@code recurring_days} (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.</li>
+   * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.</li>
+   * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the Expectation schedule.</li>
+   * <li>{@code schedule_time_zone} (String): Time zone used by the Expectation schedule.</li>
+   * <li>{@code holiday_region} (String): Optional holiday region used by the Expectation schedule.</li>
+   * <li>{@code lookback_interval} (Long): How many seconds before the due boundary the window starts.</li>
+   * <li>{@code late_acceptance_interval} (Long): How many seconds a schedule-driven window may remain eligible to close as late.</li>
+   * <li>{@code inactivity_interval} (Long): How many quiet seconds are required before final closure.</li>
+   * <li>{@code max_open_interval} (Long): Hard-stop duration in seconds for unscheduled expectations.</li>
+   * <li>{@code criteria} (Object): Versioned success criteria definition for the expectation, including optional Files Transform Script content validation in criteria v2.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. `0` means the default workspace.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Expectation}
+   */
   public Expectation create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -245,19 +318,39 @@ public final class ExpectationOperations extends ResourceOperations {
 
   /**
    * Manually open an Expectation window
+   *
+   * @see #triggerEvaluation(Long, HashMap, HashMap)
    */
   public ExpectationEvaluation triggerEvaluation() throws RuntimeException {
     return triggerEvaluation(null, null, null);
   }
 
+  /**
+   * Manually open an Expectation window
+   *
+   * @see #triggerEvaluation(Long, HashMap, HashMap)
+   */
   public ExpectationEvaluation triggerEvaluation(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return triggerEvaluation(id, parameters, null);
   }
 
+  /**
+   * Manually open an Expectation window
+   *
+   * @see #triggerEvaluation(Long, HashMap, HashMap)
+   */
   public ExpectationEvaluation triggerEvaluation(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return triggerEvaluation(null, parameters, options);
   }
 
+  /**
+   * Manually open an Expectation window
+   *
+   * @param id Expectation ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ExpectationEvaluation}
+   */
   public ExpectationEvaluation triggerEvaluation(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -280,41 +373,64 @@ public final class ExpectationOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   name - string - Expectation name.
-   *   description - string - Expectation description.
-   *   path - string - Path scope for the expectation. Supports workspace-relative presentation.
-   *   source - string - Source glob used to select candidate files.
-   *   exclude_pattern - string - Optional source exclusion glob.
-   *   disabled - boolean - If true, the expectation is disabled.
-   *   trigger - string - How this expectation opens windows.
-   *   interval - string - If trigger is `daily`, this specifies how often to run the expectation.
-   *   recurring_day - int64 - If trigger is `daily`, this selects the day number inside the chosen interval.
-   *   recurring_days - array(int64) - If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
-   *   schedule_id - int64 - If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
-   *   schedule_days_of_week - array(int64) - If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
-   *   schedule_times_of_day - array(string) - Times of day in HH:MM format for the Expectation schedule.
-   *   schedule_time_zone - string - Time zone used by the Expectation schedule.
-   *   holiday_region - string - Optional holiday region used by the Expectation schedule.
-   *   lookback_interval - int64 - How many seconds before the due boundary the window starts.
-   *   late_acceptance_interval - int64 - How many seconds a schedule-driven window may remain eligible to close as late.
-   *   inactivity_interval - int64 - How many quiet seconds are required before final closure.
-   *   max_open_interval - int64 - Hard-stop duration in seconds for unscheduled expectations.
-   *   criteria - object - Versioned success criteria definition for the expectation, including optional Files Transform Script content validation in criteria v2.
-   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   * Update Expectation
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public Expectation update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Expectation
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public Expectation update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Expectation
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public Expectation update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Expectation
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code name} (String): Expectation name.</li>
+   * <li>{@code description} (String): Expectation description.</li>
+   * <li>{@code path} (String): Path scope for the expectation. Supports workspace-relative presentation.</li>
+   * <li>{@code source} (String): Source glob used to select candidate files.</li>
+   * <li>{@code exclude_pattern} (String): Optional source exclusion glob.</li>
+   * <li>{@code disabled} (Boolean): If true, the expectation is disabled.</li>
+   * <li>{@code trigger} (String): How this expectation opens windows.</li>
+   * <li>{@code interval} (String): If trigger is `daily`, this specifies how often to run the expectation.</li>
+   * <li>{@code recurring_day} (Long): If trigger is `daily`, this selects the day number inside the chosen interval.</li>
+   * <li>{@code recurring_days} (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.</li>
+   * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.</li>
+   * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the Expectation schedule.</li>
+   * <li>{@code schedule_time_zone} (String): Time zone used by the Expectation schedule.</li>
+   * <li>{@code holiday_region} (String): Optional holiday region used by the Expectation schedule.</li>
+   * <li>{@code lookback_interval} (Long): How many seconds before the due boundary the window starts.</li>
+   * <li>{@code late_acceptance_interval} (Long): How many seconds a schedule-driven window may remain eligible to close as late.</li>
+   * <li>{@code inactivity_interval} (Long): How many quiet seconds are required before final closure.</li>
+   * <li>{@code max_open_interval} (Long): Hard-stop duration in seconds for unscheduled expectations.</li>
+   * <li>{@code criteria} (Object): Versioned success criteria definition for the expectation, including optional Files Transform Script content validation in criteria v2.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. `0` means the default workspace.</li>
+   * </ul>
+   *
+   * @param id Expectation ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Expectation}
+   */
   public Expectation update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -421,19 +537,39 @@ public final class ExpectationOperations extends ResourceOperations {
   }
 
   /**
+   * Delete Expectation
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Expectation
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Expectation
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Expectation
+   *
+   * @param id Expectation ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -454,10 +590,20 @@ public final class ExpectationOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Expectation
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Expectation
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

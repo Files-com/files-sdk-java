@@ -33,6 +33,11 @@ public class DirectConnectionInfo implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -56,14 +61,29 @@ public class DirectConnectionInfo implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code DirectConnectionInfo} with no attributes set.
+   */
   public DirectConnectionInfo() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code DirectConnectionInfo} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public DirectConnectionInfo(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code DirectConnectionInfo} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public DirectConnectionInfo(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -81,6 +101,11 @@ public class DirectConnectionInfo implements ModelInterface {
   @JsonProperty("version")
   public Long version;
 
+  /**
+   * Gets {@link #version}.
+   *
+   * @return the value of {@link #version}
+   */
   public Long getVersion() {
     return version;
   }
@@ -91,6 +116,11 @@ public class DirectConnectionInfo implements ModelInterface {
   @JsonProperty("server_name")
   public String serverName;
 
+  /**
+   * Gets {@link #serverName}.
+   *
+   * @return the value of {@link #serverName}
+   */
   public String getServerName() {
     return serverName;
   }
@@ -101,6 +131,11 @@ public class DirectConnectionInfo implements ModelInterface {
   @JsonProperty("addresses")
   public String[] addresses;
 
+  /**
+   * Gets {@link #addresses}.
+   *
+   * @return the value of {@link #addresses}
+   */
   public String[] getAddresses() {
     return addresses;
   }
@@ -111,6 +146,11 @@ public class DirectConnectionInfo implements ModelInterface {
   @JsonProperty("direct_uri")
   public String directUri;
 
+  /**
+   * Gets {@link #directUri}.
+   *
+   * @return the value of {@link #directUri}
+   */
   public String getDirectUri() {
     return directUri;
   }
@@ -121,6 +161,11 @@ public class DirectConnectionInfo implements ModelInterface {
   @JsonProperty("ca_pem")
   public String caPem;
 
+  /**
+   * Gets {@link #caPem}.
+   *
+   * @return the value of {@link #caPem}
+   */
   public String getCaPem() {
     return caPem;
   }

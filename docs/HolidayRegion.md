@@ -17,12 +17,9 @@
 
 ## List all possible holiday regions
 
-```
-HolidayRegion holidayRegion = HolidayRegion.getSupported(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+HolidayRegion holidayRegion = HolidayRegion.getSupported(parameters, null);
 ```
 
 ### Parameters

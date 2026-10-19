@@ -25,24 +25,41 @@ public final class NotificationOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `path`, `user_id` or `group_id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `user_id`, `workspace_id` or `group_id`. Valid field combinations are `[ workspace_id, path ]`, `[ workspace_id, user_id ]`, `[ workspace_id, group_id ]` or `[ workspace_id, user_id, path ]`.
-   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.
-   *   path - string - Show notifications for this Path.
-   *   include_ancestors - boolean - If `include_ancestors` is `true` and `path` is specified, include notifications for any parent paths. Ignored if `path` is not specified.
-   *   group_id - string
+   * List Notifications
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<Notification> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Notifications
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Notification> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Notifications
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `path`, `user_id` or `group_id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `path`, `user_id`, `workspace_id` or `group_id`. Valid field combinations are `[ workspace_id, path ]`, `[ workspace_id, user_id ]`, `[ workspace_id, group_id ]` or `[ workspace_id, user_id, path ]`.</li>
+   * <li>{@code filter_prefix} (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `path`.</li>
+   * <li>{@code path} (String): Show notifications for this Path.</li>
+   * <li>{@code include_ancestors} (Boolean): If `include_ancestors` is `true` and `path` is specified, include notifications for any parent paths. Ignored if `path` is not specified.</li>
+   * <li>{@code group_id} (String): </li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Notification} records, in a {@code ListIterator}
+   */
   public ListIterator<Notification> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -84,30 +101,59 @@ public final class NotificationOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Notifications
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Notification> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Notifications
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<Notification> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Notification ID.
+   * Show Notification
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public Notification find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Notification
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Notification find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Notification
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Notification find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Notification
+   *
+   * @param id Notification ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Notification}
+   */
   public Notification find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -129,45 +175,72 @@ public final class NotificationOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Notification
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Notification get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Notification
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public Notification get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - The id of the user to notify. Provide `user_id`, `username` or `group_id`.
-   *   notify_on_copy - boolean - If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
-   *   notify_on_delete - boolean - Trigger on files deleted in this path?
-   *   notify_on_download - boolean - Trigger on files downloaded in this path?
-   *   notify_on_move - boolean - Trigger on files moved to this path?
-   *   notify_on_upload - boolean - Trigger on files created/uploaded/updated/changed in this path?
-   *   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
-   *   recursive - boolean - If `true`, enable notifications for each subfolder in this path
-   *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
-   *   subject - string - Custom subject line to use for notification emails
-   *   message - string - Custom message to include in notification emails
-   *   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to scope trigger
-   *   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
-   *   triggering_user_ids - array(int64) - If set, will only notify on actions made one of the specified users
-   *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
-   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
-   *   group_id - int64 - The ID of the group to notify.  Provide `user_id`, `username` or `group_id`.
-   *   group_ids - string - Group IDs when the notification requires multiple groups. If sent as a string, it should be comma-delimited.
-   *   path - string - Path
-   *   username - string - The username of the user to notify.  Provide `user_id`, `username` or `group_id`.
+   * Create Notification
+   *
+   * @see #create(HashMap, HashMap)
    */
   public Notification create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Notification
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public Notification create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Notification
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): The id of the user to notify. Provide `user_id`, `username` or `group_id`.</li>
+   * <li>{@code notify_on_copy} (Boolean): If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.</li>
+   * <li>{@code notify_on_delete} (Boolean): Trigger on files deleted in this path?</li>
+   * <li>{@code notify_on_download} (Boolean): Trigger on files downloaded in this path?</li>
+   * <li>{@code notify_on_move} (Boolean): Trigger on files moved to this path?</li>
+   * <li>{@code notify_on_upload} (Boolean): Trigger on files created/uploaded/updated/changed in this path?</li>
+   * <li>{@code notify_user_actions} (Boolean): If `true` actions initiated by the user will still result in a notification</li>
+   * <li>{@code recursive} (Boolean): If `true`, enable notifications for each subfolder in this path</li>
+   * <li>{@code send_interval} (String): The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.</li>
+   * <li>{@code subject} (String): Custom subject line to use for notification emails</li>
+   * <li>{@code message} (String): Custom message to include in notification emails</li>
+   * <li>{@code triggering_filenames} (String[]): Array of filenames (possibly with wildcards) to scope trigger</li>
+   * <li>{@code triggering_group_ids} (Long[]): If set, will only notify on actions made by a member of one of the specified groups</li>
+   * <li>{@code triggering_user_ids} (Long[]): If set, will only notify on actions made one of the specified users</li>
+   * <li>{@code trigger_by_share_recipients} (Boolean): Notify when actions are performed by a share recipient?</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. `0` means the default workspace.</li>
+   * <li>{@code group_id} (Long): The ID of the group to notify.  Provide `user_id`, `username` or `group_id`.</li>
+   * <li>{@code group_ids} (String): Group IDs when the notification requires multiple groups. If sent as a string, it should be comma-delimited.</li>
+   * <li>{@code path} (String): Path</li>
+   * <li>{@code username} (String): The username of the user to notify.  Provide `user_id`, `username` or `group_id`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Notification}
+   */
   public Notification create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -258,35 +331,58 @@ public final class NotificationOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   notify_on_copy - boolean - If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.
-   *   notify_on_delete - boolean - Trigger on files deleted in this path?
-   *   notify_on_download - boolean - Trigger on files downloaded in this path?
-   *   notify_on_move - boolean - Trigger on files moved to this path?
-   *   notify_on_upload - boolean - Trigger on files created/uploaded/updated/changed in this path?
-   *   notify_user_actions - boolean - If `true` actions initiated by the user will still result in a notification
-   *   recursive - boolean - If `true`, enable notifications for each subfolder in this path
-   *   send_interval - string - The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.
-   *   subject - string - Custom subject line to use for notification emails
-   *   message - string - Custom message to include in notification emails
-   *   triggering_filenames - array(string) - Array of filenames (possibly with wildcards) to scope trigger
-   *   triggering_group_ids - array(int64) - If set, will only notify on actions made by a member of one of the specified groups
-   *   triggering_user_ids - array(int64) - If set, will only notify on actions made one of the specified users
-   *   trigger_by_share_recipients - boolean - Notify when actions are performed by a share recipient?
-   *   workspace_id - int64 - Workspace ID. `0` means the default workspace.
+   * Update Notification
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public Notification update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Notification
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public Notification update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Notification
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public Notification update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Notification
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code notify_on_copy} (Boolean): If `true`, copying or moving resources into this path will trigger a notification, in addition to just uploads.</li>
+   * <li>{@code notify_on_delete} (Boolean): Trigger on files deleted in this path?</li>
+   * <li>{@code notify_on_download} (Boolean): Trigger on files downloaded in this path?</li>
+   * <li>{@code notify_on_move} (Boolean): Trigger on files moved to this path?</li>
+   * <li>{@code notify_on_upload} (Boolean): Trigger on files created/uploaded/updated/changed in this path?</li>
+   * <li>{@code notify_user_actions} (Boolean): If `true` actions initiated by the user will still result in a notification</li>
+   * <li>{@code recursive} (Boolean): If `true`, enable notifications for each subfolder in this path</li>
+   * <li>{@code send_interval} (String): The time interval that notifications are aggregated by.  Can be `five_minutes`, `fifteen_minutes`, `hourly`, or `daily`.</li>
+   * <li>{@code subject} (String): Custom subject line to use for notification emails</li>
+   * <li>{@code message} (String): Custom message to include in notification emails</li>
+   * <li>{@code triggering_filenames} (String[]): Array of filenames (possibly with wildcards) to scope trigger</li>
+   * <li>{@code triggering_group_ids} (Long[]): If set, will only notify on actions made by a member of one of the specified groups</li>
+   * <li>{@code triggering_user_ids} (Long[]): If set, will only notify on actions made one of the specified users</li>
+   * <li>{@code trigger_by_share_recipients} (Boolean): Notify when actions are performed by a share recipient?</li>
+   * <li>{@code workspace_id} (Long): Workspace ID. `0` means the default workspace.</li>
+   * </ul>
+   *
+   * @param id Notification ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Notification}
+   */
   public Notification update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -369,19 +465,39 @@ public final class NotificationOperations extends ResourceOperations {
   }
 
   /**
+   * Delete Notification
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Notification
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Notification
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Notification
+   *
+   * @param id Notification ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -402,10 +518,20 @@ public final class NotificationOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Notification
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Notification
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

@@ -32,12 +32,9 @@
 
 ## List Metadata Categories
 
-```
-ListIterator<MetadataCategory> metadataCategory = MetadataCategory.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<MetadataCategory> metadataCategories = MetadataCategory.list(parameters, null);
 ```
 
 ### Parameters
@@ -51,12 +48,9 @@ ListIterator<MetadataCategory> metadataCategory = MetadataCategory.list(
 
 ## Show Metadata Category
 
-```
-MetadataCategory metadataCategory = MetadataCategory.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+MetadataCategory metadataCategory = MetadataCategory.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -68,12 +62,9 @@ MetadataCategory metadataCategory = MetadataCategory.find(
 
 ## List Metadata Categories by Path
 
-```
-ListIterator<MetadataCategory> metadataCategory = MetadataCategory.listFor(
-    String path, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<MetadataCategory> metadataCategories = MetadataCategory.listFor("path", parameters, null);
 ```
 
 ### Parameters
@@ -87,12 +78,11 @@ ListIterator<MetadataCategory> metadataCategory = MetadataCategory.listFor(
 
 ## Create Metadata Category
 
-```
-MetadataCategory metadataCategory = MetadataCategory.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "Approval Workflow");
+parameters.put("default_columns", new String[] {"Approval Status"});
+MetadataCategory metadataCategory = MetadataCategory.create(parameters, null);
 ```
 
 ### Parameters
@@ -105,12 +95,11 @@ MetadataCategory metadataCategory = MetadataCategory.create(
 
 ## Update Metadata Category
 
-```
-MetadataCategory metadataCategory = MetadataCategory.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "Approval Workflow");
+parameters.put("default_columns", new String[] {"Approval Status"});
+MetadataCategory metadataCategory = MetadataCategory.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -124,12 +113,9 @@ MetadataCategory metadataCategory = MetadataCategory.update(
 
 ## Delete Metadata Category
 
-```
-void metadataCategory = MetadataCategory.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+MetadataCategory.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -141,14 +127,12 @@ void metadataCategory = MetadataCategory.delete(
 
 ## Update Metadata Category
 
-```
-MetadataCategory metadataCategory = MetadataCategory.find(id);
-
+```java
+MetadataCategory metadataCategory = MetadataCategory.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "Approval Workflow");
-parameters.put("default_columns", ["Approval Status"]);
-
-metadataCategory.update(parameters);
+parameters.put("default_columns", new String[] {"Approval Status"});
+MetadataCategory result = metadataCategory.update(parameters);
 ```
 
 ### Parameters
@@ -162,11 +146,9 @@ metadataCategory.update(parameters);
 
 ## Delete Metadata Category
 
-```
-MetadataCategory metadataCategory = MetadataCategory.find(id);
-
+```java
+MetadataCategory metadataCategory = MetadataCategory.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 metadataCategory.delete(parameters);
 ```
 

@@ -33,6 +33,11 @@ public class PartnerConnection implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -56,14 +61,29 @@ public class PartnerConnection implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code PartnerConnection} with no attributes set.
+   */
   public PartnerConnection() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code PartnerConnection} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public PartnerConnection(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code PartnerConnection} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public PartnerConnection(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -81,6 +101,11 @@ public class PartnerConnection implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
@@ -91,6 +116,11 @@ public class PartnerConnection implements ModelInterface {
   @JsonProperty("role")
   public String role;
 
+  /**
+   * Gets {@link #role}.
+   *
+   * @return the value of {@link #role}
+   */
   public String getRole() {
     return role;
   }
@@ -101,6 +131,11 @@ public class PartnerConnection implements ModelInterface {
   @JsonProperty("site_id")
   public Long siteId;
 
+  /**
+   * Gets {@link #siteId}.
+   *
+   * @return the value of {@link #siteId}
+   */
   public Long getSiteId() {
     return siteId;
   }
@@ -111,6 +146,11 @@ public class PartnerConnection implements ModelInterface {
   @JsonProperty("site_name")
   public String siteName;
 
+  /**
+   * Gets {@link #siteName}.
+   *
+   * @return the value of {@link #siteName}
+   */
   public String getSiteName() {
     return siteName;
   }
@@ -121,6 +161,11 @@ public class PartnerConnection implements ModelInterface {
   @JsonProperty("mount_path")
   public String mountPath;
 
+  /**
+   * Gets {@link #mountPath}.
+   *
+   * @return the value of {@link #mountPath}
+   */
   public String getMountPath() {
     return mountPath;
   }

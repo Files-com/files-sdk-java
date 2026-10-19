@@ -29,12 +29,9 @@
 
 ## List Partner Site Requests
 
-```
-ListIterator<PartnerSiteRequest> partnerSiteRequest = PartnerSiteRequest.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<PartnerSiteRequest> partnerSiteRequests = PartnerSiteRequest.list(parameters, null);
 ```
 
 ### Parameters
@@ -49,12 +46,10 @@ ListIterator<PartnerSiteRequest> partnerSiteRequest = PartnerSiteRequest.list(
 
 ## Find partner site request by pairing key
 
-```
-void partnerSiteRequest = PartnerSiteRequest.findByPairingKey(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("pairing_key", "pairing_key");
+PartnerSiteRequest.findByPairingKey(parameters, null);
 ```
 
 ### Parameters
@@ -66,12 +61,11 @@ void partnerSiteRequest = PartnerSiteRequest.findByPairingKey(
 
 ## Create Partner Site Request
 
-```
-PartnerSiteRequest partnerSiteRequest = PartnerSiteRequest.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("host_partner_id", 1L);
+parameters.put("guest_site_url", "guest_site_url");
+PartnerSiteRequest partnerSiteRequest = PartnerSiteRequest.create(parameters, null);
 ```
 
 ### Parameters
@@ -84,12 +78,10 @@ PartnerSiteRequest partnerSiteRequest = PartnerSiteRequest.create(
 
 ## Reject partner site request
 
-```
-void partnerSiteRequest = PartnerSiteRequest.reject(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("pairing_key", "pairing_key");
+PartnerSiteRequest.reject(parameters, null);
 ```
 
 ### Parameters
@@ -101,12 +93,11 @@ void partnerSiteRequest = PartnerSiteRequest.reject(
 
 ## Approve partner site request
 
-```
-void partnerSiteRequest = PartnerSiteRequest.approve(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("pairing_key", "pairing_key");
+parameters.put("partner_id", 1L);
+PartnerSiteRequest.approve(parameters, null);
 ```
 
 ### Parameters
@@ -119,12 +110,9 @@ void partnerSiteRequest = PartnerSiteRequest.approve(
 
 ## Delete Partner Site Request
 
-```
-void partnerSiteRequest = PartnerSiteRequest.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+PartnerSiteRequest.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -136,11 +124,10 @@ void partnerSiteRequest = PartnerSiteRequest.delete(
 
 ## Delete Partner Site Request
 
-```
-PartnerSiteRequest partnerSiteRequest = PartnerSiteRequest.list()[0];
-
+```java
+// The first PartnerSiteRequest listed: the list must not be empty.
+PartnerSiteRequest partnerSiteRequest = PartnerSiteRequest.list(null, null).iterator().next();
 HashMap<String, Object> parameters = new HashMap<>();
-
 partnerSiteRequest.delete(parameters);
 ```
 

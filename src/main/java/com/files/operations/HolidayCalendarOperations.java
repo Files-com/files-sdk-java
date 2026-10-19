@@ -25,19 +25,36 @@ public final class HolidayCalendarOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .
+   * List Holiday Calendars
+   *
+   * @see #list(HashMap, HashMap)
    */
   public ListIterator<HolidayCalendar> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Holiday Calendars
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<HolidayCalendar> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
+  /**
+   * List Holiday Calendars
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are .</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code HolidayCalendar} records, in a {@code ListIterator}
+   */
   public ListIterator<HolidayCalendar> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -59,30 +76,59 @@ public final class HolidayCalendarOperations extends ResourceOperations {
     return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * List Holiday Calendars
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<HolidayCalendar> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Holiday Calendars
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public ListIterator<HolidayCalendar> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Holiday Calendar ID.
+   * Show Holiday Calendar
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public HolidayCalendar find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Holiday Calendar
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public HolidayCalendar find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Holiday Calendar
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public HolidayCalendar find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Holiday Calendar
+   *
+   * @param id Holiday Calendar ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code HolidayCalendar}
+   */
   public HolidayCalendar find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -104,27 +150,54 @@ public final class HolidayCalendarOperations extends ResourceOperations {
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
+  /**
+   * Show Holiday Calendar
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public HolidayCalendar get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Holiday Calendar
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public HolidayCalendar get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   definition (required) - object - Holiday rules for the calendar.
-   *   name (required) - string - Holiday Calendar name.
+   * Create Holiday Calendar
+   *
+   * @see #create(HashMap, HashMap)
    */
   public HolidayCalendar create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Holiday Calendar
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public HolidayCalendar create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
+  /**
+   * Create Holiday Calendar
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code definition} (Object): Required. Holiday rules for the calendar.</li>
+   * <li>{@code name} (String): Required. Holiday Calendar name.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code HolidayCalendar}
+   */
   public HolidayCalendar create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -151,22 +224,45 @@ public final class HolidayCalendarOperations extends ResourceOperations {
   }
 
   /**
-   * Parameters:
-   *   definition - object - Holiday rules for the calendar.
-   *   name - string - Holiday Calendar name.
+   * Update Holiday Calendar
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public HolidayCalendar update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Holiday Calendar
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public HolidayCalendar update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Holiday Calendar
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public HolidayCalendar update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Holiday Calendar
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code definition} (Object): Holiday rules for the calendar.</li>
+   * <li>{@code name} (String): Holiday Calendar name.</li>
+   * </ul>
+   *
+   * @param id Holiday Calendar ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code HolidayCalendar}
+   */
   public HolidayCalendar update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -197,19 +293,39 @@ public final class HolidayCalendarOperations extends ResourceOperations {
   }
 
   /**
+   * Delete Holiday Calendar
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Holiday Calendar
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Holiday Calendar
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Holiday Calendar
+   *
+   * @param id Holiday Calendar ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
@@ -230,10 +346,20 @@ public final class HolidayCalendarOperations extends ResourceOperations {
     request(RequestMethods.DELETE, apiPath, parameters, options);
   }
 
+  /**
+   * Delete Holiday Calendar
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Holiday Calendar
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

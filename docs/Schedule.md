@@ -39,12 +39,9 @@
 
 ## List Schedules
 
-```
-ListIterator<Schedule> schedule = Schedule.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<Schedule> schedules = Schedule.list(parameters, null);
 ```
 
 ### Parameters
@@ -58,12 +55,9 @@ ListIterator<Schedule> schedule = Schedule.list(
 
 ## Show Schedule
 
-```
-Schedule schedule = Schedule.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Schedule schedule = Schedule.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -75,12 +69,14 @@ Schedule schedule = Schedule.find(
 
 ## Create Schedule
 
-```
-Schedule schedule = Schedule.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "Weekday overnight");
+parameters.put("schedule_days_of_week", new Long[] {1L, 2L, 3L, 4L, 5L});
+parameters.put("schedule_times_of_day", new String[] {"01:00"});
+parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
+parameters.put("holiday_region", "us");
+Schedule schedule = Schedule.create(parameters, null);
 ```
 
 ### Parameters
@@ -96,12 +92,14 @@ Schedule schedule = Schedule.create(
 
 ## Update Schedule
 
-```
-Schedule schedule = Schedule.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "Weekday overnight");
+parameters.put("schedule_days_of_week", new Long[] {1L, 2L, 3L, 4L, 5L});
+parameters.put("schedule_times_of_day", new String[] {"01:00"});
+parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
+parameters.put("holiday_region", "us");
+Schedule schedule = Schedule.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -118,12 +116,9 @@ Schedule schedule = Schedule.update(
 
 ## Delete Schedule
 
-```
-void schedule = Schedule.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Schedule.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -135,17 +130,15 @@ void schedule = Schedule.delete(
 
 ## Update Schedule
 
-```
-Schedule schedule = Schedule.find(id);
-
+```java
+Schedule schedule = Schedule.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "Weekday overnight");
-parameters.put("schedule_days_of_week", [1,2,3,4,5]);
-parameters.put("schedule_times_of_day", ["01:00"]);
+parameters.put("schedule_days_of_week", new Long[] {1L, 2L, 3L, 4L, 5L});
+parameters.put("schedule_times_of_day", new String[] {"01:00"});
 parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
 parameters.put("holiday_region", "us");
-
-schedule.update(parameters);
+Schedule result = schedule.update(parameters);
 ```
 
 ### Parameters
@@ -162,11 +155,9 @@ schedule.update(parameters);
 
 ## Delete Schedule
 
-```
-Schedule schedule = Schedule.find(id);
-
+```java
+Schedule schedule = Schedule.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 schedule.delete(parameters);
 ```
 

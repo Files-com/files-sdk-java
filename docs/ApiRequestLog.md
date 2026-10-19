@@ -55,12 +55,9 @@
 
 ## List API Request Logs
 
-```
-ListIterator<ApiRequestLog> apiRequestLog = ApiRequestLog.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<ApiRequestLog> apiRequestLogs = ApiRequestLog.list(parameters, null);
 ```
 
 ### Parameters

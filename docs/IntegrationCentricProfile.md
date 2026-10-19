@@ -28,12 +28,9 @@
 
 ## List Integration Centric Profiles
 
-```
-ListIterator<IntegrationCentricProfile> integrationCentricProfile = IntegrationCentricProfile.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<IntegrationCentricProfile> integrationCentricProfiles = IntegrationCentricProfile.list(parameters, null);
 ```
 
 ### Parameters
@@ -48,12 +45,9 @@ ListIterator<IntegrationCentricProfile> integrationCentricProfile = IntegrationC
 
 ## Show Integration Centric Profile
 
-```
-IntegrationCentricProfile integrationCentricProfile = IntegrationCentricProfile.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+IntegrationCentricProfile integrationCentricProfile = IntegrationCentricProfile.find(1L, parameters, null);
 ```
 
 ### Parameters
@@ -65,12 +59,16 @@ IntegrationCentricProfile integrationCentricProfile = IntegrationCentricProfile.
 
 ## Create Integration Centric Profile
 
-```
-IntegrationCentricProfile integrationCentricProfile = IntegrationCentricProfile.create(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "Business Systems Onboarding");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("server_type", "dropbox");
+map1.put("name", "Dropbox");
+parameters.put("expected_remote_servers", new Object[] {map1});
+parameters.put("workspace_id", 1L);
+parameters.put("use_for_all_users", false);
+IntegrationCentricProfile integrationCentricProfile = IntegrationCentricProfile.create(parameters, null);
 ```
 
 ### Parameters
@@ -85,12 +83,16 @@ IntegrationCentricProfile integrationCentricProfile = IntegrationCentricProfile.
 
 ## Update Integration Centric Profile
 
-```
-IntegrationCentricProfile integrationCentricProfile = IntegrationCentricProfile.update(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("name", "Business Systems Onboarding");
+parameters.put("workspace_id", 1L);
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("server_type", "dropbox");
+map1.put("name", "Dropbox");
+parameters.put("expected_remote_servers", new Object[] {map1});
+parameters.put("use_for_all_users", false);
+IntegrationCentricProfile integrationCentricProfile = IntegrationCentricProfile.update(1L, parameters, null);
 ```
 
 ### Parameters
@@ -106,12 +108,9 @@ IntegrationCentricProfile integrationCentricProfile = IntegrationCentricProfile.
 
 ## Delete Integration Centric Profile
 
-```
-void integrationCentricProfile = IntegrationCentricProfile.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+IntegrationCentricProfile.delete(1L, parameters, null);
 ```
 
 ### Parameters
@@ -123,16 +122,17 @@ void integrationCentricProfile = IntegrationCentricProfile.delete(
 
 ## Update Integration Centric Profile
 
-```
-IntegrationCentricProfile integrationCentricProfile = IntegrationCentricProfile.find(id);
-
+```java
+IntegrationCentricProfile integrationCentricProfile = IntegrationCentricProfile.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "Business Systems Onboarding");
-parameters.put("workspace_id", 1);
-parameters.put("expected_remote_servers", [{"server_type":"dropbox","name":"Dropbox"}]);
+parameters.put("workspace_id", 1L);
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("server_type", "dropbox");
+map1.put("name", "Dropbox");
+parameters.put("expected_remote_servers", new Object[] {map1});
 parameters.put("use_for_all_users", false);
-
-integrationCentricProfile.update(parameters);
+IntegrationCentricProfile result = integrationCentricProfile.update(parameters);
 ```
 
 ### Parameters
@@ -148,11 +148,9 @@ integrationCentricProfile.update(parameters);
 
 ## Delete Integration Centric Profile
 
-```
-IntegrationCentricProfile integrationCentricProfile = IntegrationCentricProfile.find(id);
-
+```java
+IntegrationCentricProfile integrationCentricProfile = IntegrationCentricProfile.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-
 integrationCentricProfile.delete(parameters);
 ```
 

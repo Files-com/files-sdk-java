@@ -21,12 +21,9 @@
 
 ## List Site Subdomain Redirects
 
-```
-ListIterator<SiteSubdomainRedirect> siteSubdomainRedirect = SiteSubdomainRedirect.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<SiteSubdomainRedirect> siteSubdomainRedirects = SiteSubdomainRedirect.list(parameters, null);
 ```
 
 ### Parameters
@@ -40,45 +37,37 @@ ListIterator<SiteSubdomainRedirect> siteSubdomainRedirect = SiteSubdomainRedirec
 
 ## Show Site Subdomain Redirect
 
-```
-SiteSubdomainRedirect siteSubdomainRedirect = SiteSubdomainRedirect.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Site Subdomain Redirect ID.
-
-
----
-
-## Delete Site Subdomain Redirect
-
-```
-void siteSubdomainRedirect = SiteSubdomainRedirect.delete(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
-```
-
-### Parameters
-
-* `id` (Long): Required - Site Subdomain Redirect ID.
-
-
----
-
-## Delete Site Subdomain Redirect
-
-```
-SiteSubdomainRedirect siteSubdomainRedirect = SiteSubdomainRedirect.find(id);
-
+```java
 HashMap<String, Object> parameters = new HashMap<>();
+SiteSubdomainRedirect siteSubdomainRedirect = SiteSubdomainRedirect.find(1L, parameters, null);
+```
 
+### Parameters
+
+* `id` (Long): Required - Site Subdomain Redirect ID.
+
+
+---
+
+## Delete Site Subdomain Redirect
+
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+SiteSubdomainRedirect.delete(1L, parameters, null);
+```
+
+### Parameters
+
+* `id` (Long): Required - Site Subdomain Redirect ID.
+
+
+---
+
+## Delete Site Subdomain Redirect
+
+```java
+SiteSubdomainRedirect siteSubdomainRedirect = SiteSubdomainRedirect.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
 siteSubdomainRedirect.delete(parameters);
 ```
 

@@ -37,6 +37,11 @@ public class FileUploadPart implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -101,14 +106,29 @@ public class FileUploadPart implements ModelInterface {
         .build();
   }
 
+  /**
+   * Creates a {@code FileUploadPart} with no attributes set.
+   */
   public FileUploadPart() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code FileUploadPart} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public FileUploadPart(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code FileUploadPart} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public FileUploadPart(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -126,6 +146,11 @@ public class FileUploadPart implements ModelInterface {
   @JsonProperty("send")
   public Object send;
 
+  /**
+   * Gets {@link #send}.
+   *
+   * @return the value of {@link #send}
+   */
   public Object getSend() {
     return send;
   }
@@ -136,6 +161,11 @@ public class FileUploadPart implements ModelInterface {
   @JsonProperty("action")
   public String action;
 
+  /**
+   * Gets {@link #action}.
+   *
+   * @return the value of {@link #action}
+   */
   public String getAction() {
     return action;
   }
@@ -146,6 +176,11 @@ public class FileUploadPart implements ModelInterface {
   @JsonProperty("ask_about_overwrites")
   public Boolean askAboutOverwrites;
 
+  /**
+   * Gets {@link #askAboutOverwrites}.
+   *
+   * @return the value of {@link #askAboutOverwrites}
+   */
   public Boolean getAskAboutOverwrites() {
     return askAboutOverwrites;
   }
@@ -156,6 +191,11 @@ public class FileUploadPart implements ModelInterface {
   @JsonProperty("available_parts")
   public Long availableParts;
 
+  /**
+   * Gets {@link #availableParts}.
+   *
+   * @return the value of {@link #availableParts}
+   */
   public Long getAvailableParts() {
     return availableParts;
   }
@@ -166,6 +206,11 @@ public class FileUploadPart implements ModelInterface {
   @JsonProperty("expires")
   public String expires;
 
+  /**
+   * Gets {@link #expires}.
+   *
+   * @return the value of {@link #expires}
+   */
   public String getExpires() {
     return expires;
   }
@@ -176,6 +221,11 @@ public class FileUploadPart implements ModelInterface {
   @JsonProperty("headers")
   public Object headers;
 
+  /**
+   * Gets {@link #headers}.
+   *
+   * @return the value of {@link #headers}
+   */
   public Object getHeaders() {
     return headers;
   }
@@ -186,6 +236,11 @@ public class FileUploadPart implements ModelInterface {
   @JsonProperty("http_method")
   public String httpMethod;
 
+  /**
+   * Gets {@link #httpMethod}.
+   *
+   * @return the value of {@link #httpMethod}
+   */
   public String getHttpMethod() {
     return httpMethod;
   }
@@ -196,6 +251,11 @@ public class FileUploadPart implements ModelInterface {
   @JsonProperty("next_partsize")
   public Long nextPartsize;
 
+  /**
+   * Gets {@link #nextPartsize}.
+   *
+   * @return the value of {@link #nextPartsize}
+   */
   public Long getNextPartsize() {
     return nextPartsize;
   }
@@ -206,6 +266,11 @@ public class FileUploadPart implements ModelInterface {
   @JsonProperty("parallel_parts")
   public Boolean parallelParts;
 
+  /**
+   * Gets {@link #parallelParts}.
+   *
+   * @return the value of {@link #parallelParts}
+   */
   public Boolean getParallelParts() {
     return parallelParts;
   }
@@ -216,6 +281,11 @@ public class FileUploadPart implements ModelInterface {
   @JsonProperty("retry_parts")
   public Boolean retryParts;
 
+  /**
+   * Gets {@link #retryParts}.
+   *
+   * @return the value of {@link #retryParts}
+   */
   public Boolean getRetryParts() {
     return retryParts;
   }
@@ -226,6 +296,11 @@ public class FileUploadPart implements ModelInterface {
   @JsonProperty("parameters")
   public Object parameters;
 
+  /**
+   * Gets {@link #parameters}.
+   *
+   * @return the value of {@link #parameters}
+   */
   public Object getParameters() {
     return parameters;
   }
@@ -236,6 +311,11 @@ public class FileUploadPart implements ModelInterface {
   @JsonProperty("part_number")
   public Long partNumber;
 
+  /**
+   * Gets {@link #partNumber}.
+   *
+   * @return the value of {@link #partNumber}
+   */
   public Long getPartNumber() {
     return partNumber;
   }
@@ -246,6 +326,11 @@ public class FileUploadPart implements ModelInterface {
   @JsonProperty("partsize")
   public Long partsize;
 
+  /**
+   * Gets {@link #partsize}.
+   *
+   * @return the value of {@link #partsize}
+   */
   public Long getPartsize() {
     return partsize;
   }
@@ -256,6 +341,11 @@ public class FileUploadPart implements ModelInterface {
   @JsonProperty("path")
   public String path;
 
+  /**
+   * Gets {@link #path}.
+   *
+   * @return the value of {@link #path}
+   */
   public String getPath() {
     return path;
   }
@@ -266,6 +356,11 @@ public class FileUploadPart implements ModelInterface {
   @JsonProperty("ref")
   public String ref;
 
+  /**
+   * Gets {@link #ref}.
+   *
+   * @return the value of {@link #ref}
+   */
   public String getRef() {
     return ref;
   }
@@ -276,6 +371,11 @@ public class FileUploadPart implements ModelInterface {
   @JsonProperty("upload_uri")
   public String uploadUri;
 
+  /**
+   * Gets {@link #uploadUri}.
+   *
+   * @return the value of {@link #uploadUri}
+   */
   public String getUploadUri() {
     return uploadUri;
   }
@@ -286,6 +386,11 @@ public class FileUploadPart implements ModelInterface {
   @JsonProperty("direct_connection_info")
   public DirectConnectionInfo directConnectionInfo;
 
+  /**
+   * Gets {@link #directConnectionInfo}.
+   *
+   * @return the value of {@link #directConnectionInfo}
+   */
   public DirectConnectionInfo getDirectConnectionInfo() {
     return directConnectionInfo;
   }

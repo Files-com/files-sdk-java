@@ -29,12 +29,10 @@
 
 ## List User Cipher Uses
 
-```
-ListIterator<UserCipherUse> userCipherUse = UserCipherUse.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("user_id", 1L);
+ListIterator<UserCipherUse> userCipherUses = UserCipherUse.list(parameters, null);
 ```
 
 ### Parameters

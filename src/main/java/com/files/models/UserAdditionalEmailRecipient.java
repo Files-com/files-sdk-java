@@ -37,6 +37,11 @@ public class UserAdditionalEmailRecipient implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -60,14 +65,29 @@ public class UserAdditionalEmailRecipient implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code UserAdditionalEmailRecipient} with no attributes set.
+   */
   public UserAdditionalEmailRecipient() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code UserAdditionalEmailRecipient} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public UserAdditionalEmailRecipient(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code UserAdditionalEmailRecipient} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public UserAdditionalEmailRecipient(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -85,10 +105,20 @@ public class UserAdditionalEmailRecipient implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -99,10 +129,20 @@ public class UserAdditionalEmailRecipient implements ModelInterface {
   @JsonProperty("user_id")
   public Long userId;
 
+  /**
+   * Gets {@link #userId}.
+   *
+   * @return the value of {@link #userId}
+   */
   public Long getUserId() {
     return userId;
   }
 
+  /**
+   * Sets {@link #userId}.
+   *
+   * @param userId the new value
+   */
   public void setUserId(Long userId) {
     this.userId = userId;
   }
@@ -113,10 +153,20 @@ public class UserAdditionalEmailRecipient implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
 
+  /**
+   * Sets {@link #workspaceId}.
+   *
+   * @param workspaceId the new value
+   */
   public void setWorkspaceId(Long workspaceId) {
     this.workspaceId = workspaceId;
   }
@@ -127,10 +177,20 @@ public class UserAdditionalEmailRecipient implements ModelInterface {
   @JsonProperty("email")
   public String email;
 
+  /**
+   * Gets {@link #email}.
+   *
+   * @return the value of {@link #email}
+   */
   public String getEmail() {
     return email;
   }
 
+  /**
+   * Sets {@link #email}.
+   *
+   * @param email the new value
+   */
   public void setEmail(String email) {
     this.email = email;
   }
@@ -141,14 +201,25 @@ public class UserAdditionalEmailRecipient implements ModelInterface {
   @JsonProperty("created_at")
   public Date createdAt;
 
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
   public Date getCreatedAt() {
     return createdAt;
   }
 
   /**
    * Updates this UserAdditionalEmailRecipient. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   email - string - Additional email recipient address
+   * <p>Update User Additional Email Recipient
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code email} (String): Additional email recipient address</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code UserAdditionalEmailRecipient}
    */
   public UserAdditionalEmailRecipient update(HashMap<String, Object> parameters) throws IOException {
     UserAdditionalEmailRecipient updated = filesClient().userAdditionalEmailRecipients().update(this.id, parameters, this.options);
@@ -157,11 +228,19 @@ public class UserAdditionalEmailRecipient implements ModelInterface {
   }
 
   /**
+   * Delete User Additional Email Recipient
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().userAdditionalEmailRecipients().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete User Additional Email Recipient
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -198,125 +277,251 @@ public class UserAdditionalEmailRecipient implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `email`, `user_id` or `workspace_id`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `email`, `workspace_id` or `user_id`. Valid field combinations are `[ workspace_id, email ]`, `[ user_id, email ]`, `[ workspace_id, user_id ]` or `[ workspace_id, user_id, email ]`.
-   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `email`.
+   * List User Additional Email Recipients
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<UserAdditionalEmailRecipient> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List User Additional Email Recipients
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<UserAdditionalEmailRecipient> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List User Additional Email Recipients
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `email`, `user_id` or `workspace_id`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `email`, `workspace_id` or `user_id`. Valid field combinations are `[ workspace_id, email ]`, `[ user_id, email ]`, `[ workspace_id, user_id ]` or `[ workspace_id, user_id, email ]`.</li>
+   * <li>{@code filter_prefix} (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `email`.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code UserAdditionalEmailRecipient} records, in a {@code ListIterator}
+   */
   public static ListIterator<UserAdditionalEmailRecipient> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().userAdditionalEmailRecipients().list(parameters, options);
   }
 
+  /**
+   * List User Additional Email Recipients
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<UserAdditionalEmailRecipient> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List User Additional Email Recipients
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<UserAdditionalEmailRecipient> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - User Additional Email Recipient ID.
+   * Show User Additional Email Recipient
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static UserAdditionalEmailRecipient find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show User Additional Email Recipient
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static UserAdditionalEmailRecipient find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show User Additional Email Recipient
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static UserAdditionalEmailRecipient find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show User Additional Email Recipient
+   *
+   * @param id User Additional Email Recipient ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code UserAdditionalEmailRecipient}
+   */
   public static UserAdditionalEmailRecipient find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().userAdditionalEmailRecipients().find(id, parameters, options);
   }
 
+  /**
+   * Show User Additional Email Recipient
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static UserAdditionalEmailRecipient get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show User Additional Email Recipient
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static UserAdditionalEmailRecipient get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   user_id - int64 - User ID.  Provide a value of `0` to operate the current session's user.
-   *   email (required) - string - Additional email recipient address
+   * Create User Additional Email Recipient
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static UserAdditionalEmailRecipient create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create User Additional Email Recipient
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static UserAdditionalEmailRecipient create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create User Additional Email Recipient
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code user_id} (Long): User ID.  Provide a value of `0` to operate the current session's user.</li>
+   * <li>{@code email} (String): Required. Additional email recipient address</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code UserAdditionalEmailRecipient}
+   */
   public static UserAdditionalEmailRecipient create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().userAdditionalEmailRecipients().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   email - string - Additional email recipient address
+   * Update User Additional Email Recipient
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static UserAdditionalEmailRecipient update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update User Additional Email Recipient
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static UserAdditionalEmailRecipient update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update User Additional Email Recipient
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static UserAdditionalEmailRecipient update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update User Additional Email Recipient
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code email} (String): Additional email recipient address</li>
+   * </ul>
+   *
+   * @param id User Additional Email Recipient ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code UserAdditionalEmailRecipient}
+   */
   public static UserAdditionalEmailRecipient update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().userAdditionalEmailRecipients().update(id, parameters, options);
   }
 
 
   /**
+   * Delete User Additional Email Recipient
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete User Additional Email Recipient
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete User Additional Email Recipient
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete User Additional Email Recipient
+   *
+   * @param id User Additional Email Recipient ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().userAdditionalEmailRecipients().delete(id, parameters, options);
   }
 
+  /**
+   * Delete User Additional Email Recipient
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete User Additional Email Recipient
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

@@ -29,7 +29,7 @@
 }
 ```
 
-* `bundle_registration` / `bundleRegistration`  (bundleRegistration): 
+* `bundle_registration` / `bundleRegistration`  (bundleRegistration): Share Link registration associated with this download record.
 * `download_method` / `downloadMethod`  (string): Download method (file or full_zip)
 * `path` / `path`  (string): Download path. This must be slash-delimited, but it must neither start nor end with a slash. Maximum of 5000 characters.
 * `workspace_id` / `workspaceId`  (int64): Workspace ID. `0` means the default workspace.
@@ -40,12 +40,11 @@
 
 ## List Share Link Downloads
 
-```
-ListIterator<BundleDownload> bundleDownload = BundleDownload.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("bundle_id", 1L);
+parameters.put("bundle_registration_id", 1L);
+ListIterator<BundleDownload> bundleDownloads = BundleDownload.list(parameters, null);
 ```
 
 ### Parameters

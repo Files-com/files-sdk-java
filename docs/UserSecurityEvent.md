@@ -29,12 +29,9 @@
 
 ## List User Security Events
 
-```
-ListIterator<UserSecurityEvent> userSecurityEvent = UserSecurityEvent.list(
-    
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<UserSecurityEvent> userSecurityEvents = UserSecurityEvent.list(parameters, null);
 ```
 
 ### Parameters
@@ -53,12 +50,9 @@ ListIterator<UserSecurityEvent> userSecurityEvent = UserSecurityEvent.list(
 
 ## Show User Security Event
 
-```
-UserSecurityEvent userSecurityEvent = UserSecurityEvent.find(
-    Long id, 
-    HashMap<String, Object> parameters = null,
-    HashMap<String, Object> options = null
-)
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+UserSecurityEvent userSecurityEvent = UserSecurityEvent.find(1L, parameters, null);
 ```
 
 ### Parameters

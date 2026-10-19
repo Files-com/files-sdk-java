@@ -36,6 +36,11 @@ public class Group implements ModelInterface {
     this.options = ClientRuntime.retainedOptions(options);
   }
 
+  /**
+   * Sets the client this object's own operations run with.
+   *
+   * @param client the client
+   */
   @JsonIgnore
   @Override
   public void setClient(FilesClient client) {
@@ -59,14 +64,29 @@ public class Group implements ModelInterface {
       .build();
 
 
+  /**
+   * Creates a {@code Group} with no attributes set.
+   */
   public Group() {
     this(null, null);
   }
 
+  /**
+   * Creates a {@code Group} with the given attributes.
+   *
+   * @param parameters the attributes, by their API names
+   */
   public Group(HashMap<String, Object> parameters) {
     this(parameters, null);
   }
 
+  /**
+   * Creates a {@code Group} with the given attributes and the request options its own
+   * operations send.
+   *
+   * @param parameters the attributes, by their API names
+   * @param options the request options, such as {@code api_key} or {@code workspace_id}
+   */
   public Group(HashMap<String, Object> parameters, HashMap<String, Object> options) {
     this.options = ClientRuntime.retainedOptions(options);
     try {
@@ -84,10 +104,20 @@ public class Group implements ModelInterface {
   @JsonProperty("id")
   public Long id;
 
+  /**
+   * Gets {@link #id}.
+   *
+   * @return the value of {@link #id}
+   */
   public Long getId() {
     return id;
   }
 
+  /**
+   * Sets {@link #id}.
+   *
+   * @param id the new value
+   */
   public void setId(Long id) {
     this.id = id;
   }
@@ -98,10 +128,20 @@ public class Group implements ModelInterface {
   @JsonProperty("name")
   public String name;
 
+  /**
+   * Gets {@link #name}.
+   *
+   * @return the value of {@link #name}
+   */
   public String getName() {
     return name;
   }
 
+  /**
+   * Sets {@link #name}.
+   *
+   * @param name the new value
+   */
   public void setName(String name) {
     this.name = name;
   }
@@ -112,10 +152,20 @@ public class Group implements ModelInterface {
   @JsonProperty("allowed_ips")
   public String allowedIps;
 
+  /**
+   * Gets {@link #allowedIps}.
+   *
+   * @return the value of {@link #allowedIps}
+   */
   public String getAllowedIps() {
     return allowedIps;
   }
 
+  /**
+   * Sets {@link #allowedIps}.
+   *
+   * @param allowedIps the new value
+   */
   public void setAllowedIps(String allowedIps) {
     this.allowedIps = allowedIps;
   }
@@ -126,10 +176,20 @@ public class Group implements ModelInterface {
   @JsonProperty("admin_ids")
   public String adminIds;
 
+  /**
+   * Gets {@link #adminIds}.
+   *
+   * @return the value of {@link #adminIds}
+   */
   public String getAdminIds() {
     return adminIds;
   }
 
+  /**
+   * Sets {@link #adminIds}.
+   *
+   * @param adminIds the new value
+   */
   public void setAdminIds(String adminIds) {
     this.adminIds = adminIds;
   }
@@ -140,10 +200,20 @@ public class Group implements ModelInterface {
   @JsonProperty("notes")
   public String notes;
 
+  /**
+   * Gets {@link #notes}.
+   *
+   * @return the value of {@link #notes}
+   */
   public String getNotes() {
     return notes;
   }
 
+  /**
+   * Sets {@link #notes}.
+   *
+   * @param notes the new value
+   */
   public void setNotes(String notes) {
     this.notes = notes;
   }
@@ -154,10 +224,20 @@ public class Group implements ModelInterface {
   @JsonProperty("user_ids")
   public String userIds;
 
+  /**
+   * Gets {@link #userIds}.
+   *
+   * @return the value of {@link #userIds}
+   */
   public String getUserIds() {
     return userIds;
   }
 
+  /**
+   * Sets {@link #userIds}.
+   *
+   * @param userIds the new value
+   */
   public void setUserIds(String userIds) {
     this.userIds = userIds;
   }
@@ -168,10 +248,20 @@ public class Group implements ModelInterface {
   @JsonProperty("usernames")
   public String usernames;
 
+  /**
+   * Gets {@link #usernames}.
+   *
+   * @return the value of {@link #usernames}
+   */
   public String getUsernames() {
     return usernames;
   }
 
+  /**
+   * Sets {@link #usernames}.
+   *
+   * @param usernames the new value
+   */
   public void setUsernames(String usernames) {
     this.usernames = usernames;
   }
@@ -182,10 +272,20 @@ public class Group implements ModelInterface {
   @JsonProperty("ai_assistant_personality_id")
   public Long aiAssistantPersonalityId;
 
+  /**
+   * Gets {@link #aiAssistantPersonalityId}.
+   *
+   * @return the value of {@link #aiAssistantPersonalityId}
+   */
   public Long getAiAssistantPersonalityId() {
     return aiAssistantPersonalityId;
   }
 
+  /**
+   * Sets {@link #aiAssistantPersonalityId}.
+   *
+   * @param aiAssistantPersonalityId the new value
+   */
   public void setAiAssistantPersonalityId(Long aiAssistantPersonalityId) {
     this.aiAssistantPersonalityId = aiAssistantPersonalityId;
   }
@@ -196,10 +296,20 @@ public class Group implements ModelInterface {
   @JsonProperty("ftp_permission")
   public Boolean ftpPermission;
 
+  /**
+   * Gets {@link #ftpPermission}.
+   *
+   * @return the value of {@link #ftpPermission}
+   */
   public Boolean getFtpPermission() {
     return ftpPermission;
   }
 
+  /**
+   * Sets {@link #ftpPermission}.
+   *
+   * @param ftpPermission the new value
+   */
   public void setFtpPermission(Boolean ftpPermission) {
     this.ftpPermission = ftpPermission;
   }
@@ -210,10 +320,20 @@ public class Group implements ModelInterface {
   @JsonProperty("sftp_permission")
   public Boolean sftpPermission;
 
+  /**
+   * Gets {@link #sftpPermission}.
+   *
+   * @return the value of {@link #sftpPermission}
+   */
   public Boolean getSftpPermission() {
     return sftpPermission;
   }
 
+  /**
+   * Sets {@link #sftpPermission}.
+   *
+   * @param sftpPermission the new value
+   */
   public void setSftpPermission(Boolean sftpPermission) {
     this.sftpPermission = sftpPermission;
   }
@@ -224,10 +344,20 @@ public class Group implements ModelInterface {
   @JsonProperty("dav_permission")
   public Boolean davPermission;
 
+  /**
+   * Gets {@link #davPermission}.
+   *
+   * @return the value of {@link #davPermission}
+   */
   public Boolean getDavPermission() {
     return davPermission;
   }
 
+  /**
+   * Sets {@link #davPermission}.
+   *
+   * @param davPermission the new value
+   */
   public void setDavPermission(Boolean davPermission) {
     this.davPermission = davPermission;
   }
@@ -238,10 +368,20 @@ public class Group implements ModelInterface {
   @JsonProperty("restapi_permission")
   public Boolean restapiPermission;
 
+  /**
+   * Gets {@link #restapiPermission}.
+   *
+   * @return the value of {@link #restapiPermission}
+   */
   public Boolean getRestapiPermission() {
     return restapiPermission;
   }
 
+  /**
+   * Sets {@link #restapiPermission}.
+   *
+   * @param restapiPermission the new value
+   */
   public void setRestapiPermission(Boolean restapiPermission) {
     this.restapiPermission = restapiPermission;
   }
@@ -252,10 +392,20 @@ public class Group implements ModelInterface {
   @JsonProperty("s3_compatible_endpoint_permission")
   public Boolean s3CompatibleEndpointPermission;
 
+  /**
+   * Gets {@link #s3CompatibleEndpointPermission}.
+   *
+   * @return the value of {@link #s3CompatibleEndpointPermission}
+   */
   public Boolean getS3CompatibleEndpointPermission() {
     return s3CompatibleEndpointPermission;
   }
 
+  /**
+   * Sets {@link #s3CompatibleEndpointPermission}.
+   *
+   * @param s3CompatibleEndpointPermission the new value
+   */
   public void setS3CompatibleEndpointPermission(Boolean s3CompatibleEndpointPermission) {
     this.s3CompatibleEndpointPermission = s3CompatibleEndpointPermission;
   }
@@ -266,10 +416,20 @@ public class Group implements ModelInterface {
   @JsonProperty("desktop_configuration_profile_id")
   public Long desktopConfigurationProfileId;
 
+  /**
+   * Gets {@link #desktopConfigurationProfileId}.
+   *
+   * @return the value of {@link #desktopConfigurationProfileId}
+   */
   public Long getDesktopConfigurationProfileId() {
     return desktopConfigurationProfileId;
   }
 
+  /**
+   * Sets {@link #desktopConfigurationProfileId}.
+   *
+   * @param desktopConfigurationProfileId the new value
+   */
   public void setDesktopConfigurationProfileId(Long desktopConfigurationProfileId) {
     this.desktopConfigurationProfileId = desktopConfigurationProfileId;
   }
@@ -280,10 +440,20 @@ public class Group implements ModelInterface {
   @JsonProperty("integration_centric_profile_id")
   public Long integrationCentricProfileId;
 
+  /**
+   * Gets {@link #integrationCentricProfileId}.
+   *
+   * @return the value of {@link #integrationCentricProfileId}
+   */
   public Long getIntegrationCentricProfileId() {
     return integrationCentricProfileId;
   }
 
+  /**
+   * Sets {@link #integrationCentricProfileId}.
+   *
+   * @param integrationCentricProfileId the new value
+   */
   public void setIntegrationCentricProfileId(Long integrationCentricProfileId) {
     this.integrationCentricProfileId = integrationCentricProfileId;
   }
@@ -294,10 +464,20 @@ public class Group implements ModelInterface {
   @JsonProperty("site_id")
   public Long siteId;
 
+  /**
+   * Gets {@link #siteId}.
+   *
+   * @return the value of {@link #siteId}
+   */
   public Long getSiteId() {
     return siteId;
   }
 
+  /**
+   * Sets {@link #siteId}.
+   *
+   * @param siteId the new value
+   */
   public void setSiteId(Long siteId) {
     this.siteId = siteId;
   }
@@ -308,30 +488,46 @@ public class Group implements ModelInterface {
   @JsonProperty("workspace_id")
   public Long workspaceId;
 
+  /**
+   * Gets {@link #workspaceId}.
+   *
+   * @return the value of {@link #workspaceId}
+   */
   public Long getWorkspaceId() {
     return workspaceId;
   }
 
+  /**
+   * Sets {@link #workspaceId}.
+   *
+   * @param workspaceId the new value
+   */
   public void setWorkspaceId(Long workspaceId) {
     this.workspaceId = workspaceId;
   }
 
   /**
    * Updates this Group. On success, this object's attributes are replaced by the server's response, which is also returned.
-   * <p>Parameters:
-   *   notes - string - Group notes.
-   *   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
-   *   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
-   *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.
-   *   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
-   *   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
-   *   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
-   *   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
-   *   s3_compatible_endpoint_permission - boolean - If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
-   *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
-   *   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
-   *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
-   *   name - string - Group name.
+   * <p>Update Group
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code notes} (String): Group notes.</li>
+   * <li>{@code user_ids} (String): A list of user ids. If sent as a string, should be comma-delimited.</li>
+   * <li>{@code admin_ids} (String): A list of group admin user ids. If sent as a string, should be comma-delimited.</li>
+   * <li>{@code ai_assistant_personality_id} (Long): AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.</li>
+   * <li>{@code ftp_permission} (Boolean): If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.</li>
+   * <li>{@code sftp_permission} (Boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.</li>
+   * <li>{@code dav_permission} (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.</li>
+   * <li>{@code restapi_permission} (Boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.</li>
+   * <li>{@code s3_compatible_endpoint_permission} (Boolean): If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.</li>
+   * <li>{@code desktop_configuration_profile_id} (Long): Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.</li>
+   * <li>{@code integration_centric_profile_id} (Long): Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.</li>
+   * <li>{@code allowed_ips} (String): A list of allowed IPs if applicable.  Newline delimited</li>
+   * <li>{@code name} (String): Group name.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code Group}
    */
   public Group update(HashMap<String, Object> parameters) throws IOException {
     Group updated = filesClient().groups().update(this.id, parameters, this.options);
@@ -340,11 +536,19 @@ public class Group implements ModelInterface {
   }
 
   /**
+   * Delete Group
+   *
+   * @param parameters the request's parameters, by their API names
    */
   public void delete(HashMap<String, Object> parameters) throws IOException {
     filesClient().groups().delete(this.id, parameters, this.options);
   }
 
+  /**
+   * Delete Group
+   *
+   * @see #delete(HashMap)
+   */
   public void destroy(HashMap<String, Object> parameters) throws IOException {
     delete(parameters);
   }
@@ -393,151 +597,277 @@ public class Group implements ModelInterface {
   }
 
   /**
-   * Parameters:
-   *   cursor - string - Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-   *   per_page - int64 - Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-   *   sort_by - object - If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `workspace_id` or `name`.
-   *   filter - object - If set, return records where the specified field is equal to the supplied value. Valid fields are `name` and `workspace_id`. Valid field combinations are `[ workspace_id, name ]`.
-   *   filter_prefix - object - If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.
-   *   ids - string - Comma-separated list of group ids to include in results.
-   *   include_parent_site_groups - boolean - Include groups from the parent site.
-   *   include_default_workspace_groups - boolean - When scoped to a Custom Workspace, include Default Workspace groups that have permissions in that Workspace. Available to Site Administrators, and to Workspace Administrators and Folder Admins in that Workspace when the site shares its Default Workspace directory with Workspaces.
+   * List Groups
+   *
+   * @see #list(HashMap, HashMap)
    */
   public static ListIterator<Group> list() throws RuntimeException {
     return list(null, null);
   }
 
+  /**
+   * List Groups
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Group> list(HashMap<String, Object> parameters) throws RuntimeException {
     return list(parameters, null);
   }
 
 
+  /**
+   * List Groups
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `site_id`, `workspace_id` or `name`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `name` and `workspace_id`. Valid field combinations are `[ workspace_id, name ]`.</li>
+   * <li>{@code filter_prefix} (Object): If set, return records where the specified field is prefixed by the supplied value. Valid fields are `name`.</li>
+   * <li>{@code ids} (String): Comma-separated list of group ids to include in results.</li>
+   * <li>{@code include_parent_site_groups} (Boolean): Include groups from the parent site.</li>
+   * <li>{@code include_default_workspace_groups} (Boolean): When scoped to a Custom Workspace, include Default Workspace groups that have permissions in that Workspace. Available to Site Administrators, and to Workspace Administrators and Folder Admins in that Workspace when the site shares its Default Workspace directory with Workspaces.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Group} records, in a {@code ListIterator}
+   */
   public static ListIterator<Group> list(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().groups().list(parameters, options);
   }
 
+  /**
+   * List Groups
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Group> all() throws RuntimeException {
     return all(null, null);
   }
 
+  /**
+   * List Groups
+   *
+   * @see #list(HashMap, HashMap)
+   */
   public static ListIterator<Group> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
 
   /**
-   * Parameters:
-   *   id (required) - int64 - Group ID.
+   * Show Group
+   *
+   * @see #find(Long, HashMap, HashMap)
    */
   public static Group find() throws RuntimeException {
     return find(null, null, null);
   }
 
+  /**
+   * Show Group
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Group find(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return find(id, parameters, null);
   }
 
+  /**
+   * Show Group
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Group find(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(null, parameters, options);
   }
 
+  /**
+   * Show Group
+   *
+   * @param id Group ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Group}
+   */
   public static Group find(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().groups().find(id, parameters, options);
   }
 
+  /**
+   * Show Group
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Group get() throws RuntimeException {
     return get(null, null, null);
   }
 
+  /**
+   * Show Group
+   *
+   * @see #find(Long, HashMap, HashMap)
+   */
   public static Group get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
 
   /**
-   * Parameters:
-   *   notes - string - Group notes.
-   *   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
-   *   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
-   *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.
-   *   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
-   *   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
-   *   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
-   *   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
-   *   s3_compatible_endpoint_permission - boolean - If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
-   *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
-   *   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
-   *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
-   *   name (required) - string - Group name.
-   *   workspace_id - int64 - Workspace ID
+   * Create Group
+   *
+   * @see #create(HashMap, HashMap)
    */
   public static Group create() throws RuntimeException {
     return create(null, null);
   }
 
+  /**
+   * Create Group
+   *
+   * @see #create(HashMap, HashMap)
+   */
   public static Group create(HashMap<String, Object> parameters) throws RuntimeException {
     return create(parameters, null);
   }
 
 
+  /**
+   * Create Group
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code notes} (String): Group notes.</li>
+   * <li>{@code user_ids} (String): A list of user ids. If sent as a string, should be comma-delimited.</li>
+   * <li>{@code admin_ids} (String): A list of group admin user ids. If sent as a string, should be comma-delimited.</li>
+   * <li>{@code ai_assistant_personality_id} (Long): AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.</li>
+   * <li>{@code ftp_permission} (Boolean): If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.</li>
+   * <li>{@code sftp_permission} (Boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.</li>
+   * <li>{@code dav_permission} (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.</li>
+   * <li>{@code restapi_permission} (Boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.</li>
+   * <li>{@code s3_compatible_endpoint_permission} (Boolean): If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.</li>
+   * <li>{@code desktop_configuration_profile_id} (Long): Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.</li>
+   * <li>{@code integration_centric_profile_id} (Long): Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.</li>
+   * <li>{@code allowed_ips} (String): A list of allowed IPs if applicable.  Newline delimited</li>
+   * <li>{@code name} (String): Required. Group name.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Group}
+   */
   public static Group create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().groups().create(parameters, options);
   }
 
 
   /**
-   * Parameters:
-   *   notes - string - Group notes.
-   *   user_ids - string - A list of user ids. If sent as a string, should be comma-delimited.
-   *   admin_ids - string - A list of group admin user ids. If sent as a string, should be comma-delimited.
-   *   ai_assistant_personality_id - int64 - AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.
-   *   ftp_permission - boolean - If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.
-   *   sftp_permission - boolean - If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.
-   *   dav_permission - boolean - If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.
-   *   restapi_permission - boolean - If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.
-   *   s3_compatible_endpoint_permission - boolean - If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
-   *   desktop_configuration_profile_id - int64 - Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
-   *   integration_centric_profile_id - int64 - Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
-   *   allowed_ips - string - A list of allowed IPs if applicable.  Newline delimited
-   *   name - string - Group name.
+   * Update Group
+   *
+   * @see #update(Long, HashMap, HashMap)
    */
   public static Group update() throws RuntimeException {
     return update(null, null, null);
   }
 
+  /**
+   * Update Group
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static Group update(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     return update(id, parameters, null);
   }
 
+  /**
+   * Update Group
+   *
+   * @see #update(Long, HashMap, HashMap)
+   */
   public static Group update(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return update(null, parameters, options);
   }
 
+  /**
+   * Update Group
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code notes} (String): Group notes.</li>
+   * <li>{@code user_ids} (String): A list of user ids. If sent as a string, should be comma-delimited.</li>
+   * <li>{@code admin_ids} (String): A list of group admin user ids. If sent as a string, should be comma-delimited.</li>
+   * <li>{@code ai_assistant_personality_id} (Long): AI Assistant Personality ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user or Partner assignment overrides it.</li>
+   * <li>{@code ftp_permission} (Boolean): If true, users in this group can use FTP to login.  This will override a false value of `ftp_permission` on the user level.</li>
+   * <li>{@code sftp_permission} (Boolean): If true, users in this group can use SFTP to login.  This will override a false value of `sftp_permission` on the user level.</li>
+   * <li>{@code dav_permission} (Boolean): If true, users in this group can use WebDAV to login.  This will override a false value of `dav_permission` on the user level.</li>
+   * <li>{@code restapi_permission} (Boolean): If true, users in this group can use the REST API to login.  This will override a false value of `restapi_permission` on the user level.</li>
+   * <li>{@code s3_compatible_endpoint_permission} (Boolean): If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.</li>
+   * <li>{@code desktop_configuration_profile_id} (Long): Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.</li>
+   * <li>{@code integration_centric_profile_id} (Long): Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.</li>
+   * <li>{@code allowed_ips} (String): A list of allowed IPs if applicable.  Newline delimited</li>
+   * <li>{@code name} (String): Group name.</li>
+   * </ul>
+   *
+   * @param id Group ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Group}
+   */
   public static Group update(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().groups().update(id, parameters, options);
   }
 
 
   /**
+   * Delete Group
+   *
+   * @see #delete(Long, HashMap, HashMap)
    */
   public static void delete() throws RuntimeException {
     delete(null, null, null);
   }
 
+  /**
+   * Delete Group
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(Long id, HashMap<String, Object> parameters) throws RuntimeException {
     delete(id, parameters, null);
   }
 
+  /**
+   * Delete Group
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void delete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(null, parameters, options);
   }
 
+  /**
+   * Delete Group
+   *
+   * @param id Group ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
   public static void delete(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().groups().delete(id, parameters, options);
   }
 
+  /**
+   * Delete Group
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy() throws RuntimeException {
     destroy(null, null, null);
   }
 
+  /**
+   * Delete Group
+   *
+   * @see #delete(Long, HashMap, HashMap)
+   */
   public static void destroy(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     delete(id, parameters, options);
   }

@@ -769,12 +769,63 @@ public class FilesTransferTest {
       // only after the URL expired would not tell them apart, and fails.
       AtomicReference<org.apache.http.pool.PoolStats> queued = new AtomicReference<>();
       AtomicReference<Instant> queuedAt = new AtomicReference<>();
-      assertTrue("the part waits for the one connection: " + pool.getTotalStats(), eventually(() -> {
+      AtomicInteger samples = new AtomicInteger();
+      AtomicInteger mostPending = new AtomicInteger();
+      AtomicReference<Integer> leasedWhilePending = new AtomicReference<>();
+      AtomicReference<Instant> firstSampleAt = new AtomicReference<>();
+      boolean partQueued = eventually(() -> {
         org.apache.http.pool.PoolStats stats = pool.getTotalStats();
         queuedAt.set(Instant.now());
         queued.set(stats);
+        firstSampleAt.compareAndSet(null, queuedAt.get());
+        samples.incrementAndGet();
+        mostPending.accumulateAndGet(stats.getPending(), Math::max);
+        if (stats.getPending() > 0) {
+          leasedWhilePending.set(stats.getLeased());
+        }
         return stats.getLeased() == 1 && stats.getPending() == 1;
-      }, Duration.ofSeconds(10)));
+      }, Duration.ofSeconds(10));
+      if (!partQueued) {
+        // Only on failure: what the samples saw, and what each upload has come to, without waiting for it.
+        boolean interrupted = Thread.currentThread().isInterrupted();
+        Function<Future<UploadResult>, String> outcome = future -> {
+          if (future == null) {
+            return "not started";
+          } else if (future.isCancelled()) {
+            return "cancelled";
+          } else if (!future.isDone()) {
+            return "still running";
+          }
+          try {
+            return future.get(0, TimeUnit.NANOSECONDS) == null ? "done, returned null" : "done";
+          } catch (ExecutionException e) {
+            return "failed: " + e.getCause();
+          } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            return "done, its outcome unread as this thread is interrupted";
+          } catch (TimeoutException | java.util.concurrent.CancellationException e) {
+            return "done, its outcome unread: " + e;
+          }
+        };
+        String requests;
+        try {
+          int begins = 0;
+          for (FakeFiles.Received begin : files.begins) {
+            begins++;
+          }
+          requests = begins + " begin_upload, " + files.parts.stream().filter(p -> p.rawPath.startsWith("/storage/put-1/")).count()
+              + " of the part at storage, " + files.finishes.stream().count() + " finishes";
+        } catch (RuntimeException e) {
+          requests = "unavailable: " + e;
+        }
+        fail("the part waits for the one connection: no sample showed leased 1 and pending 1; "
+            + samples.get() + " samples, from " + firstSampleAt.get() + " to " + queuedAt.get() + ", the last " + queued.get()
+            + "; most pending " + mostPending.get()
+            + (leasedWhilePending.get() == null ? "" : ", with " + leasedWhilePending.get() + " leased at the last sample that had any")
+            + "; the pool now " + pool.getTotalStats() + "; this thread interrupted: " + interrupted
+            + "; " + negotiations.get() + " negotiations of the part's URL; requests: " + requests
+            + "; the waiting upload " + outcome.apply(waiting) + "; the holder's upload " + outcome.apply(holder.get()));
+      }
       assertEquals(1, queued.get().getMax());
       assertTrue("seen waiting at " + queuedAt.get() + ", before its URL expired at " + renewedExpires.get(),
           queuedAt.get().isBefore(renewedExpires.get()));
@@ -833,14 +884,36 @@ public class FilesTransferTest {
     Instant signed = Instant.now().truncatedTo(ChronoUnit.SECONDS);
     Instant expires = signed.plusSeconds(40);
     files.downloadQuery = signedQuery(signed, 40);
-    PoolingHttpClientConnectionManager pool = new PoolingHttpClientConnectionManager();
-    pool.setMaxTotal(1);
-    pool.setDefaultMaxPerRoute(1);
     CountDownLatch holding = new CountDownLatch(1);
     CountDownLatch release = new CountDownLatch(1);
     AtomicBoolean holderWaited = new AtomicBoolean();
     AtomicReference<Future<UploadResult>> holder = new AtomicReference<>();
     ExecutorService callers = Executors.newFixedThreadPool(2);
+    AtomicInteger heldForHolder = new AtomicInteger();
+    // Once the first answer for 5000-5999 is on its way, a request for the one connection waits until the
+    // holder's begin_upload has it at Files.com, so the retry queues behind the holder rather than racing it
+    // for the connection the 503 gives back. The retry's own wait is still seen in the pool's statistics.
+    PoolingHttpClientConnectionManager pool = new PoolingHttpClientConnectionManager() {
+      @Override
+      public org.apache.http.conn.ConnectionRequest requestConnection(org.apache.http.conn.routing.HttpRoute route, Object state) {
+        if (holderWaited.get() && holding.getCount() > 0) {
+          heldForHolder.incrementAndGet();
+          boolean holderHasIt;
+          try {
+            holderHasIt = holding.await(30, TimeUnit.SECONDS);
+          } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new AssertionError("interrupted while a request waited for the holder's begin_upload to have the connection", e);
+          }
+          if (!holderHasIt) {
+            throw new AssertionError("the holder's begin_upload did not have the connection within 30 seconds of a request waiting for it");
+          }
+        }
+        return super.requestConnection(route, state);
+      }
+    };
+    pool.setMaxTotal(1);
+    pool.setDefaultMaxPerRoute(1);
     // This request must keep waiting through the URL's expiry. The default ten-second acquisition
     // timeout could retry and renew it before the final-send guard gets the connection.
     try (FilesClient shared = FilesClient.builder().apiKey("transfer-key").apiRoot(files.root()).retryDelay(Duration.ofSeconds(1))
@@ -883,6 +956,7 @@ public class FilesTransferTest {
       if (!retryQueued) {
         System.err.println("POOL_QUEUE_DIAGNOSTIC downloadDone=" + download.isDone()
             + " cancelled=" + download.isCancelled() + " stats=" + pool.getTotalStats());
+        System.err.println("POOL_QUEUE_DIAGNOSTIC requestsHeldForHolder=" + heldForHolder.get());
         if (download.isDone()) {
           try {
             download.get(0, TimeUnit.SECONDS);

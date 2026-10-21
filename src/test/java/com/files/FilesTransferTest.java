@@ -1211,6 +1211,10 @@ public class FilesTransferTest {
         assertEquals(OperationCancelledException.Reason.CANCELLED, e.getReason());
         assertEquals("The upload to cancel.bin was cancelled.", e.getMessage());
       }
+      // The upload finishes its parts before it returns, but each of its threads may still be ending:
+      // wait for them, while the part is still held at storage, then check that they are gone.
+      awaitTrue(() -> uploadThreads().isEmpty());
+      assertEquals("the upload's threads have ended", Arrays.asList(), uploadThreads());
       assertTrue("stopped promptly", TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start) < 10000);
     } finally {
       never.countDown();
@@ -2190,6 +2194,8 @@ public class FilesTransferTest {
     // The stream is neither flushed nor closed, and the result has no destination. Progress counts a
     // part only once the stream holds all of it.
     byte[] contents = rangedFile(70);
+    // Each range is answered after 150 ms, so that two asked for at once would be counted together.
+    files.rangeAnswer = (start, attempt) -> FakeFiles.Answer.delayed(150);
     CallerStream out = new CallerStream();
     List<TransferProgress> progress = new CopyOnWriteArrayList<>();
     List<Integer> held = new CopyOnWriteArrayList<>();
@@ -3030,7 +3036,14 @@ public class FilesTransferTest {
       // host, through the other transport, then asks for its first range, which binds its version: it
       // waits its turn at the Apache client both transports use, rather than for a connection from the
       // pool, which it would give up after 100 ms.
-      files.rangeAnswer = (start, attempt) -> start == 0 ? null : FakeFiles.Answer.holdUntil(release);
+      files.rangeAnswer = (start, attempt) -> {
+        if (release.getCount() > 0) {
+          return start == 0 ? null : FakeFiles.Answer.holdUntil(release);
+        }
+        // Once released, every range that arrives, the waiting download's first one too, is answered
+        // after 150 ms, so that two requests on the route at once would be counted together.
+        return FakeFiles.Answer.delayed(150);
+      };
       int earlier = files.rangeRequests.size();
       Future<com.files.net.DownloadResult> holding = downloads.submit(() -> narrow.transfers().download("remote/holding.bin",
           folder.getRoot().toPath().resolve("holding.bin"), inParts().concurrencyMode(ConcurrencyMode.STATIC).maxConcurrency(8).build()));
@@ -3225,6 +3238,8 @@ public class FilesTransferTest {
     // A download of the file in one request, its part size being larger than the file, holds the
     // limiter's one request slot until it is released.
     files.download = attempt -> attempt == 1 ? FakeFiles.Answer.holdUntil(release) : null;
+    // Each range is answered after 150 ms, so that two asked for at once would be counted together.
+    files.rangeAnswer = (start, attempt) -> FakeFiles.Answer.delayed(150);
     TransferLimiter limiter = new TransferLimiter(1, 1024 * 1024);
     Path root = folder.getRoot().toPath();
     ExecutorService downloads = Executors.newFixedThreadPool(2);

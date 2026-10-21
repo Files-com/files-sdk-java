@@ -97,10 +97,12 @@ final class FakeFiles implements AutoCloseable {
   volatile java.util.function.UnaryOperator<String> downloadUriEditor = uri -> uri;
   private final AtomicInteger activeRanges = new AtomicInteger();
   private final AtomicInteger maxActiveRanges = new AtomicInteger();
-  // Of those, the ranges asked for with If-Match: the parts of a download bound to a version, which
-  // its concurrency admits, not the first range it asks for, without a condition, to bind one. Each
-  // counts from its arrival until the server begins to answer it, a time within the client's own
-  // attempt, so that a part the client has finished with is never counted with the next.
+  // The ranges in flight, above, and below, those of them asked for with If-Match: the parts of a
+  // download bound to a version, which its concurrency admits, not the first range it asks for,
+  // without a condition, to bind one. Each range counts from its arrival until the server begins to
+  // answer it, after any hold or delay: a time within the client's own attempt, so that a range the
+  // client has finished with is never counted with the next. A test checking how many are in flight
+  // at once holds or delays their answers, so that ranges in flight together are counted together.
   private final AtomicInteger activeBoundRanges = new AtomicInteger();
   private final AtomicInteger maxActiveBoundRanges = new AtomicInteger();
 
@@ -412,13 +414,7 @@ final class FakeFiles implements AutoCloseable {
   private void downloadContents(HttpExchange exchange) throws IOException {
     String range = exchange.getRequestHeaders().getFirst("Range");
     if (ranges && range != null) {
-      int active = activeRanges.incrementAndGet();
-      maxActiveRanges.accumulateAndGet(active, Math::max);
-      try {
-        downloadRange(exchange, range);
-      } finally {
-        activeRanges.decrementAndGet();
-      }
+      downloadRange(exchange, range);
       return;
     }
     Received request = new Received(exchange, new byte[0], 0, downloads.size() + 1);
@@ -464,6 +460,7 @@ final class FakeFiles implements AutoCloseable {
     long start = Long.parseLong(bytes.group(1));
     int attempt = attempts.computeIfAbsent("range/" + start, key -> new AtomicInteger()).incrementAndGet();
     Received request = new Received(exchange, new byte[0], start, attempt);
+    maxActiveRanges.accumulateAndGet(activeRanges.incrementAndGet(), Math::max);
     boolean bound = request.header("If-Match") != null;
     if (bound) {
       maxActiveBoundRanges.accumulateAndGet(activeBoundRanges.incrementAndGet(), Math::max);
@@ -485,6 +482,7 @@ final class FakeFiles implements AutoCloseable {
         answer = null;
       }
     } finally {
+      activeRanges.decrementAndGet();
       if (bound) {
         activeBoundRanges.decrementAndGet();
       }

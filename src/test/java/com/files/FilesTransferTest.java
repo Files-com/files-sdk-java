@@ -708,14 +708,12 @@ public class FilesTransferTest {
   public void aPartWhoseUrlExpiresWhileItWaitsForTheOnlyPooledConnectionIsNeverSentWithIt() throws Exception {
     // One pooled connection for the API and storage together. As Files.com renews the part's URL, for
     // two seconds, another upload's begin_upload asks for that connection, and is seen waiting for it.
-    // It gets the connection once the renewal is answered, and Files.com holds that begin_upload,
-    // unanswered, while the part is seen waiting for the connection behind it and until the part's URL
-    // has expired; then plans its parts as usual. The part's request must be refused before any of it
-    // is written, its connection given back before the URL is renewed, which needs that one
-    // connection, and the part sent with the new URL, to another host.
-    PoolingHttpClientConnectionManager pool = new PoolingHttpClientConnectionManager();
-    pool.setMaxTotal(1);
-    pool.setDefaultMaxPerRoute(1);
+    // The pool below makes that begin_upload the first to get the connection once the renewal is
+    // answered: any later request for it waits until the begin_upload has it at Files.com. Files.com
+    // holds that begin_upload, unanswered, while the part is seen waiting for the connection behind it
+    // and until the part's URL has expired; then plans its parts as usual. The part's request must be
+    // refused before any of it is written, its connection given back before the URL is renewed, which
+    // needs that one connection, and the part sent with the new URL, to another host.
     CountDownLatch holding = new CountDownLatch(1);
     CountDownLatch release = new CountDownLatch(1);
     AtomicBoolean holderWaited = new AtomicBoolean();
@@ -723,6 +721,26 @@ public class FilesTransferTest {
     AtomicReference<Instant> renewedExpires = new AtomicReference<>();
     AtomicReference<Future<UploadResult>> holder = new AtomicReference<>();
     ExecutorService callers = Executors.newFixedThreadPool(2);
+    PoolingHttpClientConnectionManager pool = new PoolingHttpClientConnectionManager() {
+      @Override
+      public org.apache.http.conn.ConnectionRequest requestConnection(org.apache.http.conn.routing.HttpRoute route, Object state) {
+        if (holderWaited.get() && holding.getCount() > 0) {
+          boolean holderHasIt;
+          try {
+            holderHasIt = holding.await(20, TimeUnit.SECONDS);
+          } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            throw new AssertionError("interrupted while a request waited for the holder's begin_upload to have the connection", e);
+          }
+          if (!holderHasIt) {
+            throw new AssertionError("the holder's begin_upload did not have the connection within 20 seconds of a request waiting for it");
+          }
+        }
+        return super.requestConnection(route, state);
+      }
+    };
+    pool.setMaxTotal(1);
+    pool.setDefaultMaxPerRoute(1);
     try (FilesClient shared = FilesClient.builder().apiKey("transfer-key").apiRoot(files.root()).retryDelay(Duration.ofMillis(1))
              .transport(HttpTransport.builder().connectionManager(pool)).build()) {
       final Path held = file("holder.bin", bytes(5, 54));
@@ -829,7 +847,8 @@ public class FilesTransferTest {
       assertEquals(1, queued.get().getMax());
       assertTrue("seen waiting at " + queuedAt.get() + ", before its URL expired at " + renewedExpires.get(),
           queuedAt.get().isBefore(renewedExpires.get()));
-      assertTrue("nothing of the part has reached storage", files.parts.stream().noneMatch(p -> p.rawPath.startsWith("/storage/put-1/")));
+      assertTrue("nothing of the part has reached storage: " + files.parts.stream().filter(p -> p.rawPath.startsWith("/storage/put-1/"))
+          .map(p -> p.rawQuery).collect(Collectors.toList()), files.parts.stream().noneMatch(p -> p.rawPath.startsWith("/storage/put-1/")));
       assertTrue(eventually(() -> Instant.now().isAfter(renewedExpires.get()), Duration.ofSeconds(10)));
       assertEquals("still waiting, with a URL that has expired", 1, pool.getTotalStats().getPending());
       release.countDown();

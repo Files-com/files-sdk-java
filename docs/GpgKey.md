@@ -56,7 +56,7 @@ ListIterator<GpgKey> gpgKeys = GpgKey.list(parameters, null);
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 * `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `name` or `expires_at`.
-* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`, `partner_id` or `expires_at`. Valid field combinations are `[ workspace_id, expires_at ]`.
+* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `workspace_id`, `partner_id` or `expires_at`. Valid field combinations are `[ workspace_id, partner_id ]`, `[ workspace_id, expires_at ]`, `[ partner_id, expires_at ]` or `[ workspace_id, partner_id, expires_at ]`.
 * `filter_gt` (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `expires_at`.
 * `filter_gteq` (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `expires_at`.
 * `filter_lt` (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `expires_at`.

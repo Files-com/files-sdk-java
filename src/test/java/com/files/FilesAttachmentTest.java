@@ -386,6 +386,7 @@ public class FilesAttachmentTest {
       RawHttpServer server = new RawHttpServer(
           RawHttpServer.respond(503, "{}", () -> write(logo, change.getValue())),
           RawHttpServer.respond(200, "{}"));
+      SdkWarnings warnings = new SdkWarnings();
       try {
         useApi(server.root());
         Site.update(parameters);
@@ -395,13 +396,21 @@ public class FilesAttachmentTest {
         assertTrue(e.getCause().getMessage(), e.getCause().getMessage().startsWith("logo.png "));
         assertFalse(e.getCause().getMessage(), e.getCause().getMessage().contains(directory.toString()));
       } finally {
+        warnings.close();
         server.close();
       }
 
       List<RawHttpServer.Received> attempts = server.received();
-      assertEquals(change.getKey(), 2, attempts.size());
+      assertEquals(change.getKey() + ": the SDK entered its retry", 1, warnings.events().size());
+      assertTrue(warnings.events().get(0), warnings.events().get(0).startsWith("WARN com.files.net.ClientRuntime Retrying the PATCH request (retry 1 of 3)"));
+      assertEquals(change.getKey() + ": only the original body is completed", 1L,
+          attempts.stream().filter(RawHttpServer.Received::complete).count());
       assertTrue(change.getKey(), attempts.get(0).complete());
-      assertFalse(change.getKey() + ": the retry's body is never completed", attempts.get(1).complete());
+      // A rejected body may fail before the server reads the retry's headers.
+      assertTrue(change.getKey(), attempts.size() <= 2);
+      if (attempts.size() == 2) {
+        assertFalse(change.getKey() + ": the retry's body is never completed", attempts.get(1).complete());
+      }
     }
   }
 

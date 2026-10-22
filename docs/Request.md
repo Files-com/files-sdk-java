@@ -50,7 +50,7 @@ ListIterator<Request> requests = Request.list(parameters, null);
 ```java
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("mine", false);
-Request request = Request.getFolder("path", parameters, null);
+List<Request> requests = Request.getFolder("path", parameters, null);
 ```
 
 ### Parameters

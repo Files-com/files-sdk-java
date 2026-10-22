@@ -202,6 +202,75 @@ public class FilesClientTest {
   }
 
   @Test(timeout = 20000)
+  public void beginUploadReturnsEveryPartOfItsAnswerEachContinuingWithTheClientOptionsAndServerThatAnswered() throws Exception {
+    try (FakeFiles siteB = new FakeFiles()) {
+      // The client's server names site B's server for site B's key, so begin_upload is answered there.
+      api.stubFor(any(anyUrl()).withHeader("X-FilesAPI-Key", equalTo("site-b-key"))
+          .willReturn(aResponse().withStatus(403).withBody(String.format(REGION_MISMATCH, "site-b.example.test"))));
+      api.stubFor(post(urlEqualTo("/api/rest/v1/file_actions/begin_upload/none.bin")).willReturn(okJson("[]")));
+      siteB.partEditor = answered -> answered.put("path", "two.bin");
+      RegionRelocationPolicy servers = (apiRoot, host) -> "site-b.example.test".equals(host) ? URI.create(siteB.root()) : null;
+      FilesClient client = client(builder("client-key").regionRelocation(servers));
+      HashMap<String, Object> siteBKey = new HashMap<>();
+      siteBKey.put("api_key", "site-b-key");
+      HashMap<String, Object> twoParts = new HashMap<>();
+      twoParts.put("parts", 2L);
+
+      final List<FileUploadPart> parts = client.files().beginUpload("two.bin", twoParts, siteBKey);
+      // The parts keep a copy of the options: changing them afterwards changes nothing the parts do.
+      siteBKey.put("api_key", "changed-key");
+
+      // One request, answered once with both parts, and every part returned: no page is asked for.
+      api.verify(1, postRequestedFor(urlEqualTo("/api/rest/v1/file_actions/begin_upload/two.bin")));
+      assertEquals(1, siteB.begins.size());
+      FakeFiles.Received begin = siteB.begins.get(0);
+      assertEquals("/api/rest/v1/file_actions/begin_upload/two.bin", begin.rawPath);
+      assertEquals("site-b-key", begin.header("X-FilesAPI-Key"));
+      assertEquals(2, begin.json().get("parts").asLong());
+      assertEquals(2, parts.size());
+      String ref = parts.get(0).getRef();
+      for (int index = 0; index < parts.size(); index++) {
+        FileUploadPart part = parts.get(index);
+        long number = index + 1;
+        assertEquals(Long.valueOf(number), part.getPartNumber());
+        assertEquals(ref, part.getRef());
+        assertEquals(siteB.root() + "/storage/" + ref + "/" + number + "?" + FakeFiles.SIGNATURE, part.getUploadUri());
+        assertEquals("two.bin", part.getPath());
+        assertEquals("PUT", part.getHttpMethod());
+        assertEquals(Long.valueOf(5), part.getPartsize());
+        assertEquals(Long.valueOf(10000), part.getAvailableParts());
+        assertEquals(Boolean.TRUE, part.getParallelParts());
+      }
+
+      // Each part continues an upload at site B's server, which answered it, with site B's key. Its
+      // four bytes fit in the part, so only the part's storage request and the final request are sent.
+      byte[] four = "four".getBytes(StandardCharsets.US_ASCII);
+      for (FileUploadPart part : parts) {
+        assertEquals("two.bin", part.putInputStream(new ByteArrayInputStream(four), null).getPath());
+      }
+      List<FakeFiles.Received> stored = siteB.parts.stream().filter(received -> received.rawPath.startsWith("/storage/" + ref + "/"))
+          .collect(Collectors.toList());
+      assertEquals(Arrays.asList("/storage/" + ref + "/1", "/storage/" + ref + "/2"),
+          stored.stream().map(received -> received.rawPath).collect(Collectors.toList()));
+      for (FakeFiles.Received storageRequest : stored) {
+        assertArrayEquals(four, storageRequest.body);
+      }
+      List<FakeFiles.Received> finishes = siteB.finishes.stream()
+          .filter(received -> "/api/rest/v1/files/two.bin".equals(received.rawPath)).collect(Collectors.toList());
+      assertEquals(2, finishes.size());
+      for (FakeFiles.Received finish : finishes) {
+        assertEquals("site-b-key", finish.header("X-FilesAPI-Key"));
+        assertEquals(ref, finish.json().get("ref").asText());
+      }
+      api.verify(0, postRequestedFor(urlEqualTo("/api/rest/v1/files/two.bin")));
+
+      // An empty answer is an empty list, from one request too.
+      assertTrue(client.files().beginUpload("none.bin", new HashMap<>(), null).isEmpty());
+      api.verify(1, postRequestedFor(urlEqualTo("/api/rest/v1/file_actions/begin_upload/none.bin")));
+    }
+  }
+
+  @Test(timeout = 20000)
   public void retriesUseOneBudgetAndLogOnlyTheRetriesThatHappen() throws Exception {
     api.stubFor(get(urlEqualTo("/api/rest/v1/users/1")).willReturn(aResponse().withStatus(503)));
     FilesClient client = client(builder("key"));

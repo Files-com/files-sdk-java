@@ -187,10 +187,11 @@ public final class ClientRuntime implements Closeable {
   }
 
   /**
-   * Sends an API request whose response is one object, and returns that object. A model keeps
-   * this client and the request options, without the options that controlled only this call. For
-   * an upload part, the client also remembers where the request was answered, for an upload
-   * continued from the part.
+   * Sends an API request whose response is one object, or an array of objects, and returns what it
+   * decodes: that object, or a list of all of them, from the one response. Each model keeps this
+   * client and its own copy of the request options, without the options that controlled only this
+   * call. For an upload part, the client also remembers where the request was answered, for an
+   * upload continued from the part.
    */
   public <T> T requestItem(RequestMethods method, String target, TypeReference<T> type, HashMap<String, Object> parameters,
       HashMap<String, Object> options) {
@@ -202,6 +203,20 @@ public final class ClientRuntime implements Closeable {
       answeredAt = scope.apiRoot();
     }
     T item = readItem(response.getBody(), type);
+    if (item instanceof List) {
+      for (Object element : (List<?>) item) {
+        prepareResult(element, target, parameters, options, answeredAt);
+      }
+    } else {
+      prepareResult(item, target, parameters, options, answeredAt);
+    }
+    return item;
+  }
+
+  // Prepares one object a request returned: an upload part keeps the caller's path and where the
+  // request was answered, and a model keeps this client and a copy of the request options.
+  private void prepareResult(Object item, String target, HashMap<String, Object> parameters, HashMap<String, Object> options,
+      URI answeredAt) {
     // An upload started with action=put keeps the path as the caller gave it, which the response
     // may spell differently.
     if (item instanceof FileUploadPart && parameters != null && "put".equals(parameters.get("action"))
@@ -212,7 +227,6 @@ public final class ClientRuntime implements Closeable {
       uploadOrigins.put((FileUploadPart) item, new UploadOrigin(answeredAt, retainedOptions(options)));
     }
     bind(item, options);
-    return item;
   }
 
   <T> T readItem(String body, TypeReference<T> type) {

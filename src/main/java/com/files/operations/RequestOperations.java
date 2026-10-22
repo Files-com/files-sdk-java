@@ -109,7 +109,7 @@ public final class RequestOperations extends ResourceOperations {
    *
    * @see #getFolder(String, HashMap, HashMap)
    */
-  public Request getFolder() throws RuntimeException {
+  public List<Request> getFolder() throws RuntimeException {
     return getFolder(null, null, null);
   }
 
@@ -118,7 +118,7 @@ public final class RequestOperations extends ResourceOperations {
    *
    * @see #getFolder(String, HashMap, HashMap)
    */
-  public Request getFolder(String path, HashMap<String, Object> parameters) throws RuntimeException {
+  public List<Request> getFolder(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return getFolder(path, parameters, null);
   }
 
@@ -127,7 +127,7 @@ public final class RequestOperations extends ResourceOperations {
    *
    * @see #getFolder(String, HashMap, HashMap)
    */
-  public Request getFolder(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public List<Request> getFolder(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return getFolder(null, parameters, options);
   }
 
@@ -144,9 +144,9 @@ public final class RequestOperations extends ResourceOperations {
    * @param path Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
    * @param parameters the request's parameters, by their API names
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code Request}
+   * @return the {@code List<Request>}
    */
-  public Request getFolder(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public List<Request> getFolder(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
 
@@ -179,7 +179,7 @@ public final class RequestOperations extends ResourceOperations {
     }
 
     String apiPath = String.format("/requests/folders/%s", UrlUtils.encodeUrlPath(path));
-    TypeReference<Request> typeReference = new TypeReference<Request>() {};
+    TypeReference<List<Request>> typeReference = new TypeReference<List<Request>>() {};
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 

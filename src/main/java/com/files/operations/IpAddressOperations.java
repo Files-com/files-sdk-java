@@ -94,7 +94,7 @@ public final class IpAddressOperations extends ResourceOperations {
    *
    * @see #getSmartfileReserved(HashMap, HashMap)
    */
-  public PublicIpAddress getSmartfileReserved() throws RuntimeException {
+  public List<PublicIpAddress> getSmartfileReserved() throws RuntimeException {
     return getSmartfileReserved(null, null);
   }
 
@@ -103,7 +103,7 @@ public final class IpAddressOperations extends ResourceOperations {
    *
    * @see #getSmartfileReserved(HashMap, HashMap)
    */
-  public PublicIpAddress getSmartfileReserved(HashMap<String, Object> parameters) throws RuntimeException {
+  public List<PublicIpAddress> getSmartfileReserved(HashMap<String, Object> parameters) throws RuntimeException {
     return getSmartfileReserved(parameters, null);
   }
 
@@ -117,9 +117,9 @@ public final class IpAddressOperations extends ResourceOperations {
    *
    * @param parameters the request's parameters, by their API names
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code PublicIpAddress}
+   * @return the {@code List<PublicIpAddress>}
    */
-  public PublicIpAddress getSmartfileReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public List<PublicIpAddress> getSmartfileReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
 
@@ -132,7 +132,7 @@ public final class IpAddressOperations extends ResourceOperations {
     }
 
     String apiPath = "/ip_addresses/smartfile-reserved";
-    TypeReference<PublicIpAddress> typeReference = new TypeReference<PublicIpAddress>() {};
+    TypeReference<List<PublicIpAddress>> typeReference = new TypeReference<List<PublicIpAddress>>() {};
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
@@ -141,7 +141,7 @@ public final class IpAddressOperations extends ResourceOperations {
    *
    * @see #getExavaultReserved(HashMap, HashMap)
    */
-  public PublicIpAddress getExavaultReserved() throws RuntimeException {
+  public List<PublicIpAddress> getExavaultReserved() throws RuntimeException {
     return getExavaultReserved(null, null);
   }
 
@@ -150,7 +150,7 @@ public final class IpAddressOperations extends ResourceOperations {
    *
    * @see #getExavaultReserved(HashMap, HashMap)
    */
-  public PublicIpAddress getExavaultReserved(HashMap<String, Object> parameters) throws RuntimeException {
+  public List<PublicIpAddress> getExavaultReserved(HashMap<String, Object> parameters) throws RuntimeException {
     return getExavaultReserved(parameters, null);
   }
 
@@ -164,9 +164,9 @@ public final class IpAddressOperations extends ResourceOperations {
    *
    * @param parameters the request's parameters, by their API names
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code PublicIpAddress}
+   * @return the {@code List<PublicIpAddress>}
    */
-  public PublicIpAddress getExavaultReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public List<PublicIpAddress> getExavaultReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
 
@@ -179,7 +179,7 @@ public final class IpAddressOperations extends ResourceOperations {
     }
 
     String apiPath = "/ip_addresses/exavault-reserved";
-    TypeReference<PublicIpAddress> typeReference = new TypeReference<PublicIpAddress>() {};
+    TypeReference<List<PublicIpAddress>> typeReference = new TypeReference<List<PublicIpAddress>>() {};
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
@@ -188,7 +188,7 @@ public final class IpAddressOperations extends ResourceOperations {
    *
    * @see #getReserved(HashMap, HashMap)
    */
-  public PublicIpAddress getReserved() throws RuntimeException {
+  public List<PublicIpAddress> getReserved() throws RuntimeException {
     return getReserved(null, null);
   }
 
@@ -197,7 +197,7 @@ public final class IpAddressOperations extends ResourceOperations {
    *
    * @see #getReserved(HashMap, HashMap)
    */
-  public PublicIpAddress getReserved(HashMap<String, Object> parameters) throws RuntimeException {
+  public List<PublicIpAddress> getReserved(HashMap<String, Object> parameters) throws RuntimeException {
     return getReserved(parameters, null);
   }
 
@@ -211,9 +211,9 @@ public final class IpAddressOperations extends ResourceOperations {
    *
    * @param parameters the request's parameters, by their API names
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code PublicIpAddress}
+   * @return the {@code List<PublicIpAddress>}
    */
-  public PublicIpAddress getReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public List<PublicIpAddress> getReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
 
@@ -226,7 +226,7 @@ public final class IpAddressOperations extends ResourceOperations {
     }
 
     String apiPath = "/ip_addresses/reserved";
-    TypeReference<PublicIpAddress> typeReference = new TypeReference<PublicIpAddress>() {};
+    TypeReference<List<PublicIpAddress>> typeReference = new TypeReference<List<PublicIpAddress>>() {};
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 }

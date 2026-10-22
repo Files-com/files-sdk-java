@@ -17,6 +17,7 @@ import com.files.net.ClientRuntime;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -131,7 +132,7 @@ public class HolidayRegion implements ModelInterface {
    *
    * @see #getSupported(HashMap, HashMap)
    */
-  public static HolidayRegion getSupported() throws RuntimeException {
+  public static List<HolidayRegion> getSupported() throws RuntimeException {
     return getSupported(null, null);
   }
 
@@ -140,7 +141,7 @@ public class HolidayRegion implements ModelInterface {
    *
    * @see #getSupported(HashMap, HashMap)
    */
-  public static HolidayRegion getSupported(HashMap<String, Object> parameters) throws RuntimeException {
+  public static List<HolidayRegion> getSupported(HashMap<String, Object> parameters) throws RuntimeException {
     return getSupported(parameters, null);
   }
 
@@ -155,9 +156,9 @@ public class HolidayRegion implements ModelInterface {
    *
    * @param parameters the request's parameters, by their API names
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code HolidayRegion}
+   * @return the {@code List<HolidayRegion>}
    */
-  public static HolidayRegion getSupported(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static List<HolidayRegion> getSupported(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().holidayRegions().getSupported(parameters, options);
   }
 

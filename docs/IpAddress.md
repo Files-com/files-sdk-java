@@ -40,7 +40,7 @@ ListIterator<IpAddress> ipAddresses = IpAddress.list(parameters, null);
 
 ```java
 HashMap<String, Object> parameters = new HashMap<>();
-PublicIpAddress publicIpAddress = IpAddress.getSmartfileReserved(parameters, null);
+List<PublicIpAddress> publicIpAddresses = IpAddress.getSmartfileReserved(parameters, null);
 ```
 
 ### Parameters
@@ -55,7 +55,7 @@ PublicIpAddress publicIpAddress = IpAddress.getSmartfileReserved(parameters, nul
 
 ```java
 HashMap<String, Object> parameters = new HashMap<>();
-PublicIpAddress publicIpAddress = IpAddress.getExavaultReserved(parameters, null);
+List<PublicIpAddress> publicIpAddresses = IpAddress.getExavaultReserved(parameters, null);
 ```
 
 ### Parameters
@@ -70,7 +70,7 @@ PublicIpAddress publicIpAddress = IpAddress.getExavaultReserved(parameters, null
 
 ```java
 HashMap<String, Object> parameters = new HashMap<>();
-PublicIpAddress publicIpAddress = IpAddress.getReserved(parameters, null);
+List<PublicIpAddress> publicIpAddresses = IpAddress.getReserved(parameters, null);
 ```
 
 ### Parameters

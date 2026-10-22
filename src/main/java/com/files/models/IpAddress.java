@@ -18,6 +18,7 @@ import com.files.net.ClientRuntime;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -215,7 +216,7 @@ public class IpAddress implements ModelInterface {
    *
    * @see #getSmartfileReserved(HashMap, HashMap)
    */
-  public static PublicIpAddress getSmartfileReserved() throws RuntimeException {
+  public static List<PublicIpAddress> getSmartfileReserved() throws RuntimeException {
     return getSmartfileReserved(null, null);
   }
 
@@ -224,7 +225,7 @@ public class IpAddress implements ModelInterface {
    *
    * @see #getSmartfileReserved(HashMap, HashMap)
    */
-  public static PublicIpAddress getSmartfileReserved(HashMap<String, Object> parameters) throws RuntimeException {
+  public static List<PublicIpAddress> getSmartfileReserved(HashMap<String, Object> parameters) throws RuntimeException {
     return getSmartfileReserved(parameters, null);
   }
 
@@ -239,9 +240,9 @@ public class IpAddress implements ModelInterface {
    *
    * @param parameters the request's parameters, by their API names
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code PublicIpAddress}
+   * @return the {@code List<PublicIpAddress>}
    */
-  public static PublicIpAddress getSmartfileReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static List<PublicIpAddress> getSmartfileReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().ipAddresses().getSmartfileReserved(parameters, options);
   }
 
@@ -251,7 +252,7 @@ public class IpAddress implements ModelInterface {
    *
    * @see #getExavaultReserved(HashMap, HashMap)
    */
-  public static PublicIpAddress getExavaultReserved() throws RuntimeException {
+  public static List<PublicIpAddress> getExavaultReserved() throws RuntimeException {
     return getExavaultReserved(null, null);
   }
 
@@ -260,7 +261,7 @@ public class IpAddress implements ModelInterface {
    *
    * @see #getExavaultReserved(HashMap, HashMap)
    */
-  public static PublicIpAddress getExavaultReserved(HashMap<String, Object> parameters) throws RuntimeException {
+  public static List<PublicIpAddress> getExavaultReserved(HashMap<String, Object> parameters) throws RuntimeException {
     return getExavaultReserved(parameters, null);
   }
 
@@ -275,9 +276,9 @@ public class IpAddress implements ModelInterface {
    *
    * @param parameters the request's parameters, by their API names
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code PublicIpAddress}
+   * @return the {@code List<PublicIpAddress>}
    */
-  public static PublicIpAddress getExavaultReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static List<PublicIpAddress> getExavaultReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().ipAddresses().getExavaultReserved(parameters, options);
   }
 
@@ -287,7 +288,7 @@ public class IpAddress implements ModelInterface {
    *
    * @see #getReserved(HashMap, HashMap)
    */
-  public static PublicIpAddress getReserved() throws RuntimeException {
+  public static List<PublicIpAddress> getReserved() throws RuntimeException {
     return getReserved(null, null);
   }
 
@@ -296,7 +297,7 @@ public class IpAddress implements ModelInterface {
    *
    * @see #getReserved(HashMap, HashMap)
    */
-  public static PublicIpAddress getReserved(HashMap<String, Object> parameters) throws RuntimeException {
+  public static List<PublicIpAddress> getReserved(HashMap<String, Object> parameters) throws RuntimeException {
     return getReserved(parameters, null);
   }
 
@@ -311,9 +312,9 @@ public class IpAddress implements ModelInterface {
    *
    * @param parameters the request's parameters, by their API names
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code PublicIpAddress}
+   * @return the {@code List<PublicIpAddress>}
    */
-  public static PublicIpAddress getReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static List<PublicIpAddress> getReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().ipAddresses().getReserved(parameters, options);
   }
 

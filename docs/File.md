@@ -455,7 +455,7 @@ parameters.put("size", 1L);
 parameters.put("with_rename", false);
 parameters.put("buffered_upload", false);
 parameters.put("with_direct_connection_info", false);
-FileUploadPart fileUploadPart = File.beginUpload("path", parameters, null);
+List<FileUploadPart> fileUploadParts = File.beginUpload("path", parameters, null);
 ```
 
 ### Parameters
@@ -725,7 +725,7 @@ parameters.put("size", 1L);
 parameters.put("with_rename", false);
 parameters.put("buffered_upload", false);
 parameters.put("with_direct_connection_info", false);
-FileUploadPart result = file.beginUpload(parameters);
+List<FileUploadPart> result = file.beginUpload(parameters);
 ```
 
 ### Parameters

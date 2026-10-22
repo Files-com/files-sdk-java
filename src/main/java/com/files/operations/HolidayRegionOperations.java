@@ -6,6 +6,7 @@ import com.files.ResourceOperations;
 import com.files.models.HolidayRegion;
 import com.files.net.HttpMethods.RequestMethods;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * HolidayRegion operations that run with one client: its API root, credentials, workspace
@@ -26,7 +27,7 @@ public final class HolidayRegionOperations extends ResourceOperations {
    *
    * @see #getSupported(HashMap, HashMap)
    */
-  public HolidayRegion getSupported() throws RuntimeException {
+  public List<HolidayRegion> getSupported() throws RuntimeException {
     return getSupported(null, null);
   }
 
@@ -35,7 +36,7 @@ public final class HolidayRegionOperations extends ResourceOperations {
    *
    * @see #getSupported(HashMap, HashMap)
    */
-  public HolidayRegion getSupported(HashMap<String, Object> parameters) throws RuntimeException {
+  public List<HolidayRegion> getSupported(HashMap<String, Object> parameters) throws RuntimeException {
     return getSupported(parameters, null);
   }
 
@@ -49,9 +50,9 @@ public final class HolidayRegionOperations extends ResourceOperations {
    *
    * @param parameters the request's parameters, by their API names
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code HolidayRegion}
+   * @return the {@code List<HolidayRegion>}
    */
-  public HolidayRegion getSupported(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public List<HolidayRegion> getSupported(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
 
@@ -64,7 +65,7 @@ public final class HolidayRegionOperations extends ResourceOperations {
     }
 
     String apiPath = "/holiday_regions/supported";
-    TypeReference<HolidayRegion> typeReference = new TypeReference<HolidayRegion>() {};
+    TypeReference<List<HolidayRegion>> typeReference = new TypeReference<List<HolidayRegion>>() {};
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 }

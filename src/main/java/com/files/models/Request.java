@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -404,7 +405,7 @@ public class Request implements ModelInterface {
    *
    * @see #getFolder(String, HashMap, HashMap)
    */
-  public static Request getFolder() throws RuntimeException {
+  public static List<Request> getFolder() throws RuntimeException {
     return getFolder(null, null, null);
   }
 
@@ -413,7 +414,7 @@ public class Request implements ModelInterface {
    *
    * @see #getFolder(String, HashMap, HashMap)
    */
-  public static Request getFolder(String path, HashMap<String, Object> parameters) throws RuntimeException {
+  public static List<Request> getFolder(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return getFolder(path, parameters, null);
   }
 
@@ -422,7 +423,7 @@ public class Request implements ModelInterface {
    *
    * @see #getFolder(String, HashMap, HashMap)
    */
-  public static Request getFolder(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static List<Request> getFolder(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return getFolder(null, parameters, options);
   }
 
@@ -439,9 +440,9 @@ public class Request implements ModelInterface {
    * @param path Path to show requests for.  If omitted, shows all paths. Send `/` to represent the root directory.
    * @param parameters the request's parameters, by their API names
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code Request}
+   * @return the {@code List<Request>}
    */
-  public static Request getFolder(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static List<Request> getFolder(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().requests().getFolder(path, parameters, options);
   }
 

@@ -1212,7 +1212,7 @@ public final class FileOperations extends ResourceOperations {
    *
    * @see #beginUpload(String, HashMap, HashMap)
    */
-  public FileUploadPart beginUpload() throws RuntimeException {
+  public List<FileUploadPart> beginUpload() throws RuntimeException {
     return beginUpload(null, null, null);
   }
 
@@ -1221,7 +1221,7 @@ public final class FileOperations extends ResourceOperations {
    *
    * @see #beginUpload(String, HashMap, HashMap)
    */
-  public FileUploadPart beginUpload(String path, HashMap<String, Object> parameters) throws RuntimeException {
+  public List<FileUploadPart> beginUpload(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return beginUpload(path, parameters, null);
   }
 
@@ -1230,7 +1230,7 @@ public final class FileOperations extends ResourceOperations {
    *
    * @see #beginUpload(String, HashMap, HashMap)
    */
-  public FileUploadPart beginUpload(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public List<FileUploadPart> beginUpload(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return beginUpload(null, parameters, options);
   }
 
@@ -1252,9 +1252,9 @@ public final class FileOperations extends ResourceOperations {
    * @param path Path to operate on.
    * @param parameters the request's parameters, by their API names
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code FileUploadPart}
+   * @return the {@code List<FileUploadPart>}
    */
-  public FileUploadPart beginUpload(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public List<FileUploadPart> beginUpload(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
 
@@ -1307,7 +1307,7 @@ public final class FileOperations extends ResourceOperations {
     }
 
     String apiPath = String.format("/file_actions/begin_upload/%s", UrlUtils.encodeUrlPath(path));
-    TypeReference<FileUploadPart> typeReference = new TypeReference<FileUploadPart>() {};
+    TypeReference<List<FileUploadPart>> typeReference = new TypeReference<List<FileUploadPart>>() {};
     return requestItem(RequestMethods.POST, apiPath, typeReference, parameters, options);
   }
 }

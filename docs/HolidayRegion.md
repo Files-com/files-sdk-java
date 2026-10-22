@@ -19,7 +19,7 @@
 
 ```java
 HashMap<String, Object> parameters = new HashMap<>();
-HolidayRegion holidayRegion = HolidayRegion.getSupported(parameters, null);
+List<HolidayRegion> holidayRegions = HolidayRegion.getSupported(parameters, null);
 ```
 
 ### Parameters

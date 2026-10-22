@@ -26,6 +26,7 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -1964,9 +1965,9 @@ public class File implements ModelInterface {
    * </ul>
    *
    * @param parameters the request's parameters, by their API names
-   * @return the {@code FileUploadPart}
+   * @return the {@code List<FileUploadPart>}
    */
-  public FileUploadPart beginUpload(HashMap<String, Object> parameters) throws IOException {
+  public List<FileUploadPart> beginUpload(HashMap<String, Object> parameters) throws IOException {
     return filesClient().files().beginUpload(this.path, parameters, this.options);
   }
 
@@ -2728,7 +2729,7 @@ public class File implements ModelInterface {
    *
    * @see #beginUpload(String, HashMap, HashMap)
    */
-  public static FileUploadPart beginUpload() throws RuntimeException {
+  public static List<FileUploadPart> beginUpload() throws RuntimeException {
     return beginUpload(null, null, null);
   }
 
@@ -2737,7 +2738,7 @@ public class File implements ModelInterface {
    *
    * @see #beginUpload(String, HashMap, HashMap)
    */
-  public static FileUploadPart beginUpload(String path, HashMap<String, Object> parameters) throws RuntimeException {
+  public static List<FileUploadPart> beginUpload(String path, HashMap<String, Object> parameters) throws RuntimeException {
     return beginUpload(path, parameters, null);
   }
 
@@ -2746,7 +2747,7 @@ public class File implements ModelInterface {
    *
    * @see #beginUpload(String, HashMap, HashMap)
    */
-  public static FileUploadPart beginUpload(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static List<FileUploadPart> beginUpload(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return beginUpload(null, parameters, options);
   }
 
@@ -2768,9 +2769,9 @@ public class File implements ModelInterface {
    * @param path Path to operate on.
    * @param parameters the request's parameters, by their API names
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code FileUploadPart}
+   * @return the {@code List<FileUploadPart>}
    */
-  public static FileUploadPart beginUpload(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public static List<FileUploadPart> beginUpload(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().files().beginUpload(path, parameters, options);
   }
 

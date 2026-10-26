@@ -6,6 +6,7 @@ import com.files.ListIterator;
 import com.files.ResourceOperations;
 import com.files.models.As2IncomingMessage;
 import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.UrlUtils;
 import java.util.HashMap;
 import java.util.List;
 
@@ -116,5 +117,61 @@ public final class As2IncomingMessageOperations extends ResourceOperations {
    */
   public ListIterator<As2IncomingMessage> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
+  }
+
+  /**
+   * Replay AS2 Incoming Message
+   *
+   * @see #replay(Long, HashMap, HashMap)
+   */
+  public As2IncomingMessage replay() throws RuntimeException {
+    return replay(null, null, null);
+  }
+
+  /**
+   * Replay AS2 Incoming Message
+   *
+   * @see #replay(Long, HashMap, HashMap)
+   */
+  public As2IncomingMessage replay(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    return replay(id, parameters, null);
+  }
+
+  /**
+   * Replay AS2 Incoming Message
+   *
+   * @see #replay(Long, HashMap, HashMap)
+   */
+  public As2IncomingMessage replay(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return replay(null, parameters, options);
+  }
+
+  /**
+   * Replay AS2 Incoming Message
+   *
+   * @param id As2 Incoming Message ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code As2IncomingMessage}
+   */
+  public As2IncomingMessage replay(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = copy(parameters);
+    options = copy(options);
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
+    }
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+
+    String apiPath = String.format("/as2_incoming_messages/%s/replay", UrlUtils.encodeUrlPath(String.valueOf(id)));
+    TypeReference<As2IncomingMessage> typeReference = new TypeReference<As2IncomingMessage>() {};
+    return requestItem(RequestMethods.POST, apiPath, typeReference, parameters, options);
   }
 }

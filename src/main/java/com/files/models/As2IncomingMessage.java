@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
 import com.files.ListIterator;
 import com.files.net.ClientRuntime;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -98,7 +99,7 @@ public class As2IncomingMessage implements ModelInterface {
 
 
   /**
-   * Id of the AS2 Partner.
+   * ID of this AS2 incoming message record.
    */
   @JsonProperty("id")
   public Long id;
@@ -110,6 +111,21 @@ public class As2IncomingMessage implements ModelInterface {
    */
   public Long getId() {
     return id;
+  }
+
+  /**
+   * ID of the incoming message record this message was replayed from. Empty for messages received directly from a trading partner.
+   */
+  @JsonProperty("replayed_from_message_id")
+  public Long replayedFromMessageId;
+
+  /**
+   * Gets {@link #replayedFromMessageId}.
+   *
+   * @return the value of {@link #replayedFromMessageId}
+   */
+  public Long getReplayedFromMessageId() {
+    return replayedFromMessageId;
   }
 
   /**
@@ -622,6 +638,16 @@ public class As2IncomingMessage implements ModelInterface {
     return mdnResponseUri;
   }
 
+  /**
+   * Replay AS2 Incoming Message
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code As2IncomingMessage}
+   */
+  public As2IncomingMessage replay(HashMap<String, Object> parameters) throws IOException {
+    return filesClient().as2IncomingMessages().replay(this.id, parameters, this.options);
+  }
+
 
   /**
    * List AS2 Incoming Messages
@@ -681,5 +707,45 @@ public class As2IncomingMessage implements ModelInterface {
   public static ListIterator<As2IncomingMessage> all(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return list(parameters, options);
   }
+
+  /**
+   * Replay AS2 Incoming Message
+   *
+   * @see #replay(Long, HashMap, HashMap)
+   */
+  public static As2IncomingMessage replay() throws RuntimeException {
+    return replay(null, null, null);
+  }
+
+  /**
+   * Replay AS2 Incoming Message
+   *
+   * @see #replay(Long, HashMap, HashMap)
+   */
+  public static As2IncomingMessage replay(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    return replay(id, parameters, null);
+  }
+
+  /**
+   * Replay AS2 Incoming Message
+   *
+   * @see #replay(Long, HashMap, HashMap)
+   */
+  public static As2IncomingMessage replay(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return replay(null, parameters, options);
+  }
+
+  /**
+   * Replay AS2 Incoming Message
+   *
+   * @param id As2 Incoming Message ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code As2IncomingMessage}
+   */
+  public static As2IncomingMessage replay(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return FilesClient.defaultClient().as2IncomingMessages().replay(id, parameters, options);
+  }
+
 
 }

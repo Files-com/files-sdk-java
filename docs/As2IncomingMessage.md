@@ -5,6 +5,7 @@
 ```
 {
   "id": 1,
+  "replayed_from_message_id": 1,
   "workspace_id": 1,
   "as2_partner_id": 1,
   "as2_station_id": 1,
@@ -46,7 +47,8 @@
 }
 ```
 
-* `id` / `id`  (int64): Id of the AS2 Partner.
+* `id` / `id`  (int64): ID of this AS2 incoming message record.
+* `replayed_from_message_id` / `replayedFromMessageId`  (int64): ID of the incoming message record this message was replayed from. Empty for messages received directly from a trading partner.
 * `workspace_id` / `workspaceId`  (int64): ID of the Workspace associated with this AS2 Incoming Message.
 * `as2_partner_id` / `as2PartnerId`  (int64): Id of the AS2 Partner associated with this message.
 * `as2_station_id` / `as2StationId`  (int64): Id of the AS2 Station associated with this message.
@@ -102,3 +104,33 @@ ListIterator<As2IncomingMessage> as2IncomingMessages = As2IncomingMessage.list(p
 * `filter_gteq` (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
 * `filter_lt` (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
 * `filter_lteq` (Object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
+
+
+---
+
+## Replay AS2 Incoming Message
+
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+As2IncomingMessage as2IncomingMessage = As2IncomingMessage.replay(1L, parameters, null);
+```
+
+### Parameters
+
+* `id` (Long): Required - As2 Incoming Message ID.
+
+
+---
+
+## Replay AS2 Incoming Message
+
+```java
+// The first As2IncomingMessage listed: the list must not be empty.
+As2IncomingMessage as2IncomingMessage = As2IncomingMessage.list(null, null).iterator().next();
+HashMap<String, Object> parameters = new HashMap<>();
+As2IncomingMessage result = as2IncomingMessage.replay(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - As2 Incoming Message ID.

@@ -99,11 +99,25 @@ ListIterator<As2IncomingMessage> as2IncomingMessages = As2IncomingMessage.list(p
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 * `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `workspace_id`, `created_at` or `as2_partner_id`.
-* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `as2_station_id`, `workspace_id` or `as2_partner_id`. Valid field combinations are `[ as2_station_id, created_at ]`, `[ workspace_id, created_at ]`, `[ as2_partner_id, created_at ]`, `[ workspace_id, as2_station_id ]`, `[ workspace_id, as2_partner_id ]`, `[ workspace_id, as2_station_id, created_at ]` or `[ workspace_id, as2_partner_id, created_at ]`.
+* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `as2_station_id`, `workspace_id`, `replayed_from_message_id` or `as2_partner_id`. Valid field combinations are `[ as2_station_id, created_at ]`, `[ workspace_id, created_at ]`, `[ replayed_from_message_id, created_at ]`, `[ as2_partner_id, created_at ]`, `[ workspace_id, as2_station_id ]`, `[ workspace_id, replayed_from_message_id ]`, `[ workspace_id, as2_partner_id ]`, `[ workspace_id, as2_station_id, created_at ]`, `[ workspace_id, replayed_from_message_id, created_at ]` or `[ workspace_id, as2_partner_id, created_at ]`.
 * `filter_gt` (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
 * `filter_gteq` (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
 * `filter_lt` (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.
 * `filter_lteq` (Object): If set, return records where the specified field is less than or equal the supplied value. Valid fields are `created_at`.
+
+
+---
+
+## Show AS2 Incoming Message
+
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+As2IncomingMessage as2IncomingMessage = As2IncomingMessage.find(1L, parameters, null);
+```
+
+### Parameters
+
+* `id` (Long): Required - As2 Incoming Message ID.
 
 
 ---
@@ -125,8 +139,7 @@ As2IncomingMessage as2IncomingMessage = As2IncomingMessage.replay(1L, parameters
 ## Replay AS2 Incoming Message
 
 ```java
-// The first As2IncomingMessage listed: the list must not be empty.
-As2IncomingMessage as2IncomingMessage = As2IncomingMessage.list(null, null).iterator().next();
+As2IncomingMessage as2IncomingMessage = As2IncomingMessage.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 As2IncomingMessage result = as2IncomingMessage.replay(parameters);
 ```

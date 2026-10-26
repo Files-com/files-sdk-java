@@ -3,8 +3,10 @@ package com.files;
 import com.files.exceptions.ApiErrorException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.regex.Pattern;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,8 +19,9 @@ import org.slf4j.LoggerFactory;
  * loading or closing that resource throws an {@code IOException}, a warning is logged and nothing
  * is cleared: properties already loaded keep their values, and getters return their defaults for
  * properties that were not loaded. {@link #setProperty} changes a property for the rest of the
- * process. No other source supplies values: system properties and environment variables are not
- * read.
+ * process. No other source supplies values: environment variables are not read, and the only system
+ * properties read are {@code os.name} and {@code java.version}, for the advisory metadata of the
+ * default {@code userAgent} ({@link #getUserAgent()}).
  *
  * <p>Each getter reads its property when it is called. An integer property takes its default when
  * unset or empty, and otherwise must parse as an {@code int}, or the getter throws
@@ -36,6 +39,11 @@ import org.slf4j.LoggerFactory;
  */
 public class FilesConfig {
   private static final Logger log = LoggerFactory.getLogger(FilesConfig.class);
+  // The default userAgent's advisory metadata comment (see getUserAgent): its byte limits, and the
+  // java.version values it sends.
+  private static final int USER_AGENT_COMMENT_MAX_BYTES = 128;
+  private static final int USER_AGENT_MAX_BYTES = 190;
+  private static final Pattern SENDABLE_JAVA_VERSION = Pattern.compile("[0-9][A-Za-z0-9._+-]{0,47}");
 
   private static volatile FilesConfig instance;
   private final Properties properties;
@@ -304,14 +312,93 @@ public class FilesConfig {
 
   /**
    * Returns the {@code userAgent} property, which API requests send as their {@code User-Agent}
-   * header.
+   * header. A value that is set is returned exactly as set, even when empty.
    *
-   * @return the property's value; when unset, {@code Files.com Java SDK v} followed by
-   *     {@link #getSdkVersion()}
+   * <p>When it is unset, the default is {@code Files.com Java SDK v} followed by
+   * {@link #getSdkVersion()} and then, as advisory metadata, one comment such as
+   * {@code (files-sdk-meta/1; os=linux; runtime=java/17.0.12+7)}, from system properties read at
+   * each call. {@code os} is a coarse family of {@code os.name}: {@code windows}, {@code macos},
+   * {@code linux} or {@code freebsd}, {@code other} for any other name, and {@code unknown} when it
+   * is unset, empty or cannot be read. {@code java.version} follows {@code java/} only when it is 1
+   * to 48 ASCII letters, digits, dots, plus signs, underscores and hyphens starting with a digit;
+   * otherwise it is left out, never rewritten. The comment, with its leading space, is at most 128
+   * bytes and the whole default at most 190: the Java version is left out first, then the whole
+   * comment. The comment is also left out when the rest of the default is not printable ASCII; the
+   * SDK's identity itself is never shortened or changed.
+   *
+   * @return the property's value, or the default above when it is unset
    */
   public String getUserAgent() {
-    String defaultUserAgent = String.format("Files.com Java SDK v%s", this.getSdkVersion());
-    return properties.getProperty("userAgent", defaultUserAgent);
+    String userAgent = properties.getProperty("userAgent");
+    if (userAgent != null) {
+      return userAgent;
+    }
+    return withUserAgentMetadata(String.format("Files.com Java SDK v%s", this.getSdkVersion()));
+  }
+
+  // The default userAgent: the SDK's identity, unchanged, then the metadata comment that fits, or none.
+  private static String withUserAgentMetadata(String identity) {
+    if (!isPrintableAscii(identity)) {
+      return identity;
+    }
+    String os = operatingSystemFamily(systemProperty("os.name"));
+    String javaVersion = systemProperty("java.version");
+    if (javaVersion != null && SENDABLE_JAVA_VERSION.matcher(javaVersion).matches()) {
+      String withVersion = userAgentComment(os, "java/" + javaVersion);
+      if (fitsUserAgent(identity, withVersion)) {
+        return identity + withVersion;
+      }
+    }
+    String withoutVersion = userAgentComment(os, "java");
+    return fitsUserAgent(identity, withoutVersion) ? identity + withoutVersion : identity;
+  }
+
+  private static String userAgentComment(String os, String runtime) {
+    return " (files-sdk-meta/1; os=" + os + "; runtime=" + runtime + ")";
+  }
+
+  // Whether the comment, and the identity with it, are within their byte limits. Both are ASCII here,
+  // so each character is one byte.
+  private static boolean fitsUserAgent(String identity, String comment) {
+    return comment.length() <= USER_AGENT_COMMENT_MAX_BYTES
+        && identity.length() + comment.length() <= USER_AGENT_MAX_BYTES;
+  }
+
+  // The coarse family of an os.name value, compared without regard to the default locale.
+  private static String operatingSystemFamily(String osName) {
+    if (osName == null || osName.isEmpty()) {
+      return "unknown";
+    }
+    String name = osName.toLowerCase(Locale.ROOT);
+    if (name.startsWith("windows")) {
+      return "windows";
+    } else if (name.startsWith("mac os") || name.startsWith("darwin")) {
+      return "macos";
+    } else if (name.startsWith("linux")) {
+      return "linux";
+    } else if (name.startsWith("freebsd")) {
+      return "freebsd";
+    }
+    return "other";
+  }
+
+  // A system property, or null when it is unset or the security policy does not allow reading it.
+  private static String systemProperty(String key) {
+    try {
+      return System.getProperty(key);
+    } catch (SecurityException e) {
+      return null;
+    }
+  }
+
+  private static boolean isPrintableAscii(String value) {
+    for (int index = 0; index < value.length(); index++) {
+      char character = value.charAt(index);
+      if (character < ' ' || character > '~') {
+        return false;
+      }
+    }
+    return true;
   }
 
   /**

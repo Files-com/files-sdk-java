@@ -201,6 +201,95 @@ public class FilesClientTest {
     assertSame("unchanged settings reuse the default client", FilesClient.defaultClient(), FilesClient.defaultClient());
   }
 
+  // The User-Agent the client sends with one ordinary API request.
+  private String userAgentSentBy(FilesClient client) throws Exception {
+    api.resetRequests();
+    client.users().list().all();
+    List<LoggedRequest> requests = api.findAll(getRequestedFor(urlPathEqualTo("/api/rest/v1/users")));
+    assertEquals(1, requests.size());
+    return requests.get(0).getHeader("User-Agent");
+  }
+
+  // Sets a system property, or clears it for null, as a test needs it and then as it was before.
+  private static void setOrClearSystemProperty(String key, String value) {
+    if (value == null) {
+      System.clearProperty(key);
+    } else {
+      System.setProperty(key, value);
+    }
+  }
+
+  @Test(timeout = 20000)
+  public void aBuiltClientKeepsTheDefaultUserAgentOfTheProcessAsItWasWhenItsBuilderWasMade() throws Exception {
+    api.stubFor(get(urlPathEqualTo("/api/rest/v1/users")).willReturn(okJson("[]")));
+    // The SDK's identity, from its bundled, Maven-filtered files-sdk.properties.
+    String identity = "Files.com Java SDK v" + new FilesConfig().getSdkVersion();
+    String osName = System.getProperty("os.name");
+    String javaVersion = System.getProperty("java.version");
+    try {
+      System.setProperty("os.name", "Mac OS X");
+      System.setProperty("java.version", "1.8.0_432");
+      FilesClient before = client(builder("key"));
+      System.setProperty("os.name", "Windows Server 2022");
+      System.setProperty("java.version", "17.0.12+7");
+      FilesClient after = client(builder("key"));
+
+      assertEquals(identity + " (files-sdk-meta/1; os=macos; runtime=java/1.8.0_432)", userAgentSentBy(before));
+      assertEquals(identity + " (files-sdk-meta/1; os=windows; runtime=java/17.0.12+7)", userAgentSentBy(after));
+    } finally {
+      setOrClearSystemProperty("os.name", osName);
+      setOrClearSystemProperty("java.version", javaVersion);
+    }
+  }
+
+  @Test(timeout = 20000)
+  public void theDefaultUserAgentNamesACoarseOperatingSystemAndOnlyAJavaVersionItCanSendAsIs() throws Exception {
+    api.stubFor(get(urlPathEqualTo("/api/rest/v1/users")).willReturn(okJson("[]")));
+    String identity = "Files.com Java SDK v" + new FilesConfig().getSdkVersion();
+    // Each os.name and java.version (null for none), and the comment a client built under them sends.
+    String[][] cases = {
+        {"Linux", "21", " (files-sdk-meta/1; os=linux; runtime=java/21)"},
+        {"Darwin", "25-ea", " (files-sdk-meta/1; os=macos; runtime=java/25-ea)"},
+        {"FreeBSD", "123456789012345678901234567890123456789012345678",
+            " (files-sdk-meta/1; os=freebsd; runtime=java/123456789012345678901234567890123456789012345678)"},
+        // A Java version longer than 48 characters, with a space, not starting with a digit or unset is left out.
+        {"SunOS", "1234567890123456789012345678901234567890123456789", " (files-sdk-meta/1; os=other; runtime=java)"},
+        {"Windows 11", "17.0.2 (build 8)", " (files-sdk-meta/1; os=windows; runtime=java)"},
+        {"", "ea-17", " (files-sdk-meta/1; os=unknown; runtime=java)"},
+        {"Linux", null, " (files-sdk-meta/1; os=linux; runtime=java)"}
+    };
+    String osName = System.getProperty("os.name");
+    String javaVersion = System.getProperty("java.version");
+    try {
+      for (String[] scenario : cases) {
+        setOrClearSystemProperty("os.name", scenario[0]);
+        setOrClearSystemProperty("java.version", scenario[1]);
+        FilesClient client = client(builder("key"));
+        assertEquals(Arrays.toString(scenario), identity + scenario[2], userAgentSentBy(client));
+      }
+    } finally {
+      setOrClearSystemProperty("os.name", osName);
+      setOrClearSystemProperty("java.version", javaVersion);
+    }
+  }
+
+  @Test
+  public void aUserAgentThatIsSetIsReturnedExactlyAsSetWithoutMetadata() {
+    // Each on a configuration of its own, so the process-wide configuration keeps its userAgent unset.
+    String[] values = {
+        "",
+        "my-application/2.0",
+        "Files.com Java SDK v9.9.9",
+        "Files.com Java SDK v9.9.9 (files-sdk-meta/1; os=linux; runtime=java)",
+        "café \t" + new String(new char[300]).replace('\0', 'x')
+    };
+    for (String value : values) {
+      FilesConfig config = new FilesConfig();
+      config.setProperty("userAgent", value);
+      assertEquals(value, config.getUserAgent());
+    }
+  }
+
   @Test(timeout = 20000)
   public void beginUploadReturnsEveryPartOfItsAnswerEachContinuingWithTheClientOptionsAndServerThatAnswered() throws Exception {
     try (FakeFiles siteB = new FakeFiles()) {

@@ -1987,30 +1987,6 @@ public class User implements ModelInterface {
   }
 
   /**
-   * Is the user subscribed to the newsletter?
-   */
-  @JsonProperty("subscribe_to_newsletter")
-  public Boolean subscribeToNewsletter;
-
-  /**
-   * Gets {@link #subscribeToNewsletter}.
-   *
-   * @return the value of {@link #subscribeToNewsletter}
-   */
-  public Boolean getSubscribeToNewsletter() {
-    return subscribeToNewsletter;
-  }
-
-  /**
-   * Sets {@link #subscribeToNewsletter}.
-   *
-   * @param subscribeToNewsletter the new value
-   */
-  public void setSubscribeToNewsletter(Boolean subscribeToNewsletter) {
-    this.subscribeToNewsletter = subscribeToNewsletter;
-  }
-
-  /**
    * Is this user managed by a SsoStrategy?
    */
   @JsonProperty("externally_managed")
@@ -2606,7 +2582,6 @@ public class User implements ModelInterface {
    * <li>{@code skip_welcome_screen} (Boolean): Skip Welcome page in the UI?</li>
    * <li>{@code ssl_required} (String): SSL required setting</li>
    * <li>{@code sso_strategy_id} (Long): SSO (Single Sign On) strategy ID for the user, if applicable.</li>
-   * <li>{@code subscribe_to_newsletter} (Boolean): Is the user subscribed to the newsletter?</li>
    * <li>{@code require_2fa} (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.</li>
    * <li>{@code tags} (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.</li>
    * <li>{@code time_zone} (String): User time zone</li>
@@ -2757,7 +2732,6 @@ public class User implements ModelInterface {
     this.skipWelcomeScreen = canonical.skipWelcomeScreen;
     this.sslRequired = canonical.sslRequired;
     this.ssoStrategyId = canonical.ssoStrategyId;
-    this.subscribeToNewsletter = canonical.subscribeToNewsletter;
     this.externallyManaged = canonical.externallyManaged;
     this.tags = canonical.tags;
     this.timeZone = canonical.timeZone;
@@ -2985,7 +2959,6 @@ public class User implements ModelInterface {
    * <li>{@code skip_welcome_screen} (Boolean): Skip Welcome page in the UI?</li>
    * <li>{@code ssl_required} (String): SSL required setting</li>
    * <li>{@code sso_strategy_id} (Long): SSO (Single Sign On) strategy ID for the user, if applicable.</li>
-   * <li>{@code subscribe_to_newsletter} (Boolean): Is the user subscribed to the newsletter?</li>
    * <li>{@code require_2fa} (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.</li>
    * <li>{@code tags} (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.</li>
    * <li>{@code time_zone} (String): User time zone</li>
@@ -3213,7 +3186,6 @@ public class User implements ModelInterface {
    * <li>{@code skip_welcome_screen} (Boolean): Skip Welcome page in the UI?</li>
    * <li>{@code ssl_required} (String): SSL required setting</li>
    * <li>{@code sso_strategy_id} (Long): SSO (Single Sign On) strategy ID for the user, if applicable.</li>
-   * <li>{@code subscribe_to_newsletter} (Boolean): Is the user subscribed to the newsletter?</li>
    * <li>{@code require_2fa} (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.</li>
    * <li>{@code tags} (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.</li>
    * <li>{@code time_zone} (String): User time zone</li>

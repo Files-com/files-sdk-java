@@ -85,7 +85,6 @@
   "skip_welcome_screen": true,
   "ssl_required": "always_require",
   "sso_strategy_id": 1,
-  "subscribe_to_newsletter": true,
   "externally_managed": true,
   "tags": "example",
   "time_zone": "Pacific Time (US & Canada)",
@@ -177,7 +176,6 @@
 * `skip_welcome_screen` / `skipWelcomeScreen`  (boolean): Skip Welcome page in the UI?
 * `ssl_required` / `sslRequired`  (string): SSL required setting
 * `sso_strategy_id` / `ssoStrategyId`  (int64): SSO (Single Sign On) strategy ID for the user, if applicable.
-* `subscribe_to_newsletter` / `subscribeToNewsletter`  (boolean): Is the user subscribed to the newsletter?
 * `externally_managed` / `externallyManaged`  (boolean): Is this user managed by a SsoStrategy?
 * `tags` / `tags`  (string): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `time_zone` / `timeZone`  (string): User time zone
@@ -302,7 +300,6 @@ parameters.put("site_admin", true);
 parameters.put("skip_welcome_screen", true);
 parameters.put("ssl_required", "always_require");
 parameters.put("sso_strategy_id", 1L);
-parameters.put("subscribe_to_newsletter", true);
 parameters.put("require_2fa", "always_require");
 parameters.put("tags", "example");
 parameters.put("time_zone", "Pacific Time (US & Canada)");
@@ -376,7 +373,6 @@ User user = User.create(parameters, null);
 * `skip_welcome_screen` (Boolean): Skip Welcome page in the UI?
 * `ssl_required` (String): SSL required setting
 * `sso_strategy_id` (Long): SSO (Single Sign On) strategy ID for the user, if applicable.
-* `subscribe_to_newsletter` (Boolean): Is the user subscribed to the newsletter?
 * `require_2fa` (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
 * `tags` (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `time_zone` (String): User time zone
@@ -488,7 +484,6 @@ parameters.put("site_admin", true);
 parameters.put("skip_welcome_screen", true);
 parameters.put("ssl_required", "always_require");
 parameters.put("sso_strategy_id", 1L);
-parameters.put("subscribe_to_newsletter", true);
 parameters.put("require_2fa", "always_require");
 parameters.put("tags", "example");
 parameters.put("time_zone", "Pacific Time (US & Canada)");
@@ -565,7 +560,6 @@ User user = User.update(1L, parameters, null);
 * `skip_welcome_screen` (Boolean): Skip Welcome page in the UI?
 * `ssl_required` (String): SSL required setting
 * `sso_strategy_id` (Long): SSO (Single Sign On) strategy ID for the user, if applicable.
-* `subscribe_to_newsletter` (Boolean): Is the user subscribed to the newsletter?
 * `require_2fa` (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
 * `tags` (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `time_zone` (String): User time zone
@@ -699,7 +693,6 @@ parameters.put("site_admin", true);
 parameters.put("skip_welcome_screen", true);
 parameters.put("ssl_required", "always_require");
 parameters.put("sso_strategy_id", 1L);
-parameters.put("subscribe_to_newsletter", true);
 parameters.put("require_2fa", "always_require");
 parameters.put("tags", "example");
 parameters.put("time_zone", "Pacific Time (US & Canada)");
@@ -776,7 +769,6 @@ User result = user.update(parameters);
 * `skip_welcome_screen` (Boolean): Skip Welcome page in the UI?
 * `ssl_required` (String): SSL required setting
 * `sso_strategy_id` (Long): SSO (Single Sign On) strategy ID for the user, if applicable.
-* `subscribe_to_newsletter` (Boolean): Is the user subscribed to the newsletter?
 * `require_2fa` (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
 * `tags` (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
 * `time_zone` (String): User time zone

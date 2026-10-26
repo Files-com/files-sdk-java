@@ -301,7 +301,6 @@ public final class UserOperations extends ResourceOperations {
    * <li>{@code skip_welcome_screen} (Boolean): Skip Welcome page in the UI?</li>
    * <li>{@code ssl_required} (String): SSL required setting</li>
    * <li>{@code sso_strategy_id} (Long): SSO (Single Sign On) strategy ID for the user, if applicable.</li>
-   * <li>{@code subscribe_to_newsletter} (Boolean): Is the user subscribed to the newsletter?</li>
    * <li>{@code require_2fa} (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.</li>
    * <li>{@code tags} (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.</li>
    * <li>{@code time_zone} (String): User time zone</li>
@@ -562,10 +561,6 @@ public final class UserOperations extends ResourceOperations {
 
     if (parameters.containsKey("sso_strategy_id") && !(parameters.get("sso_strategy_id") instanceof Long || parameters.get("sso_strategy_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: sso_strategy_id must be of type Long or Integer parameters[\"sso_strategy_id\"]");
-    }
-
-    if (parameters.containsKey("subscribe_to_newsletter") && !(parameters.get("subscribe_to_newsletter") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: subscribe_to_newsletter must be of type Boolean parameters[\"subscribe_to_newsletter\"]");
     }
 
     if (parameters.containsKey("require_2fa") && !(parameters.get("require_2fa") instanceof String)) {
@@ -863,7 +858,6 @@ public final class UserOperations extends ResourceOperations {
    * <li>{@code skip_welcome_screen} (Boolean): Skip Welcome page in the UI?</li>
    * <li>{@code ssl_required} (String): SSL required setting</li>
    * <li>{@code sso_strategy_id} (Long): SSO (Single Sign On) strategy ID for the user, if applicable.</li>
-   * <li>{@code subscribe_to_newsletter} (Boolean): Is the user subscribed to the newsletter?</li>
    * <li>{@code require_2fa} (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.</li>
    * <li>{@code tags} (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.</li>
    * <li>{@code time_zone} (String): User time zone</li>
@@ -1135,10 +1129,6 @@ public final class UserOperations extends ResourceOperations {
 
     if (parameters.containsKey("sso_strategy_id") && !(parameters.get("sso_strategy_id") instanceof Long || parameters.get("sso_strategy_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: sso_strategy_id must be of type Long or Integer parameters[\"sso_strategy_id\"]");
-    }
-
-    if (parameters.containsKey("subscribe_to_newsletter") && !(parameters.get("subscribe_to_newsletter") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: subscribe_to_newsletter must be of type Boolean parameters[\"subscribe_to_newsletter\"]");
     }
 
     if (parameters.containsKey("require_2fa") && !(parameters.get("require_2fa") instanceof String)) {

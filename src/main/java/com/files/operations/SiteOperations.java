@@ -179,6 +179,7 @@ public final class SiteOperations extends ResourceOperations {
    * <li>{@code allow_user_level_2fa_override} (Boolean): Allow the site-wide two-factor authentication requirement to be overriden on a per-user-basis?</li>
    * <li>{@code allow_user_level_allowed_ip_override} (Boolean): Allow the site-wide allowed IP restriction to be overriden on a per-user-basis?</li>
    * <li>{@code allow_user_level_ssl_override} (Boolean): Allow the site-wide FTP SSL requirement to be overriden on a per-user-basis?</li>
+   * <li>{@code enforce_parent_site_user_ip_restrictions} (Boolean): Require Parent Site users entering this Child Site to match its allowed IP addresses in addition to their existing IP restrictions. Applies to all Workspaces. Defaults to false.</li>
    * <li>{@code disallowed_countries} (String): Comma separated list of disallowed Country codes</li>
    * <li>{@code days_to_retain_backups} (Long): Number of days to keep deleted files</li>
    * <li>{@code max_prior_passwords} (Long): Number of prior passwords to disallow</li>
@@ -581,6 +582,10 @@ public final class SiteOperations extends ResourceOperations {
 
     if (parameters.containsKey("allow_user_level_ssl_override") && !(parameters.get("allow_user_level_ssl_override") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: allow_user_level_ssl_override must be of type Boolean parameters[\"allow_user_level_ssl_override\"]");
+    }
+
+    if (parameters.containsKey("enforce_parent_site_user_ip_restrictions") && !(parameters.get("enforce_parent_site_user_ip_restrictions") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: enforce_parent_site_user_ip_restrictions must be of type Boolean parameters[\"enforce_parent_site_user_ip_restrictions\"]");
     }
 
     if (parameters.containsKey("disallowed_countries") && !(parameters.get("disallowed_countries") instanceof String)) {

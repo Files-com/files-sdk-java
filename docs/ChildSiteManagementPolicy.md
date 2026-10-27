@@ -8,7 +8,17 @@
   "policy_type": "settings",
   "name": "example",
   "description": "example",
-  "value": "{ \"color2_left\": \"#000000\", \"folder_behaviors\": [{ \"behavior\": \"file_expiration\", \"value\": { \"days_to_retain\": 30 } }] }",
+  "value": {
+    "color2_left": "#000000",
+    "folder_behaviors": [
+      {
+        "behavior": "file_expiration",
+        "value": {
+          "days_to_retain": 30
+        }
+      }
+    ]
+  },
   "applied_child_site_ids": [
     1,
     2
@@ -77,6 +87,12 @@ ChildSiteManagementPolicy childSiteManagementPolicy = ChildSiteManagementPolicy.
 HashMap<String, Object> parameters = new HashMap<>();
 HashMap<String, Object> map1 = new HashMap<>();
 map1.put("color2_left", "#000000");
+HashMap<String, Object> map2 = new HashMap<>();
+map2.put("behavior", "file_expiration");
+HashMap<String, Object> map3 = new HashMap<>();
+map3.put("days_to_retain", 30);
+map2.put("value", map3);
+map1.put("folder_behaviors", new Object[] {map2});
 parameters.put("value", map1);
 parameters.put("skip_child_site_ids", new Long[] {1L, 2L});
 parameters.put("child_site_ids", new Long[] {1L, 2L});
@@ -106,6 +122,12 @@ ChildSiteManagementPolicy childSiteManagementPolicy = ChildSiteManagementPolicy.
 HashMap<String, Object> parameters = new HashMap<>();
 HashMap<String, Object> map1 = new HashMap<>();
 map1.put("color2_left", "#000000");
+HashMap<String, Object> map2 = new HashMap<>();
+map2.put("behavior", "file_expiration");
+HashMap<String, Object> map3 = new HashMap<>();
+map3.put("days_to_retain", 30);
+map2.put("value", map3);
+map1.put("folder_behaviors", new Object[] {map2});
 parameters.put("value", map1);
 parameters.put("skip_child_site_ids", new Long[] {1L, 2L});
 parameters.put("child_site_ids", new Long[] {1L, 2L});
@@ -151,6 +173,12 @@ ChildSiteManagementPolicy childSiteManagementPolicy = ChildSiteManagementPolicy.
 HashMap<String, Object> parameters = new HashMap<>();
 HashMap<String, Object> map1 = new HashMap<>();
 map1.put("color2_left", "#000000");
+HashMap<String, Object> map2 = new HashMap<>();
+map2.put("behavior", "file_expiration");
+HashMap<String, Object> map3 = new HashMap<>();
+map3.put("days_to_retain", 30);
+map2.put("value", map3);
+map1.put("folder_behaviors", new Object[] {map2});
 parameters.put("value", map1);
 parameters.put("skip_child_site_ids", new Long[] {1L, 2L});
 parameters.put("child_site_ids", new Long[] {1L, 2L});

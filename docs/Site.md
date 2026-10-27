@@ -15,11 +15,7 @@
       "workspace_admins": true,
       "folder_admins": true,
       "all_users": false,
-      "selected_group_members": true,
-      "group_ids": [
-        1,
-        2
-      ]
+      "selected_group_members": false
     }
   },
   "allowed_2fa_method_sms": true,
@@ -644,17 +640,34 @@ parameters.put("pin_all_remote_servers_to_site_region", false);
 parameters.put("motd_text", "example");
 parameters.put("motd_use_for_ftp", false);
 parameters.put("motd_use_for_sftp", false);
-parameters.put("disable_all_ai_features", false);
 HashMap<String, Object> map1 = new HashMap<>();
 HashMap<String, Object> map2 = new HashMap<>();
-map2.put("site_admins", true);
-map2.put("workspace_admins", true);
-map2.put("folder_admins", true);
-map2.put("all_users", false);
-map2.put("selected_group_members", true);
-map2.put("group_ids", new Object[] {1, 2});
-map1.put("in_app_ai_assistant", map2);
-parameters.put("ai_feature_availability", map1);
+map2.put("admin", true);
+map2.put("all", true);
+map1.put("sharing", map2);
+HashMap<String, Object> map3 = new HashMap<>();
+map3.put("admin", false);
+map3.put("all", false);
+map1.put("automation_flow", map3);
+HashMap<String, Object> map4 = new HashMap<>();
+map4.put("admin", false);
+map4.put("all", false);
+map1.put("integrations", map4);
+HashMap<String, Object> map5 = new HashMap<>();
+map5.put("admin", false);
+map5.put("all", false);
+map1.put("clients_protocols", map5);
+parameters.put("left_navigation_visibility", map1);
+parameters.put("disable_all_ai_features", false);
+HashMap<String, Object> map6 = new HashMap<>();
+HashMap<String, Object> map7 = new HashMap<>();
+map7.put("site_admins", true);
+map7.put("workspace_admins", true);
+map7.put("folder_admins", true);
+map7.put("all_users", false);
+map7.put("selected_group_members", false);
+map6.put("in_app_ai_assistant", map7);
+parameters.put("ai_feature_availability", map6);
 parameters.put("mcp_dcr_enabled", false);
 parameters.put("additional_text_file_types", new String[] {"example"});
 parameters.put("bundle_require_note", false);
@@ -796,11 +809,11 @@ parameters.put("ldap_group_exclusion", "example");
 parameters.put("ldap_group_inclusion", "example");
 parameters.put("ldap_base_dn", "example");
 parameters.put("uploads_via_email_authentication", false);
-HashMap<String, Object> map3 = new HashMap<>();
-map3.put("gravity", "SouthWest");
-map3.put("max_height_or_width", 20);
-map3.put("transparency", 25);
-parameters.put("bundle_watermark_value", map3);
+HashMap<String, Object> map8 = new HashMap<>();
+map8.put("gravity", "SouthWest");
+map8.put("max_height_or_width", 20);
+map8.put("transparency", 25);
+parameters.put("bundle_watermark_value", map8);
 parameters.put("icon16_delete", false);
 parameters.put("icon32_delete", false);
 parameters.put("icon48_delete", false);

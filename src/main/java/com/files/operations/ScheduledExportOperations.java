@@ -202,7 +202,7 @@ public final class ScheduledExportOperations extends ResourceOperations {
    * <ul>
    * <li>{@code name} (String): Required. Name for this scheduled export.</li>
    * <li>{@code export_type} (String): Required. Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit</li>
-   * <li>{@code export_options} (Object): Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.</li>
+   * <li>{@code export_options} (Object): Options for the report selected by export_type.</li>
    * <li>{@code user_id} (Long): Site Admin user who receives the completed export e-mail.</li>
    * <li>{@code disabled} (Boolean): If true, this scheduled export will not run.</li>
    * <li>{@code trigger} (String): Schedule trigger type: `daily` or `custom_schedule`.</li>
@@ -326,7 +326,7 @@ public final class ScheduledExportOperations extends ResourceOperations {
    * <ul>
    * <li>{@code name} (String): Name for this scheduled export.</li>
    * <li>{@code export_type} (String): Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit</li>
-   * <li>{@code export_options} (Object): Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.</li>
+   * <li>{@code export_options} (Object): Options for the report selected by export_type.</li>
    * <li>{@code user_id} (Long): Site Admin user who receives the completed export e-mail.</li>
    * <li>{@code disabled} (Boolean): If true, this scheduled export will not run.</li>
    * <li>{@code trigger} (String): Schedule trigger type: `daily` or `custom_schedule`.</li>

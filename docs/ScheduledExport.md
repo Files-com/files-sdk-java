@@ -44,7 +44,7 @@
 * `name` / `name`  (string): Name for this scheduled export.
 * `export_type` / `exportType`  (string): Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit
 * `report_name` / `reportName`  (string): Human-readable report name.
-* `export_options` / `exportOptions`  (object): Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.
+* `export_options` / `exportOptions`  (object): Options for the report selected by export_type.
 * `user_id` / `userId`  (int64): Site Admin user who receives the completed export e-mail.
 * `disabled` / `disabled`  (boolean): If true, this scheduled export will not run.
 * `trigger` / `trigger`  (string): Schedule trigger type: `daily` or `custom_schedule`.
@@ -125,7 +125,7 @@ ScheduledExport scheduledExport = ScheduledExport.create(parameters, null);
 
 * `name` (String): Required - Name for this scheduled export.
 * `export_type` (String): Required - Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit
-* `export_options` (Object): Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.
+* `export_options` (Object): Options for the report selected by export_type.
 * `user_id` (Long): Site Admin user who receives the completed export e-mail.
 * `disabled` (Boolean): If true, this scheduled export will not run.
 * `trigger` (String): Schedule trigger type: `daily` or `custom_schedule`.
@@ -169,7 +169,7 @@ ScheduledExport scheduledExport = ScheduledExport.update(1L, parameters, null);
 * `id` (Long): Required - Scheduled Export ID.
 * `name` (String): Name for this scheduled export.
 * `export_type` (String): Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit
-* `export_options` (Object): Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.
+* `export_options` (Object): Options for the report selected by export_type.
 * `user_id` (Long): Site Admin user who receives the completed export e-mail.
 * `disabled` (Boolean): If true, this scheduled export will not run.
 * `trigger` (String): Schedule trigger type: `daily` or `custom_schedule`.
@@ -228,7 +228,7 @@ ScheduledExport result = scheduledExport.update(parameters);
 * `id` (Long): Required - Scheduled Export ID.
 * `name` (String): Name for this scheduled export.
 * `export_type` (String): Export report type. Valid values: folder_size_audit, group_membership_audit, permission_audit, share_link_audit
-* `export_options` (Object): Report-specific options. `permission_audit` supports `group_by` with `user` or `path`.
+* `export_options` (Object): Options for the report selected by export_type.
 * `user_id` (Long): Site Admin user who receives the completed export e-mail.
 * `disabled` (Boolean): If true, this scheduled export will not run.
 * `trigger` (String): Schedule trigger type: `daily` or `custom_schedule`.

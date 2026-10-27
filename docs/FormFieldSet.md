@@ -15,18 +15,13 @@
   ],
   "form_fields": [
     {
-      "id": 1,
-      "label": "Sample Label",
+      "label": "Department",
+      "field_type": "dropdown",
       "required": true,
-      "help_text": "Help Text",
-      "field_type": "text",
       "options_for_select": [
-        "red",
-        "green",
-        "blue"
-      ],
-      "default_option": "red",
-      "form_field_set_id": 1
+        "Finance",
+        "Sales"
+      ]
     }
   ],
   "skip_name": true,
@@ -94,13 +89,10 @@ parameters.put("skip_email", false);
 parameters.put("skip_name", false);
 parameters.put("skip_company", false);
 HashMap<String, Object> map1 = new HashMap<>();
-map1.put("label", "Sample Label");
+map1.put("label", "Department");
+map1.put("field_type", "dropdown");
 map1.put("required", true);
-map1.put("help_text", "Help Text");
-map1.put("field_type", "text");
-map1.put("options_for_select", new Object[] {"red", "green", "blue"});
-map1.put("default_option", "red");
-map1.put("form_field_set_id", 1);
+map1.put("options_for_select", new Object[] {"Finance", "Sales"});
 parameters.put("form_fields", new Object[] {map1});
 FormFieldSet formFieldSet = FormFieldSet.create(parameters, null);
 ```
@@ -130,14 +122,10 @@ parameters.put("skip_email", false);
 parameters.put("skip_name", false);
 parameters.put("skip_company", false);
 HashMap<String, Object> map1 = new HashMap<>();
-map1.put("id", 1);
-map1.put("label", "Sample Label");
+map1.put("label", "Department");
+map1.put("field_type", "dropdown");
 map1.put("required", true);
-map1.put("help_text", "Help Text");
-map1.put("field_type", "text");
-map1.put("options_for_select", new Object[] {"red", "green", "blue"});
-map1.put("default_option", "red");
-map1.put("form_field_set_id", 1);
+map1.put("options_for_select", new Object[] {"Finance", "Sales"});
 parameters.put("form_fields", new Object[] {map1});
 FormFieldSet formFieldSet = FormFieldSet.update(1L, parameters, null);
 ```
@@ -182,14 +170,10 @@ parameters.put("skip_email", false);
 parameters.put("skip_name", false);
 parameters.put("skip_company", false);
 HashMap<String, Object> map1 = new HashMap<>();
-map1.put("id", 1);
-map1.put("label", "Sample Label");
+map1.put("label", "Department");
+map1.put("field_type", "dropdown");
 map1.put("required", true);
-map1.put("help_text", "Help Text");
-map1.put("field_type", "text");
-map1.put("options_for_select", new Object[] {"red", "green", "blue"});
-map1.put("default_option", "red");
-map1.put("form_field_set_id", 1);
+map1.put("options_for_select", new Object[] {"Finance", "Sales"});
 parameters.put("form_fields", new Object[] {map1});
 FormFieldSet result = formFieldSet.update(parameters);
 ```

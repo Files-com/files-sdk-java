@@ -45,8 +45,8 @@
   "import_urls": [
     {
       "name": "users.json",
-      "url": "http://example.com/users",
-      "method": "POST",
+      "url": "https://example.com/users",
+      "method": "post",
       "headers": {
         "Content-Type": "application/json"
       },
@@ -259,8 +259,8 @@ parameters.put("disabled", true);
 parameters.put("exclude_pattern", "path/to/exclude/*");
 HashMap<String, Object> map6 = new HashMap<>();
 map6.put("name", "users.json");
-map6.put("url", "http://example.com/users");
-map6.put("method", "POST");
+map6.put("url", "https://example.com/users");
+map6.put("method", "post");
 HashMap<String, Object> map7 = new HashMap<>();
 map7.put("Content-Type", "application/json");
 map6.put("headers", map7);
@@ -408,8 +408,8 @@ parameters.put("disabled", true);
 parameters.put("exclude_pattern", "path/to/exclude/*");
 HashMap<String, Object> map6 = new HashMap<>();
 map6.put("name", "users.json");
-map6.put("url", "http://example.com/users");
-map6.put("method", "POST");
+map6.put("url", "https://example.com/users");
+map6.put("method", "post");
 HashMap<String, Object> map7 = new HashMap<>();
 map7.put("Content-Type", "application/json");
 map6.put("headers", map7);
@@ -573,8 +573,8 @@ parameters.put("disabled", true);
 parameters.put("exclude_pattern", "path/to/exclude/*");
 HashMap<String, Object> map6 = new HashMap<>();
 map6.put("name", "users.json");
-map6.put("url", "http://example.com/users");
-map6.put("method", "POST");
+map6.put("url", "https://example.com/users");
+map6.put("method", "post");
 HashMap<String, Object> map7 = new HashMap<>();
 map7.put("Content-Type", "application/json");
 map6.put("headers", map7);

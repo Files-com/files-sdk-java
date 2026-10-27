@@ -199,7 +199,7 @@ public final class EventTargetOperations extends ResourceOperations {
    * <li>{@code workspace_id} (Long): Workspace ID. 0 means the default workspace or site-wide.</li>
    * <li>{@code apply_to_all_workspaces} (Boolean): If true, this default-workspace target can receive events from all workspaces.</li>
    * <li>{@code enabled} (Boolean): Whether this Event Target can receive events.</li>
-   * <li>{@code config} (Object): Required. Event Target configuration. Folder targets accept path and format (json or csv).</li>
+   * <li>{@code config} (Object): Required. Event Target configuration. Fields depend on target_type.</li>
    * <li>{@code delivery_policy} (Object): Event Target delivery policy. Email and folder targets support batch_interval in seconds, between 600 and 86400. Slack and Teams support delivery_mode (immediate or subfolder_summary), summary_path (empty string means root), and summary_delay (15–300 seconds, default 60). The summary applies to matching file activity under summary_path; other matching events retain immediate delivery.</li>
    * <li>{@code target_type} (String): Required. Event Target type.</li>
    * </ul>
@@ -292,7 +292,7 @@ public final class EventTargetOperations extends ResourceOperations {
    * <li>{@code workspace_id} (Long): Workspace ID. 0 means the default workspace or site-wide.</li>
    * <li>{@code apply_to_all_workspaces} (Boolean): If true, this default-workspace target can receive events from all workspaces.</li>
    * <li>{@code enabled} (Boolean): Whether this Event Target can receive events.</li>
-   * <li>{@code config} (Object): Event Target configuration. Folder targets accept path and format (json or csv).</li>
+   * <li>{@code config} (Object): Event Target configuration. Fields depend on target_type.</li>
    * <li>{@code delivery_policy} (Object): Event Target delivery policy. Email and folder targets support batch_interval in seconds, between 600 and 86400. Slack and Teams support delivery_mode (immediate or subfolder_summary), summary_path (empty string means root), and summary_delay (15–300 seconds, default 60). The summary applies to matching file activity under summary_path; other matching events retain immediate delivery.</li>
    * </ul>
    *

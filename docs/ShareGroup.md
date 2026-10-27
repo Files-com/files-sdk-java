@@ -12,7 +12,7 @@
     {
       "name": "John Doe",
       "company": "Acme Ltd",
-      "email": "johndoe@gmail.com"
+      "email": "johndoe@example.com"
     }
   ]
 }
@@ -68,7 +68,7 @@ parameters.put("name", "Test group 1");
 HashMap<String, Object> map1 = new HashMap<>();
 map1.put("name", "John Doe");
 map1.put("company", "Acme Ltd");
-map1.put("email", "johndoe@gmail.com");
+map1.put("email", "johndoe@example.com");
 parameters.put("members", new Object[] {map1});
 ShareGroup shareGroup = ShareGroup.create(parameters, null);
 ```
@@ -92,7 +92,7 @@ parameters.put("name", "Test group 1");
 HashMap<String, Object> map1 = new HashMap<>();
 map1.put("name", "John Doe");
 map1.put("company", "Acme Ltd");
-map1.put("email", "johndoe@gmail.com");
+map1.put("email", "johndoe@example.com");
 parameters.put("members", new Object[] {map1});
 ShareGroup shareGroup = ShareGroup.update(1L, parameters, null);
 ```
@@ -131,7 +131,7 @@ parameters.put("name", "Test group 1");
 HashMap<String, Object> map1 = new HashMap<>();
 map1.put("name", "John Doe");
 map1.put("company", "Acme Ltd");
-map1.put("email", "johndoe@gmail.com");
+map1.put("email", "johndoe@example.com");
 parameters.put("members", new Object[] {map1});
 ShareGroup result = shareGroup.update(parameters);
 ```

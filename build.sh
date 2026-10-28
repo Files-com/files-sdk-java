@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Formats the generated sources and packages them under the release line in _VERSION.
-# CI runs this after test.sh.
+# Formats the generated sources and packages them under the release line in _VERSION, without
+# testing them. CI runs test.sh with FILES_SDK_SET_RELEASE_VERSION=1 instead, which also does this.
 set -euo pipefail
 cd "$(dirname "$0")"
 

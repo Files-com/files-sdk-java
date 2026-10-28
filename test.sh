@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 # Formats the generated sources, then runs every check without changing them: the Java 8 compile,
 # tests, packaging, the formatting check and Checkstyle. CI runs this for the Java target.
+#
+# FILES_SDK_SET_RELEASE_VERSION=1: after formatting, also give the project the release line in
+# _VERSION, as build.sh does, so that the checks package it under that version. CI's build-java
+# runs this in place of test.sh followed by build.sh, which would format and package it again.
 set -euo pipefail
 cd "$(dirname "$0")"
 
@@ -32,6 +36,9 @@ fi
 
 . ./build-jdk.sh
 ./mvnw -B -ntp -V rewrite:run
+if [ "${FILES_SDK_SET_RELEASE_VERSION:-}" = 1 ]; then
+  ./mvnw -B -ntp -DnewVersion="$(cat _VERSION)" -DgenerateBackupPoms=false versions:set
+fi
 # FilesApiTest runs against WireMock servers on JDK 17 (see test-server/servers.sh) unless the
 # caller already runs them and set their URLs. Servers this script started are stopped when it
 # exits; failing to stop them fails the run without replacing an earlier failure's status.

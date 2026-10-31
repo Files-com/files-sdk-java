@@ -286,7 +286,7 @@ public final class FileOperations extends ResourceOperations {
    * Update File/Folder Metadata
    * <p>The parameters map may hold:</p>
    * <ul>
-   * <li>{@code custom_metadata} (Object): Custom metadata map of keys and values. Limited to 32 keys, 256 characters per key and 1024 characters per value.</li>
+   * <li>{@code custom_metadata} (Object): Custom metadata map. Replaces existing metadata; an empty map clears it. Requires Full or Admin permission. Uploaders with Write permission can supply custom metadata when completing an upload instead.</li>
    * <li>{@code provided_mtime} (String): Modified time of file.</li>
    * <li>{@code priority_color} (String): Priority/Bookmark color of file.</li>
    * </ul>

@@ -163,6 +163,7 @@ public final class SiteOperations extends ResourceOperations {
    * <li>{@code as2_message_retention_days} (Long): Number of days to retain AS2 messages (incoming and outgoing).</li>
    * <li>{@code file_activity_events_enabled} (Boolean): If true, file operations produce file_action.activity.v1 EventChannel events in all workspaces. Defaults to false; subscription filters and workspace access still control delivery.</li>
    * <li>{@code username_display} (String): How usernames are displayed in the web UI. Can be `username_only`, `full_name_only`, `full_name_username`, `full_name_company`, or `full_name_username_company`.</li>
+   * <li>{@code integration_centric_remote_server_admin_access} (String): Administrator access to user-owned Remote Servers in every Workspace: always_visible (default), never_visible, user_choice_default_visible, or user_choice_default_personal. Forced modes override owner preferences; choice modes use the preference or their default.</li>
    * <li>{@code session_expiry_minutes} (Long): Session expiry in minutes</li>
    * <li>{@code ssl_required} (Boolean): Is SSL required?  Disabling this is insecure.</li>
    * <li>{@code sftp_insecure_ciphers} (Boolean): If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.</li>
@@ -518,6 +519,10 @@ public final class SiteOperations extends ResourceOperations {
 
     if (parameters.containsKey("username_display") && !(parameters.get("username_display") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: username_display must be of type String parameters[\"username_display\"]");
+    }
+
+    if (parameters.containsKey("integration_centric_remote_server_admin_access") && !(parameters.get("integration_centric_remote_server_admin_access") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: integration_centric_remote_server_admin_access must be of type String parameters[\"integration_centric_remote_server_admin_access\"]");
     }
 
     if (parameters.containsKey("session_expiry_minutes") && !(parameters.get("session_expiry_minutes") instanceof Long || parameters.get("session_expiry_minutes") instanceof Integer)) {

@@ -135,6 +135,7 @@
     "uri": "https://mysite.files.com/.../my_image.png"
   },
   "immutable_files_set_at": "2000-01-01T01:00:00Z",
+  "integration_centric_remote_server_admin_access": "example",
   "include_password_in_welcome_email": true,
   "language": "en",
   "ldap_base_dn": "example",
@@ -476,6 +477,7 @@
 * `icon32` / `icon32`  (image): Branded icon 32x32
 * `icon48` / `icon48`  (image): Branded icon 48x48
 * `immutable_files_set_at` / `immutableFilesSetAt`  (date-time): Can files be modified?
+* `integration_centric_remote_server_admin_access` / `integrationCentricRemoteServerAdminAccess`  (string): Administrator access to user-owned Remote Servers in every Workspace: always_visible (default), never_visible, user_choice_default_visible, or user_choice_default_personal. Forced modes override owner preferences; choice modes use the preference or their default.
 * `include_password_in_welcome_email` / `includePasswordInWelcomeEmail`  (boolean): Include password in emails to new users?
 * `language` / `language`  (string): Site default language
 * `ldap_base_dn` / `ldapBaseDn`  (string): Base DN for looking up users in LDAP server
@@ -682,6 +684,7 @@ parameters.put("migrate_remote_server_sync_to_sync", false);
 parameters.put("as2_message_retention_days", 1L);
 parameters.put("file_activity_events_enabled", false);
 parameters.put("username_display", "username_only");
+parameters.put("integration_centric_remote_server_admin_access", "example");
 parameters.put("session_expiry_minutes", 1L);
 parameters.put("ssl_required", false);
 parameters.put("sftp_insecure_ciphers", false);
@@ -878,6 +881,7 @@ Site site = Site.update(parameters, null);
 * `as2_message_retention_days` (Long): Number of days to retain AS2 messages (incoming and outgoing).
 * `file_activity_events_enabled` (Boolean): If true, file operations produce file_action.activity.v1 EventChannel events in all workspaces. Defaults to false; subscription filters and workspace access still control delivery.
 * `username_display` (String): How usernames are displayed in the web UI. Can be `username_only`, `full_name_only`, `full_name_username`, `full_name_company`, or `full_name_username_company`.
+* `integration_centric_remote_server_admin_access` (String): Administrator access to user-owned Remote Servers in every Workspace: always_visible (default), never_visible, user_choice_default_visible, or user_choice_default_personal. Forced modes override owner preferences; choice modes use the preference or their default.
 * `session_expiry_minutes` (Long): Session expiry in minutes
 * `ssl_required` (Boolean): Is SSL required?  Disabling this is insecure.
 * `sftp_insecure_ciphers` (Boolean): If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.

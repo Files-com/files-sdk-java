@@ -397,6 +397,7 @@ public final class RemoteServerOperations extends ResourceOperations {
    * <li>{@code server_certificate} (String): Remote server certificate</li>
    * <li>{@code server_host_key} (String): Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.</li>
    * <li>{@code server_type} (String): Remote server type.</li>
+   * <li>{@code site_admin_access} (Boolean): Owner's preference for administrator access to this user-owned Remote Server. Null uses the Site policy's default. Only the owner may change it when the Site policy allows user choice.</li>
    * <li>{@code sharepoint_client_id} (String): SharePoint: Microsoft Entra application client ID for app-only authentication.</li>
    * <li>{@code sharepoint_site_url} (String): SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.</li>
    * <li>{@code sharepoint_tenant_id} (String): SharePoint: Microsoft Entra tenant ID for app-only authentication.</li>
@@ -724,6 +725,10 @@ public final class RemoteServerOperations extends ResourceOperations {
       throw new IllegalArgumentException("Bad parameter: server_type must be of type String parameters[\"server_type\"]");
     }
 
+    if (parameters.containsKey("site_admin_access") && !(parameters.get("site_admin_access") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: site_admin_access must be of type Boolean parameters[\"site_admin_access\"]");
+    }
+
     if (parameters.containsKey("sharepoint_client_id") && !(parameters.get("sharepoint_client_id") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: sharepoint_client_id must be of type String parameters[\"sharepoint_client_id\"]");
     }
@@ -928,6 +933,7 @@ public final class RemoteServerOperations extends ResourceOperations {
    * <li>{@code server_certificate} (String): Remote server certificate</li>
    * <li>{@code server_host_key} (String): Pinned SSH host key or OpenSSH host certificate for SFTP. If omitted, Files.com detects and stores a host key, preferring plain keys over certificates. With `server_certificate=require_match` (the default), the server must present the exact pinned key or certificate and prove it holds the matching private key. A pinned certificate is compared in full, so renewal can require updating `server_host_key` even when its underlying key is unchanged. Files.com does not check certificate CA signatures, principals, or validity periods. Certificate expiration alone does not end the pin. Update `server_host_key` to replace the pin.</li>
    * <li>{@code server_type} (String): Remote server type.</li>
+   * <li>{@code site_admin_access} (Boolean): Owner's preference for administrator access to this user-owned Remote Server. Null uses the Site policy's default. Only the owner may change it when the Site policy allows user choice.</li>
    * <li>{@code sharepoint_client_id} (String): SharePoint: Microsoft Entra application client ID for app-only authentication.</li>
    * <li>{@code sharepoint_site_url} (String): SharePoint: Site URL to scope app-only authentication to a single site. Leave blank to browse all sites.</li>
    * <li>{@code sharepoint_tenant_id} (String): SharePoint: Microsoft Entra tenant ID for app-only authentication.</li>
@@ -1261,6 +1267,10 @@ public final class RemoteServerOperations extends ResourceOperations {
 
     if (parameters.containsKey("server_type") && !(parameters.get("server_type") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: server_type must be of type String parameters[\"server_type\"]");
+    }
+
+    if (parameters.containsKey("site_admin_access") && !(parameters.get("site_admin_access") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: site_admin_access must be of type Boolean parameters[\"site_admin_access\"]");
     }
 
     if (parameters.containsKey("sharepoint_client_id") && !(parameters.get("sharepoint_client_id") instanceof String)) {

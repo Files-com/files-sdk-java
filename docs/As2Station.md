@@ -24,7 +24,7 @@
 
 * `id` / `id`  (int64): Id of the AS2 Station.
 * `workspace_id` / `workspaceId`  (int64): ID of the Workspace associated with this AS2 Station.
-* `name` / `name`  (string): The station's formal AS2 name.
+* `name` / `name`  (string): The station's formal AS2 name, unique across all Workspaces on the Site.
 * `uri` / `uri`  (string): Public URI for sending AS2 message to.
 * `domain` / `domain`  (string): The station's AS2 domain name.
 * `hex_public_certificate_serial` / `hexPublicCertificateSerial`  (string): Serial of public certificate used for message security in hex format.
@@ -88,7 +88,7 @@ As2Station as2Station = As2Station.create(parameters, null);
 
 ### Parameters
 
-* `name` (String): Required - The station's formal AS2 name.
+* `name` (String): Required - The station's formal AS2 name, unique across all Workspaces on the Site.
 * `workspace_id` (Long): ID of the Workspace associated with this AS2 Station.
 * `public_certificate` (String): Public certificate used for message security.
 * `private_key` (String): PEM-encoded private key matching public_certificate.
@@ -111,7 +111,7 @@ As2Station as2Station = As2Station.update(1L, parameters, null);
 ### Parameters
 
 * `id` (Long): Required - As2 Station ID.
-* `name` (String): The station's formal AS2 name.
+* `name` (String): The station's formal AS2 name, unique across all Workspaces on the Site.
 * `public_certificate` (String): Public certificate used for message security.
 * `private_key` (String): PEM-encoded private key matching public_certificate.
 * `private_key_password` (String): Password for the PEM-encoded private key.
@@ -148,7 +148,7 @@ As2Station result = as2Station.update(parameters);
 ### Parameters
 
 * `id` (Long): Required - As2 Station ID.
-* `name` (String): The station's formal AS2 name.
+* `name` (String): The station's formal AS2 name, unique across all Workspaces on the Site.
 * `public_certificate` (String): Public certificate used for message security.
 * `private_key` (String): PEM-encoded private key matching public_certificate.
 * `private_key_password` (String): Password for the PEM-encoded private key.

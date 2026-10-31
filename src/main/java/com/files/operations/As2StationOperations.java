@@ -195,7 +195,7 @@ public final class As2StationOperations extends ResourceOperations {
    * Create AS2 Station
    * <p>The parameters map may hold:</p>
    * <ul>
-   * <li>{@code name} (String): Required. The station's formal AS2 name.</li>
+   * <li>{@code name} (String): Required. The station's formal AS2 name, unique across all Workspaces on the Site.</li>
    * <li>{@code workspace_id} (Long): ID of the Workspace associated with this AS2 Station.</li>
    * <li>{@code public_certificate} (String): Public certificate used for message security.</li>
    * <li>{@code private_key} (String): PEM-encoded private key matching public_certificate.</li>
@@ -280,7 +280,7 @@ public final class As2StationOperations extends ResourceOperations {
    * Update AS2 Station
    * <p>The parameters map may hold:</p>
    * <ul>
-   * <li>{@code name} (String): The station's formal AS2 name.</li>
+   * <li>{@code name} (String): The station's formal AS2 name, unique across all Workspaces on the Site.</li>
    * <li>{@code public_certificate} (String): Public certificate used for message security.</li>
    * <li>{@code private_key} (String): PEM-encoded private key matching public_certificate.</li>
    * <li>{@code private_key_password} (String): Password for the PEM-encoded private key.</li>

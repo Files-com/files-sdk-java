@@ -5,6 +5,7 @@
 ```
 {
   "id": 1,
+  "workspace_id": 1,
   "event_type": "example",
   "status": "example",
   "body": "example",
@@ -14,6 +15,7 @@
 ```
 
 * `id` / `id`  (int64): Event ID
+* `workspace_id` / `workspaceId`  (int64): Workspace ID
 * `event_type` / `eventType`  (string): Type of event being recorded.
 * `status` / `status`  (string): Status of event.
 * `body` / `body`  (string): Event body
@@ -34,8 +36,8 @@ ListIterator<ExternalEvent> externalEvents = ExternalEvent.list(parameters, null
 
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-* `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`, `status` or `event_type`.
-* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at` and `status`. Valid field combinations are `[ status, created_at ]`.
+* `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `created_at`, `status`, `event_type` or `workspace_id`.
+* `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `created_at`, `status` or `workspace_id`. Valid field combinations are `[ status, created_at ]`.
 * `filter_gt` (Object): If set, return records where the specified field is greater than the supplied value. Valid fields are `created_at`.
 * `filter_gteq` (Object): If set, return records where the specified field is greater than or equal the supplied value. Valid fields are `created_at`.
 * `filter_lt` (Object): If set, return records where the specified field is less than the supplied value. Valid fields are `created_at`.

@@ -165,6 +165,7 @@ public final class SiteOperations extends ResourceOperations {
    * <li>{@code username_display} (String): How usernames are displayed in the web UI. Can be `username_only`, `full_name_only`, `full_name_username`, `full_name_company`, or `full_name_username_company`.</li>
    * <li>{@code integration_centric_remote_server_admin_access} (String): Administrator access to user-owned Remote Servers in every Workspace: always_visible (default), never_visible, user_choice_default_visible, or user_choice_default_personal. Forced modes override owner preferences; choice modes use the preference or their default.</li>
    * <li>{@code session_expiry_minutes} (Long): Session expiry in minutes</li>
+   * <li>{@code legacy_pairing_enabled} (Boolean): Allow legacy app pairing in all workspaces? Disabled for new sites; existing sites remain enabled until changed. Disabling blocks new pairing exchanges without revoking existing app credentials or affecting OAuth sign-in. Site administrators can re-enable it.</li>
    * <li>{@code ssl_required} (Boolean): Is SSL required?  Disabling this is insecure.</li>
    * <li>{@code sftp_insecure_ciphers} (Boolean): If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.</li>
    * <li>{@code sftp_insecure_diffie_hellman} (Boolean): If true, we will allow weak Diffie Hellman parameters to be used within ciphers for SFTP that are otherwise on our secure list.  This has the effect of making the cipher weaker than our normal threshold for security, but is required to support certain legacy or broken SSH and MFT clients.  Enabling this weakens security, but not nearly as much as enabling the full `sftp_insecure_ciphers` option.</li>
@@ -527,6 +528,10 @@ public final class SiteOperations extends ResourceOperations {
 
     if (parameters.containsKey("session_expiry_minutes") && !(parameters.get("session_expiry_minutes") instanceof Long || parameters.get("session_expiry_minutes") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: session_expiry_minutes must be of type Long or Integer parameters[\"session_expiry_minutes\"]");
+    }
+
+    if (parameters.containsKey("legacy_pairing_enabled") && !(parameters.get("legacy_pairing_enabled") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: legacy_pairing_enabled must be of type Boolean parameters[\"legacy_pairing_enabled\"]");
     }
 
     if (parameters.containsKey("ssl_required") && !(parameters.get("ssl_required") instanceof Boolean)) {

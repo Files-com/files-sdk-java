@@ -274,23 +274,6 @@ public final class SiteOperations extends ResourceOperations {
    * <li>{@code smtp_username} (String): SMTP server username</li>
    * <li>{@code smtp_port} (Long): SMTP server port</li>
    * <li>{@code smtp_ssl} (String): Custom SMTP encryption mode: if_available (default) uses STARTTLS when offered and otherwise sends credentials and messages unencrypted. A certificate-verified STARTTLS connection automatically changes if_available to require unless smtp_ssl is managed by a parent policy. require requires STARTTLS before authentication; require_implicit uses TLS from connection start; never disables TLS. TLS verifies the server certificate against smtp_address. Encryption is never automatically downgraded.</li>
-   * <li>{@code ldap_enabled} (Boolean): Main LDAP setting: is LDAP enabled?</li>
-   * <li>{@code ldap_type} (String): LDAP type</li>
-   * <li>{@code ldap_host} (String): LDAP host</li>
-   * <li>{@code ldap_host_2} (String): LDAP backup host</li>
-   * <li>{@code ldap_host_3} (String): LDAP backup host</li>
-   * <li>{@code ldap_port} (Long): LDAP port</li>
-   * <li>{@code ldap_secure} (Boolean): Use secure LDAP?</li>
-   * <li>{@code ldap_server_certificate} (String): How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.</li>
-   * <li>{@code ldap_username} (String): Username for signing in to LDAP server.</li>
-   * <li>{@code ldap_username_field} (String): LDAP username field</li>
-   * <li>{@code ldap_domain} (String): Domain name that will be appended to usernames</li>
-   * <li>{@code ldap_user_action} (String): Should we sync users from LDAP server?</li>
-   * <li>{@code ldap_group_action} (String): Should we sync groups from LDAP server?</li>
-   * <li>{@code ldap_user_include_groups} (String): Comma or newline separated list of group names (with optional wildcards) - if provided, only users in these groups will be added or synced.</li>
-   * <li>{@code ldap_group_exclusion} (String): Comma or newline separated list of group names (with optional wildcards) to exclude when syncing.</li>
-   * <li>{@code ldap_group_inclusion} (String): Comma or newline separated list of group names (with optional wildcards) to include when syncing.</li>
-   * <li>{@code ldap_base_dn} (String): Base DN for looking up users in LDAP server</li>
    * <li>{@code uploads_via_email_authentication} (Boolean): Require email authentication, virus, and spam checks for incoming emails to Inboxes and Incoming Email Automations in every Workspace on this site?</li>
    * <li>{@code bundle_watermark_value} (Object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value</li>
    * <li>{@code icon16_file} (byte[] or Attachment): </li>
@@ -308,8 +291,6 @@ public final class SiteOperations extends ResourceOperations {
    * <li>{@code login_page_background_image_file} (byte[] or Attachment): </li>
    * <li>{@code login_page_background_image_delete} (Boolean): If true, will delete the file stored in login_page_background_image</li>
    * <li>{@code disable_2fa_with_delay} (Boolean): If set to true, we will begin the process of disabling 2FA on this site.</li>
-   * <li>{@code ldap_password_change} (String): New LDAP password.</li>
-   * <li>{@code ldap_password_change_confirmation} (String): Confirm new LDAP password.</li>
    * <li>{@code redirect_old_subdomain} (Boolean): If true, and if changing the site subdomain, then create a redirect from the previous Files.com subdomain to the new Files.com subdomain.</li>
    * <li>{@code smtp_password} (String): Password for SMTP server.</li>
    * </ul>
@@ -966,74 +947,6 @@ public final class SiteOperations extends ResourceOperations {
       throw new IllegalArgumentException("Bad parameter: smtp_ssl must be of type String parameters[\"smtp_ssl\"]");
     }
 
-    if (parameters.containsKey("ldap_enabled") && !(parameters.get("ldap_enabled") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: ldap_enabled must be of type Boolean parameters[\"ldap_enabled\"]");
-    }
-
-    if (parameters.containsKey("ldap_type") && !(parameters.get("ldap_type") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ldap_type must be of type String parameters[\"ldap_type\"]");
-    }
-
-    if (parameters.containsKey("ldap_host") && !(parameters.get("ldap_host") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ldap_host must be of type String parameters[\"ldap_host\"]");
-    }
-
-    if (parameters.containsKey("ldap_host_2") && !(parameters.get("ldap_host_2") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ldap_host_2 must be of type String parameters[\"ldap_host_2\"]");
-    }
-
-    if (parameters.containsKey("ldap_host_3") && !(parameters.get("ldap_host_3") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ldap_host_3 must be of type String parameters[\"ldap_host_3\"]");
-    }
-
-    if (parameters.containsKey("ldap_port") && !(parameters.get("ldap_port") instanceof Long || parameters.get("ldap_port") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: ldap_port must be of type Long or Integer parameters[\"ldap_port\"]");
-    }
-
-    if (parameters.containsKey("ldap_secure") && !(parameters.get("ldap_secure") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: ldap_secure must be of type Boolean parameters[\"ldap_secure\"]");
-    }
-
-    if (parameters.containsKey("ldap_server_certificate") && !(parameters.get("ldap_server_certificate") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ldap_server_certificate must be of type String parameters[\"ldap_server_certificate\"]");
-    }
-
-    if (parameters.containsKey("ldap_username") && !(parameters.get("ldap_username") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ldap_username must be of type String parameters[\"ldap_username\"]");
-    }
-
-    if (parameters.containsKey("ldap_username_field") && !(parameters.get("ldap_username_field") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ldap_username_field must be of type String parameters[\"ldap_username_field\"]");
-    }
-
-    if (parameters.containsKey("ldap_domain") && !(parameters.get("ldap_domain") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ldap_domain must be of type String parameters[\"ldap_domain\"]");
-    }
-
-    if (parameters.containsKey("ldap_user_action") && !(parameters.get("ldap_user_action") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ldap_user_action must be of type String parameters[\"ldap_user_action\"]");
-    }
-
-    if (parameters.containsKey("ldap_group_action") && !(parameters.get("ldap_group_action") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ldap_group_action must be of type String parameters[\"ldap_group_action\"]");
-    }
-
-    if (parameters.containsKey("ldap_user_include_groups") && !(parameters.get("ldap_user_include_groups") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ldap_user_include_groups must be of type String parameters[\"ldap_user_include_groups\"]");
-    }
-
-    if (parameters.containsKey("ldap_group_exclusion") && !(parameters.get("ldap_group_exclusion") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ldap_group_exclusion must be of type String parameters[\"ldap_group_exclusion\"]");
-    }
-
-    if (parameters.containsKey("ldap_group_inclusion") && !(parameters.get("ldap_group_inclusion") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ldap_group_inclusion must be of type String parameters[\"ldap_group_inclusion\"]");
-    }
-
-    if (parameters.containsKey("ldap_base_dn") && !(parameters.get("ldap_base_dn") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ldap_base_dn must be of type String parameters[\"ldap_base_dn\"]");
-    }
-
     if (parameters.containsKey("uploads_via_email_authentication") && !(parameters.get("uploads_via_email_authentication") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: uploads_via_email_authentication must be of type Boolean parameters[\"uploads_via_email_authentication\"]");
     }
@@ -1100,14 +1013,6 @@ public final class SiteOperations extends ResourceOperations {
 
     if (parameters.containsKey("disable_2fa_with_delay") && !(parameters.get("disable_2fa_with_delay") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: disable_2fa_with_delay must be of type Boolean parameters[\"disable_2fa_with_delay\"]");
-    }
-
-    if (parameters.containsKey("ldap_password_change") && !(parameters.get("ldap_password_change") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ldap_password_change must be of type String parameters[\"ldap_password_change\"]");
-    }
-
-    if (parameters.containsKey("ldap_password_change_confirmation") && !(parameters.get("ldap_password_change_confirmation") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: ldap_password_change_confirmation must be of type String parameters[\"ldap_password_change_confirmation\"]");
     }
 
     if (parameters.containsKey("redirect_old_subdomain") && !(parameters.get("redirect_old_subdomain") instanceof Boolean)) {

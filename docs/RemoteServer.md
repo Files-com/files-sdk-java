@@ -120,7 +120,7 @@
 * `server_type` / `serverType`  (string): Remote server type.
 * `site_admin_access` / `siteAdminAccess`  (boolean): Owner's preference for administrator access to this user-owned Remote Server. Null uses the Site policy's default. Only the owner may change it when the Site policy allows user choice.
 * `effective_site_admin_access` / `effectiveSiteAdminAccess`  (boolean): Whether Site and Workspace Administrators can access this Remote Server under the current Site policy.
-* `user_id` / `userId`  (int64): ID of the user who owns this Remote Server, if any.
+* `user_id` / `userId`  (int64): ID of the Integration-Centric user who owns this personal Remote Server, if any. Connections created by Site and Workspace Administrators have no owner.
 * `workspace_id` / `workspaceId`  (int64): Workspace ID (0 for default workspace)
 * `ssl` / `ssl`  (string): Should we require SSL?
 * `username` / `username`  (string): Remote server username.

@@ -140,23 +140,6 @@
   "integration_centric_remote_server_admin_access": "example",
   "include_password_in_welcome_email": true,
   "language": "en",
-  "ldap_base_dn": "example",
-  "ldap_domain": "mysite.com",
-  "ldap_enabled": true,
-  "ldap_group_action": "disabled",
-  "ldap_group_exclusion": "example",
-  "ldap_group_inclusion": "example",
-  "ldap_host": "ldap.site.com",
-  "ldap_host_2": "ldap2.site.com",
-  "ldap_host_3": "ldap3.site.com",
-  "ldap_port": 1,
-  "ldap_secure": true,
-  "ldap_server_certificate": "require_match",
-  "ldap_type": "open_ldap",
-  "ldap_user_action": "disabled",
-  "ldap_user_include_groups": "example",
-  "ldap_username": "[ldap username]",
-  "ldap_username_field": "sAMAccountName",
   "login_help_text": "Login page help text.",
   "logo": {
     "name": "My logo",
@@ -484,23 +467,6 @@
 * `integration_centric_remote_server_admin_access` / `integrationCentricRemoteServerAdminAccess`  (string): Administrator access to user-owned Remote Servers in every Workspace: always_visible (default), never_visible, user_choice_default_visible, or user_choice_default_personal. Forced modes override owner preferences; choice modes use the preference or their default.
 * `include_password_in_welcome_email` / `includePasswordInWelcomeEmail`  (boolean): Include password in emails to new users?
 * `language` / `language`  (string): Site default language
-* `ldap_base_dn` / `ldapBaseDn`  (string): Base DN for looking up users in LDAP server
-* `ldap_domain` / `ldapDomain`  (string): Domain name that will be appended to usernames
-* `ldap_enabled` / `ldapEnabled`  (boolean): Main LDAP setting: is LDAP enabled?
-* `ldap_group_action` / `ldapGroupAction`  (string): Should we sync groups from LDAP server?
-* `ldap_group_exclusion` / `ldapGroupExclusion`  (string): Comma or newline separated list of group names (with optional wildcards) to exclude when syncing.
-* `ldap_group_inclusion` / `ldapGroupInclusion`  (string): Comma or newline separated list of group names (with optional wildcards) to include when syncing.
-* `ldap_host` / `ldapHost`  (string): LDAP host
-* `ldap_host_2` / `ldapHost2`  (string): LDAP backup host
-* `ldap_host_3` / `ldapHost3`  (string): LDAP backup host
-* `ldap_port` / `ldapPort`  (int64): LDAP port
-* `ldap_secure` / `ldapSecure`  (boolean): Use secure LDAP?
-* `ldap_server_certificate` / `ldapServerCertificate`  (string): How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
-* `ldap_type` / `ldapType`  (string): LDAP type
-* `ldap_user_action` / `ldapUserAction`  (string): Should we sync users from LDAP server?
-* `ldap_user_include_groups` / `ldapUserIncludeGroups`  (string): Comma or newline separated list of group names (with optional wildcards) - if provided, only users in these groups will be added or synced.
-* `ldap_username` / `ldapUsername`  (string): Username for signing in to LDAP server.
-* `ldap_username_field` / `ldapUsernameField`  (string): LDAP username field
 * `login_help_text` / `loginHelpText`  (string): Login help text
 * `logo` / `logo`  (image): Branded logo
 * `login_page_background_image` / `loginPageBackgroundImage`  (image): Branded login page background
@@ -799,23 +765,6 @@ parameters.put("smtp_from", "me@my-mail-server.com");
 parameters.put("smtp_username", "mail");
 parameters.put("smtp_port", 1L);
 parameters.put("smtp_ssl", "require");
-parameters.put("ldap_enabled", false);
-parameters.put("ldap_type", "open_ldap");
-parameters.put("ldap_host", "ldap.site.com");
-parameters.put("ldap_host_2", "ldap2.site.com");
-parameters.put("ldap_host_3", "ldap3.site.com");
-parameters.put("ldap_port", 1L);
-parameters.put("ldap_secure", false);
-parameters.put("ldap_server_certificate", "require_match");
-parameters.put("ldap_username", "[ldap username]");
-parameters.put("ldap_username_field", "sAMAccountName");
-parameters.put("ldap_domain", "mysite.com");
-parameters.put("ldap_user_action", "disabled");
-parameters.put("ldap_group_action", "disabled");
-parameters.put("ldap_user_include_groups", "example");
-parameters.put("ldap_group_exclusion", "example");
-parameters.put("ldap_group_inclusion", "example");
-parameters.put("ldap_base_dn", "example");
 parameters.put("uploads_via_email_authentication", false);
 HashMap<String, Object> map8 = new HashMap<>();
 map8.put("gravity", "SouthWest");
@@ -997,23 +946,6 @@ Site site = Site.update(parameters, null);
 * `smtp_username` (String): SMTP server username
 * `smtp_port` (Long): SMTP server port
 * `smtp_ssl` (String): Custom SMTP encryption mode: if_available (default) uses STARTTLS when offered and otherwise sends credentials and messages unencrypted. A certificate-verified STARTTLS connection automatically changes if_available to require unless smtp_ssl is managed by a parent policy. require requires STARTTLS before authentication; require_implicit uses TLS from connection start; never disables TLS. TLS verifies the server certificate against smtp_address. Encryption is never automatically downgraded.
-* `ldap_enabled` (Boolean): Main LDAP setting: is LDAP enabled?
-* `ldap_type` (String): LDAP type
-* `ldap_host` (String): LDAP host
-* `ldap_host_2` (String): LDAP backup host
-* `ldap_host_3` (String): LDAP backup host
-* `ldap_port` (Long): LDAP port
-* `ldap_secure` (Boolean): Use secure LDAP?
-* `ldap_server_certificate` (String): How to validate the LDAP server certificate. `require_match` validates the certificate chain and hostname; `allow_any` disables certificate validation.
-* `ldap_username` (String): Username for signing in to LDAP server.
-* `ldap_username_field` (String): LDAP username field
-* `ldap_domain` (String): Domain name that will be appended to usernames
-* `ldap_user_action` (String): Should we sync users from LDAP server?
-* `ldap_group_action` (String): Should we sync groups from LDAP server?
-* `ldap_user_include_groups` (String): Comma or newline separated list of group names (with optional wildcards) - if provided, only users in these groups will be added or synced.
-* `ldap_group_exclusion` (String): Comma or newline separated list of group names (with optional wildcards) to exclude when syncing.
-* `ldap_group_inclusion` (String): Comma or newline separated list of group names (with optional wildcards) to include when syncing.
-* `ldap_base_dn` (String): Base DN for looking up users in LDAP server
 * `uploads_via_email_authentication` (Boolean): Require email authentication, virus, and spam checks for incoming emails to Inboxes and Incoming Email Automations in every Workspace on this site?
 * `bundle_watermark_value` (Object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `icon16_file` (byte[] or Attachment): 
@@ -1031,7 +963,5 @@ Site site = Site.update(parameters, null);
 * `login_page_background_image_file` (byte[] or Attachment): 
 * `login_page_background_image_delete` (Boolean): If true, will delete the file stored in login_page_background_image
 * `disable_2fa_with_delay` (Boolean): If set to true, we will begin the process of disabling 2FA on this site.
-* `ldap_password_change` (String): New LDAP password.
-* `ldap_password_change_confirmation` (String): Confirm new LDAP password.
 * `redirect_old_subdomain` (Boolean): If true, and if changing the site subdomain, then create a redirect from the previous Files.com subdomain to the new Files.com subdomain.
 * `smtp_password` (String): Password for SMTP server.

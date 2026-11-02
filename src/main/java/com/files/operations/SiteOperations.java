@@ -92,6 +92,50 @@ public final class SiteOperations extends ResourceOperations {
   }
 
   /**
+   * Extend the Automations conversion window by up to six weeks beyond its originally announced end date
+   *
+   * @see #extendAutomationMigrationWindow(HashMap, HashMap)
+   */
+  public void extendAutomationMigrationWindow() throws RuntimeException {
+    extendAutomationMigrationWindow(null, null);
+  }
+
+  /**
+   * Extend the Automations conversion window by up to six weeks beyond its originally announced end date
+   *
+   * @see #extendAutomationMigrationWindow(HashMap, HashMap)
+   */
+  public void extendAutomationMigrationWindow(HashMap<String, Object> parameters) throws RuntimeException {
+    extendAutomationMigrationWindow(parameters, null);
+  }
+
+  /**
+   * Extend the Automations conversion window by up to six weeks beyond its originally announced end date
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code end_date} (String): Required. New conversion-window end date in YYYY-MM-DD format, in Eastern Time (EST/EDT). Must be a Tuesday, Wednesday, or Thursday. Can only extend the current end date, within six weeks of the originally announced end date.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
+  public void extendAutomationMigrationWindow(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = copy(parameters);
+    options = copy(options);
+
+    if (!parameters.containsKey("end_date") || parameters.get("end_date") == null) {
+      throw new NullPointerException("Parameter missing: end_date parameters[\"end_date\"]");
+    }
+
+    if (parameters.containsKey("end_date") && !(parameters.get("end_date") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: end_date must be of type String parameters[\"end_date\"]");
+    }
+
+    String apiPath = "/site/extend_automation_migration_window";
+    request(RequestMethods.POST, apiPath, parameters, options);
+  }
+
+  /**
    * Update Site Settings
    *
    * @see #update(HashMap, HashMap)

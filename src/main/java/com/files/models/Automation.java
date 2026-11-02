@@ -220,6 +220,30 @@ public class Automation implements ModelInterface {
   }
 
   /**
+   * ID of this v1 Automation's converted v2 copy, when present.
+   */
+  @JsonProperty("converted_automation_id")
+  public Long convertedAutomationId;
+
+  /**
+   * Gets {@link #convertedAutomationId}.
+   *
+   * @return the value of {@link #convertedAutomationId}
+   */
+  public Long getConvertedAutomationId() {
+    return convertedAutomationId;
+  }
+
+  /**
+   * Sets {@link #convertedAutomationId}.
+   *
+   * @param convertedAutomationId the new value
+   */
+  public void setConvertedAutomationId(Long convertedAutomationId) {
+    this.convertedAutomationId = convertedAutomationId;
+  }
+
+  /**
    * Indicates if the automation has been deleted.
    */
   @JsonProperty("deleted")
@@ -625,6 +649,30 @@ public class Automation implements ModelInterface {
    */
   public void setName(String name) {
     this.name = name;
+  }
+
+  /**
+   * ID of the retained v1 Automation for a converted Automation. Re-enable that v1 Automation to pause this copy and revert the conversion.
+   */
+  @JsonProperty("original_automation_id")
+  public Long originalAutomationId;
+
+  /**
+   * Gets {@link #originalAutomationId}.
+   *
+   * @return the value of {@link #originalAutomationId}
+   */
+  public Long getOriginalAutomationId() {
+    return originalAutomationId;
+  }
+
+  /**
+   * Sets {@link #originalAutomationId}.
+   *
+   * @param originalAutomationId the new value
+   */
+  public void setOriginalAutomationId(Long originalAutomationId) {
+    this.originalAutomationId = originalAutomationId;
   }
 
   /**
@@ -1328,6 +1376,7 @@ public class Automation implements ModelInterface {
     this.alwaysSerializeJobs = canonical.alwaysSerializeJobs;
     this.alwaysOverwriteSizeMatchingFiles = canonical.alwaysOverwriteSizeMatchingFiles;
     this.automation = canonical.automation;
+    this.convertedAutomationId = canonical.convertedAutomationId;
     this.deleted = canonical.deleted;
     this.description = canonical.description;
     this.definition = canonical.definition;
@@ -1345,6 +1394,7 @@ public class Automation implements ModelInterface {
     this.lastModifiedAt = canonical.lastModifiedAt;
     this.legacyFolderMatching = canonical.legacyFolderMatching;
     this.name = canonical.name;
+    this.originalAutomationId = canonical.originalAutomationId;
     this.overwriteFiles = canonical.overwriteFiles;
     this.path = canonical.path;
     this.pathTimeZone = canonical.pathTimeZone;

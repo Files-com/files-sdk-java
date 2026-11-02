@@ -2997,6 +2997,40 @@ public class Site implements ModelInterface {
 
 
   /**
+   * Extend the Automations conversion window by up to six weeks beyond its originally announced end date
+   *
+   * @see #extendAutomationMigrationWindow(HashMap, HashMap)
+   */
+  public static void extendAutomationMigrationWindow() throws RuntimeException {
+    extendAutomationMigrationWindow(null, null);
+  }
+
+  /**
+   * Extend the Automations conversion window by up to six weeks beyond its originally announced end date
+   *
+   * @see #extendAutomationMigrationWindow(HashMap, HashMap)
+   */
+  public static void extendAutomationMigrationWindow(HashMap<String, Object> parameters) throws RuntimeException {
+    extendAutomationMigrationWindow(parameters, null);
+  }
+
+
+  /**
+   * Extend the Automations conversion window by up to six weeks beyond its originally announced end date
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code end_date} (String): Required. New conversion-window end date in YYYY-MM-DD format, in Eastern Time (EST/EDT). Must be a Tuesday, Wednesday, or Thursday. Can only extend the current end date, within six weeks of the originally announced end date.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
+  public static void extendAutomationMigrationWindow(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    FilesClient.defaultClient().sites().extendAutomationMigrationWindow(parameters, options);
+  }
+
+
+  /**
    * Update Site Settings
    *
    * @see #update(HashMap, HashMap)

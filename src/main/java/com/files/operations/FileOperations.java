@@ -1171,6 +1171,7 @@ public final class FileOperations extends ResourceOperations {
    * <ul>
    * <li>{@code paths} (String[]): Required. Paths to include in the ZIP.</li>
    * <li>{@code destination} (String): Required. Destination file path for the ZIP.</li>
+   * <li>{@code archive_format} (String): Archive format to create.</li>
    * <li>{@code overwrite} (Boolean): Overwrite existing file in the destination?</li>
    * </ul>
    *
@@ -1196,6 +1197,10 @@ public final class FileOperations extends ResourceOperations {
 
     if (parameters.containsKey("destination") && !(parameters.get("destination") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: destination must be of type String parameters[\"destination\"]");
+    }
+
+    if (parameters.containsKey("archive_format") && !(parameters.get("archive_format") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: archive_format must be of type String parameters[\"archive_format\"]");
     }
 
     if (parameters.containsKey("overwrite") && !(parameters.get("overwrite") instanceof Boolean)) {

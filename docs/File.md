@@ -437,6 +437,7 @@ FileAction fileAction = File.zip(parameters, null);
 
 * `paths` (String[]): Required - Paths to include in the ZIP.
 * `destination` (String): Required - Destination file path for the ZIP.
+* `archive_format` (String): Archive format to create.
 * `overwrite` (Boolean): Overwrite existing file in the destination?
 
 

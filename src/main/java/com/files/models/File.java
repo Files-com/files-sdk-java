@@ -2712,6 +2712,7 @@ public class File implements ModelInterface {
    * <ul>
    * <li>{@code paths} (String[]): Required. Paths to include in the ZIP.</li>
    * <li>{@code destination} (String): Required. Destination file path for the ZIP.</li>
+   * <li>{@code archive_format} (String): Archive format to create.</li>
    * <li>{@code overwrite} (Boolean): Overwrite existing file in the destination?</li>
    * </ul>
    *

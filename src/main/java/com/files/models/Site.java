@@ -338,6 +338,21 @@ public class Site implements ModelInterface {
   }
 
   /**
+   * Allow per-user overrides of the FTP TLS session reuse requirement?
+   */
+  @JsonProperty("allow_user_level_ftp_tls_session_reuse_override")
+  public Boolean allowUserLevelFtpTlsSessionReuseOverride;
+
+  /**
+   * Gets {@link #allowUserLevelFtpTlsSessionReuseOverride}.
+   *
+   * @return the value of {@link #allowUserLevelFtpTlsSessionReuseOverride}
+   */
+  public Boolean getAllowUserLevelFtpTlsSessionReuseOverride() {
+    return allowUserLevelFtpTlsSessionReuseOverride;
+  }
+
+  /**
    * Allow the site-wide FTP SSL requirement to be overriden on a per-user-basis?
    */
   @JsonProperty("allow_user_level_ssl_override")
@@ -2574,6 +2589,21 @@ public class Site implements ModelInterface {
   }
 
   /**
+   * Require TLS-protected FTP data connections to reuse the control connection TLS session? Applies to all workspaces.
+   */
+  @JsonProperty("ftp_tls_session_reuse_required")
+  public Boolean ftpTlsSessionReuseRequired;
+
+  /**
+   * Gets {@link #ftpTlsSessionReuseRequired}.
+   *
+   * @return the value of {@link #ftpTlsSessionReuseRequired}
+   */
+  public Boolean getFtpTlsSessionReuseRequired() {
+    return ftpTlsSessionReuseRequired;
+  }
+
+  /**
    * Is SSL required?  Disabling this is insecure.
    */
   @JsonProperty("ssl_required")
@@ -3107,6 +3137,7 @@ public class Site implements ModelInterface {
    * <li>{@code session_expiry_minutes} (Long): Session expiry in minutes</li>
    * <li>{@code legacy_pairing_enabled} (Boolean): Allow legacy app pairing in all workspaces? Disabled for new sites; existing sites remain enabled until changed. Disabling blocks new pairing exchanges without revoking existing app credentials or affecting OAuth sign-in. Site administrators can re-enable it.</li>
    * <li>{@code ssl_required} (Boolean): Is SSL required?  Disabling this is insecure.</li>
+   * <li>{@code ftp_tls_session_reuse_required} (Boolean): Require TLS-protected FTP data connections to reuse the control connection TLS session? Applies to all workspaces.</li>
    * <li>{@code sftp_insecure_ciphers} (Boolean): If true, we will allow weak and known insecure ciphers to be used for SFTP connections.  Enabling this setting severely weakens the security of your site and it is not recommend, except as a last resort for compatibility.</li>
    * <li>{@code sftp_insecure_diffie_hellman} (Boolean): If true, we will allow weak Diffie Hellman parameters to be used within ciphers for SFTP that are otherwise on our secure list.  This has the effect of making the cipher weaker than our normal threshold for security, but is required to support certain legacy or broken SSH and MFT clients.  Enabling this weakens security, but not nearly as much as enabling the full `sftp_insecure_ciphers` option.</li>
    * <li>{@code disable_files_certificate_generation} (Boolean): If set, Files.com will not set the CAA records required to generate future SSL certificates for this domain.</li>
@@ -3121,6 +3152,7 @@ public class Site implements ModelInterface {
    * <li>{@code allow_user_level_2fa_override} (Boolean): Allow the site-wide two-factor authentication requirement to be overriden on a per-user-basis?</li>
    * <li>{@code allow_user_level_allowed_ip_override} (Boolean): Allow the site-wide allowed IP restriction to be overriden on a per-user-basis?</li>
    * <li>{@code allow_user_level_ssl_override} (Boolean): Allow the site-wide FTP SSL requirement to be overriden on a per-user-basis?</li>
+   * <li>{@code allow_user_level_ftp_tls_session_reuse_override} (Boolean): Allow per-user overrides of the FTP TLS session reuse requirement?</li>
    * <li>{@code enforce_parent_site_user_ip_restrictions} (Boolean): Require Parent Site users entering this Child Site to match its allowed IP addresses in addition to their existing IP restrictions. Applies to all Workspaces. Defaults to false.</li>
    * <li>{@code disallowed_countries} (String): Comma separated list of disallowed Country codes</li>
    * <li>{@code days_to_retain_backups} (Long): Number of days to keep deleted files</li>

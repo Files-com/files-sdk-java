@@ -1939,6 +1939,30 @@ public class User implements ModelInterface {
   }
 
   /**
+   * FTP TLS session reuse requirement: use_system_setting, always_require, or never_require
+   */
+  @JsonProperty("ftp_tls_session_reuse_required")
+  public String ftpTlsSessionReuseRequired;
+
+  /**
+   * Gets {@link #ftpTlsSessionReuseRequired}.
+   *
+   * @return the value of {@link #ftpTlsSessionReuseRequired}
+   */
+  public String getFtpTlsSessionReuseRequired() {
+    return ftpTlsSessionReuseRequired;
+  }
+
+  /**
+   * Sets {@link #ftpTlsSessionReuseRequired}.
+   *
+   * @param ftpTlsSessionReuseRequired the new value
+   */
+  public void setFtpTlsSessionReuseRequired(String ftpTlsSessionReuseRequired) {
+    this.ftpTlsSessionReuseRequired = ftpTlsSessionReuseRequired;
+  }
+
+  /**
    * SSL required setting
    */
   @JsonProperty("ssl_required")
@@ -2581,6 +2605,7 @@ public class User implements ModelInterface {
    * <li>{@code site_admin} (Boolean): Is the user an administrator for this site?</li>
    * <li>{@code skip_welcome_screen} (Boolean): Skip Welcome page in the UI?</li>
    * <li>{@code ssl_required} (String): SSL required setting</li>
+   * <li>{@code ftp_tls_session_reuse_required} (String): FTP TLS session reuse requirement: use_system_setting, always_require, or never_require</li>
    * <li>{@code sso_strategy_id} (Long): SSO (Single Sign On) strategy ID for the user, if applicable.</li>
    * <li>{@code require_2fa} (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.</li>
    * <li>{@code tags} (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.</li>
@@ -2730,6 +2755,7 @@ public class User implements ModelInterface {
     this.workspaceId = canonical.workspaceId;
     this.defaultWorkspaceId = canonical.defaultWorkspaceId;
     this.skipWelcomeScreen = canonical.skipWelcomeScreen;
+    this.ftpTlsSessionReuseRequired = canonical.ftpTlsSessionReuseRequired;
     this.sslRequired = canonical.sslRequired;
     this.ssoStrategyId = canonical.ssoStrategyId;
     this.externallyManaged = canonical.externallyManaged;
@@ -2958,6 +2984,7 @@ public class User implements ModelInterface {
    * <li>{@code site_admin} (Boolean): Is the user an administrator for this site?</li>
    * <li>{@code skip_welcome_screen} (Boolean): Skip Welcome page in the UI?</li>
    * <li>{@code ssl_required} (String): SSL required setting</li>
+   * <li>{@code ftp_tls_session_reuse_required} (String): FTP TLS session reuse requirement: use_system_setting, always_require, or never_require</li>
    * <li>{@code sso_strategy_id} (Long): SSO (Single Sign On) strategy ID for the user, if applicable.</li>
    * <li>{@code require_2fa} (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.</li>
    * <li>{@code tags} (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.</li>
@@ -3185,6 +3212,7 @@ public class User implements ModelInterface {
    * <li>{@code site_admin} (Boolean): Is the user an administrator for this site?</li>
    * <li>{@code skip_welcome_screen} (Boolean): Skip Welcome page in the UI?</li>
    * <li>{@code ssl_required} (String): SSL required setting</li>
+   * <li>{@code ftp_tls_session_reuse_required} (String): FTP TLS session reuse requirement: use_system_setting, always_require, or never_require</li>
    * <li>{@code sso_strategy_id} (Long): SSO (Single Sign On) strategy ID for the user, if applicable.</li>
    * <li>{@code require_2fa} (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.</li>
    * <li>{@code tags} (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.</li>

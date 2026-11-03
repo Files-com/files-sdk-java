@@ -300,6 +300,7 @@ public final class UserOperations extends ResourceOperations {
    * <li>{@code site_admin} (Boolean): Is the user an administrator for this site?</li>
    * <li>{@code skip_welcome_screen} (Boolean): Skip Welcome page in the UI?</li>
    * <li>{@code ssl_required} (String): SSL required setting</li>
+   * <li>{@code ftp_tls_session_reuse_required} (String): FTP TLS session reuse requirement: use_system_setting, always_require, or never_require</li>
    * <li>{@code sso_strategy_id} (Long): SSO (Single Sign On) strategy ID for the user, if applicable.</li>
    * <li>{@code require_2fa} (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.</li>
    * <li>{@code tags} (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.</li>
@@ -557,6 +558,10 @@ public final class UserOperations extends ResourceOperations {
 
     if (parameters.containsKey("ssl_required") && !(parameters.get("ssl_required") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ssl_required must be of type String parameters[\"ssl_required\"]");
+    }
+
+    if (parameters.containsKey("ftp_tls_session_reuse_required") && !(parameters.get("ftp_tls_session_reuse_required") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: ftp_tls_session_reuse_required must be of type String parameters[\"ftp_tls_session_reuse_required\"]");
     }
 
     if (parameters.containsKey("sso_strategy_id") && !(parameters.get("sso_strategy_id") instanceof Long || parameters.get("sso_strategy_id") instanceof Integer)) {
@@ -857,6 +862,7 @@ public final class UserOperations extends ResourceOperations {
    * <li>{@code site_admin} (Boolean): Is the user an administrator for this site?</li>
    * <li>{@code skip_welcome_screen} (Boolean): Skip Welcome page in the UI?</li>
    * <li>{@code ssl_required} (String): SSL required setting</li>
+   * <li>{@code ftp_tls_session_reuse_required} (String): FTP TLS session reuse requirement: use_system_setting, always_require, or never_require</li>
    * <li>{@code sso_strategy_id} (Long): SSO (Single Sign On) strategy ID for the user, if applicable.</li>
    * <li>{@code require_2fa} (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.</li>
    * <li>{@code tags} (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.</li>
@@ -1125,6 +1131,10 @@ public final class UserOperations extends ResourceOperations {
 
     if (parameters.containsKey("ssl_required") && !(parameters.get("ssl_required") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: ssl_required must be of type String parameters[\"ssl_required\"]");
+    }
+
+    if (parameters.containsKey("ftp_tls_session_reuse_required") && !(parameters.get("ftp_tls_session_reuse_required") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: ftp_tls_session_reuse_required must be of type String parameters[\"ftp_tls_session_reuse_required\"]");
     }
 
     if (parameters.containsKey("sso_strategy_id") && !(parameters.get("sso_strategy_id") instanceof Long || parameters.get("sso_strategy_id") instanceof Integer)) {

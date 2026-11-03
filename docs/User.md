@@ -83,6 +83,7 @@
   "workspace_id": 1,
   "default_workspace_id": 1,
   "skip_welcome_screen": true,
+  "ftp_tls_session_reuse_required": "use_system_setting",
   "ssl_required": "always_require",
   "sso_strategy_id": 1,
   "externally_managed": true,
@@ -174,6 +175,7 @@
 * `workspace_id` / `workspaceId`  (int64): ID of the Workspace the user belongs to. 0 is the Default Workspace.
 * `default_workspace_id` / `defaultWorkspaceId`  (int64): Workspace ID the user should land in by default when more than one Workspace is available.
 * `skip_welcome_screen` / `skipWelcomeScreen`  (boolean): Skip Welcome page in the UI?
+* `ftp_tls_session_reuse_required` / `ftpTlsSessionReuseRequired`  (string): FTP TLS session reuse requirement: use_system_setting, always_require, or never_require
 * `ssl_required` / `sslRequired`  (string): SSL required setting
 * `sso_strategy_id` / `ssoStrategyId`  (int64): SSO (Single Sign On) strategy ID for the user, if applicable.
 * `externally_managed` / `externallyManaged`  (boolean): Is this user managed by a SsoStrategy?
@@ -299,6 +301,7 @@ parameters.put("sftp_permission", true);
 parameters.put("site_admin", true);
 parameters.put("skip_welcome_screen", true);
 parameters.put("ssl_required", "always_require");
+parameters.put("ftp_tls_session_reuse_required", "use_system_setting");
 parameters.put("sso_strategy_id", 1L);
 parameters.put("require_2fa", "always_require");
 parameters.put("tags", "example");
@@ -372,6 +375,7 @@ User user = User.create(parameters, null);
 * `site_admin` (Boolean): Is the user an administrator for this site?
 * `skip_welcome_screen` (Boolean): Skip Welcome page in the UI?
 * `ssl_required` (String): SSL required setting
+* `ftp_tls_session_reuse_required` (String): FTP TLS session reuse requirement: use_system_setting, always_require, or never_require
 * `sso_strategy_id` (Long): SSO (Single Sign On) strategy ID for the user, if applicable.
 * `require_2fa` (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
 * `tags` (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
@@ -483,6 +487,7 @@ parameters.put("sftp_permission", true);
 parameters.put("site_admin", true);
 parameters.put("skip_welcome_screen", true);
 parameters.put("ssl_required", "always_require");
+parameters.put("ftp_tls_session_reuse_required", "use_system_setting");
 parameters.put("sso_strategy_id", 1L);
 parameters.put("require_2fa", "always_require");
 parameters.put("tags", "example");
@@ -559,6 +564,7 @@ User user = User.update(1L, parameters, null);
 * `site_admin` (Boolean): Is the user an administrator for this site?
 * `skip_welcome_screen` (Boolean): Skip Welcome page in the UI?
 * `ssl_required` (String): SSL required setting
+* `ftp_tls_session_reuse_required` (String): FTP TLS session reuse requirement: use_system_setting, always_require, or never_require
 * `sso_strategy_id` (Long): SSO (Single Sign On) strategy ID for the user, if applicable.
 * `require_2fa` (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
 * `tags` (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.
@@ -692,6 +698,7 @@ parameters.put("sftp_permission", true);
 parameters.put("site_admin", true);
 parameters.put("skip_welcome_screen", true);
 parameters.put("ssl_required", "always_require");
+parameters.put("ftp_tls_session_reuse_required", "use_system_setting");
 parameters.put("sso_strategy_id", 1L);
 parameters.put("require_2fa", "always_require");
 parameters.put("tags", "example");
@@ -768,6 +775,7 @@ User result = user.update(parameters);
 * `site_admin` (Boolean): Is the user an administrator for this site?
 * `skip_welcome_screen` (Boolean): Skip Welcome page in the UI?
 * `ssl_required` (String): SSL required setting
+* `ftp_tls_session_reuse_required` (String): FTP TLS session reuse requirement: use_system_setting, always_require, or never_require
 * `sso_strategy_id` (Long): SSO (Single Sign On) strategy ID for the user, if applicable.
 * `require_2fa` (String): 2FA required setting. `use_system_setting` uses the site-wide setting, including SSO exemptions. `always_require` and `never_require` override the site-wide setting when user-level overrides are allowed.
 * `tags` (String): Comma-separated list of Tags for this user. Tags are used for other features, such as UserLifecycleRules, which can target specific tags.  Tags must only contain lowercase letters, numbers, and hyphens.

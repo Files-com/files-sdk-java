@@ -238,6 +238,20 @@ File.delete("path", parameters, null);
 
 ---
 
+## List the contents of a ZIP file
+
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<ZipListEntry> zipListEntries = File.zipListContents("path", parameters, null);
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+
+
+---
+
 ## Find File/Folder by Path
 
 ```java
@@ -257,72 +271,91 @@ File file = File.find("path", parameters, null);
 
 ---
 
-## List the contents of a ZIP file
+## Create a ZIP from one or more paths and save it to a destination path
 
 ```java
 HashMap<String, Object> parameters = new HashMap<>();
-ListIterator<ZipListEntry> zipListEntries = File.zipListContents("path", parameters, null);
-```
-
-### Parameters
-
-* `path` (String): Required - Path to operate on.
-
-
----
-
-## Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
-
-```java
-HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("recursive", false);
-FileAction fileAction = File.beginDelete("path", parameters, null);
-```
-
-### Parameters
-
-* `path` (String): Required - Path to operate on.
-* `recursive` (Boolean): If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
-
-
----
-
-## Copy File/Folder
-
-```java
-HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("paths", "paths");
 parameters.put("destination", "destination");
-parameters.put("copy_behaviors", false);
-parameters.put("structure", false);
 parameters.put("overwrite", false);
-FileAction fileAction = File.copy("path", parameters, null);
+FileAction fileAction = File.zip(parameters, null);
 ```
 
 ### Parameters
 
-* `path` (String): Required - Path to operate on.
-* `destination` (String): Required - Copy destination path.
-* `copy_behaviors` (Boolean): If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
-* `structure` (Boolean): Copy structure only?
-* `overwrite` (Boolean): Overwrite existing file(s) in the destination?
+* `paths` (String[]): Required - Paths to include in the ZIP.
+* `destination` (String): Required - Destination file path for the ZIP.
+* `archive_format` (String): Archive format to create.
+* `overwrite` (Boolean): Overwrite existing file in the destination?
 
 
 ---
 
-## Move File/Folder
+## Extract a ZIP file to a destination folder
 
 ```java
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("destination", "destination");
 parameters.put("overwrite", false);
-FileAction fileAction = File.move("path", parameters, null);
+FileAction fileAction = File.unzip("path", parameters, null);
+```
+
+### Parameters
+
+* `path` (String): Required - ZIP file path to extract.
+* `destination` (String): Required - Destination folder path for extracted files.
+* `filename` (String): Optional single entry filename to extract.
+* `overwrite` (Boolean): Overwrite existing files in the destination?
+
+
+---
+
+## Encrypt a file with GPG and save it to a destination path
+
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("destination", "destination");
+parameters.put("gpg_key_partner_id", 1L);
+parameters.put("signing_key_id", 1L);
+parameters.put("armor", false);
+parameters.put("overwrite", false);
+FileAction fileAction = File.gpgEncrypt("path", parameters, null);
 ```
 
 ### Parameters
 
 * `path` (String): Required - Path to operate on.
-* `destination` (String): Required - Move destination path.
-* `overwrite` (Boolean): Overwrite existing file(s) in the destination?
+* `destination` (String): Required - Destination file path for the encrypted file.
+* `gpg_key_ids` (Long[]): GPG Key IDs to encrypt with.
+* `gpg_key_partner_id` (Long): Partner ID whose GPG keys should be used for encryption.
+* `signing_key_id` (Long): Optional GPG Key ID to sign with.
+* `armor` (Boolean): Output ASCII-armored encrypted data.
+* `overwrite` (Boolean): Overwrite existing file in the destination?
+
+
+---
+
+## Decrypt a GPG-encrypted file and save it to a destination path
+
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("destination", "destination");
+parameters.put("gpg_key_partner_id", 1L);
+parameters.put("use_all_private_keys", false);
+parameters.put("ignore_mdc_error", false);
+parameters.put("overwrite", false);
+FileAction fileAction = File.gpgDecrypt("path", parameters, null);
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+* `destination` (String): Required - Destination file path for the decrypted file.
+* `gpg_key_ids` (Long[]): GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.
+* `gpg_key_partner_id` (Long): Partner ID whose GPG keys should be used for decryption.
+* `use_all_private_keys` (Boolean): Use every accessible private GPG key in the source workspace for decryption.
+* `ignore_mdc_error` (Boolean): Ignore errors from the MDC (modification detection code) check.
+* `overwrite` (Boolean): Overwrite existing file in the destination?
 
 
 ---
@@ -354,91 +387,58 @@ FileAction fileAction = File.transform("path", parameters, null);
 
 ---
 
-## Decrypt a GPG-encrypted file and save it to a destination path
+## Move File/Folder
 
 ```java
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("destination", "destination");
-parameters.put("gpg_key_partner_id", 1L);
-parameters.put("use_all_private_keys", false);
-parameters.put("ignore_mdc_error", false);
 parameters.put("overwrite", false);
-FileAction fileAction = File.gpgDecrypt("path", parameters, null);
+FileAction fileAction = File.move("path", parameters, null);
 ```
 
 ### Parameters
 
 * `path` (String): Required - Path to operate on.
-* `destination` (String): Required - Destination file path for the decrypted file.
-* `gpg_key_ids` (Long[]): GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.
-* `gpg_key_partner_id` (Long): Partner ID whose GPG keys should be used for decryption.
-* `use_all_private_keys` (Boolean): Use every accessible private GPG key in the source workspace for decryption.
-* `ignore_mdc_error` (Boolean): Ignore errors from the MDC (modification detection code) check.
-* `overwrite` (Boolean): Overwrite existing file in the destination?
+* `destination` (String): Required - Move destination path.
+* `overwrite` (Boolean): Overwrite existing file(s) in the destination?
 
 
 ---
 
-## Encrypt a file with GPG and save it to a destination path
+## Copy File/Folder
 
 ```java
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("destination", "destination");
-parameters.put("gpg_key_partner_id", 1L);
-parameters.put("signing_key_id", 1L);
-parameters.put("armor", false);
+parameters.put("copy_behaviors", false);
+parameters.put("structure", false);
 parameters.put("overwrite", false);
-FileAction fileAction = File.gpgEncrypt("path", parameters, null);
+FileAction fileAction = File.copy("path", parameters, null);
 ```
 
 ### Parameters
 
 * `path` (String): Required - Path to operate on.
-* `destination` (String): Required - Destination file path for the encrypted file.
-* `gpg_key_ids` (Long[]): GPG Key IDs to encrypt with.
-* `gpg_key_partner_id` (Long): Partner ID whose GPG keys should be used for encryption.
-* `signing_key_id` (Long): Optional GPG Key ID to sign with.
-* `armor` (Boolean): Output ASCII-armored encrypted data.
-* `overwrite` (Boolean): Overwrite existing file in the destination?
+* `destination` (String): Required - Copy destination path.
+* `copy_behaviors` (Boolean): If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
+* `structure` (Boolean): Copy structure only?
+* `overwrite` (Boolean): Overwrite existing file(s) in the destination?
 
 
 ---
 
-## Extract a ZIP file to a destination folder
+## Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
 
 ```java
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("destination", "destination");
-parameters.put("overwrite", false);
-FileAction fileAction = File.unzip("path", parameters, null);
+parameters.put("recursive", false);
+FileAction fileAction = File.beginDelete("path", parameters, null);
 ```
 
 ### Parameters
 
-* `path` (String): Required - ZIP file path to extract.
-* `destination` (String): Required - Destination folder path for extracted files.
-* `filename` (String): Optional single entry filename to extract.
-* `overwrite` (Boolean): Overwrite existing files in the destination?
-
-
----
-
-## Create a ZIP from one or more paths and save it to a destination path
-
-```java
-HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("paths", "paths");
-parameters.put("destination", "destination");
-parameters.put("overwrite", false);
-FileAction fileAction = File.zip(parameters, null);
-```
-
-### Parameters
-
-* `paths` (String[]): Required - Paths to include in the ZIP.
-* `destination` (String): Required - Destination file path for the ZIP.
-* `archive_format` (String): Archive format to create.
-* `overwrite` (Boolean): Overwrite existing file in the destination?
+* `path` (String): Required - Path to operate on.
+* `recursive` (Boolean): If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
 
 
 ---
@@ -553,61 +553,74 @@ ListIterator<ZipListEntry> result = file.zipListContents(parameters);
 
 ---
 
-## Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
-
-```java
-File file = File.find("path", null, null);
-HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("recursive", false);
-FileAction result = file.beginDelete(parameters);
-```
-
-### Parameters
-
-* `path` (String): Required - Path to operate on.
-* `recursive` (Boolean): If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
-
-
----
-
-## Copy File/Folder
-
-```java
-File file = File.find("path", null, null);
-HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("destination", "destination");
-parameters.put("copy_behaviors", false);
-parameters.put("structure", false);
-parameters.put("overwrite", false);
-FileAction result = file.copy(parameters);
-```
-
-### Parameters
-
-* `path` (String): Required - Path to operate on.
-* `destination` (String): Required - Copy destination path.
-* `copy_behaviors` (Boolean): If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
-* `structure` (Boolean): Copy structure only?
-* `overwrite` (Boolean): Overwrite existing file(s) in the destination?
-
-
----
-
-## Move File/Folder
+## Extract a ZIP file to a destination folder
 
 ```java
 File file = File.find("path", null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("destination", "destination");
 parameters.put("overwrite", false);
-FileAction result = file.move(parameters);
+FileAction result = file.unzip(parameters);
+```
+
+### Parameters
+
+* `path` (String): Required - ZIP file path to extract.
+* `destination` (String): Required - Destination folder path for extracted files.
+* `filename` (String): Optional single entry filename to extract.
+* `overwrite` (Boolean): Overwrite existing files in the destination?
+
+
+---
+
+## Encrypt a file with GPG and save it to a destination path
+
+```java
+File file = File.find("path", null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("destination", "destination");
+parameters.put("gpg_key_partner_id", 1L);
+parameters.put("signing_key_id", 1L);
+parameters.put("armor", false);
+parameters.put("overwrite", false);
+FileAction result = file.gpgEncrypt(parameters);
 ```
 
 ### Parameters
 
 * `path` (String): Required - Path to operate on.
-* `destination` (String): Required - Move destination path.
-* `overwrite` (Boolean): Overwrite existing file(s) in the destination?
+* `destination` (String): Required - Destination file path for the encrypted file.
+* `gpg_key_ids` (Long[]): GPG Key IDs to encrypt with.
+* `gpg_key_partner_id` (Long): Partner ID whose GPG keys should be used for encryption.
+* `signing_key_id` (Long): Optional GPG Key ID to sign with.
+* `armor` (Boolean): Output ASCII-armored encrypted data.
+* `overwrite` (Boolean): Overwrite existing file in the destination?
+
+
+---
+
+## Decrypt a GPG-encrypted file and save it to a destination path
+
+```java
+File file = File.find("path", null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("destination", "destination");
+parameters.put("gpg_key_partner_id", 1L);
+parameters.put("use_all_private_keys", false);
+parameters.put("ignore_mdc_error", false);
+parameters.put("overwrite", false);
+FileAction result = file.gpgDecrypt(parameters);
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+* `destination` (String): Required - Destination file path for the decrypted file.
+* `gpg_key_ids` (Long[]): GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.
+* `gpg_key_partner_id` (Long): Partner ID whose GPG keys should be used for decryption.
+* `use_all_private_keys` (Boolean): Use every accessible private GPG key in the source workspace for decryption.
+* `ignore_mdc_error` (Boolean): Ignore errors from the MDC (modification detection code) check.
+* `overwrite` (Boolean): Overwrite existing file in the destination?
 
 
 ---
@@ -640,74 +653,61 @@ FileAction result = file.transform(parameters);
 
 ---
 
-## Decrypt a GPG-encrypted file and save it to a destination path
+## Move File/Folder
 
 ```java
 File file = File.find("path", null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("destination", "destination");
-parameters.put("gpg_key_partner_id", 1L);
-parameters.put("use_all_private_keys", false);
-parameters.put("ignore_mdc_error", false);
 parameters.put("overwrite", false);
-FileAction result = file.gpgDecrypt(parameters);
+FileAction result = file.move(parameters);
 ```
 
 ### Parameters
 
 * `path` (String): Required - Path to operate on.
-* `destination` (String): Required - Destination file path for the decrypted file.
-* `gpg_key_ids` (Long[]): GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.
-* `gpg_key_partner_id` (Long): Partner ID whose GPG keys should be used for decryption.
-* `use_all_private_keys` (Boolean): Use every accessible private GPG key in the source workspace for decryption.
-* `ignore_mdc_error` (Boolean): Ignore errors from the MDC (modification detection code) check.
-* `overwrite` (Boolean): Overwrite existing file in the destination?
+* `destination` (String): Required - Move destination path.
+* `overwrite` (Boolean): Overwrite existing file(s) in the destination?
 
 
 ---
 
-## Encrypt a file with GPG and save it to a destination path
+## Copy File/Folder
 
 ```java
 File file = File.find("path", null, null);
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("destination", "destination");
-parameters.put("gpg_key_partner_id", 1L);
-parameters.put("signing_key_id", 1L);
-parameters.put("armor", false);
+parameters.put("copy_behaviors", false);
+parameters.put("structure", false);
 parameters.put("overwrite", false);
-FileAction result = file.gpgEncrypt(parameters);
+FileAction result = file.copy(parameters);
 ```
 
 ### Parameters
 
 * `path` (String): Required - Path to operate on.
-* `destination` (String): Required - Destination file path for the encrypted file.
-* `gpg_key_ids` (Long[]): GPG Key IDs to encrypt with.
-* `gpg_key_partner_id` (Long): Partner ID whose GPG keys should be used for encryption.
-* `signing_key_id` (Long): Optional GPG Key ID to sign with.
-* `armor` (Boolean): Output ASCII-armored encrypted data.
-* `overwrite` (Boolean): Overwrite existing file in the destination?
+* `destination` (String): Required - Copy destination path.
+* `copy_behaviors` (Boolean): If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?
+* `structure` (Boolean): Copy structure only?
+* `overwrite` (Boolean): Overwrite existing file(s) in the destination?
 
 
 ---
 
-## Extract a ZIP file to a destination folder
+## Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
 
 ```java
 File file = File.find("path", null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("destination", "destination");
-parameters.put("overwrite", false);
-FileAction result = file.unzip(parameters);
+parameters.put("recursive", false);
+FileAction result = file.beginDelete(parameters);
 ```
 
 ### Parameters
 
-* `path` (String): Required - ZIP file path to extract.
-* `destination` (String): Required - Destination folder path for extracted files.
-* `filename` (String): Optional single entry filename to extract.
-* `overwrite` (Boolean): Overwrite existing files in the destination?
+* `path` (String): Required - Path to operate on.
+* `recursive` (Boolean): If true, will recursively delete folders.  Otherwise, will error on non-empty folders.
 
 
 ---

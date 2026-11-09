@@ -324,13 +324,13 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   /**
-   * Resolve an expectation incident
+   * Acknowledge an expectation incident
    *
    * @param parameters the request's parameters, by their API names
    * @return the {@code ExpectationIncident}
    */
-  public ExpectationIncident resolve(HashMap<String, Object> parameters) throws IOException {
-    return filesClient().expectationIncidents().resolve(this.id, parameters, this.options);
+  public ExpectationIncident acknowledge(HashMap<String, Object> parameters) throws IOException {
+    return filesClient().expectationIncidents().acknowledge(this.id, parameters, this.options);
   }
 
   /**
@@ -348,13 +348,13 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   /**
-   * Acknowledge an expectation incident
+   * Resolve an expectation incident
    *
    * @param parameters the request's parameters, by their API names
    * @return the {@code ExpectationIncident}
    */
-  public ExpectationIncident acknowledge(HashMap<String, Object> parameters) throws IOException {
-    return filesClient().expectationIncidents().acknowledge(this.id, parameters, this.options);
+  public ExpectationIncident resolve(HashMap<String, Object> parameters) throws IOException {
+    return filesClient().expectationIncidents().resolve(this.id, parameters, this.options);
   }
 
 
@@ -471,42 +471,42 @@ public class ExpectationIncident implements ModelInterface {
   }
 
   /**
-   * Resolve an expectation incident
+   * Acknowledge an expectation incident
    *
-   * @see #resolve(Long, HashMap, HashMap)
+   * @see #acknowledge(Long, HashMap, HashMap)
    */
-  public static ExpectationIncident resolve() throws RuntimeException {
-    return resolve(null, null, null);
+  public static ExpectationIncident acknowledge() throws RuntimeException {
+    return acknowledge(null, null, null);
   }
 
   /**
-   * Resolve an expectation incident
+   * Acknowledge an expectation incident
    *
-   * @see #resolve(Long, HashMap, HashMap)
+   * @see #acknowledge(Long, HashMap, HashMap)
    */
-  public static ExpectationIncident resolve(Long id, HashMap<String, Object> parameters) throws RuntimeException {
-    return resolve(id, parameters, null);
+  public static ExpectationIncident acknowledge(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    return acknowledge(id, parameters, null);
   }
 
   /**
-   * Resolve an expectation incident
+   * Acknowledge an expectation incident
    *
-   * @see #resolve(Long, HashMap, HashMap)
+   * @see #acknowledge(Long, HashMap, HashMap)
    */
-  public static ExpectationIncident resolve(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return resolve(null, parameters, options);
+  public static ExpectationIncident acknowledge(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return acknowledge(null, parameters, options);
   }
 
   /**
-   * Resolve an expectation incident
+   * Acknowledge an expectation incident
    *
    * @param id Expectation Incident ID.
    * @param parameters the request's parameters, by their API names
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
    * @return the {@code ExpectationIncident}
    */
-  public static ExpectationIncident resolve(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return FilesClient.defaultClient().expectationIncidents().resolve(id, parameters, options);
+  public static ExpectationIncident acknowledge(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return FilesClient.defaultClient().expectationIncidents().acknowledge(id, parameters, options);
   }
 
 
@@ -555,42 +555,42 @@ public class ExpectationIncident implements ModelInterface {
 
 
   /**
-   * Acknowledge an expectation incident
+   * Resolve an expectation incident
    *
-   * @see #acknowledge(Long, HashMap, HashMap)
+   * @see #resolve(Long, HashMap, HashMap)
    */
-  public static ExpectationIncident acknowledge() throws RuntimeException {
-    return acknowledge(null, null, null);
+  public static ExpectationIncident resolve() throws RuntimeException {
+    return resolve(null, null, null);
   }
 
   /**
-   * Acknowledge an expectation incident
+   * Resolve an expectation incident
    *
-   * @see #acknowledge(Long, HashMap, HashMap)
+   * @see #resolve(Long, HashMap, HashMap)
    */
-  public static ExpectationIncident acknowledge(Long id, HashMap<String, Object> parameters) throws RuntimeException {
-    return acknowledge(id, parameters, null);
+  public static ExpectationIncident resolve(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    return resolve(id, parameters, null);
   }
 
   /**
-   * Acknowledge an expectation incident
+   * Resolve an expectation incident
    *
-   * @see #acknowledge(Long, HashMap, HashMap)
+   * @see #resolve(Long, HashMap, HashMap)
    */
-  public static ExpectationIncident acknowledge(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return acknowledge(null, parameters, options);
+  public static ExpectationIncident resolve(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return resolve(null, parameters, options);
   }
 
   /**
-   * Acknowledge an expectation incident
+   * Resolve an expectation incident
    *
    * @param id Expectation Incident ID.
    * @param parameters the request's parameters, by their API names
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
    * @return the {@code ExpectationIncident}
    */
-  public static ExpectationIncident acknowledge(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return FilesClient.defaultClient().expectationIncidents().acknowledge(id, parameters, options);
+  public static ExpectationIncident resolve(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return FilesClient.defaultClient().expectationIncidents().resolve(id, parameters, options);
   }
 
 

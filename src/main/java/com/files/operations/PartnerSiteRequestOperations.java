@@ -199,50 +199,6 @@ public final class PartnerSiteRequestOperations extends ResourceOperations {
   }
 
   /**
-   * Reject partner site request
-   *
-   * @see #reject(HashMap, HashMap)
-   */
-  public void reject() throws RuntimeException {
-    reject(null, null);
-  }
-
-  /**
-   * Reject partner site request
-   *
-   * @see #reject(HashMap, HashMap)
-   */
-  public void reject(HashMap<String, Object> parameters) throws RuntimeException {
-    reject(parameters, null);
-  }
-
-  /**
-   * Reject partner site request
-   * <p>The parameters map may hold:</p>
-   * <ul>
-   * <li>{@code pairing_key} (String): Required. Pairing key for the partner site request</li>
-   * </ul>
-   *
-   * @param parameters the request's parameters, by their API names
-   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   */
-  public void reject(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = copy(parameters);
-    options = copy(options);
-
-    if (!parameters.containsKey("pairing_key") || parameters.get("pairing_key") == null) {
-      throw new NullPointerException("Parameter missing: pairing_key parameters[\"pairing_key\"]");
-    }
-
-    if (parameters.containsKey("pairing_key") && !(parameters.get("pairing_key") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: pairing_key must be of type String parameters[\"pairing_key\"]");
-    }
-
-    String apiPath = "/partner_site_requests/reject";
-    request(RequestMethods.POST, apiPath, parameters, options);
-  }
-
-  /**
    * Approve partner site request
    *
    * @see #approve(HashMap, HashMap)
@@ -288,6 +244,50 @@ public final class PartnerSiteRequestOperations extends ResourceOperations {
     }
 
     String apiPath = "/partner_site_requests/approve";
+    request(RequestMethods.POST, apiPath, parameters, options);
+  }
+
+  /**
+   * Reject partner site request
+   *
+   * @see #reject(HashMap, HashMap)
+   */
+  public void reject() throws RuntimeException {
+    reject(null, null);
+  }
+
+  /**
+   * Reject partner site request
+   *
+   * @see #reject(HashMap, HashMap)
+   */
+  public void reject(HashMap<String, Object> parameters) throws RuntimeException {
+    reject(parameters, null);
+  }
+
+  /**
+   * Reject partner site request
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code pairing_key} (String): Required. Pairing key for the partner site request</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
+  public void reject(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = copy(parameters);
+    options = copy(options);
+
+    if (!parameters.containsKey("pairing_key") || parameters.get("pairing_key") == null) {
+      throw new NullPointerException("Parameter missing: pairing_key parameters[\"pairing_key\"]");
+    }
+
+    if (parameters.containsKey("pairing_key") && !(parameters.get("pairing_key") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: pairing_key must be of type String parameters[\"pairing_key\"]");
+    }
+
+    String apiPath = "/partner_site_requests/reject";
     request(RequestMethods.POST, apiPath, parameters, options);
   }
 

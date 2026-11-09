@@ -101,6 +101,90 @@ public final class BehaviorOperations extends ResourceOperations {
   }
 
   /**
+   * List Behaviors by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
+  public ListIterator<Behavior> listFor() throws RuntimeException {
+    return listFor(null, null, null);
+  }
+
+  /**
+   * List Behaviors by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
+  public ListIterator<Behavior> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
+    return listFor(path, parameters, null);
+  }
+
+  /**
+   * List Behaviors by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
+  public ListIterator<Behavior> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return listFor(null, parameters, options);
+  }
+
+  /**
+   * List Behaviors by Path
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`. Valid field combinations are `[ impacts_ui, behavior ]`.</li>
+   * <li>{@code ancestor_behaviors} (Boolean): If `true`, behaviors above this path are shown.</li>
+   * </ul>
+   *
+   * @param path Path to operate on.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Behavior} records, in a {@code ListIterator}
+   */
+  public ListIterator<Behavior> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = copy(parameters);
+    options = copy(options);
+
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = (String) parameters.get("path");
+    }
+
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
+    if (!(path instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
+    }
+
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
+    }
+
+    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
+    }
+
+    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
+      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
+    }
+
+    if (parameters.containsKey("ancestor_behaviors") && !(parameters.get("ancestor_behaviors") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: ancestor_behaviors must be of type Boolean parameters[\"ancestor_behaviors\"]");
+    }
+
+    String apiPath = String.format("/behaviors/folders/%s", UrlUtils.encodeUrlPath(path));
+    TypeReference<List<Behavior>> typeReference = new TypeReference<List<Behavior>>() {};
+    return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
+  }
+
+  /**
    * Show Behavior
    *
    * @see #find(Long, HashMap, HashMap)
@@ -172,90 +256,6 @@ public final class BehaviorOperations extends ResourceOperations {
    */
   public Behavior get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
-  }
-
-  /**
-   * List Behaviors by Path
-   *
-   * @see #listFor(String, HashMap, HashMap)
-   */
-  public ListIterator<Behavior> listFor() throws RuntimeException {
-    return listFor(null, null, null);
-  }
-
-  /**
-   * List Behaviors by Path
-   *
-   * @see #listFor(String, HashMap, HashMap)
-   */
-  public ListIterator<Behavior> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
-    return listFor(path, parameters, null);
-  }
-
-  /**
-   * List Behaviors by Path
-   *
-   * @see #listFor(String, HashMap, HashMap)
-   */
-  public ListIterator<Behavior> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return listFor(null, parameters, options);
-  }
-
-  /**
-   * List Behaviors by Path
-   * <p>The parameters map may hold:</p>
-   * <ul>
-   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
-   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
-   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.</li>
-   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`. Valid field combinations are `[ impacts_ui, behavior ]`.</li>
-   * <li>{@code ancestor_behaviors} (Boolean): If `true`, behaviors above this path are shown.</li>
-   * </ul>
-   *
-   * @param path Path to operate on.
-   * @param parameters the request's parameters, by their API names
-   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code Behavior} records, in a {@code ListIterator}
-   */
-  public ListIterator<Behavior> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = copy(parameters);
-    options = copy(options);
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-
-    if (parameters.containsKey("sort_by") && !(parameters.get("sort_by") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: sort_by must be of type Object parameters[\"sort_by\"]");
-    }
-
-    if (parameters.containsKey("filter") && !(parameters.get("filter") instanceof Object)) {
-      throw new IllegalArgumentException("Bad parameter: filter must be of type Object parameters[\"filter\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-
-    if (parameters.containsKey("ancestor_behaviors") && !(parameters.get("ancestor_behaviors") instanceof Boolean)) {
-      throw new IllegalArgumentException("Bad parameter: ancestor_behaviors must be of type Boolean parameters[\"ancestor_behaviors\"]");
-    }
-
-    String apiPath = String.format("/behaviors/folders/%s", UrlUtils.encodeUrlPath(path));
-    TypeReference<List<Behavior>> typeReference = new TypeReference<List<Behavior>>() {};
-    return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
   /**

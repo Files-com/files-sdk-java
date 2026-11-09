@@ -74,22 +74,6 @@ CustomDomain customDomain = CustomDomain.find(1L, parameters, null);
 
 ---
 
-## Allocate dedicated IP addresses to this Custom Domain
-
-```java
-HashMap<String, Object> parameters = new HashMap<>();
-parameters.put("count", 1L);
-CustomDomain customDomain = CustomDomain.createAllocateIp(1L, parameters, null);
-```
-
-### Parameters
-
-* `id` (Long): Required - Custom Domain ID.
-* `count` (Long): Required - Number of dedicated IP addresses to allocate.
-
-
----
-
 ## Create Custom Domain
 
 ```java
@@ -111,6 +95,22 @@ CustomDomain customDomain = CustomDomain.create(parameters, null);
 * `folder_behavior_id` (Long): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
 * `ssl_certificate_id` (Long): Current SSL certificate ID.
 * `domain` (String): Required - Customer-owned domain name.
+
+
+---
+
+## Allocate dedicated IP addresses to this Custom Domain
+
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("count", 1L);
+CustomDomain customDomain = CustomDomain.createAllocateIp(1L, parameters, null);
+```
+
+### Parameters
+
+* `id` (Long): Required - Custom Domain ID.
+* `count` (Long): Required - Number of dedicated IP addresses to allocate.
 
 
 ---

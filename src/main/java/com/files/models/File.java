@@ -1830,49 +1830,57 @@ public class File implements ModelInterface {
   }
 
   /**
-   * Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
+   * Extract a ZIP file to a destination folder
    * <p>The parameters map may hold:</p>
    * <ul>
-   * <li>{@code recursive} (Boolean): If true, will recursively delete folders.  Otherwise, will error on non-empty folders.</li>
+   * <li>{@code destination} (String): Required. Destination folder path for extracted files.</li>
+   * <li>{@code filename} (String): Optional single entry filename to extract.</li>
+   * <li>{@code overwrite} (Boolean): Overwrite existing files in the destination?</li>
    * </ul>
    *
    * @param parameters the request's parameters, by their API names
    * @return the {@code FileAction}
    */
-  public FileAction beginDelete(HashMap<String, Object> parameters) throws IOException {
-    return filesClient().files().beginDelete(this.path, parameters, this.options);
+  public FileAction unzip(HashMap<String, Object> parameters) throws IOException {
+    return filesClient().files().unzip(this.path, parameters, this.options);
   }
 
   /**
-   * Copy File/Folder
+   * Encrypt a file with GPG and save it to a destination path
    * <p>The parameters map may hold:</p>
    * <ul>
-   * <li>{@code destination} (String): Required. Copy destination path.</li>
-   * <li>{@code copy_behaviors} (Boolean): If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?</li>
-   * <li>{@code structure} (Boolean): Copy structure only?</li>
-   * <li>{@code overwrite} (Boolean): Overwrite existing file(s) in the destination?</li>
+   * <li>{@code destination} (String): Required. Destination file path for the encrypted file.</li>
+   * <li>{@code gpg_key_ids} (Long[]): GPG Key IDs to encrypt with.</li>
+   * <li>{@code gpg_key_partner_id} (Long): Partner ID whose GPG keys should be used for encryption.</li>
+   * <li>{@code signing_key_id} (Long): Optional GPG Key ID to sign with.</li>
+   * <li>{@code armor} (Boolean): Output ASCII-armored encrypted data.</li>
+   * <li>{@code overwrite} (Boolean): Overwrite existing file in the destination?</li>
    * </ul>
    *
    * @param parameters the request's parameters, by their API names
    * @return the {@code FileAction}
    */
-  public FileAction copy(HashMap<String, Object> parameters) throws IOException {
-    return filesClient().files().copy(this.path, parameters, this.options);
+  public FileAction gpgEncrypt(HashMap<String, Object> parameters) throws IOException {
+    return filesClient().files().gpgEncrypt(this.path, parameters, this.options);
   }
 
   /**
-   * Move File/Folder
+   * Decrypt a GPG-encrypted file and save it to a destination path
    * <p>The parameters map may hold:</p>
    * <ul>
-   * <li>{@code destination} (String): Required. Move destination path.</li>
-   * <li>{@code overwrite} (Boolean): Overwrite existing file(s) in the destination?</li>
+   * <li>{@code destination} (String): Required. Destination file path for the decrypted file.</li>
+   * <li>{@code gpg_key_ids} (Long[]): GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.</li>
+   * <li>{@code gpg_key_partner_id} (Long): Partner ID whose GPG keys should be used for decryption.</li>
+   * <li>{@code use_all_private_keys} (Boolean): Use every accessible private GPG key in the source workspace for decryption.</li>
+   * <li>{@code ignore_mdc_error} (Boolean): Ignore errors from the MDC (modification detection code) check.</li>
+   * <li>{@code overwrite} (Boolean): Overwrite existing file in the destination?</li>
    * </ul>
    *
    * @param parameters the request's parameters, by their API names
    * @return the {@code FileAction}
    */
-  public FileAction move(HashMap<String, Object> parameters) throws IOException {
-    return filesClient().files().move(this.path, parameters, this.options);
+  public FileAction gpgDecrypt(HashMap<String, Object> parameters) throws IOException {
+    return filesClient().files().gpgDecrypt(this.path, parameters, this.options);
   }
 
   /**
@@ -1896,57 +1904,49 @@ public class File implements ModelInterface {
   }
 
   /**
-   * Decrypt a GPG-encrypted file and save it to a destination path
+   * Move File/Folder
    * <p>The parameters map may hold:</p>
    * <ul>
-   * <li>{@code destination} (String): Required. Destination file path for the decrypted file.</li>
-   * <li>{@code gpg_key_ids} (Long[]): GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.</li>
-   * <li>{@code gpg_key_partner_id} (Long): Partner ID whose GPG keys should be used for decryption.</li>
-   * <li>{@code use_all_private_keys} (Boolean): Use every accessible private GPG key in the source workspace for decryption.</li>
-   * <li>{@code ignore_mdc_error} (Boolean): Ignore errors from the MDC (modification detection code) check.</li>
-   * <li>{@code overwrite} (Boolean): Overwrite existing file in the destination?</li>
+   * <li>{@code destination} (String): Required. Move destination path.</li>
+   * <li>{@code overwrite} (Boolean): Overwrite existing file(s) in the destination?</li>
    * </ul>
    *
    * @param parameters the request's parameters, by their API names
    * @return the {@code FileAction}
    */
-  public FileAction gpgDecrypt(HashMap<String, Object> parameters) throws IOException {
-    return filesClient().files().gpgDecrypt(this.path, parameters, this.options);
+  public FileAction move(HashMap<String, Object> parameters) throws IOException {
+    return filesClient().files().move(this.path, parameters, this.options);
   }
 
   /**
-   * Encrypt a file with GPG and save it to a destination path
+   * Copy File/Folder
    * <p>The parameters map may hold:</p>
    * <ul>
-   * <li>{@code destination} (String): Required. Destination file path for the encrypted file.</li>
-   * <li>{@code gpg_key_ids} (Long[]): GPG Key IDs to encrypt with.</li>
-   * <li>{@code gpg_key_partner_id} (Long): Partner ID whose GPG keys should be used for encryption.</li>
-   * <li>{@code signing_key_id} (Long): Optional GPG Key ID to sign with.</li>
-   * <li>{@code armor} (Boolean): Output ASCII-armored encrypted data.</li>
-   * <li>{@code overwrite} (Boolean): Overwrite existing file in the destination?</li>
+   * <li>{@code destination} (String): Required. Copy destination path.</li>
+   * <li>{@code copy_behaviors} (Boolean): If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?</li>
+   * <li>{@code structure} (Boolean): Copy structure only?</li>
+   * <li>{@code overwrite} (Boolean): Overwrite existing file(s) in the destination?</li>
    * </ul>
    *
    * @param parameters the request's parameters, by their API names
    * @return the {@code FileAction}
    */
-  public FileAction gpgEncrypt(HashMap<String, Object> parameters) throws IOException {
-    return filesClient().files().gpgEncrypt(this.path, parameters, this.options);
+  public FileAction copy(HashMap<String, Object> parameters) throws IOException {
+    return filesClient().files().copy(this.path, parameters, this.options);
   }
 
   /**
-   * Extract a ZIP file to a destination folder
+   * Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
    * <p>The parameters map may hold:</p>
    * <ul>
-   * <li>{@code destination} (String): Required. Destination folder path for extracted files.</li>
-   * <li>{@code filename} (String): Optional single entry filename to extract.</li>
-   * <li>{@code overwrite} (Boolean): Overwrite existing files in the destination?</li>
+   * <li>{@code recursive} (Boolean): If true, will recursively delete folders.  Otherwise, will error on non-empty folders.</li>
    * </ul>
    *
    * @param parameters the request's parameters, by their API names
    * @return the {@code FileAction}
    */
-  public FileAction unzip(HashMap<String, Object> parameters) throws IOException {
-    return filesClient().files().unzip(this.path, parameters, this.options);
+  public FileAction beginDelete(HashMap<String, Object> parameters) throws IOException {
+    return filesClient().files().beginDelete(this.path, parameters, this.options);
   }
 
   /**
@@ -2255,6 +2255,46 @@ public class File implements ModelInterface {
   }
 
   /**
+   * List the contents of a ZIP file
+   *
+   * @see #zipListContents(String, HashMap, HashMap)
+   */
+  public static ListIterator<ZipListEntry> zipListContents() throws RuntimeException {
+    return zipListContents(null, null, null);
+  }
+
+  /**
+   * List the contents of a ZIP file
+   *
+   * @see #zipListContents(String, HashMap, HashMap)
+   */
+  public static ListIterator<ZipListEntry> zipListContents(String path, HashMap<String, Object> parameters) throws RuntimeException {
+    return zipListContents(path, parameters, null);
+  }
+
+  /**
+   * List the contents of a ZIP file
+   *
+   * @see #zipListContents(String, HashMap, HashMap)
+   */
+  public static ListIterator<ZipListEntry> zipListContents(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return zipListContents(null, parameters, options);
+  }
+
+  /**
+   * List the contents of a ZIP file
+   *
+   * @param path Path to operate on.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code ZipListEntry} records, in a {@code ListIterator}
+   */
+  public static ListIterator<ZipListEntry> zipListContents(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return FilesClient.defaultClient().files().zipListContents(path, parameters, options);
+  }
+
+
+  /**
    * Find File/Folder by Path
    *
    * @see #find(String, HashMap, HashMap)
@@ -2318,77 +2358,126 @@ public class File implements ModelInterface {
   }
 
   /**
-   * List the contents of a ZIP file
+   * Create a ZIP from one or more paths and save it to a destination path
    *
-   * @see #zipListContents(String, HashMap, HashMap)
+   * @see #zip(HashMap, HashMap)
    */
-  public static ListIterator<ZipListEntry> zipListContents() throws RuntimeException {
-    return zipListContents(null, null, null);
+  public static FileAction zip() throws RuntimeException {
+    return zip(null, null);
   }
 
   /**
-   * List the contents of a ZIP file
+   * Create a ZIP from one or more paths and save it to a destination path
    *
-   * @see #zipListContents(String, HashMap, HashMap)
+   * @see #zip(HashMap, HashMap)
    */
-  public static ListIterator<ZipListEntry> zipListContents(String path, HashMap<String, Object> parameters) throws RuntimeException {
-    return zipListContents(path, parameters, null);
-  }
-
-  /**
-   * List the contents of a ZIP file
-   *
-   * @see #zipListContents(String, HashMap, HashMap)
-   */
-  public static ListIterator<ZipListEntry> zipListContents(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return zipListContents(null, parameters, options);
-  }
-
-  /**
-   * List the contents of a ZIP file
-   *
-   * @param path Path to operate on.
-   * @param parameters the request's parameters, by their API names
-   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code ZipListEntry} records, in a {@code ListIterator}
-   */
-  public static ListIterator<ZipListEntry> zipListContents(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return FilesClient.defaultClient().files().zipListContents(path, parameters, options);
+  public static FileAction zip(HashMap<String, Object> parameters) throws RuntimeException {
+    return zip(parameters, null);
   }
 
 
   /**
-   * Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
-   *
-   * @see #beginDelete(String, HashMap, HashMap)
-   */
-  public static FileAction beginDelete() throws RuntimeException {
-    return beginDelete(null, null, null);
-  }
-
-  /**
-   * Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
-   *
-   * @see #beginDelete(String, HashMap, HashMap)
-   */
-  public static FileAction beginDelete(String path, HashMap<String, Object> parameters) throws RuntimeException {
-    return beginDelete(path, parameters, null);
-  }
-
-  /**
-   * Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
-   *
-   * @see #beginDelete(String, HashMap, HashMap)
-   */
-  public static FileAction beginDelete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return beginDelete(null, parameters, options);
-  }
-
-  /**
-   * Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
+   * Create a ZIP from one or more paths and save it to a destination path
    * <p>The parameters map may hold:</p>
    * <ul>
-   * <li>{@code recursive} (Boolean): If true, will recursively delete folders.  Otherwise, will error on non-empty folders.</li>
+   * <li>{@code paths} (String[]): Required. Paths to include in the ZIP.</li>
+   * <li>{@code destination} (String): Required. Destination file path for the ZIP.</li>
+   * <li>{@code archive_format} (String): Archive format to create.</li>
+   * <li>{@code overwrite} (Boolean): Overwrite existing file in the destination?</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code FileAction}
+   */
+  public static FileAction zip(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return FilesClient.defaultClient().files().zip(parameters, options);
+  }
+
+
+  /**
+   * Extract a ZIP file to a destination folder
+   *
+   * @see #unzip(String, HashMap, HashMap)
+   */
+  public static FileAction unzip() throws RuntimeException {
+    return unzip(null, null, null);
+  }
+
+  /**
+   * Extract a ZIP file to a destination folder
+   *
+   * @see #unzip(String, HashMap, HashMap)
+   */
+  public static FileAction unzip(String path, HashMap<String, Object> parameters) throws RuntimeException {
+    return unzip(path, parameters, null);
+  }
+
+  /**
+   * Extract a ZIP file to a destination folder
+   *
+   * @see #unzip(String, HashMap, HashMap)
+   */
+  public static FileAction unzip(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return unzip(null, parameters, options);
+  }
+
+  /**
+   * Extract a ZIP file to a destination folder
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code destination} (String): Required. Destination folder path for extracted files.</li>
+   * <li>{@code filename} (String): Optional single entry filename to extract.</li>
+   * <li>{@code overwrite} (Boolean): Overwrite existing files in the destination?</li>
+   * </ul>
+   *
+   * @param path ZIP file path to extract.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code FileAction}
+   */
+  public static FileAction unzip(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return FilesClient.defaultClient().files().unzip(path, parameters, options);
+  }
+
+
+  /**
+   * Encrypt a file with GPG and save it to a destination path
+   *
+   * @see #gpgEncrypt(String, HashMap, HashMap)
+   */
+  public static FileAction gpgEncrypt() throws RuntimeException {
+    return gpgEncrypt(null, null, null);
+  }
+
+  /**
+   * Encrypt a file with GPG and save it to a destination path
+   *
+   * @see #gpgEncrypt(String, HashMap, HashMap)
+   */
+  public static FileAction gpgEncrypt(String path, HashMap<String, Object> parameters) throws RuntimeException {
+    return gpgEncrypt(path, parameters, null);
+  }
+
+  /**
+   * Encrypt a file with GPG and save it to a destination path
+   *
+   * @see #gpgEncrypt(String, HashMap, HashMap)
+   */
+  public static FileAction gpgEncrypt(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return gpgEncrypt(null, parameters, options);
+  }
+
+  /**
+   * Encrypt a file with GPG and save it to a destination path
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code destination} (String): Required. Destination file path for the encrypted file.</li>
+   * <li>{@code gpg_key_ids} (Long[]): GPG Key IDs to encrypt with.</li>
+   * <li>{@code gpg_key_partner_id} (Long): Partner ID whose GPG keys should be used for encryption.</li>
+   * <li>{@code signing_key_id} (Long): Optional GPG Key ID to sign with.</li>
+   * <li>{@code armor} (Boolean): Output ASCII-armored encrypted data.</li>
+   * <li>{@code overwrite} (Boolean): Overwrite existing file in the destination?</li>
    * </ul>
    *
    * @param path Path to operate on.
@@ -2396,46 +2485,48 @@ public class File implements ModelInterface {
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
    * @return the {@code FileAction}
    */
-  public static FileAction beginDelete(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return FilesClient.defaultClient().files().beginDelete(path, parameters, options);
+  public static FileAction gpgEncrypt(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return FilesClient.defaultClient().files().gpgEncrypt(path, parameters, options);
   }
 
 
   /**
-   * Copy File/Folder
+   * Decrypt a GPG-encrypted file and save it to a destination path
    *
-   * @see #copy(String, HashMap, HashMap)
+   * @see #gpgDecrypt(String, HashMap, HashMap)
    */
-  public static FileAction copy() throws RuntimeException {
-    return copy(null, null, null);
+  public static FileAction gpgDecrypt() throws RuntimeException {
+    return gpgDecrypt(null, null, null);
   }
 
   /**
-   * Copy File/Folder
+   * Decrypt a GPG-encrypted file and save it to a destination path
    *
-   * @see #copy(String, HashMap, HashMap)
+   * @see #gpgDecrypt(String, HashMap, HashMap)
    */
-  public static FileAction copy(String path, HashMap<String, Object> parameters) throws RuntimeException {
-    return copy(path, parameters, null);
+  public static FileAction gpgDecrypt(String path, HashMap<String, Object> parameters) throws RuntimeException {
+    return gpgDecrypt(path, parameters, null);
   }
 
   /**
-   * Copy File/Folder
+   * Decrypt a GPG-encrypted file and save it to a destination path
    *
-   * @see #copy(String, HashMap, HashMap)
+   * @see #gpgDecrypt(String, HashMap, HashMap)
    */
-  public static FileAction copy(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return copy(null, parameters, options);
+  public static FileAction gpgDecrypt(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return gpgDecrypt(null, parameters, options);
   }
 
   /**
-   * Copy File/Folder
+   * Decrypt a GPG-encrypted file and save it to a destination path
    * <p>The parameters map may hold:</p>
    * <ul>
-   * <li>{@code destination} (String): Required. Copy destination path.</li>
-   * <li>{@code copy_behaviors} (Boolean): If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?</li>
-   * <li>{@code structure} (Boolean): Copy structure only?</li>
-   * <li>{@code overwrite} (Boolean): Overwrite existing file(s) in the destination?</li>
+   * <li>{@code destination} (String): Required. Destination file path for the decrypted file.</li>
+   * <li>{@code gpg_key_ids} (Long[]): GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.</li>
+   * <li>{@code gpg_key_partner_id} (Long): Partner ID whose GPG keys should be used for decryption.</li>
+   * <li>{@code use_all_private_keys} (Boolean): Use every accessible private GPG key in the source workspace for decryption.</li>
+   * <li>{@code ignore_mdc_error} (Boolean): Ignore errors from the MDC (modification detection code) check.</li>
+   * <li>{@code overwrite} (Boolean): Overwrite existing file in the destination?</li>
    * </ul>
    *
    * @param path Path to operate on.
@@ -2443,53 +2534,8 @@ public class File implements ModelInterface {
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
    * @return the {@code FileAction}
    */
-  public static FileAction copy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return FilesClient.defaultClient().files().copy(path, parameters, options);
-  }
-
-
-  /**
-   * Move File/Folder
-   *
-   * @see #move(String, HashMap, HashMap)
-   */
-  public static FileAction move() throws RuntimeException {
-    return move(null, null, null);
-  }
-
-  /**
-   * Move File/Folder
-   *
-   * @see #move(String, HashMap, HashMap)
-   */
-  public static FileAction move(String path, HashMap<String, Object> parameters) throws RuntimeException {
-    return move(path, parameters, null);
-  }
-
-  /**
-   * Move File/Folder
-   *
-   * @see #move(String, HashMap, HashMap)
-   */
-  public static FileAction move(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return move(null, parameters, options);
-  }
-
-  /**
-   * Move File/Folder
-   * <p>The parameters map may hold:</p>
-   * <ul>
-   * <li>{@code destination} (String): Required. Move destination path.</li>
-   * <li>{@code overwrite} (Boolean): Overwrite existing file(s) in the destination?</li>
-   * </ul>
-   *
-   * @param path Path to operate on.
-   * @param parameters the request's parameters, by their API names
-   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code FileAction}
-   */
-  public static FileAction move(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return FilesClient.defaultClient().files().move(path, parameters, options);
+  public static FileAction gpgDecrypt(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return FilesClient.defaultClient().files().gpgDecrypt(path, parameters, options);
   }
 
 
@@ -2544,42 +2590,38 @@ public class File implements ModelInterface {
 
 
   /**
-   * Decrypt a GPG-encrypted file and save it to a destination path
+   * Move File/Folder
    *
-   * @see #gpgDecrypt(String, HashMap, HashMap)
+   * @see #move(String, HashMap, HashMap)
    */
-  public static FileAction gpgDecrypt() throws RuntimeException {
-    return gpgDecrypt(null, null, null);
+  public static FileAction move() throws RuntimeException {
+    return move(null, null, null);
   }
 
   /**
-   * Decrypt a GPG-encrypted file and save it to a destination path
+   * Move File/Folder
    *
-   * @see #gpgDecrypt(String, HashMap, HashMap)
+   * @see #move(String, HashMap, HashMap)
    */
-  public static FileAction gpgDecrypt(String path, HashMap<String, Object> parameters) throws RuntimeException {
-    return gpgDecrypt(path, parameters, null);
+  public static FileAction move(String path, HashMap<String, Object> parameters) throws RuntimeException {
+    return move(path, parameters, null);
   }
 
   /**
-   * Decrypt a GPG-encrypted file and save it to a destination path
+   * Move File/Folder
    *
-   * @see #gpgDecrypt(String, HashMap, HashMap)
+   * @see #move(String, HashMap, HashMap)
    */
-  public static FileAction gpgDecrypt(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return gpgDecrypt(null, parameters, options);
+  public static FileAction move(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return move(null, parameters, options);
   }
 
   /**
-   * Decrypt a GPG-encrypted file and save it to a destination path
+   * Move File/Folder
    * <p>The parameters map may hold:</p>
    * <ul>
-   * <li>{@code destination} (String): Required. Destination file path for the decrypted file.</li>
-   * <li>{@code gpg_key_ids} (Long[]): GPG Key IDs to decrypt with. If omitted, every accessible private GPG key in the source workspace is used.</li>
-   * <li>{@code gpg_key_partner_id} (Long): Partner ID whose GPG keys should be used for decryption.</li>
-   * <li>{@code use_all_private_keys} (Boolean): Use every accessible private GPG key in the source workspace for decryption.</li>
-   * <li>{@code ignore_mdc_error} (Boolean): Ignore errors from the MDC (modification detection code) check.</li>
-   * <li>{@code overwrite} (Boolean): Overwrite existing file in the destination?</li>
+   * <li>{@code destination} (String): Required. Move destination path.</li>
+   * <li>{@code overwrite} (Boolean): Overwrite existing file(s) in the destination?</li>
    * </ul>
    *
    * @param path Path to operate on.
@@ -2587,48 +2629,46 @@ public class File implements ModelInterface {
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
    * @return the {@code FileAction}
    */
-  public static FileAction gpgDecrypt(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return FilesClient.defaultClient().files().gpgDecrypt(path, parameters, options);
+  public static FileAction move(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return FilesClient.defaultClient().files().move(path, parameters, options);
   }
 
 
   /**
-   * Encrypt a file with GPG and save it to a destination path
+   * Copy File/Folder
    *
-   * @see #gpgEncrypt(String, HashMap, HashMap)
+   * @see #copy(String, HashMap, HashMap)
    */
-  public static FileAction gpgEncrypt() throws RuntimeException {
-    return gpgEncrypt(null, null, null);
+  public static FileAction copy() throws RuntimeException {
+    return copy(null, null, null);
   }
 
   /**
-   * Encrypt a file with GPG and save it to a destination path
+   * Copy File/Folder
    *
-   * @see #gpgEncrypt(String, HashMap, HashMap)
+   * @see #copy(String, HashMap, HashMap)
    */
-  public static FileAction gpgEncrypt(String path, HashMap<String, Object> parameters) throws RuntimeException {
-    return gpgEncrypt(path, parameters, null);
+  public static FileAction copy(String path, HashMap<String, Object> parameters) throws RuntimeException {
+    return copy(path, parameters, null);
   }
 
   /**
-   * Encrypt a file with GPG and save it to a destination path
+   * Copy File/Folder
    *
-   * @see #gpgEncrypt(String, HashMap, HashMap)
+   * @see #copy(String, HashMap, HashMap)
    */
-  public static FileAction gpgEncrypt(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return gpgEncrypt(null, parameters, options);
+  public static FileAction copy(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return copy(null, parameters, options);
   }
 
   /**
-   * Encrypt a file with GPG and save it to a destination path
+   * Copy File/Folder
    * <p>The parameters map may hold:</p>
    * <ul>
-   * <li>{@code destination} (String): Required. Destination file path for the encrypted file.</li>
-   * <li>{@code gpg_key_ids} (Long[]): GPG Key IDs to encrypt with.</li>
-   * <li>{@code gpg_key_partner_id} (Long): Partner ID whose GPG keys should be used for encryption.</li>
-   * <li>{@code signing_key_id} (Long): Optional GPG Key ID to sign with.</li>
-   * <li>{@code armor} (Boolean): Output ASCII-armored encrypted data.</li>
-   * <li>{@code overwrite} (Boolean): Overwrite existing file in the destination?</li>
+   * <li>{@code destination} (String): Required. Copy destination path.</li>
+   * <li>{@code copy_behaviors} (Boolean): If copying a folder, also copy supported behaviors, email notification subscriptions, and per-folder branding to the destination folder tree?</li>
+   * <li>{@code structure} (Boolean): Copy structure only?</li>
+   * <li>{@code overwrite} (Boolean): Overwrite existing file(s) in the destination?</li>
    * </ul>
    *
    * @param path Path to operate on.
@@ -2636,92 +2676,52 @@ public class File implements ModelInterface {
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
    * @return the {@code FileAction}
    */
-  public static FileAction gpgEncrypt(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return FilesClient.defaultClient().files().gpgEncrypt(path, parameters, options);
+  public static FileAction copy(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return FilesClient.defaultClient().files().copy(path, parameters, options);
   }
 
 
   /**
-   * Extract a ZIP file to a destination folder
+   * Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
    *
-   * @see #unzip(String, HashMap, HashMap)
+   * @see #beginDelete(String, HashMap, HashMap)
    */
-  public static FileAction unzip() throws RuntimeException {
-    return unzip(null, null, null);
+  public static FileAction beginDelete() throws RuntimeException {
+    return beginDelete(null, null, null);
   }
 
   /**
-   * Extract a ZIP file to a destination folder
+   * Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
    *
-   * @see #unzip(String, HashMap, HashMap)
+   * @see #beginDelete(String, HashMap, HashMap)
    */
-  public static FileAction unzip(String path, HashMap<String, Object> parameters) throws RuntimeException {
-    return unzip(path, parameters, null);
+  public static FileAction beginDelete(String path, HashMap<String, Object> parameters) throws RuntimeException {
+    return beginDelete(path, parameters, null);
   }
 
   /**
-   * Extract a ZIP file to a destination folder
+   * Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
    *
-   * @see #unzip(String, HashMap, HashMap)
+   * @see #beginDelete(String, HashMap, HashMap)
    */
-  public static FileAction unzip(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return unzip(null, parameters, options);
+  public static FileAction beginDelete(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return beginDelete(null, parameters, options);
   }
 
   /**
-   * Extract a ZIP file to a destination folder
+   * Delete File/Folder and return its File Action.  A pending or processing deletion continues in the background after this returns; check its File Migration for completion.  Waiting for the File Migration does not cancel the deletion
    * <p>The parameters map may hold:</p>
    * <ul>
-   * <li>{@code destination} (String): Required. Destination folder path for extracted files.</li>
-   * <li>{@code filename} (String): Optional single entry filename to extract.</li>
-   * <li>{@code overwrite} (Boolean): Overwrite existing files in the destination?</li>
+   * <li>{@code recursive} (Boolean): If true, will recursively delete folders.  Otherwise, will error on non-empty folders.</li>
    * </ul>
    *
-   * @param path ZIP file path to extract.
+   * @param path Path to operate on.
    * @param parameters the request's parameters, by their API names
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
    * @return the {@code FileAction}
    */
-  public static FileAction unzip(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return FilesClient.defaultClient().files().unzip(path, parameters, options);
-  }
-
-
-  /**
-   * Create a ZIP from one or more paths and save it to a destination path
-   *
-   * @see #zip(HashMap, HashMap)
-   */
-  public static FileAction zip() throws RuntimeException {
-    return zip(null, null);
-  }
-
-  /**
-   * Create a ZIP from one or more paths and save it to a destination path
-   *
-   * @see #zip(HashMap, HashMap)
-   */
-  public static FileAction zip(HashMap<String, Object> parameters) throws RuntimeException {
-    return zip(parameters, null);
-  }
-
-
-  /**
-   * Create a ZIP from one or more paths and save it to a destination path
-   * <p>The parameters map may hold:</p>
-   * <ul>
-   * <li>{@code paths} (String[]): Required. Paths to include in the ZIP.</li>
-   * <li>{@code destination} (String): Required. Destination file path for the ZIP.</li>
-   * <li>{@code archive_format} (String): Archive format to create.</li>
-   * <li>{@code overwrite} (Boolean): Overwrite existing file in the destination?</li>
-   * </ul>
-   *
-   * @param parameters the request's parameters, by their API names
-   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code FileAction}
-   */
-  public static FileAction zip(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return FilesClient.defaultClient().files().zip(parameters, options);
+  public static FileAction beginDelete(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return FilesClient.defaultClient().files().beginDelete(path, parameters, options);
   }
 
 

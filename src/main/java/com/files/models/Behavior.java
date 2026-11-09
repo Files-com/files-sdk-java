@@ -600,6 +600,54 @@ public class Behavior implements ModelInterface {
   }
 
   /**
+   * List Behaviors by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
+  public static ListIterator<Behavior> listFor() throws RuntimeException {
+    return listFor(null, null, null);
+  }
+
+  /**
+   * List Behaviors by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
+  public static ListIterator<Behavior> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
+    return listFor(path, parameters, null);
+  }
+
+  /**
+   * List Behaviors by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
+  public static ListIterator<Behavior> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return listFor(null, parameters, options);
+  }
+
+  /**
+   * List Behaviors by Path
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.</li>
+   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`. Valid field combinations are `[ impacts_ui, behavior ]`.</li>
+   * <li>{@code ancestor_behaviors} (Boolean): If `true`, behaviors above this path are shown.</li>
+   * </ul>
+   *
+   * @param path Path to operate on.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code Behavior} records, in a {@code ListIterator}
+   */
+  public static ListIterator<Behavior> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return FilesClient.defaultClient().behaviors().listFor(path, parameters, options);
+  }
+
+
+  /**
    * Show Behavior
    *
    * @see #find(Long, HashMap, HashMap)
@@ -655,54 +703,6 @@ public class Behavior implements ModelInterface {
   public static Behavior get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
-
-  /**
-   * List Behaviors by Path
-   *
-   * @see #listFor(String, HashMap, HashMap)
-   */
-  public static ListIterator<Behavior> listFor() throws RuntimeException {
-    return listFor(null, null, null);
-  }
-
-  /**
-   * List Behaviors by Path
-   *
-   * @see #listFor(String, HashMap, HashMap)
-   */
-  public static ListIterator<Behavior> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
-    return listFor(path, parameters, null);
-  }
-
-  /**
-   * List Behaviors by Path
-   *
-   * @see #listFor(String, HashMap, HashMap)
-   */
-  public static ListIterator<Behavior> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return listFor(null, parameters, options);
-  }
-
-  /**
-   * List Behaviors by Path
-   * <p>The parameters map may hold:</p>
-   * <ul>
-   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
-   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
-   * <li>{@code sort_by} (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.</li>
-   * <li>{@code filter} (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`. Valid field combinations are `[ impacts_ui, behavior ]`.</li>
-   * <li>{@code ancestor_behaviors} (Boolean): If `true`, behaviors above this path are shown.</li>
-   * </ul>
-   *
-   * @param path Path to operate on.
-   * @param parameters the request's parameters, by their API names
-   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code Behavior} records, in a {@code ListIterator}
-   */
-  public static ListIterator<Behavior> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return FilesClient.defaultClient().behaviors().listFor(path, parameters, options);
-  }
-
 
   /**
    * Create Behavior

@@ -331,60 +331,6 @@ public final class SyncOperations extends ResourceOperations {
   }
 
   /**
-   * Dry Run Sync
-   *
-   * @see #dryRun(Long, HashMap, HashMap)
-   */
-  public void dryRun() throws RuntimeException {
-    dryRun(null, null, null);
-  }
-
-  /**
-   * Dry Run Sync
-   *
-   * @see #dryRun(Long, HashMap, HashMap)
-   */
-  public void dryRun(Long id, HashMap<String, Object> parameters) throws RuntimeException {
-    dryRun(id, parameters, null);
-  }
-
-  /**
-   * Dry Run Sync
-   *
-   * @see #dryRun(Long, HashMap, HashMap)
-   */
-  public void dryRun(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    dryRun(null, parameters, options);
-  }
-
-  /**
-   * Dry Run Sync
-   *
-   * @param id Sync ID.
-   * @param parameters the request's parameters, by their API names
-   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   */
-  public void dryRun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = copy(parameters);
-    options = copy(options);
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-    String apiPath = String.format("/syncs/%s/dry_run", UrlUtils.encodeUrlPath(String.valueOf(id)));
-    request(RequestMethods.POST, apiPath, parameters, options);
-  }
-
-  /**
    * Manually Run Sync
    *
    * @see #manualRun(Long, HashMap, HashMap)
@@ -435,6 +381,60 @@ public final class SyncOperations extends ResourceOperations {
     }
 
     String apiPath = String.format("/syncs/%s/manual_run", UrlUtils.encodeUrlPath(String.valueOf(id)));
+    request(RequestMethods.POST, apiPath, parameters, options);
+  }
+
+  /**
+   * Dry Run Sync
+   *
+   * @see #dryRun(Long, HashMap, HashMap)
+   */
+  public void dryRun() throws RuntimeException {
+    dryRun(null, null, null);
+  }
+
+  /**
+   * Dry Run Sync
+   *
+   * @see #dryRun(Long, HashMap, HashMap)
+   */
+  public void dryRun(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    dryRun(id, parameters, null);
+  }
+
+  /**
+   * Dry Run Sync
+   *
+   * @see #dryRun(Long, HashMap, HashMap)
+   */
+  public void dryRun(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    dryRun(null, parameters, options);
+  }
+
+  /**
+   * Dry Run Sync
+   *
+   * @param id Sync ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
+  public void dryRun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = copy(parameters);
+    options = copy(options);
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
+    }
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+
+    String apiPath = String.format("/syncs/%s/dry_run", UrlUtils.encodeUrlPath(String.valueOf(id)));
     request(RequestMethods.POST, apiPath, parameters, options);
   }
 

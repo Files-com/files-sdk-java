@@ -2515,12 +2515,12 @@ public class User implements ModelInterface {
   }
 
   /**
-   * Unlock user who has been locked out due to failed logins
+   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
    *
    * @param parameters the request's parameters, by their API names
    */
-  public void unlock(HashMap<String, Object> parameters) throws IOException {
-    filesClient().users().unlock(this.id, parameters, this.options);
+  public void user2faReset(HashMap<String, Object> parameters) throws IOException {
+    filesClient().users().user2faReset(this.id, parameters, this.options);
   }
 
   /**
@@ -2533,12 +2533,12 @@ public class User implements ModelInterface {
   }
 
   /**
-   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
+   * Unlock user who has been locked out due to failed logins
    *
    * @param parameters the request's parameters, by their API names
    */
-  public void user2faReset(HashMap<String, Object> parameters) throws IOException {
-    filesClient().users().user2faReset(this.id, parameters, this.options);
+  public void unlock(HashMap<String, Object> parameters) throws IOException {
+    filesClient().users().unlock(this.id, parameters, this.options);
   }
 
   /**
@@ -3006,41 +3006,41 @@ public class User implements ModelInterface {
 
 
   /**
-   * Unlock user who has been locked out due to failed logins
+   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
    *
-   * @see #unlock(Long, HashMap, HashMap)
+   * @see #user2faReset(Long, HashMap, HashMap)
    */
-  public static void unlock() throws RuntimeException {
-    unlock(null, null, null);
+  public static void user2faReset() throws RuntimeException {
+    user2faReset(null, null, null);
   }
 
   /**
-   * Unlock user who has been locked out due to failed logins
+   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
    *
-   * @see #unlock(Long, HashMap, HashMap)
+   * @see #user2faReset(Long, HashMap, HashMap)
    */
-  public static void unlock(Long id, HashMap<String, Object> parameters) throws RuntimeException {
-    unlock(id, parameters, null);
+  public static void user2faReset(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    user2faReset(id, parameters, null);
   }
 
   /**
-   * Unlock user who has been locked out due to failed logins
+   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
    *
-   * @see #unlock(Long, HashMap, HashMap)
+   * @see #user2faReset(Long, HashMap, HashMap)
    */
-  public static void unlock(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    unlock(null, parameters, options);
+  public static void user2faReset(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    user2faReset(null, parameters, options);
   }
 
   /**
-   * Unlock user who has been locked out due to failed logins
+   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
    *
    * @param id User ID.
    * @param parameters the request's parameters, by their API names
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
    */
-  public static void unlock(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    FilesClient.defaultClient().users().unlock(id, parameters, options);
+  public static void user2faReset(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    FilesClient.defaultClient().users().user2faReset(id, parameters, options);
   }
 
 
@@ -3084,41 +3084,41 @@ public class User implements ModelInterface {
 
 
   /**
-   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
+   * Unlock user who has been locked out due to failed logins
    *
-   * @see #user2faReset(Long, HashMap, HashMap)
+   * @see #unlock(Long, HashMap, HashMap)
    */
-  public static void user2faReset() throws RuntimeException {
-    user2faReset(null, null, null);
+  public static void unlock() throws RuntimeException {
+    unlock(null, null, null);
   }
 
   /**
-   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
+   * Unlock user who has been locked out due to failed logins
    *
-   * @see #user2faReset(Long, HashMap, HashMap)
+   * @see #unlock(Long, HashMap, HashMap)
    */
-  public static void user2faReset(Long id, HashMap<String, Object> parameters) throws RuntimeException {
-    user2faReset(id, parameters, null);
+  public static void unlock(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    unlock(id, parameters, null);
   }
 
   /**
-   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
+   * Unlock user who has been locked out due to failed logins
    *
-   * @see #user2faReset(Long, HashMap, HashMap)
+   * @see #unlock(Long, HashMap, HashMap)
    */
-  public static void user2faReset(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    user2faReset(null, parameters, options);
+  public static void unlock(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    unlock(null, parameters, options);
   }
 
   /**
-   * Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
+   * Unlock user who has been locked out due to failed logins
    *
    * @param id User ID.
    * @param parameters the request's parameters, by their API names
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
    */
-  public static void user2faReset(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    FilesClient.defaultClient().users().user2faReset(id, parameters, options);
+  public static void unlock(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    FilesClient.defaultClient().users().unlock(id, parameters, options);
   }
 
 

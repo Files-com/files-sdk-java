@@ -46,6 +46,22 @@ ListIterator<MetadataCategory> metadataCategories = MetadataCategory.list(parame
 
 ---
 
+## List Metadata Categories by Path
+
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<MetadataCategory> metadataCategories = MetadataCategory.listFor("path", parameters, null);
+```
+
+### Parameters
+
+* `path` (String): Required - Path to operate on.
+* `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+* `per_page` (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+
+
+---
+
 ## Show Metadata Category
 
 ```java
@@ -56,22 +72,6 @@ MetadataCategory metadataCategory = MetadataCategory.find(1L, parameters, null);
 ### Parameters
 
 * `id` (Long): Required - Metadata Category ID.
-
-
----
-
-## List Metadata Categories by Path
-
-```java
-HashMap<String, Object> parameters = new HashMap<>();
-ListIterator<MetadataCategory> metadataCategories = MetadataCategory.listFor("path", parameters, null);
-```
-
-### Parameters
-
-* `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
-* `per_page` (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
-* `path` (String): Required - Path to operate on.
 
 
 ---

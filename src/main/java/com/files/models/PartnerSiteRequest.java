@@ -452,40 +452,6 @@ public class PartnerSiteRequest implements ModelInterface {
 
 
   /**
-   * Reject partner site request
-   *
-   * @see #reject(HashMap, HashMap)
-   */
-  public static void reject() throws RuntimeException {
-    reject(null, null);
-  }
-
-  /**
-   * Reject partner site request
-   *
-   * @see #reject(HashMap, HashMap)
-   */
-  public static void reject(HashMap<String, Object> parameters) throws RuntimeException {
-    reject(parameters, null);
-  }
-
-
-  /**
-   * Reject partner site request
-   * <p>The parameters map may hold:</p>
-   * <ul>
-   * <li>{@code pairing_key} (String): Required. Pairing key for the partner site request</li>
-   * </ul>
-   *
-   * @param parameters the request's parameters, by their API names
-   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   */
-  public static void reject(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    FilesClient.defaultClient().partnerSiteRequests().reject(parameters, options);
-  }
-
-
-  /**
    * Approve partner site request
    *
    * @see #approve(HashMap, HashMap)
@@ -517,6 +483,40 @@ public class PartnerSiteRequest implements ModelInterface {
    */
   public static void approve(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().partnerSiteRequests().approve(parameters, options);
+  }
+
+
+  /**
+   * Reject partner site request
+   *
+   * @see #reject(HashMap, HashMap)
+   */
+  public static void reject() throws RuntimeException {
+    reject(null, null);
+  }
+
+  /**
+   * Reject partner site request
+   *
+   * @see #reject(HashMap, HashMap)
+   */
+  public static void reject(HashMap<String, Object> parameters) throws RuntimeException {
+    reject(parameters, null);
+  }
+
+
+  /**
+   * Reject partner site request
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code pairing_key} (String): Required. Pairing key for the partner site request</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
+  public static void reject(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    FilesClient.defaultClient().partnerSiteRequests().reject(parameters, options);
   }
 
 

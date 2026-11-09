@@ -73,11 +73,11 @@ ExpectationIncident expectationIncident = ExpectationIncident.find(1L, parameter
 
 ---
 
-## Resolve an expectation incident
+## Acknowledge an expectation incident
 
 ```java
 HashMap<String, Object> parameters = new HashMap<>();
-ExpectationIncident expectationIncident = ExpectationIncident.resolve(1L, parameters, null);
+ExpectationIncident expectationIncident = ExpectationIncident.acknowledge(1L, parameters, null);
 ```
 
 ### Parameters
@@ -103,11 +103,11 @@ ExpectationIncident expectationIncident = ExpectationIncident.snooze(1L, paramet
 
 ---
 
-## Acknowledge an expectation incident
+## Resolve an expectation incident
 
 ```java
 HashMap<String, Object> parameters = new HashMap<>();
-ExpectationIncident expectationIncident = ExpectationIncident.acknowledge(1L, parameters, null);
+ExpectationIncident expectationIncident = ExpectationIncident.resolve(1L, parameters, null);
 ```
 
 ### Parameters
@@ -117,12 +117,12 @@ ExpectationIncident expectationIncident = ExpectationIncident.acknowledge(1L, pa
 
 ---
 
-## Resolve an expectation incident
+## Acknowledge an expectation incident
 
 ```java
 ExpectationIncident expectationIncident = ExpectationIncident.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-ExpectationIncident result = expectationIncident.resolve(parameters);
+ExpectationIncident result = expectationIncident.acknowledge(parameters);
 ```
 
 ### Parameters
@@ -149,12 +149,12 @@ ExpectationIncident result = expectationIncident.snooze(parameters);
 
 ---
 
-## Acknowledge an expectation incident
+## Resolve an expectation incident
 
 ```java
 ExpectationIncident expectationIncident = ExpectationIncident.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-ExpectationIncident result = expectationIncident.acknowledge(parameters);
+ExpectationIncident result = expectationIncident.resolve(parameters);
 ```
 
 ### Parameters

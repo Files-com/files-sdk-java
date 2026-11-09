@@ -36,11 +36,11 @@ ListIterator<IpAddress> ipAddresses = IpAddress.list(parameters, null);
 
 ---
 
-## List all possible public SmartFile IP addresses
+## List all possible public IP addresses
 
 ```java
 HashMap<String, Object> parameters = new HashMap<>();
-List<PublicIpAddress> publicIpAddresses = IpAddress.getSmartfileReserved(parameters, null);
+List<PublicIpAddress> publicIpAddresses = IpAddress.getReserved(parameters, null);
 ```
 
 ### Parameters
@@ -66,11 +66,11 @@ List<PublicIpAddress> publicIpAddresses = IpAddress.getExavaultReserved(paramete
 
 ---
 
-## List all possible public IP addresses
+## List all possible public SmartFile IP addresses
 
 ```java
 HashMap<String, Object> parameters = new HashMap<>();
-List<PublicIpAddress> publicIpAddresses = IpAddress.getReserved(parameters, null);
+List<PublicIpAddress> publicIpAddresses = IpAddress.getSmartfileReserved(parameters, null);
 ```
 
 ### Parameters

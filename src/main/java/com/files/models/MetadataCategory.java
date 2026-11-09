@@ -320,6 +320,51 @@ public class MetadataCategory implements ModelInterface {
   }
 
   /**
+   * List Metadata Categories by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
+  public static ListIterator<MetadataCategory> listFor() throws RuntimeException {
+    return listFor(null, null, null);
+  }
+
+  /**
+   * List Metadata Categories by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
+  public static ListIterator<MetadataCategory> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
+    return listFor(path, parameters, null);
+  }
+
+  /**
+   * List Metadata Categories by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
+  public static ListIterator<MetadataCategory> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return listFor(null, parameters, options);
+  }
+
+  /**
+   * List Metadata Categories by Path
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param path Path to operate on.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code MetadataCategory} records, in a {@code ListIterator}
+   */
+  public static ListIterator<MetadataCategory> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return FilesClient.defaultClient().metadataCategories().listFor(path, parameters, options);
+  }
+
+
+  /**
    * Show Metadata Category
    *
    * @see #find(Long, HashMap, HashMap)
@@ -375,51 +420,6 @@ public class MetadataCategory implements ModelInterface {
   public static MetadataCategory get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
-
-  /**
-   * List Metadata Categories by Path
-   *
-   * @see #listFor(String, HashMap, HashMap)
-   */
-  public static ListIterator<MetadataCategory> listFor() throws RuntimeException {
-    return listFor(null, null, null);
-  }
-
-  /**
-   * List Metadata Categories by Path
-   *
-   * @see #listFor(String, HashMap, HashMap)
-   */
-  public static ListIterator<MetadataCategory> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
-    return listFor(path, parameters, null);
-  }
-
-  /**
-   * List Metadata Categories by Path
-   *
-   * @see #listFor(String, HashMap, HashMap)
-   */
-  public static ListIterator<MetadataCategory> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return listFor(null, parameters, options);
-  }
-
-  /**
-   * List Metadata Categories by Path
-   * <p>The parameters map may hold:</p>
-   * <ul>
-   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
-   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
-   * </ul>
-   *
-   * @param path Path to operate on.
-   * @param parameters the request's parameters, by their API names
-   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code MetadataCategory} records, in a {@code ListIterator}
-   */
-  public static ListIterator<MetadataCategory> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return FilesClient.defaultClient().metadataCategories().listFor(path, parameters, options);
-  }
-
 
   /**
    * Create Metadata Category

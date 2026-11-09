@@ -444,16 +444,6 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
-   * Cancel Automation Run
-   *
-   * @param parameters the request's parameters, by their API names
-   * @return the {@code AutomationRun}
-   */
-  public AutomationRun cancel(HashMap<String, Object> parameters) throws IOException {
-    return filesClient().automationRuns().cancel(this.id, parameters, this.options);
-  }
-
-  /**
    * Re-run Automation from Node
    * <p>The parameters map may hold:</p>
    * <ul>
@@ -465,6 +455,16 @@ public class AutomationRun implements ModelInterface {
    */
   public AutomationRun rerun(HashMap<String, Object> parameters) throws IOException {
     return filesClient().automationRuns().rerun(this.id, parameters, this.options);
+  }
+
+  /**
+   * Cancel Automation Run
+   *
+   * @param parameters the request's parameters, by their API names
+   * @return the {@code AutomationRun}
+   */
+  public AutomationRun cancel(HashMap<String, Object> parameters) throws IOException {
+    return filesClient().automationRuns().cancel(this.id, parameters, this.options);
   }
 
 
@@ -627,46 +627,6 @@ public class AutomationRun implements ModelInterface {
 
 
   /**
-   * Cancel Automation Run
-   *
-   * @see #cancel(Long, HashMap, HashMap)
-   */
-  public static AutomationRun cancel() throws RuntimeException {
-    return cancel(null, null, null);
-  }
-
-  /**
-   * Cancel Automation Run
-   *
-   * @see #cancel(Long, HashMap, HashMap)
-   */
-  public static AutomationRun cancel(Long id, HashMap<String, Object> parameters) throws RuntimeException {
-    return cancel(id, parameters, null);
-  }
-
-  /**
-   * Cancel Automation Run
-   *
-   * @see #cancel(Long, HashMap, HashMap)
-   */
-  public static AutomationRun cancel(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return cancel(null, parameters, options);
-  }
-
-  /**
-   * Cancel Automation Run
-   *
-   * @param id Automation Run ID.
-   * @param parameters the request's parameters, by their API names
-   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code AutomationRun}
-   */
-  public static AutomationRun cancel(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return FilesClient.defaultClient().automationRuns().cancel(id, parameters, options);
-  }
-
-
-  /**
    * Re-run Automation from Node
    *
    * @see #rerun(Long, HashMap, HashMap)
@@ -707,6 +667,46 @@ public class AutomationRun implements ModelInterface {
    */
   public static AutomationRun rerun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().automationRuns().rerun(id, parameters, options);
+  }
+
+
+  /**
+   * Cancel Automation Run
+   *
+   * @see #cancel(Long, HashMap, HashMap)
+   */
+  public static AutomationRun cancel() throws RuntimeException {
+    return cancel(null, null, null);
+  }
+
+  /**
+   * Cancel Automation Run
+   *
+   * @see #cancel(Long, HashMap, HashMap)
+   */
+  public static AutomationRun cancel(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    return cancel(id, parameters, null);
+  }
+
+  /**
+   * Cancel Automation Run
+   *
+   * @see #cancel(Long, HashMap, HashMap)
+   */
+  public static AutomationRun cancel(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return cancel(null, parameters, options);
+  }
+
+  /**
+   * Cancel Automation Run
+   *
+   * @param id Automation Run ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AutomationRun}
+   */
+  public static AutomationRun cancel(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return FilesClient.defaultClient().automationRuns().cancel(id, parameters, options);
   }
 
 

@@ -158,6 +158,10 @@ public final class RequestOperations extends ResourceOperations {
       throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
 
+    if (!(path instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
@@ -172,10 +176,6 @@ public final class RequestOperations extends ResourceOperations {
 
     if (parameters.containsKey("mine") && !(parameters.get("mine") instanceof Boolean)) {
       throw new IllegalArgumentException("Bad parameter: mine must be of type Boolean parameters[\"mine\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
 
     String apiPath = String.format("/requests/folders/%s", UrlUtils.encodeUrlPath(path));

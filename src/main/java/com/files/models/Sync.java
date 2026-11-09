@@ -874,21 +874,21 @@ public class Sync implements ModelInterface {
   }
 
   /**
-   * Dry Run Sync
-   *
-   * @param parameters the request's parameters, by their API names
-   */
-  public void dryRun(HashMap<String, Object> parameters) throws IOException {
-    filesClient().syncs().dryRun(this.id, parameters, this.options);
-  }
-
-  /**
    * Manually Run Sync
    *
    * @param parameters the request's parameters, by their API names
    */
   public void manualRun(HashMap<String, Object> parameters) throws IOException {
     filesClient().syncs().manualRun(this.id, parameters, this.options);
+  }
+
+  /**
+   * Dry Run Sync
+   *
+   * @param parameters the request's parameters, by their API names
+   */
+  public void dryRun(HashMap<String, Object> parameters) throws IOException {
+    filesClient().syncs().dryRun(this.id, parameters, this.options);
   }
 
   /**
@@ -1194,45 +1194,6 @@ public class Sync implements ModelInterface {
 
 
   /**
-   * Dry Run Sync
-   *
-   * @see #dryRun(Long, HashMap, HashMap)
-   */
-  public static void dryRun() throws RuntimeException {
-    dryRun(null, null, null);
-  }
-
-  /**
-   * Dry Run Sync
-   *
-   * @see #dryRun(Long, HashMap, HashMap)
-   */
-  public static void dryRun(Long id, HashMap<String, Object> parameters) throws RuntimeException {
-    dryRun(id, parameters, null);
-  }
-
-  /**
-   * Dry Run Sync
-   *
-   * @see #dryRun(Long, HashMap, HashMap)
-   */
-  public static void dryRun(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    dryRun(null, parameters, options);
-  }
-
-  /**
-   * Dry Run Sync
-   *
-   * @param id Sync ID.
-   * @param parameters the request's parameters, by their API names
-   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   */
-  public static void dryRun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    FilesClient.defaultClient().syncs().dryRun(id, parameters, options);
-  }
-
-
-  /**
    * Manually Run Sync
    *
    * @see #manualRun(Long, HashMap, HashMap)
@@ -1268,6 +1229,45 @@ public class Sync implements ModelInterface {
    */
   public static void manualRun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     FilesClient.defaultClient().syncs().manualRun(id, parameters, options);
+  }
+
+
+  /**
+   * Dry Run Sync
+   *
+   * @see #dryRun(Long, HashMap, HashMap)
+   */
+  public static void dryRun() throws RuntimeException {
+    dryRun(null, null, null);
+  }
+
+  /**
+   * Dry Run Sync
+   *
+   * @see #dryRun(Long, HashMap, HashMap)
+   */
+  public static void dryRun(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    dryRun(id, parameters, null);
+  }
+
+  /**
+   * Dry Run Sync
+   *
+   * @see #dryRun(Long, HashMap, HashMap)
+   */
+  public static void dryRun(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    dryRun(null, parameters, options);
+  }
+
+  /**
+   * Dry Run Sync
+   *
+   * @param id Sync ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   */
+  public static void dryRun(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    FilesClient.defaultClient().syncs().dryRun(id, parameters, options);
   }
 
 

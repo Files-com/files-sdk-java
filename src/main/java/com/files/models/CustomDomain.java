@@ -585,6 +585,46 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
+   * Create Custom Domain
+   *
+   * @see #create(HashMap, HashMap)
+   */
+  public static CustomDomain create() throws RuntimeException {
+    return create(null, null);
+  }
+
+  /**
+   * Create Custom Domain
+   *
+   * @see #create(HashMap, HashMap)
+   */
+  public static CustomDomain create(HashMap<String, Object> parameters) throws RuntimeException {
+    return create(parameters, null);
+  }
+
+
+  /**
+   * Create Custom Domain
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code available_to_all_workspaces} (Boolean): Allow all workspaces to use this default-workspace Custom Domain.</li>
+   * <li>{@code workspace_id} (Long): Workspace ID (0 for the default workspace).</li>
+   * <li>{@code destination} (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.</li>
+   * <li>{@code folder_behavior_id} (Long): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.</li>
+   * <li>{@code ssl_certificate_id} (Long): Current SSL certificate ID.</li>
+   * <li>{@code domain} (String): Required. Customer-owned domain name.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code CustomDomain}
+   */
+  public static CustomDomain create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return FilesClient.defaultClient().customDomains().create(parameters, options);
+  }
+
+
+  /**
    * Allocate dedicated IP addresses to this Custom Domain
    *
    * @see #createAllocateIp(Long, HashMap, HashMap)
@@ -625,46 +665,6 @@ public class CustomDomain implements ModelInterface {
    */
   public static CustomDomain createAllocateIp(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return FilesClient.defaultClient().customDomains().createAllocateIp(id, parameters, options);
-  }
-
-
-  /**
-   * Create Custom Domain
-   *
-   * @see #create(HashMap, HashMap)
-   */
-  public static CustomDomain create() throws RuntimeException {
-    return create(null, null);
-  }
-
-  /**
-   * Create Custom Domain
-   *
-   * @see #create(HashMap, HashMap)
-   */
-  public static CustomDomain create(HashMap<String, Object> parameters) throws RuntimeException {
-    return create(parameters, null);
-  }
-
-
-  /**
-   * Create Custom Domain
-   * <p>The parameters map may hold:</p>
-   * <ul>
-   * <li>{@code available_to_all_workspaces} (Boolean): Allow all workspaces to use this default-workspace Custom Domain.</li>
-   * <li>{@code workspace_id} (Long): Workspace ID (0 for the default workspace).</li>
-   * <li>{@code destination} (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.</li>
-   * <li>{@code folder_behavior_id} (Long): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.</li>
-   * <li>{@code ssl_certificate_id} (Long): Current SSL certificate ID.</li>
-   * <li>{@code domain} (String): Required. Customer-owned domain name.</li>
-   * </ul>
-   *
-   * @param parameters the request's parameters, by their API names
-   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code CustomDomain}
-   */
-  public static CustomDomain create(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return FilesClient.defaultClient().customDomains().create(parameters, options);
   }
 
 

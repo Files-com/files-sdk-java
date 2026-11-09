@@ -62,20 +62,6 @@ ListIterator<Behavior> behaviors = Behavior.list(parameters, null);
 
 ---
 
-## Show Behavior
-
-```java
-HashMap<String, Object> parameters = new HashMap<>();
-Behavior behavior = Behavior.find(1L, parameters, null);
-```
-
-### Parameters
-
-* `id` (Long): Required - Behavior ID.
-
-
----
-
 ## List Behaviors by Path
 
 ```java
@@ -86,12 +72,26 @@ ListIterator<Behavior> behaviors = Behavior.listFor("path", parameters, null);
 
 ### Parameters
 
+* `path` (String): Required - Path to operate on.
 * `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
 * `per_page` (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 * `sort_by` (Object): If set, sort records by the specified field in either `asc` or `desc` direction. Valid fields are `behavior`.
 * `filter` (Object): If set, return records where the specified field is equal to the supplied value. Valid fields are `impacts_ui` and `behavior`. Valid field combinations are `[ impacts_ui, behavior ]`.
-* `path` (String): Required - Path to operate on.
 * `ancestor_behaviors` (Boolean): If `true`, behaviors above this path are shown.
+
+
+---
+
+## Show Behavior
+
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+Behavior behavior = Behavior.find(1L, parameters, null);
+```
+
+### Parameters
+
+* `id` (Long): Required - Behavior ID.
 
 
 ---

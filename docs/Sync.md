@@ -219,11 +219,11 @@ Sync sync = Sync.create(parameters, null);
 
 ---
 
-## Dry Run Sync
+## Manually Run Sync
 
 ```java
 HashMap<String, Object> parameters = new HashMap<>();
-Sync.dryRun(1L, parameters, null);
+Sync.manualRun(1L, parameters, null);
 ```
 
 ### Parameters
@@ -233,11 +233,11 @@ Sync.dryRun(1L, parameters, null);
 
 ---
 
-## Manually Run Sync
+## Dry Run Sync
 
 ```java
 HashMap<String, Object> parameters = new HashMap<>();
-Sync.manualRun(1L, parameters, null);
+Sync.dryRun(1L, parameters, null);
 ```
 
 ### Parameters
@@ -321,12 +321,12 @@ Sync.delete(1L, parameters, null);
 
 ---
 
-## Dry Run Sync
+## Manually Run Sync
 
 ```java
 Sync sync = Sync.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-sync.dryRun(parameters);
+sync.manualRun(parameters);
 ```
 
 ### Parameters
@@ -336,12 +336,12 @@ sync.dryRun(parameters);
 
 ---
 
-## Manually Run Sync
+## Dry Run Sync
 
 ```java
 Sync sync = Sync.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-sync.manualRun(parameters);
+sync.dryRun(parameters);
 ```
 
 ### Parameters

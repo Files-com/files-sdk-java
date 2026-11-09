@@ -389,11 +389,11 @@ User user = User.create(parameters, null);
 
 ---
 
-## Unlock user who has been locked out due to failed logins
+## Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
 
 ```java
 HashMap<String, Object> parameters = new HashMap<>();
-User.unlock(1L, parameters, null);
+User.user2faReset(1L, parameters, null);
 ```
 
 ### Parameters
@@ -417,11 +417,11 @@ User.resendWelcomeEmail(1L, parameters, null);
 
 ---
 
-## Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
+## Unlock user who has been locked out due to failed logins
 
 ```java
 HashMap<String, Object> parameters = new HashMap<>();
-User.user2faReset(1L, parameters, null);
+User.unlock(1L, parameters, null);
 ```
 
 ### Parameters
@@ -596,12 +596,12 @@ User.delete(1L, parameters, null);
 
 ---
 
-## Unlock user who has been locked out due to failed logins
+## Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
 
 ```java
 User user = User.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-user.unlock(parameters);
+user.user2faReset(parameters);
 ```
 
 ### Parameters
@@ -626,12 +626,12 @@ user.resendWelcomeEmail(parameters);
 
 ---
 
-## Trigger 2FA Reset process for user who has lost access to their existing 2FA methods
+## Unlock user who has been locked out due to failed logins
 
 ```java
 User user = User.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-user.user2faReset(parameters);
+user.unlock(parameters);
 ```
 
 ### Parameters

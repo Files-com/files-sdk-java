@@ -90,25 +90,25 @@ public final class IpAddressOperations extends ResourceOperations {
   }
 
   /**
-   * List all possible public SmartFile IP addresses
+   * List all possible public IP addresses
    *
-   * @see #getSmartfileReserved(HashMap, HashMap)
+   * @see #getReserved(HashMap, HashMap)
    */
-  public List<PublicIpAddress> getSmartfileReserved() throws RuntimeException {
-    return getSmartfileReserved(null, null);
+  public List<PublicIpAddress> getReserved() throws RuntimeException {
+    return getReserved(null, null);
   }
 
   /**
-   * List all possible public SmartFile IP addresses
+   * List all possible public IP addresses
    *
-   * @see #getSmartfileReserved(HashMap, HashMap)
+   * @see #getReserved(HashMap, HashMap)
    */
-  public List<PublicIpAddress> getSmartfileReserved(HashMap<String, Object> parameters) throws RuntimeException {
-    return getSmartfileReserved(parameters, null);
+  public List<PublicIpAddress> getReserved(HashMap<String, Object> parameters) throws RuntimeException {
+    return getReserved(parameters, null);
   }
 
   /**
-   * List all possible public SmartFile IP addresses
+   * List all possible public IP addresses
    * <p>The parameters map may hold:</p>
    * <ul>
    * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
@@ -119,7 +119,7 @@ public final class IpAddressOperations extends ResourceOperations {
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
    * @return the {@code List<PublicIpAddress>}
    */
-  public List<PublicIpAddress> getSmartfileReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public List<PublicIpAddress> getReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
 
@@ -131,7 +131,7 @@ public final class IpAddressOperations extends ResourceOperations {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
 
-    String apiPath = "/ip_addresses/smartfile-reserved";
+    String apiPath = "/ip_addresses/reserved";
     TypeReference<List<PublicIpAddress>> typeReference = new TypeReference<List<PublicIpAddress>>() {};
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
@@ -184,25 +184,25 @@ public final class IpAddressOperations extends ResourceOperations {
   }
 
   /**
-   * List all possible public IP addresses
+   * List all possible public SmartFile IP addresses
    *
-   * @see #getReserved(HashMap, HashMap)
+   * @see #getSmartfileReserved(HashMap, HashMap)
    */
-  public List<PublicIpAddress> getReserved() throws RuntimeException {
-    return getReserved(null, null);
+  public List<PublicIpAddress> getSmartfileReserved() throws RuntimeException {
+    return getSmartfileReserved(null, null);
   }
 
   /**
-   * List all possible public IP addresses
+   * List all possible public SmartFile IP addresses
    *
-   * @see #getReserved(HashMap, HashMap)
+   * @see #getSmartfileReserved(HashMap, HashMap)
    */
-  public List<PublicIpAddress> getReserved(HashMap<String, Object> parameters) throws RuntimeException {
-    return getReserved(parameters, null);
+  public List<PublicIpAddress> getSmartfileReserved(HashMap<String, Object> parameters) throws RuntimeException {
+    return getSmartfileReserved(parameters, null);
   }
 
   /**
-   * List all possible public IP addresses
+   * List all possible public SmartFile IP addresses
    * <p>The parameters map may hold:</p>
    * <ul>
    * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
@@ -213,7 +213,7 @@ public final class IpAddressOperations extends ResourceOperations {
    * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
    * @return the {@code List<PublicIpAddress>}
    */
-  public List<PublicIpAddress> getReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+  public List<PublicIpAddress> getSmartfileReserved(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     parameters = copy(parameters);
     options = copy(options);
 
@@ -225,7 +225,7 @@ public final class IpAddressOperations extends ResourceOperations {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
     }
 
-    String apiPath = "/ip_addresses/reserved";
+    String apiPath = "/ip_addresses/smartfile-reserved";
     TypeReference<List<PublicIpAddress>> typeReference = new TypeReference<List<PublicIpAddress>>() {};
     return requestItem(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }

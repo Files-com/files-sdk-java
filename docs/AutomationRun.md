@@ -127,20 +127,6 @@ AutomationExecutionNode automationExecutionNode = AutomationRun.findNode(1L, par
 
 ---
 
-## Cancel Automation Run
-
-```java
-HashMap<String, Object> parameters = new HashMap<>();
-AutomationRun automationRun = AutomationRun.cancel(1L, parameters, null);
-```
-
-### Parameters
-
-* `id` (Long): Required - Automation Run ID.
-
-
----
-
 ## Re-run Automation from Node
 
 ```java
@@ -160,9 +146,8 @@ AutomationRun automationRun = AutomationRun.rerun(1L, parameters, null);
 ## Cancel Automation Run
 
 ```java
-AutomationRun automationRun = AutomationRun.find(1L, null, null);
 HashMap<String, Object> parameters = new HashMap<>();
-AutomationRun result = automationRun.cancel(parameters);
+AutomationRun automationRun = AutomationRun.cancel(1L, parameters, null);
 ```
 
 ### Parameters
@@ -185,3 +170,18 @@ AutomationRun result = automationRun.rerun(parameters);
 
 * `id` (Long): Required - Automation Run ID.
 * `node_id` (String): Required - Node ID at which execution should resume.
+
+
+---
+
+## Cancel Automation Run
+
+```java
+AutomationRun automationRun = AutomationRun.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+AutomationRun result = automationRun.cancel(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - Automation Run ID.

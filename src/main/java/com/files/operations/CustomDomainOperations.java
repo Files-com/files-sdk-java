@@ -174,74 +174,6 @@ public final class CustomDomainOperations extends ResourceOperations {
   }
 
   /**
-   * Allocate dedicated IP addresses to this Custom Domain
-   *
-   * @see #createAllocateIp(Long, HashMap, HashMap)
-   */
-  public CustomDomain createAllocateIp() throws RuntimeException {
-    return createAllocateIp(null, null, null);
-  }
-
-  /**
-   * Allocate dedicated IP addresses to this Custom Domain
-   *
-   * @see #createAllocateIp(Long, HashMap, HashMap)
-   */
-  public CustomDomain createAllocateIp(Long id, HashMap<String, Object> parameters) throws RuntimeException {
-    return createAllocateIp(id, parameters, null);
-  }
-
-  /**
-   * Allocate dedicated IP addresses to this Custom Domain
-   *
-   * @see #createAllocateIp(Long, HashMap, HashMap)
-   */
-  public CustomDomain createAllocateIp(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return createAllocateIp(null, parameters, options);
-  }
-
-  /**
-   * Allocate dedicated IP addresses to this Custom Domain
-   * <p>The parameters map may hold:</p>
-   * <ul>
-   * <li>{@code count} (Long): Required. Number of dedicated IP addresses to allocate.</li>
-   * </ul>
-   *
-   * @param id Custom Domain ID.
-   * @param parameters the request's parameters, by their API names
-   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code CustomDomain}
-   */
-  public CustomDomain createAllocateIp(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = copy(parameters);
-    options = copy(options);
-
-    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
-      id = (Long) parameters.get("id");
-    }
-
-    if (id == null) {
-      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
-    }
-
-    if (!parameters.containsKey("count") || parameters.get("count") == null) {
-      throw new NullPointerException("Parameter missing: count parameters[\"count\"]");
-    }
-
-    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
-    }
-
-    if (parameters.containsKey("count") && !(parameters.get("count") instanceof Long || parameters.get("count") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: count must be of type Long or Integer parameters[\"count\"]");
-    }
-
-    String apiPath = String.format("/custom_domains/%s/allocate_ips", UrlUtils.encodeUrlPath(String.valueOf(id)));
-    TypeReference<CustomDomain> typeReference = new TypeReference<CustomDomain>() {};
-    return requestItem(RequestMethods.POST, apiPath, typeReference, parameters, options);
-  }
-
-  /**
    * Create Custom Domain
    *
    * @see #create(HashMap, HashMap)
@@ -308,6 +240,74 @@ public final class CustomDomainOperations extends ResourceOperations {
     }
 
     String apiPath = "/custom_domains";
+    TypeReference<CustomDomain> typeReference = new TypeReference<CustomDomain>() {};
+    return requestItem(RequestMethods.POST, apiPath, typeReference, parameters, options);
+  }
+
+  /**
+   * Allocate dedicated IP addresses to this Custom Domain
+   *
+   * @see #createAllocateIp(Long, HashMap, HashMap)
+   */
+  public CustomDomain createAllocateIp() throws RuntimeException {
+    return createAllocateIp(null, null, null);
+  }
+
+  /**
+   * Allocate dedicated IP addresses to this Custom Domain
+   *
+   * @see #createAllocateIp(Long, HashMap, HashMap)
+   */
+  public CustomDomain createAllocateIp(Long id, HashMap<String, Object> parameters) throws RuntimeException {
+    return createAllocateIp(id, parameters, null);
+  }
+
+  /**
+   * Allocate dedicated IP addresses to this Custom Domain
+   *
+   * @see #createAllocateIp(Long, HashMap, HashMap)
+   */
+  public CustomDomain createAllocateIp(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return createAllocateIp(null, parameters, options);
+  }
+
+  /**
+   * Allocate dedicated IP addresses to this Custom Domain
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code count} (Long): Required. Number of dedicated IP addresses to allocate.</li>
+   * </ul>
+   *
+   * @param id Custom Domain ID.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code CustomDomain}
+   */
+  public CustomDomain createAllocateIp(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = copy(parameters);
+    options = copy(options);
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
+    }
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (!parameters.containsKey("count") || parameters.get("count") == null) {
+      throw new NullPointerException("Parameter missing: count parameters[\"count\"]");
+    }
+
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+
+    if (parameters.containsKey("count") && !(parameters.get("count") instanceof Long || parameters.get("count") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: count must be of type Long or Integer parameters[\"count\"]");
+    }
+
+    String apiPath = String.format("/custom_domains/%s/allocate_ips", UrlUtils.encodeUrlPath(String.valueOf(id)));
     TypeReference<CustomDomain> typeReference = new TypeReference<CustomDomain>() {};
     return requestItem(RequestMethods.POST, apiPath, typeReference, parameters, options);
   }

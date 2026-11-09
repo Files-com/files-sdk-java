@@ -95,6 +95,75 @@ public final class MetadataCategoryOperations extends ResourceOperations {
   }
 
   /**
+   * List Metadata Categories by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
+  public ListIterator<MetadataCategory> listFor() throws RuntimeException {
+    return listFor(null, null, null);
+  }
+
+  /**
+   * List Metadata Categories by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
+  public ListIterator<MetadataCategory> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
+    return listFor(path, parameters, null);
+  }
+
+  /**
+   * List Metadata Categories by Path
+   *
+   * @see #listFor(String, HashMap, HashMap)
+   */
+  public ListIterator<MetadataCategory> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return listFor(null, parameters, options);
+  }
+
+  /**
+   * List Metadata Categories by Path
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param path Path to operate on.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code MetadataCategory} records, in a {@code ListIterator}
+   */
+  public ListIterator<MetadataCategory> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = copy(parameters);
+    options = copy(options);
+
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = (String) parameters.get("path");
+    }
+
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
+    if (!(path instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
+    }
+
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
+    }
+
+    String apiPath = String.format("/metadata_categories/list_by_path/%s", UrlUtils.encodeUrlPath(path));
+    TypeReference<List<MetadataCategory>> typeReference = new TypeReference<List<MetadataCategory>>() {};
+    return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
+  }
+
+  /**
    * Show Metadata Category
    *
    * @see #find(Long, HashMap, HashMap)
@@ -166,75 +235,6 @@ public final class MetadataCategoryOperations extends ResourceOperations {
    */
   public MetadataCategory get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
-  }
-
-  /**
-   * List Metadata Categories by Path
-   *
-   * @see #listFor(String, HashMap, HashMap)
-   */
-  public ListIterator<MetadataCategory> listFor() throws RuntimeException {
-    return listFor(null, null, null);
-  }
-
-  /**
-   * List Metadata Categories by Path
-   *
-   * @see #listFor(String, HashMap, HashMap)
-   */
-  public ListIterator<MetadataCategory> listFor(String path, HashMap<String, Object> parameters) throws RuntimeException {
-    return listFor(path, parameters, null);
-  }
-
-  /**
-   * List Metadata Categories by Path
-   *
-   * @see #listFor(String, HashMap, HashMap)
-   */
-  public ListIterator<MetadataCategory> listFor(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    return listFor(null, parameters, options);
-  }
-
-  /**
-   * List Metadata Categories by Path
-   * <p>The parameters map may hold:</p>
-   * <ul>
-   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
-   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
-   * </ul>
-   *
-   * @param path Path to operate on.
-   * @param parameters the request's parameters, by their API names
-   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
-   * @return the {@code MetadataCategory} records, in a {@code ListIterator}
-   */
-  public ListIterator<MetadataCategory> listFor(String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
-    parameters = copy(parameters);
-    options = copy(options);
-
-    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
-      path = (String) parameters.get("path");
-    }
-
-    if (path == null) {
-      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
-    }
-
-    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
-    }
-
-    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
-    }
-
-    String apiPath = String.format("/metadata_categories/list_by_path/%s", UrlUtils.encodeUrlPath(path));
-    TypeReference<List<MetadataCategory>> typeReference = new TypeReference<List<MetadataCategory>>() {};
-    return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
   /**

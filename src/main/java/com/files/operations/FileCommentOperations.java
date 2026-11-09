@@ -76,16 +76,16 @@ public final class FileCommentOperations extends ResourceOperations {
       throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
     }
 
+    if (!(path instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+
     if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
     }
 
     if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
-    }
-
-    if (!(path instanceof String)) {
-      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
     }
 
     String apiPath = String.format("/file_comments/files/%s", UrlUtils.encodeUrlPath(path));

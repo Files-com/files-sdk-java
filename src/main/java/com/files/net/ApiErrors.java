@@ -46,6 +46,12 @@ final class ApiErrors {
     return read(response, statusCode, operation, false).error;
   }
 
+  // As forResponse, for a storage request's error response, also telling whether storage answered that
+  // the request's signed URL has expired (StorageExpiry).
+  static Failure forStorage(HttpResponse response, int statusCode) {
+    return read(response, statusCode, null, false, true);
+  }
+
   // As forResponse, also telling whether the response is a region mismatch, and the host it names.
   // Only a response from the API root the request was sent to, fromApiRoot, can be one: an HTTP 403
   // whose structured error has exactly the region mismatch type, naming the host in data.host when
@@ -56,6 +62,10 @@ final class ApiErrors {
   // ApiConnectionException with the same message that also keeps the host and the response's
   // headers; any other response without a structured error raises a plain ApiConnectionException.
   static Failure read(HttpResponse response, int statusCode, String operation, boolean fromApiRoot) {
+    return read(response, statusCode, operation, fromApiRoot, false);
+  }
+
+  private static Failure read(HttpResponse response, int statusCode, String operation, boolean fromApiRoot, boolean storage) {
     String body;
     try {
       HttpEntity entity = response.getEntity();
@@ -71,20 +81,21 @@ final class ApiErrors {
     }
 
     ResponseError responseError = body == null ? null : readResponseError(body);
+    boolean urlExpired = storage && StorageExpiry.saysExpired(statusCode, body);
     if (responseError == null) {
       String message = "HTTP returned status " + statusCode + " without a structured error response"
           + (operation != null ? " " + operation : "");
       String host = fromApiRoot && statusCode == 403 && body != null && body.startsWith(LEGACY_REGION_MISMATCH)
           ? hostHeader(response) : null;
       if (host == null) {
-        return Failure.of(new ApiErrorException.ApiConnectionException(message));
+        return Failure.of(new ApiErrorException.ApiConnectionException(message), urlExpired);
       }
       return Failure.regionMismatch(
           new ApiErrorException.LegacyRegionMismatchException(message, host, Arrays.asList(response.getAllHeaders())), host);
     }
     SdkException error = ApiErrorException.forType("HTTP returned status " + statusCode, responseError, Arrays.asList(response.getAllHeaders()));
     if (!fromApiRoot || statusCode != 403 || !REGION_MISMATCH_TYPE.equals(responseError.type)) {
-      return Failure.of(error);
+      return Failure.of(error, urlExpired);
     }
     Object host = responseError.data == null ? null : responseError.data.get("host");
     return Failure.regionMismatch(error, host instanceof String && !((String) host).isEmpty() ? (String) host : hostHeader(response));
@@ -119,25 +130,32 @@ final class ApiErrors {
     }
   }
 
-  // An error response's exception, and whether the response is a region mismatch (see read) and
-  // the host it names, which may be null for the typed error.
+  // An error response's exception, whether the response is a region mismatch (see read) and the host
+  // it names, which may be null for the typed error, and, for a storage request (forStorage), whether
+  // storage answered that its URL has expired.
   static final class Failure {
     final SdkException error;
     final boolean regionMismatch;
     final String host;
+    final boolean urlExpired;
 
-    private Failure(SdkException error, boolean regionMismatch, String host) {
+    private Failure(SdkException error, boolean regionMismatch, String host, boolean urlExpired) {
       this.error = error;
       this.regionMismatch = regionMismatch;
       this.host = host;
+      this.urlExpired = urlExpired;
     }
 
     static Failure of(SdkException error) {
-      return new Failure(error, false, null);
+      return of(error, false);
+    }
+
+    static Failure of(SdkException error, boolean urlExpired) {
+      return new Failure(error, false, null, urlExpired);
     }
 
     static Failure regionMismatch(SdkException error, String host) {
-      return new Failure(error, true, host);
+      return new Failure(error, true, host, false);
     }
   }
 }

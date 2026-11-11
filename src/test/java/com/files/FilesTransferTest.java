@@ -495,6 +495,121 @@ public class FilesTransferTest {
     assertEquals("nothing more is completed", 1, files.finishes.size());
   }
 
+  // What storage answers when a signed URL has expired, with its status: Amazon S3, Amazon and Google
+  // (ExpiredToken), Azure, and Files.com's own JSON errors, which say so by their type alone, whatever
+  // shape their other members have; and an answer that says so at its start and goes on far past the
+  // part of it that is read.
+  private static final String[][] EXPIRY_ANSWERS = {
+      {"403", "<Error><Code>AccessDenied</Code><Message>Request has expired</Message></Error>"},
+      {"400", "<Error><Code>ExpiredToken</Code><Message>The provided token has expired.</Message></Error>"},
+      {"403", "<Error><Code>AuthenticationFailed</Code><Message>Signature not valid in the specified time frame</Message></Error>"},
+      {"403", "{\"error\":\"Upload URL no longer valid\",\"http-code\":403,\"type\":\"upload_request_expired\"}"},
+      {"400", "{\"error\":\"Download URL no longer valid\",\"http-code\":400,\"type\":\"download_request_expired\"}"},
+      {"403", "<Error><Code>AccessDenied</Code><Message>Request has expired</Message>" + " ".repeat(100_000) + "</Error>"},
+      {"403", "{\"type\":\"download_request_expired\",\"error\":\"expired\",\"data\":[]}"},
+      {"400", "{\"type\":\"upload_request_expired\",\"data\":\"text\"}"},
+  };
+
+  // Refusals that do not say so: an ordinary denial, a wrong signature, another JSON error whose
+  // message alone would read as an expiry, and an expiry named only past the start that is read; and
+  // JSON that names an expiry only in its text: an object's data, an array, a string, malformed JSON,
+  // and an object longer than the start that is read; and an expiry object followed by more.
+  private static final String[][] OTHER_REFUSALS = {
+      {"403", "<Error><Code>AccessDenied</Code><Message>Access Denied</Message></Error>"},
+      {"403", "<Error><Code>SignatureDoesNotMatch</Code><Message>The request signature does not match</Message></Error>"},
+      {"403", "{\"error\":\"Request has expired\",\"http-code\":403,\"type\":\"not-authorized/api-key-is-disabled\"}"},
+      {"403", "<Error><Code>AccessDenied</Code><Message>" + " ".repeat(4096) + "Request has expired</Message></Error>"},
+      {"403", "{\"type\":\"other\",\"data\":\"<Code>ExpiredToken</Code>\"}"},
+      {"403", "[{\"Message\":\"Request has expired\"}]"},
+      {"403", "\"Request has expired\""},
+      {"403", " {\"type\":\"other\",\"error\":\"Request has expired\""},
+      {"403", "{\"type\":\"other\",\"error\":\"Request has expired\",\"padding\":\"" + " ".repeat(5000) + "\"}"},
+      {"403", "{\"type\":\"download_request_expired\"}INVALID"},
+      {"403", "{\"type\":\"upload_request_expired\"} {\"type\":\"other\"}"},
+  };
+
+  private static FakeFiles.Answer answer(String[] answer) {
+    return FakeFiles.Answer.status(Integer.parseInt(answer[0]), answer[1]);
+  }
+
+  @Test(timeout = 30000)
+  public void aPartStorageAnswersHasExpiredIsSentAgainWithARenewedUrlWhileRetryingPartsIsAllowed() throws Exception {
+    // Every URL's own expiry is far off. Part 2 is negotiated once, and again only to renew its URL; a
+    // renewal allows retrying parts unless renewalAllows says otherwise.
+    AtomicInteger part2Answers = new AtomicInteger();
+    AtomicBoolean renewalAllows = new AtomicBoolean(true);
+    files.partEditor = part -> {
+      if (part.get("part_number").asLong() == 2 && part2Answers.incrementAndGet() > 1) {
+        part.put("retry_parts", renewalAllows.get());
+      }
+      return part;
+    };
+    int run = 0;
+    for (String[] expired : EXPIRY_ANSWERS) {
+      String name = "expired-" + ++run + ".bin";
+      part2Answers.set(0);
+      files.parts.clear();
+      files.finishes.clear();
+      files.storage = (part, attempt) -> part == 2 && attempt == 1 ? answer(expired) : null;
+
+      UploadResult result = client.transfers().upload(file(name, bytes(15, run)), name);
+
+      assertEquals(name, 2, files.partsNumbered(2).size());
+      assertArrayEquals("the same bytes", files.partsNumbered(2).get(0).body, files.partsNumbered(2).get(1).body);
+      assertEquals("negotiated, then renewed once", 2, part2Answers.get());
+      assertEquals(2, result.getParts().get(1).getAttempts());
+      assertEquals(1, files.finishes.size());
+    }
+
+    for (String[] refused : OTHER_REFUSALS) {
+      String name = "refused-" + ++run + ".bin";
+      part2Answers.set(0);
+      files.parts.clear();
+      files.storage = (part, attempt) -> part == 2 ? answer(refused) : null;
+      try {
+        client.transfers().upload(file(name, bytes(15, run)), name);
+        fail("Expected the refusal to fail the upload");
+      } catch (ApiErrorException.ApiConnectionException e) {
+        assertEquals("The storage server answered part 2 of the upload to " + name + " with HTTP status 403", e.getMessage());
+      }
+      assertEquals(name, 1, files.partsNumbered(2).size());
+      assertEquals("not renewed", 1, part2Answers.get());
+    }
+
+    // A renewal that withdraws retrying parts leaves storage's answer as the part's failure.
+    renewalAllows.set(false);
+    part2Answers.set(0);
+    files.parts.clear();
+    files.finishes.clear();
+    files.storage = (part, attempt) -> part == 2 ? answer(EXPIRY_ANSWERS[3]) : null;
+    try {
+      client.transfers().upload(file("withdrawn.bin", bytes(15, 30)), "withdrawn.bin");
+      fail("Expected the part not to be sent again");
+    } catch (ApiErrorException.ApiConnectionException e) {
+      assertEquals("The storage server answered part 2 of the upload to withdrawn.bin with HTTP status 403, saying its URL has expired",
+          e.getMessage());
+    }
+    assertEquals("sent once", 1, files.partsNumbered(2).size());
+    assertEquals("negotiated, then renewed once", 2, part2Answers.get());
+
+    // Answered so every time, the part is sent as often as the client's attempts allow, each time with
+    // a renewed URL, and then fails.
+    renewalAllows.set(true);
+    part2Answers.set(0);
+    files.parts.clear();
+    files.storage = (part, attempt) -> part == 2 ? answer(EXPIRY_ANSWERS[1]) : null;
+    try {
+      client.transfers().upload(file("always.bin", bytes(15, 31)), "always.bin");
+      fail("Expected the part to fail once its attempts were used");
+    } catch (ApiErrorException.ApiConnectionException e) {
+      assertEquals("The storage server answered part 2 of the upload to always.bin with HTTP status 400, saying its URL has expired",
+          e.getMessage());
+    }
+    assertEquals("1 + max_retries of 3", 4, files.partsNumbered(2).size());
+    assertEquals(4, part2Answers.get());
+    assertEquals("nothing is completed", 0, files.finishes.size());
+  }
+
   @Test(timeout = 20000)
   public void withoutParallelPartsOnePartIsSentAtATimeInOrder() throws Exception {
     files.parallelParts = null;
@@ -2090,6 +2205,84 @@ public class FilesTransferTest {
     assertEquals("old", new String(Files.readAllBytes(destination), StandardCharsets.UTF_8));
   }
 
+  @Test(timeout = 30000)
+  public void aDownloadStorageAnswersHasExpiredIsAskedForAgainWithARenewedUrl() throws Exception {
+    int run = 0;
+    for (String[] expired : EXPIRY_ANSWERS) {
+      run++;
+      // A part of a download bound to a version: asked for again, of the same version, from the renewed URL.
+      byte[] contents = rangedFile(60 + run);
+      AtomicBoolean refuseRange = new AtomicBoolean(true);
+      files.rangeAnswer = (start, attempt) -> start == 1000 && refuseRange.getAndSet(false) ? answer(expired) : null;
+      files.describes.clear();
+      files.rangeRequests.clear();
+      Path destination = folder.getRoot().toPath().resolve("bound-" + run + ".bin");
+
+      client.transfers().download("remote/bound-" + run + ".bin", destination, inParts().build());
+
+      assertArrayEquals(contents, Files.readAllBytes(destination));
+      assertEquals("described, then renewed once", 2, files.describes.size());
+      List<FakeFiles.Received> part2 = files.rangeRequests.stream().filter(r -> r.part == 1000).collect(Collectors.toList());
+      assertEquals(2, part2.size());
+      assertTrue("of the same version", part2.stream().allMatch(r -> "\"v1\"".equals(r.header("If-Match"))));
+
+      // The whole file, binding no version, to a stream: asked for again before any of it is written.
+      files.ranges = false;
+      files.etag = null;
+      files.describedSize = null;
+      AtomicBoolean refuseWhole = new AtomicBoolean(true);
+      files.download = attempt -> refuseWhole.getAndSet(false) ? answer(expired) : null;
+      files.describes.clear();
+      files.downloads.clear();
+      ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+      client.transfers().download("remote/whole-" + run + ".bin", out, DownloadOptions.defaults());
+
+      assertArrayEquals("each byte once", contents, out.toByteArray());
+      assertEquals(2, files.describes.size());
+      assertEquals(2, files.downloads.size());
+    }
+
+    for (String[] refused : OTHER_REFUSALS) {
+      run++;
+      rangedFile(60 + run);
+      files.rangeAnswer = (start, attempt) -> start == 1000 ? answer(refused) : null;
+      files.describes.clear();
+      Path destination = file("refused-" + run + ".bin", "old".getBytes(StandardCharsets.UTF_8));
+      try {
+        client.transfers().download("remote/refused-" + run + ".bin", destination, inParts().build());
+        fail("Expected the refusal to fail the download");
+      } catch (ApiErrorException.ApiConnectionException e) {
+        assertTrue(e.getMessage(), e.getMessage().endsWith(" with HTTP status 403"));
+      }
+      assertEquals("not renewed", 1, files.describes.size());
+      assertEquals("old", new String(Files.readAllBytes(destination), StandardCharsets.UTF_8));
+    }
+
+    // Answered so every time, the file is asked for as often as the client's attempts allow, each time
+    // from a renewed URL, and the download then fails. A successful answer's body is not read for it.
+    files.ranges = false;
+    files.describedSize = null;
+    files.contents = "Request has expired".getBytes(StandardCharsets.UTF_8);
+    files.describes.clear();
+    files.downloads.clear();
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    client.transfers().download("remote/text.txt", out, DownloadOptions.defaults());
+    assertArrayEquals(files.contents, out.toByteArray());
+    assertEquals(1, files.describes.size());
+    files.download = attempt -> answer(EXPIRY_ANSWERS[4]);
+    files.describes.clear();
+    files.downloads.clear();
+    try {
+      client.transfers().download("remote/always.bin", new ByteArrayOutputStream(), DownloadOptions.defaults());
+      fail("Expected the download to fail once its attempts were used");
+    } catch (ApiErrorException.ApiConnectionException e) {
+      assertTrue(e.getMessage(), e.getMessage().endsWith(" with HTTP status 400, saying its URL has expired"));
+    }
+    assertEquals("1 + max_retries of 3", 4, files.downloads.size());
+    assertEquals("described, then renewed before each retry", 4, files.describes.size());
+  }
+
   @Test(timeout = 20000)
   public void aRedirectToAnotherUrlIsFollowedOnceTheUrlItCameFromHasExpired() throws Exception {
     // Each URL Files.com gives is valid for three seconds: about to expire, so renewed before it is
@@ -2530,6 +2723,48 @@ public class FilesTransferTest {
       assertTrue("nothing was asked of the expired URL", files.downloads.stream().noneMatch(d -> d.rawPath.equals("/download/stale.bin")));
       assertEquals("renewed once, after the refusal", 1, files.describes.size());
     }
+
+    // A File's URL that storage answers has expired, whatever expiry it states, is renewed as an expired
+    // one is. Another refusal is not, nor is a URL alone, whose refusal stands.
+    files.downloadQuery = "";
+    for (String[] expiry : EXPIRY_ANSWERS) {
+      AtomicBoolean refuse = new AtomicBoolean(true);
+      files.download = attempt -> refuse.getAndSet(false) ? answer(expiry) : null;
+      files.describes.clear();
+      files.downloads.clear();
+      try (InputStream in = storedFile("remote.bin", fresh).getInputStream()) {
+        assertArrayEquals(files.contents, FakeFiles.readAll(in));
+      }
+      assertEquals("renewed once", 1, files.describes.size());
+      assertEquals(2, files.downloads.size());
+    }
+    files.download = attempt -> answer(OTHER_REFUSALS[2]);
+    files.describes.clear();
+    try {
+      storedFile("remote.bin", fresh).getInputStream().close();
+      fail("Expected the refusal to stand");
+    } catch (ApiErrorException e) {
+      assertEquals("not-authorized/api-key-is-disabled", e.getType());
+    }
+    for (String[] refused : Arrays.copyOfRange(OTHER_REFUSALS, 3, OTHER_REFUSALS.length)) {
+      files.download = attempt -> answer(refused);
+      try {
+        storedFile("remote.bin", fresh).getInputStream().close();
+        fail("Expected the refusal to stand");
+      } catch (com.files.exceptions.SdkException e) {
+        assertTrue(e.getMessage(), e.getMessage().startsWith("HTTP returned status 403"));
+      }
+    }
+    files.download = attempt -> answer(EXPIRY_ANSWERS[4]);
+    files.downloads.clear();
+    try {
+      client.runtime().openDownload(fresh).close();
+      fail("Expected the refusal to stand");
+    } catch (ApiErrorException e) {
+      assertEquals("download_request_expired", e.getType());
+    }
+    assertTrue("nothing renewed", files.describes.isEmpty());
+    assertEquals("asked once", 1, files.downloads.size());
   }
 
   @Test(timeout = 20000)

@@ -2,6 +2,7 @@ package com.files.net;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.files.exceptions.ApiErrorException;
+import com.files.exceptions.SdkException;
 import com.files.models.File;
 import com.files.models.FileUploadPart;
 import com.files.net.HttpMethods.RequestMethods;
@@ -690,9 +691,10 @@ public final class Transfers {
    * whole file, in one request, as the compatibility downloads do. Opening is a call with this client
    * and {@code options}: a failure that may be temporary is retried until the response arrives,
    * within the call's {@code max_retries} request option, or else the client's retry limit. A URL
-   * whose own expiry has come, before it is sent or while it waits to be, is renewed with Files.com's
-   * download URL for the file's path, requested with {@code options}, at most as many times as the
-   * retry limit; a file without a path cannot be renewed. Renewing the URL does not give the opening
+   * whose own expiry has come, before it is sent or while it waits to be, or that storage answers,
+   * with HTTP 400 or 403, has expired, is renewed with Files.com's download URL for the file's path,
+   * requested with {@code options}, at most as many times as the retry limit; a file without a path
+   * cannot be renewed, and storage's answer then stands. Renewing the URL does not give the opening
    * its retries again: it goes on with those it has left. An answer from Files.com's web application
    * is refused before any of its body is returned.
    *
@@ -712,14 +714,21 @@ public final class Transfers {
       int[] retried = new int[1];
       String url = file.getDownloadUri();
       for (int renewals = 0; ; renewals++) {
+        // Storage's answer that the URL has expired, which stands when the URL cannot be renewed.
+        SdkException refused = null;
         if (url != null && !url.isEmpty() && !hasExpired(url)) {
           try {
             return runtime.openDownload(url, scope, storageRetries, retried);
           } catch (CredentialGuard.ExpiredUrl e) {
             // It expired before its request could be sent, such as while it waited for a connection.
+          } catch (StorageExpiry.Refused e) {
+            refused = e.error;
           }
         }
         if (file.getPath() == null || renewals >= runtime.maxRetries(callOptions)) {
+          if (refused != null) {
+            throw refused;
+          }
           throw new ApiErrorException.ApiConnectionException("The download URL of " + file.getPath() + " expired before it could be used");
         }
         FilesResponse response = runtime.send(RequestMethods.GET, "/files/" + UrlUtils.encodeUrlPath(file.getPath()),

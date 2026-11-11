@@ -537,8 +537,9 @@ final class UploadCoordinator {
   // Sends the part until the storage server accepts it, on one of the upload's threads. A failed
   // attempt is sent again, with the same bytes and part number, only when the failure may be
   // temporary, the server allows retrying parts (retry_parts) and the client's retry limit has not
-  // been reached. An expired URL is renewed first, and the renewal must still allow retrying parts.
-  // Reading the source is never retried. A part not read yet is read once its first attempt has
+  // been reached. An expired URL is renewed first, and the renewal must still allow retrying parts:
+  // one whose own expiry has come when storage refuses it with HTTP 403, or one storage answers has
+  // expired (StorageExpiry), whatever expiry it states. Reading the source is never retried. A part not read yet is read once its first attempt has
   // started (readForFirstAttempt), so that its read counts as time the attempt is in flight, though
   // not as time its request took.
   //
@@ -633,7 +634,7 @@ final class UploadCoordinator {
           return;
         }
         failed = outcome.error;
-        boolean expired = outcome.status == 403 && part.target.expiresWithin(Duration.ZERO);
+        boolean expired = outcome.urlExpired || (outcome.status == 403 && part.target.expiresWithin(Duration.ZERO));
         if (!(outcome.retryable || expired) || !part.target.retryParts || part.spent > maxRetries) {
           throw outcome.error;
         }
@@ -762,6 +763,8 @@ final class UploadCoordinator {
       CloseableHttpResponse response = exchange.response();
       int status = response.getStatusLine().getStatusCode();
       Header etag = response.getFirstHeader("ETag");
+      // Whether a refusal says the part's URL has expired, from the start of its body, read first.
+      boolean urlExpired = StorageExpiry.saysExpired(status, response.getEntity());
       // Reading the reply's body lets the connection be reused; stopping the upload aborts the
       // read, as the exchange keeps the request abortable until it is closed.
       EntityUtils.consumeQuietly(response.getEntity());
@@ -772,8 +775,9 @@ final class UploadCoordinator {
       boolean retryable = status == 408 || status == 429 || (status >= 500 && status != 501);
       long retryAfter = status == 429 || status == 503
           ? ClientRuntime.retryAfterMillis(response.getFirstHeader("Retry-After"), Long.MAX_VALUE) : -1;
+      String answer = "HTTP status " + status + (urlExpired ? ", saying its URL has expired" : "");
       return Outcome.failed(new ApiErrorException.ApiConnectionException("The storage server answered part " + part.planned.number
-          + " of the upload to " + path + " with HTTP status " + status), retryable, status, retryAfter, "HTTP status " + status, duration);
+          + " of the upload to " + path + " with " + answer), retryable, status, retryAfter, answer, duration, urlExpired);
     } catch (CredentialGuard.ExpiredUrl e) {
       // The URL expired before the request head could be written; the connection was given up.
       interruptedOnCaller(part, stop);
@@ -969,9 +973,11 @@ final class UploadCoordinator {
     // been written all the same.
     final boolean refused;
     final boolean mayHaveSent;
+    // Whether storage answered that the URL has expired (StorageExpiry), whatever expiry it states.
+    final boolean urlExpired;
 
     private Outcome(String etag, SdkException error, boolean retryable, int status, long retryAfterMillis, String reason,
-        long durationNanos, boolean refused, boolean mayHaveSent) {
+        long durationNanos, boolean refused, boolean mayHaveSent, boolean urlExpired) {
       this.etag = etag;
       this.error = error;
       this.retryable = retryable;
@@ -981,18 +987,24 @@ final class UploadCoordinator {
       this.durationNanos = durationNanos;
       this.refused = refused;
       this.mayHaveSent = mayHaveSent;
+      this.urlExpired = urlExpired;
     }
 
     static Outcome accepted(String etag, long durationNanos) {
-      return new Outcome(etag, null, false, 0, -1, null, durationNanos, false, false);
+      return new Outcome(etag, null, false, 0, -1, null, durationNanos, false, false, false);
     }
 
     static Outcome failed(SdkException error, boolean retryable, int status, long retryAfterMillis, String reason, long durationNanos) {
-      return new Outcome(null, error, retryable, status, retryAfterMillis, reason, durationNanos, false, false);
+      return failed(error, retryable, status, retryAfterMillis, reason, durationNanos, false);
+    }
+
+    static Outcome failed(SdkException error, boolean retryable, int status, long retryAfterMillis, String reason, long durationNanos,
+        boolean urlExpired) {
+      return new Outcome(null, error, retryable, status, retryAfterMillis, reason, durationNanos, false, false, urlExpired);
     }
 
     static Outcome refused(SdkException error, boolean mayHaveSent, long durationNanos) {
-      return new Outcome(null, error, false, 0, -1, "its URL expired before it could be sent", durationNanos, true, mayHaveSent);
+      return new Outcome(null, error, false, 0, -1, "its URL expired before it could be sent", durationNanos, true, mayHaveSent, false);
     }
   }
 

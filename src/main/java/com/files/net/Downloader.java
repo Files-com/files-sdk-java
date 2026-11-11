@@ -584,7 +584,7 @@ final class Downloader {
               path, status);
           return Resumption.CHANGED;
         } else {
-          attempt = failedStatus(response, status);
+          attempt = failedStatus(response, status, uri);
         }
       } catch (LocalFailure e) {
         throw e.failure();
@@ -717,7 +717,7 @@ final class Downloader {
         } else if (status == 200 || status == 416 || (status >= 300 && status < 400)) {
           return null;
         } else {
-          attempt = failedStatus(response, status);
+          attempt = failedStatus(response, status, uri);
         }
       } catch (LocalFailure e) {
         throw e.failure();
@@ -857,16 +857,17 @@ final class Downloader {
 
   // Fetches the part until all of it has been written, on one of the download's threads. A failed
   // attempt that may be temporary is followed by one for the part's bytes not yet written, within the
-  // client's retry limit. A URL about to expire is renewed while the part holds no admission or slot,
-  // as the renewal needs a connection of its own; an attempt whose URL expired before its request head
-  // could be written, such as while it waited for a connection, is refused there (CredentialGuard),
-  // with nothing measured or written, and uses one of the part's attempts.
+  // client's retry limit. A URL about to expire, or one storage answered has expired (failedStatus), is
+  // renewed while the part holds no admission or slot, as the renewal needs a connection of its own; an
+  // attempt whose URL expired before its request head could be written, such as while it waited for a
+  // connection, is refused there (CredentialGuard), with nothing measured or written, and uses one of
+  // the part's attempts.
   private void fetchPart(Part part, int bufferBytes, DownloadStage stage, OperationScope stop) {
     byte[] buffer = new byte[bufferBytes];
     try {
       int attempt = 0;
       while (true) {
-        if (expiresSoon(url)) {
+        if (needsRenewal()) {
           if (part.attempt != null) {
             part.attempt.close();
             part.attempt = null;
@@ -969,7 +970,7 @@ final class Downloader {
         throw new Unbound();
       }
       if (status != 206) {
-        return failedStatus(response, status);
+        return failedStatus(response, status, uri);
       }
       ContentRange range = ContentRange.of(response);
       String etag = entityTag(response);
@@ -1121,7 +1122,7 @@ final class Downloader {
         int status = response.getStatusLine().getStatusCode();
         refuseWebApplication(response);
         if (status != 200) {
-          outcome = failedStatus(response, status);
+          outcome = failedStatus(response, status, storage.uri);
         } else {
           long expected = entity != null ? entity.getContentLength() : 0;
           Long described = file.getSize();
@@ -1249,12 +1250,21 @@ final class Downloader {
     }
   }
 
-  private Attempt failedStatus(CloseableHttpResponse response, int status) {
+  // The failure of a request for uri answered with an error status. One that says its URL has expired
+  // (StorageExpiry), whatever expiry the URL states, may be tried again, within the client's retry
+  // limit, with the download's URL renewed first (refusedUrl), as when a request is refused before
+  // sending for its URL's expiry.
+  private Attempt failedStatus(CloseableHttpResponse response, int status, String uri) {
+    boolean urlExpired = StorageExpiry.saysExpired(status, response.getEntity());
     EntityUtils.consumeQuietly(response.getEntity());
-    boolean retryable = status == 408 || status == 429 || (status >= 500 && status != 501);
+    if (urlExpired) {
+      refusedUrl = uri;
+    }
+    boolean retryable = urlExpired || status == 408 || status == 429 || (status >= 500 && status != 501);
     long retryAfter = status == 429 || status == 503 ? ClientRuntime.retryAfterMillis(response.getFirstHeader("Retry-After"), Long.MAX_VALUE) : -1;
+    String answer = "HTTP status " + status + (urlExpired ? ", saying its URL has expired" : "");
     return Attempt.failed(new ApiErrorException.ApiConnectionException("The storage server answered the download of " + path
-        + " with HTTP status " + status), retryable, retryAfter, "HTTP status " + status, status);
+        + " with " + answer), retryable, retryAfter, answer, status);
   }
 
   private Attempt connectionFailure(IOException e, OperationScope scope) {
@@ -1291,7 +1301,7 @@ final class Downloader {
   }
 
   // Gives the download a new URL when its URL is about to expire, or a request for it was refused after
-  // a redirect (refusedUrl): Files.com's download URL for the file again, which, once the download is
+  // a redirect, or storage answered that it has expired (refusedUrl): Files.com's download URL for the file again, which, once the download is
   // bound, must name the same storage resource, and must not have expired already; one still valid,
   // however briefly, is used.
   private void renewIfExpiring(OperationScope scope) {

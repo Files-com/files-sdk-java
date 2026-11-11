@@ -1061,14 +1061,17 @@ public final class ClientRuntime implements Closeable {
       return openDownload(url, scope, storageRetries(), new int[1]);
     } catch (CredentialGuard.ExpiredUrl e) {
       throw new ApiErrorException.ApiConnectionException("The download URL expired before it could be used, and a URL alone cannot be renewed");
+    } catch (StorageExpiry.Refused e) {
+      // Storage answered that the URL has expired: a URL alone cannot be renewed.
+      throw e.error;
     }
   }
 
   // Opens a download from url within scope, as openDownload(String) does, within the retry limit
   // maxRetries, of which retried[0] retries the opening has used already; each retry made here adds
   // one, so an opening whose URL is renewed goes on with the retries it has left rather than starting
-  // again. A refusal for an expiry a URL states is thrown as CredentialGuard.ExpiredUrl, for a caller
-  // that can renew it.
+  // again. A refusal for an expiry a URL states is thrown as CredentialGuard.ExpiredUrl, and storage's
+  // answer that the URL has expired as StorageExpiry.Refused, for a caller that can renew it.
   FilesApacheHttpInputStream openDownload(String url, OperationScope scope, int maxRetries, int[] retried) {
     return new FilesApacheHttpInputStream(sendStorage(() -> new HttpGet(url), maxRetries, retried, scope, true));
   }
@@ -1117,7 +1120,9 @@ public final class ClientRuntime implements Closeable {
   // As above, within scope, retried[0] of whose retries have been used already: each retry adds one.
   // For a download, a request is refused with CredentialGuard.ExpiredUrl, and not retried, once the
   // expiry its URL states, or the URL a redirect leads to states, has come by the time it would be
-  // sent; and an answer from Files.com's web application is refused before its body is returned.
+  // sent; an answer that its URL has expired (StorageExpiry), whatever expiry the URL states, is
+  // thrown as StorageExpiry.Refused, and not retried; and an answer from Files.com's web application
+  // is refused before its body is returned.
   private CloseableHttpResponse sendStorage(java.util.function.Supplier<HttpRequestBase> requests, int maxRetries, int[] retried,
       OperationScope scope, boolean download) {
     while (true) {
@@ -1141,12 +1146,18 @@ public final class ClientRuntime implements Closeable {
         if (status < 400) {
           return exchange.detach();
         }
+        boolean urlExpired;
         try {
-          error = ApiErrors.forResponse(response, status);
+          ApiErrors.Failure failure = ApiErrors.forStorage(response, status);
+          error = failure.error;
+          urlExpired = download && failure.urlExpired;
         } finally {
           exchange.close();
         }
         scope.check();
+        if (urlExpired) {
+          throw new StorageExpiry.Refused(error);
+        }
         retryable = status == 429 || (status >= 500 && status != 501);
         reason = "HTTP status " + status;
         if (status == 429 || status == 503) {

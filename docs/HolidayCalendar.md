@@ -29,9 +29,10 @@
       ],
       "11": [
         {
-          "name": "Thanksgiving",
+          "name": "Day after Thanksgiving",
           "week": 4,
-          "wday": 4
+          "wday": 4,
+          "day_offset": 1
         }
       ],
       "12": [
@@ -112,9 +113,10 @@ map5.put("week", 3);
 map5.put("wday", 1);
 map2.put("1", new Object[] {map4, map5});
 HashMap<String, Object> map6 = new HashMap<>();
-map6.put("name", "Thanksgiving");
+map6.put("name", "Day after Thanksgiving");
 map6.put("week", 4);
 map6.put("wday", 4);
+map6.put("day_offset", 1);
 map2.put("11", new Object[] {map6});
 HashMap<String, Object> map7 = new HashMap<>();
 map7.put("name", "Christmas Eve Early Close");
@@ -160,9 +162,10 @@ map5.put("week", 3);
 map5.put("wday", 1);
 map2.put("1", new Object[] {map4, map5});
 HashMap<String, Object> map6 = new HashMap<>();
-map6.put("name", "Thanksgiving");
+map6.put("name", "Day after Thanksgiving");
 map6.put("week", 4);
 map6.put("wday", 4);
+map6.put("day_offset", 1);
 map2.put("11", new Object[] {map6});
 HashMap<String, Object> map7 = new HashMap<>();
 map7.put("name", "Christmas Eve Early Close");
@@ -224,9 +227,10 @@ map5.put("week", 3);
 map5.put("wday", 1);
 map2.put("1", new Object[] {map4, map5});
 HashMap<String, Object> map6 = new HashMap<>();
-map6.put("name", "Thanksgiving");
+map6.put("name", "Day after Thanksgiving");
 map6.put("week", 4);
 map6.put("wday", 4);
+map6.put("day_offset", 1);
 map2.put("11", new Object[] {map6});
 HashMap<String, Object> map7 = new HashMap<>();
 map7.put("name", "Christmas Eve Early Close");

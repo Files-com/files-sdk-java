@@ -211,6 +211,7 @@ public final class ExpectationOperations extends ResourceOperations {
    * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the Expectation schedule.</li>
    * <li>{@code schedule_time_zone} (String): Time zone used by the Expectation schedule.</li>
    * <li>{@code holiday_region} (String): Optional holiday region used by the Expectation schedule.</li>
+   * <li>{@code schedule_time_exceptions} (Object[]): Calendar-based replacement due times. Matching dates replace all normal times; holiday exclusions still apply. Calendars specifying different times on the same date conflict.</li>
    * <li>{@code lookback_interval} (Long): How many seconds before the due boundary the window starts.</li>
    * <li>{@code late_acceptance_interval} (Long): How many seconds a schedule-driven window may remain eligible to close as late.</li>
    * <li>{@code inactivity_interval} (Long): How many quiet seconds are required before final closure.</li>
@@ -285,6 +286,10 @@ public final class ExpectationOperations extends ResourceOperations {
 
     if (parameters.containsKey("holiday_region") && !(parameters.get("holiday_region") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: holiday_region must be of type String parameters[\"holiday_region\"]");
+    }
+
+    if (parameters.containsKey("schedule_time_exceptions") && !(parameters.get("schedule_time_exceptions") instanceof Object[])) {
+      throw new IllegalArgumentException("Bad parameter: schedule_time_exceptions must be of type Object[] parameters[\"schedule_time_exceptions\"]");
     }
 
     if (parameters.containsKey("lookback_interval") && !(parameters.get("lookback_interval") instanceof Long || parameters.get("lookback_interval") instanceof Integer)) {
@@ -418,6 +423,7 @@ public final class ExpectationOperations extends ResourceOperations {
    * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the Expectation schedule.</li>
    * <li>{@code schedule_time_zone} (String): Time zone used by the Expectation schedule.</li>
    * <li>{@code holiday_region} (String): Optional holiday region used by the Expectation schedule.</li>
+   * <li>{@code schedule_time_exceptions} (Object[]): Calendar-based replacement due times. Matching dates replace all normal times; holiday exclusions still apply. Calendars specifying different times on the same date conflict.</li>
    * <li>{@code lookback_interval} (Long): How many seconds before the due boundary the window starts.</li>
    * <li>{@code late_acceptance_interval} (Long): How many seconds a schedule-driven window may remain eligible to close as late.</li>
    * <li>{@code inactivity_interval} (Long): How many quiet seconds are required before final closure.</li>
@@ -505,6 +511,10 @@ public final class ExpectationOperations extends ResourceOperations {
 
     if (parameters.containsKey("holiday_region") && !(parameters.get("holiday_region") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: holiday_region must be of type String parameters[\"holiday_region\"]");
+    }
+
+    if (parameters.containsKey("schedule_time_exceptions") && !(parameters.get("schedule_time_exceptions") instanceof Object[])) {
+      throw new IllegalArgumentException("Bad parameter: schedule_time_exceptions must be of type Object[] parameters[\"schedule_time_exceptions\"]");
     }
 
     if (parameters.containsKey("lookback_interval") && !(parameters.get("lookback_interval") instanceof Long || parameters.get("lookback_interval") instanceof Integer)) {

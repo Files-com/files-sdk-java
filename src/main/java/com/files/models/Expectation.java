@@ -556,6 +556,30 @@ public class Expectation implements ModelInterface {
   }
 
   /**
+   * Calendar-based replacement due times. Matching dates replace all normal times; holiday exclusions still apply. Calendars specifying different times on the same date conflict.
+   */
+  @JsonProperty("schedule_time_exceptions")
+  public Object[] scheduleTimeExceptions;
+
+  /**
+   * Gets {@link #scheduleTimeExceptions}.
+   *
+   * @return the value of {@link #scheduleTimeExceptions}
+   */
+  public Object[] getScheduleTimeExceptions() {
+    return scheduleTimeExceptions;
+  }
+
+  /**
+   * Sets {@link #scheduleTimeExceptions}.
+   *
+   * @param scheduleTimeExceptions the new value
+   */
+  public void setScheduleTimeExceptions(Object[] scheduleTimeExceptions) {
+    this.scheduleTimeExceptions = scheduleTimeExceptions;
+  }
+
+  /**
    * How many seconds a schedule-driven window may remain eligible to close as late.
    */
   @JsonProperty("late_acceptance_interval")
@@ -807,6 +831,7 @@ public class Expectation implements ModelInterface {
    * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the Expectation schedule.</li>
    * <li>{@code schedule_time_zone} (String): Time zone used by the Expectation schedule.</li>
    * <li>{@code holiday_region} (String): Optional holiday region used by the Expectation schedule.</li>
+   * <li>{@code schedule_time_exceptions} (Object[]): Calendar-based replacement due times. Matching dates replace all normal times; holiday exclusions still apply. Calendars specifying different times on the same date conflict.</li>
    * <li>{@code lookback_interval} (Long): How many seconds before the due boundary the window starts.</li>
    * <li>{@code late_acceptance_interval} (Long): How many seconds a schedule-driven window may remain eligible to close as late.</li>
    * <li>{@code inactivity_interval} (Long): How many quiet seconds are required before final closure.</li>
@@ -870,6 +895,9 @@ public class Expectation implements ModelInterface {
     if (this.scheduleTimesOfDay != null) {
       parameters.put("schedule_times_of_day", this.scheduleTimesOfDay);
     }
+    if (this.scheduleTimeExceptions != null) {
+      parameters.put("schedule_time_exceptions", this.scheduleTimeExceptions);
+    }
     return parameters;
   }
 
@@ -895,6 +923,7 @@ public class Expectation implements ModelInterface {
     this.scheduleTimeZone = canonical.scheduleTimeZone;
     this.holidayRegion = canonical.holidayRegion;
     this.lookbackInterval = canonical.lookbackInterval;
+    this.scheduleTimeExceptions = canonical.scheduleTimeExceptions;
     this.lateAcceptanceInterval = canonical.lateAcceptanceInterval;
     this.inactivityInterval = canonical.inactivityInterval;
     this.maxOpenInterval = canonical.maxOpenInterval;
@@ -1057,6 +1086,7 @@ public class Expectation implements ModelInterface {
    * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the Expectation schedule.</li>
    * <li>{@code schedule_time_zone} (String): Time zone used by the Expectation schedule.</li>
    * <li>{@code holiday_region} (String): Optional holiday region used by the Expectation schedule.</li>
+   * <li>{@code schedule_time_exceptions} (Object[]): Calendar-based replacement due times. Matching dates replace all normal times; holiday exclusions still apply. Calendars specifying different times on the same date conflict.</li>
    * <li>{@code lookback_interval} (Long): How many seconds before the due boundary the window starts.</li>
    * <li>{@code late_acceptance_interval} (Long): How many seconds a schedule-driven window may remain eligible to close as late.</li>
    * <li>{@code inactivity_interval} (Long): How many quiet seconds are required before final closure.</li>
@@ -1160,6 +1190,7 @@ public class Expectation implements ModelInterface {
    * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the Expectation schedule.</li>
    * <li>{@code schedule_time_zone} (String): Time zone used by the Expectation schedule.</li>
    * <li>{@code holiday_region} (String): Optional holiday region used by the Expectation schedule.</li>
+   * <li>{@code schedule_time_exceptions} (Object[]): Calendar-based replacement due times. Matching dates replace all normal times; holiday exclusions still apply. Calendars specifying different times on the same date conflict.</li>
    * <li>{@code lookback_interval} (Long): How many seconds before the due boundary the window starts.</li>
    * <li>{@code late_acceptance_interval} (Long): How many seconds a schedule-driven window may remain eligible to close as late.</li>
    * <li>{@code inactivity_interval} (Long): How many quiet seconds are required before final closure.</li>

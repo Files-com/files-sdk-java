@@ -32,6 +32,14 @@
   "schedule_time_zone": "UTC",
   "holiday_region": "us",
   "lookback_interval": 3600,
+  "schedule_time_exceptions": [
+    {
+      "holiday_region": "nyse_early_close",
+      "times_of_day": [
+        "13:00"
+      ]
+    }
+  ],
   "late_acceptance_interval": 900,
   "inactivity_interval": 300,
   "max_open_interval": 43200,
@@ -71,6 +79,7 @@
 * `schedule_time_zone` / `scheduleTimeZone`  (string): Time zone used by the Expectation schedule.
 * `holiday_region` / `holidayRegion`  (string): Optional holiday region used by the Expectation schedule.
 * `lookback_interval` / `lookbackInterval`  (int64): How many seconds before the due boundary the window starts.
+* `schedule_time_exceptions` / `scheduleTimeExceptions`  (array(object)): Calendar-based replacement due times. Matching dates replace all normal times; holiday exclusions still apply. Calendars specifying different times on the same date conflict.
 * `late_acceptance_interval` / `lateAcceptanceInterval`  (int64): How many seconds a schedule-driven window may remain eligible to close as late.
 * `inactivity_interval` / `inactivityInterval`  (int64): How many quiet seconds are required before final closure.
 * `max_open_interval` / `maxOpenInterval`  (int64): Hard-stop duration in seconds for unscheduled expectations.
@@ -135,16 +144,20 @@ parameters.put("schedule_days_of_week", new Long[] {1L, 3L, 5L});
 parameters.put("schedule_times_of_day", new String[] {"06:00"});
 parameters.put("schedule_time_zone", "UTC");
 parameters.put("holiday_region", "us");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("holiday_region", "nyse_early_close");
+map1.put("times_of_day", new Object[] {"13:00"});
+parameters.put("schedule_time_exceptions", new Object[] {map1});
 parameters.put("lookback_interval", 3600L);
 parameters.put("late_acceptance_interval", 900L);
 parameters.put("inactivity_interval", 300L);
 parameters.put("max_open_interval", 43200L);
-HashMap<String, Object> map1 = new HashMap<>();
 HashMap<String, Object> map2 = new HashMap<>();
-map2.put("exact", 1);
-map1.put("count", map2);
-map1.put("extensions", new Object[] {"csv"});
-parameters.put("criteria", map1);
+HashMap<String, Object> map3 = new HashMap<>();
+map3.put("exact", 1);
+map2.put("count", map3);
+map2.put("extensions", new Object[] {"csv"});
+parameters.put("criteria", map2);
 parameters.put("workspace_id", 0L);
 Expectation expectation = Expectation.create(parameters, null);
 ```
@@ -166,6 +179,7 @@ Expectation expectation = Expectation.create(parameters, null);
 * `schedule_times_of_day` (String[]): Times of day in HH:MM format for the Expectation schedule.
 * `schedule_time_zone` (String): Time zone used by the Expectation schedule.
 * `holiday_region` (String): Optional holiday region used by the Expectation schedule.
+* `schedule_time_exceptions` (Object[]): Calendar-based replacement due times. Matching dates replace all normal times; holiday exclusions still apply. Calendars specifying different times on the same date conflict.
 * `lookback_interval` (Long): How many seconds before the due boundary the window starts.
 * `late_acceptance_interval` (Long): How many seconds a schedule-driven window may remain eligible to close as late.
 * `inactivity_interval` (Long): How many quiet seconds are required before final closure.
@@ -209,16 +223,20 @@ parameters.put("schedule_days_of_week", new Long[] {1L, 3L, 5L});
 parameters.put("schedule_times_of_day", new String[] {"06:00"});
 parameters.put("schedule_time_zone", "UTC");
 parameters.put("holiday_region", "us");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("holiday_region", "nyse_early_close");
+map1.put("times_of_day", new Object[] {"13:00"});
+parameters.put("schedule_time_exceptions", new Object[] {map1});
 parameters.put("lookback_interval", 3600L);
 parameters.put("late_acceptance_interval", 900L);
 parameters.put("inactivity_interval", 300L);
 parameters.put("max_open_interval", 43200L);
-HashMap<String, Object> map1 = new HashMap<>();
 HashMap<String, Object> map2 = new HashMap<>();
-map2.put("exact", 1);
-map1.put("count", map2);
-map1.put("extensions", new Object[] {"csv"});
-parameters.put("criteria", map1);
+HashMap<String, Object> map3 = new HashMap<>();
+map3.put("exact", 1);
+map2.put("count", map3);
+map2.put("extensions", new Object[] {"csv"});
+parameters.put("criteria", map2);
 parameters.put("workspace_id", 0L);
 Expectation expectation = Expectation.update(1L, parameters, null);
 ```
@@ -241,6 +259,7 @@ Expectation expectation = Expectation.update(1L, parameters, null);
 * `schedule_times_of_day` (String[]): Times of day in HH:MM format for the Expectation schedule.
 * `schedule_time_zone` (String): Time zone used by the Expectation schedule.
 * `holiday_region` (String): Optional holiday region used by the Expectation schedule.
+* `schedule_time_exceptions` (Object[]): Calendar-based replacement due times. Matching dates replace all normal times; holiday exclusions still apply. Calendars specifying different times on the same date conflict.
 * `lookback_interval` (Long): How many seconds before the due boundary the window starts.
 * `late_acceptance_interval` (Long): How many seconds a schedule-driven window may remain eligible to close as late.
 * `inactivity_interval` (Long): How many quiet seconds are required before final closure.
@@ -300,16 +319,20 @@ parameters.put("schedule_days_of_week", new Long[] {1L, 3L, 5L});
 parameters.put("schedule_times_of_day", new String[] {"06:00"});
 parameters.put("schedule_time_zone", "UTC");
 parameters.put("holiday_region", "us");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("holiday_region", "nyse_early_close");
+map1.put("times_of_day", new Object[] {"13:00"});
+parameters.put("schedule_time_exceptions", new Object[] {map1});
 parameters.put("lookback_interval", 3600L);
 parameters.put("late_acceptance_interval", 900L);
 parameters.put("inactivity_interval", 300L);
 parameters.put("max_open_interval", 43200L);
-HashMap<String, Object> map1 = new HashMap<>();
 HashMap<String, Object> map2 = new HashMap<>();
-map2.put("exact", 1);
-map1.put("count", map2);
-map1.put("extensions", new Object[] {"csv"});
-parameters.put("criteria", map1);
+HashMap<String, Object> map3 = new HashMap<>();
+map3.put("exact", 1);
+map2.put("count", map3);
+map2.put("extensions", new Object[] {"csv"});
+parameters.put("criteria", map2);
 parameters.put("workspace_id", 0L);
 Expectation result = expectation.update(parameters);
 ```
@@ -332,6 +355,7 @@ Expectation result = expectation.update(parameters);
 * `schedule_times_of_day` (String[]): Times of day in HH:MM format for the Expectation schedule.
 * `schedule_time_zone` (String): Time zone used by the Expectation schedule.
 * `holiday_region` (String): Optional holiday region used by the Expectation schedule.
+* `schedule_time_exceptions` (Object[]): Calendar-based replacement due times. Matching dates replace all normal times; holiday exclusions still apply. Calendars specifying different times on the same date conflict.
 * `lookback_interval` (Long): How many seconds before the due boundary the window starts.
 * `late_acceptance_interval` (Long): How many seconds a schedule-driven window may remain eligible to close as late.
 * `inactivity_interval` (Long): How many quiet seconds are required before final closure.

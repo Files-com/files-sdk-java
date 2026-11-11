@@ -4000,6 +4000,10 @@
           "field": "scheduleId",
           "getter": "getScheduleId"
         },
+        "schedule_time_exceptions": {
+          "field": "scheduleTimeExceptions",
+          "getter": "getScheduleTimeExceptions"
+        },
         "schedule_time_zone": {
           "field": "scheduleTimeZone",
           "getter": "getScheduleTimeZone"

@@ -1,6 +1,7 @@
 package com.files.net;
 
 import java.time.Duration;
+import java.util.OptionalInt;
 
 /**
  * How far a transfer has come. Immutable.
@@ -15,9 +16,17 @@ public final class TransferProgress {
   private final int retries;
   private final Duration elapsed;
   private final TransferConcurrency concurrency;
+  private final boolean finalizing;
+  private final OptionalInt finalizationProgress;
 
   TransferProgress(String path, long totalBytes, long transferredBytes, long resumedBytes, long sentBytes, long completedParts, int retries,
       Duration elapsed, TransferConcurrency concurrency) {
+    this(path, totalBytes, transferredBytes, resumedBytes, sentBytes, completedParts, retries, elapsed, concurrency, false,
+        OptionalInt.empty());
+  }
+
+  private TransferProgress(String path, long totalBytes, long transferredBytes, long resumedBytes, long sentBytes, long completedParts,
+      int retries, Duration elapsed, TransferConcurrency concurrency, boolean finalizing, OptionalInt finalizationProgress) {
     this.path = path;
     this.totalBytes = totalBytes;
     this.transferredBytes = transferredBytes;
@@ -27,6 +36,15 @@ public final class TransferProgress {
     this.retries = retries;
     this.elapsed = elapsed;
     this.concurrency = concurrency;
+    this.finalizing = finalizing;
+    this.finalizationProgress = finalizationProgress;
+  }
+
+  // This progress, reported while Files.com completes the upload in the background: its byte counts
+  // as they are, with the percentage Files.com last gave, if any.
+  TransferProgress finalizing(OptionalInt progress) {
+    return new TransferProgress(path, totalBytes, transferredBytes, resumedBytes, sentBytes, completedParts, retries, elapsed, concurrency,
+        true, progress);
   }
 
   /** The remote path of the transfer. */
@@ -94,6 +112,27 @@ public final class TransferProgress {
   }
 
   /**
+   * Whether Files.com is completing the upload in the background: it answered the request that
+   * completes the upload by saying so, as it can for a destination such as a Remote Server mount or
+   * a Files Agent, and the upload is waiting for it to finish. True in the reports made from that
+   * answer until the upload ends; their byte counts no longer change. Still finalizing at 100%: the
+   * upload is complete only once it returns. False for a download.
+   */
+  public boolean isFinalizing() {
+    return finalizing;
+  }
+
+  /**
+   * While {@link #isFinalizing() finalizing}, how far Files.com says it has come in completing the
+   * upload, a whole percentage from 0 to 100, as of its latest answer; empty when that answer gave
+   * none, or none the SDK can read, and when not finalizing. It is coarse, and may stay the same, or
+   * empty, for a long time.
+   */
+  public OptionalInt getFinalizationProgress() {
+    return finalizationProgress;
+  }
+
+  /**
    * The bytes this run transferred, {@link #getTransferredBytes()} less {@link #getResumedBytes()},
    * per second of {@link #getElapsed()}; 0 at the start.
    */
@@ -107,6 +146,7 @@ public final class TransferProgress {
     return "TransferProgress{path=" + path + ", totalBytes=" + totalBytes + ", transferredBytes=" + transferredBytes + ", resumedBytes="
         + resumedBytes
         + ", sentBytes=" + sentBytes + ", completedParts=" + completedParts + ", retries=" + retries
-        + ", elapsed=" + elapsed + ", concurrency=" + concurrency + "}";
+        + ", elapsed=" + elapsed + ", concurrency=" + concurrency + ", finalizing=" + finalizing + ", finalizationProgress="
+        + finalizationProgress + "}";
   }
 }

@@ -163,6 +163,15 @@ final class FakeFiles implements AutoCloseable {
       return answer;
     }
 
+    /**
+     * Answers a final request as Files.com does while it completes the upload in the background:
+     * 202, pending, with the request's ref and, unless null, {@code progress} as the JSON it is.
+     */
+    static Answer pending(Received request, String progress) throws IOException {
+      return status(202, "{\"status\":\"pending\",\"ref\":" + JSON.writeValueAsString(request.json().path("ref").asText())
+          + (progress == null ? "" : ",\"progress\":" + progress) + "}");
+    }
+
     /** Closes the connection without answering. */
     static Answer drop() {
       Answer answer = new Answer();

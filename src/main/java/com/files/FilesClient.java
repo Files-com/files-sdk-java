@@ -188,7 +188,8 @@ import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
  * that uses one of the same retries. A request that changes data may take effect twice when an
  * earlier attempt reached Files.com but its answer was lost or was a server error. The request that
  * completes an upload is the exception: once it may have reached Files.com it is never sent again,
- * and unless Files.com refused it, a failure then leaves the upload's outcome unknown
+ * unless Files.com answered that it is completing the upload in the background, and unless
+ * Files.com refused it, a failure then leaves the upload's outcome unknown
  * ({@link com.files.exceptions.UploadCompletionUnknownException}). The default client reads its
  * retry limit and wait from {@link FilesConfig} again before each attempt of its API requests and of
  * the storage requests of {@link #getFileInputStream} and {@link #putBuffer}; transfers, and every

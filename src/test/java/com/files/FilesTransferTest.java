@@ -66,6 +66,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.OptionalInt;
 import java.util.Set;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.Callable;
@@ -177,6 +178,8 @@ public class FilesTransferTest {
     assertEquals("put-1", end.get("ref").asText());
     assertEquals(12, end.get("size").asLong());
     assertFalse("the final request is not a negotiation", end.has("with_direct_connection_info"));
+    assertTrue("the final request lets Files.com complete the upload in the background where it can, and a File answers it",
+        end.path("async_finalize").isBoolean() && end.path("async_finalize").booleanValue());
     assertEquals(modified.truncatedTo(ChronoUnit.SECONDS).toString(), end.get("provided_mtime").asText());
     assertEquals("[{\"etag\":\"\\\"etag-1-1\\\"\",\"part\":1},{\"etag\":\"\\\"etag-2-1\\\"\",\"part\":2},{\"etag\":\"\\\"etag-3-1\\\"\",\"part\":3}]",
         end.get("etags").toString());
@@ -1305,6 +1308,163 @@ public class FilesTransferTest {
       assertEquals(422, e.getHttpCode());
     }
     assertEquals(1, files.finishes.size());
+  }
+
+  @Test(timeout = 40000)
+  public void anUploadFilesComCompletesInTheBackgroundIsAskedAboutOneTwoThenThreeSecondsApartWithTheSameRequestUntilItAnswersWithTheFile()
+      throws Exception {
+    // Pending without a percentage, at 42, with values that are no percentage, then at 100, which is still
+    // pending; then the file.
+    List<String> percentages = Arrays.asList(null, "42", "\"60\"", "101", "100");
+    List<Long> receivedAt = new CopyOnWriteArrayList<>();
+    files.finish = request -> {
+      receivedAt.add(System.nanoTime());
+      int answered = files.finishes.size() - 1;
+      return answered < percentages.size() ? FakeFiles.Answer.pending(request, percentages.get(answered)) : null;
+    };
+    List<TransferProgress> progress = new CopyOnWriteArrayList<>();
+    HashMap<String, Object> requestOptions = new HashMap<>();
+    requestOptions.put("api_key", "upload-key");
+
+    UploadResult result = client.transfers().upload(new ByteArrayInputStream(bytes(8, 40)), "background.bin",
+        UploadOptions.builder().requestOptions(requestOptions).progressListener(progress::add).build());
+
+    assertEquals("background.bin", result.getFile().getPath());
+    assertEquals(8, result.getFile().getSize().longValue());
+    assertEquals(8, result.getSize());
+    assertEquals("asked until the file came", percentages.size() + 1, files.finishes.size());
+    FakeFiles.Received first = files.finishes.get(0);
+    assertTrue(first.json().path("async_finalize").booleanValue());
+    for (int i = 1; i < files.finishes.size(); i++) {
+      FakeFiles.Received again = files.finishes.get(i);
+      assertEquals("the same request", first.rawPath, again.rawPath);
+      assertEquals(first.json(), again.json());
+      for (String header : Arrays.asList("X-FilesAPI-Key", "X-Files-Workspace-Id", "User-Agent")) {
+        assertEquals(header, first.header(header), again.header(header));
+      }
+      // A pending 100, or a percentage that is none, is still pending, and the waits grow to three seconds.
+      long wait = 1000L * Math.min(i, 3);
+      long waited = TimeUnit.NANOSECONDS.toMillis(receivedAt.get(i) - receivedAt.get(i - 1));
+      assertTrue("asked again " + waited + " ms after answer " + i + ", not " + wait, waited >= wait - 50 && waited < wait + 900);
+    }
+    assertEquals("the upload's own credentials", "upload-key", first.header("X-FilesAPI-Key"));
+
+    List<TransferProgress> finalizing = progress.stream().filter(TransferProgress::isFinalizing).collect(Collectors.toList());
+    assertEquals("one report for each pending answer", Arrays.asList(OptionalInt.empty(), OptionalInt.of(42), OptionalInt.empty(),
+        OptionalInt.empty(), OptionalInt.of(100)), finalizing.stream().map(TransferProgress::getFinalizationProgress).collect(Collectors.toList()));
+    assertEquals("finalizing reports follow every byte report", progress.subList(progress.size() - finalizing.size(), progress.size()), finalizing);
+    TransferProgress bytesDone = progress.get(progress.size() - finalizing.size() - 1);
+    assertFalse(bytesDone.getFinalizationProgress().isPresent());
+    for (TransferProgress report : finalizing) {
+      assertEquals(bytesDone.getTotalBytes(), report.getTotalBytes());
+      assertEquals(8, report.getTransferredBytes());
+      assertEquals(bytesDone.getTransferredBytes(), report.getTransferredBytes());
+      assertEquals(bytesDone.getSentBytes(), report.getSentBytes());
+      assertEquals(bytesDone.getCompletedParts(), report.getCompletedParts());
+      assertEquals(bytesDone.getRetries(), report.getRetries());
+    }
+    assertFalse("the result's progress is as of the parts' acceptance", result.getFinalProgress().isFinalizing());
+    assertEquals(8, result.getFinalProgress().getTransferredBytes());
+
+    // Another upload's completion starts again from one second.
+    receivedAt.clear();
+    int before = files.finishes.size();
+    files.finish = request -> {
+      receivedAt.add(System.nanoTime());
+      return files.finishes.size() - before == 1 ? FakeFiles.Answer.pending(request, null) : null;
+    };
+    client.transfers().upload(new ByteArrayInputStream(bytes(8, 41)), "next.bin", UploadOptions.builder().requestOptions(requestOptions).build());
+    assertEquals(before + 2, files.finishes.size());
+    long next = TimeUnit.NANOSECONDS.toMillis(receivedAt.get(1) - receivedAt.get(0));
+    assertTrue("the next upload asked again " + next + " ms after its first answer", next >= 950 && next < 1900);
+  }
+
+  @Test(timeout = 20000)
+  public void anAcceptedFinalRequestWithoutAPendingAnswerIsOfUnknownOutcomeAndNotSentAgain() throws Exception {
+    List<Function<String, String>> answers = Arrays.asList(
+        ref -> "{\"status\":\"completed\",\"ref\":\"" + ref + "\"}",
+        ref -> "{\"status\":\"pending\"}",
+        ref -> "{\"status\":\"pending\",\"ref\":\"another-upload\"}",
+        ref -> "[{\"status\":\"pending\",\"ref\":\"" + ref + "\"}]",
+        ref -> "");
+    for (Function<String, String> answer : answers) {
+      files.finish = request -> FakeFiles.Answer.status(202, answer.apply(request.json().path("ref").asText()));
+      int finishesBefore = files.finishes.size();
+      try {
+        client.transfers().upload(file("accepted.bin", bytes(4, 42)), "accepted.bin");
+        fail("Expected the outcome to be unknown");
+      } catch (UploadCompletionUnknownException e) {
+        assertEquals("accepted.bin", e.getPath());
+        assertEquals(files.finishes.get(finishesBefore).json().path("ref").asText(), e.getRef());
+      }
+      assertEquals("sent once", finishesBefore + 1, files.finishes.size());
+    }
+  }
+
+  @Test(timeout = 20000)
+  public void anErrorFilesComAnswersWhileCompletingTheUploadInTheBackgroundIsTheApiErrorItself() throws Exception {
+    files.finish = request -> files.finishes.size() == 1 ? FakeFiles.Answer.pending(request, "30")
+        : FakeFiles.Answer.status(422, "{\"type\":\"processing-failure/file-too-large\",\"http-code\":422,\"error\":\"Too large\"}");
+    try {
+      client.transfers().upload(file("ended.bin", bytes(4, 43)), "ended.bin");
+      fail("Expected the error that ended the upload");
+    } catch (UploadCompletionUnknownException e) {
+      fail("Files.com's error is the upload's outcome, not an unknown one: " + e);
+    } catch (ApiErrorException e) {
+      assertEquals(422, e.getHttpCode());
+    }
+    assertEquals(2, files.finishes.size());
+  }
+
+  @Test(timeout = 20000)
+  public void failuresAskingAboutABackgroundCompletionAreRetriedAndOnesThatLastLeaveItsOutcomeUnknown() throws Exception {
+    // A server error and a lost answer, each retried as any API request is.
+    files.finish = request -> {
+      switch (files.finishes.size()) {
+        case 1:
+          return FakeFiles.Answer.pending(request, null);
+        case 2:
+          return FakeFiles.Answer.status(503, "");
+        case 3:
+          return FakeFiles.Answer.drop();
+        default:
+          return null;
+      }
+    };
+    assertEquals("recovered.bin", client.transfers().upload(file("recovered.bin", bytes(4, 44)), "recovered.bin").getFile().getPath());
+    assertEquals(4, files.finishes.size());
+
+    // Throttling that outlasts the client's retries leaves the outcome unknown: Files.com may still complete the upload.
+    final int finishesBefore = files.finishes.size();
+    String throttled = "{\"type\":\"rate-limited/too-many-requests\",\"http-code\":429,\"error\":\"Slow down\"}";
+    files.finish = request -> files.finishes.size() == finishesBefore + 1 ? FakeFiles.Answer.pending(request, "10")
+        : FakeFiles.Answer.status(429, throttled).header("Retry-After", "0");
+    try {
+      client.transfers().upload(file("throttled.bin", bytes(4, 45)), "throttled.bin");
+      fail("Expected the outcome to be unknown");
+    } catch (UploadCompletionUnknownException e) {
+      assertTrue(String.valueOf(e.getCause()), e.getCause() instanceof ApiErrorException.RateLimitedException);
+      assertTrue(e.getMessage(), e.getMessage().contains("Files.com may still complete it"));
+    }
+    assertEquals("the first request, then the next with the client's 3 retries", finishesBefore + 1 + 4, files.finishes.size());
+  }
+
+  @Test(timeout = 20000)
+  public void theUploadsTimeLimitPassingWhileFilesComCompletesItInTheBackgroundStopsOnlyTheWait() throws Exception {
+    files.finish = request -> FakeFiles.Answer.pending(request, "70");
+    long start = System.nanoTime();
+    try {
+      client.transfers().upload(file("slow.bin", bytes(4, 46)), "slow.bin", UploadOptions.builder().timeout(Duration.ofMillis(1500)).build());
+      fail("Expected the outcome to be unknown");
+    } catch (UploadCompletionUnknownException e) {
+      assertTrue(String.valueOf(e.getCause()), e.getCause() instanceof OperationCancelledException);
+      assertEquals(OperationCancelledException.Reason.TIMED_OUT, ((OperationCancelledException) e.getCause()).getReason());
+      assertEquals(files.finishes.get(0).json().path("ref").asText(), e.getRef());
+    }
+    long took = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - start);
+    assertTrue("stopped at the time limit, in the middle of a wait, after " + took + " ms", took < 1900);
+    // The time limit falls in the first wait or the second, as the upload's parts take their time.
+    assertTrue("nothing asked after the time limit: " + files.finishes.size(), files.finishes.size() <= 2);
   }
 
   @Test(timeout = 20000)

@@ -1804,14 +1804,22 @@ for (Path file : files) {
 
 ### Completion
 
-The final request is never repeated once it may have reached Files.com: Files.com forgets an
-upload once it completes it, so a repeat could not tell a completed upload from a missing one.
-Only an attempt that could not be sent, such as one that could not connect, is retried. If the
-request fails in a way that does not show whether Files.com completed the file, such as a lost
-connection, the upload throws `UploadCompletionUnknownException`. Check the file at its
-`getPath()` before uploading it again. A refusal from Files.com is thrown as its API error, and a
-request that never reached Files.com as its connection error: then the upload was not
-completed.
+The final request is never repeated once it may have reached Files.com, unless Files.com answers
+that it is completing the upload in the background: Files.com forgets an upload once it completes
+it, so a repeat could not tell a completed upload from a missing one. Only an attempt that could
+not be sent, such as one that could not connect, is retried. If the request fails in a way that
+does not show whether Files.com completed the file, such as a lost connection, the upload throws
+`UploadCompletionUnknownException`. Check the file at its `getPath()` before uploading it again. A
+refusal from Files.com is thrown as its API error, and a request that never reached Files.com as
+its connection error: then the upload was not completed.
+
+Files.com may complete an upload to a Remote Server mount or a Files Agent in the background. The
+upload then waits, sending the same final request again one second after Files.com's first answer
+that it is still completing it, two after the second and three after each later one, and returns
+the file as usual. The progress listener gets one report per answer with `isFinalizing()` true, unchanged byte
+counts and `getFinalizationProgress()` (an `OptionalInt`). Stopping the upload meanwhile, or
+failures that outlast the retries, throws `UploadCompletionUnknownException`: Files.com may still
+complete the file.
 
 ```java title="Example Request"
 import com.files.exceptions.UploadCompletionUnknownException;
@@ -1889,7 +1897,8 @@ upload, or close its client, and the upload stops wherever it is: waiting for th
 reading, sending, waiting for an answer or waiting to retry. Its requests are aborted, and once
 every part in flight has stopped and the upload's own threads have ended, it throws
 `OperationCancelledException`. Nothing more is sent, so the upload is not completed, unless its
-final request had already been sent, which `UploadCompletionUnknownException` reports.
+final request had already been sent, which `UploadCompletionUnknownException` reports. Stopping while
+Files.com completes the upload in the background stops only the wait.
 
 A read of your own stream that blocks cannot be interrupted in Java 8; the upload stops when it
 returns. The progress listener runs on the thread that called the upload.
@@ -2358,6 +2367,14 @@ UploadResult result = client.transfers().uploadToRemoteServer(Paths.get("q1.csv"
 client.transfers().uploadToSnapshot(Paths.get("q1.csv"), 7L); // to _/Snapshots/7/q1.csv
 FileAction copy = client.files().find("reports/2026/q1.csv", null, null).copyToChildSite(3L, "inbox/q1.csv");
 ```
+
+Files.com may complete an upload to a Remote Server mount or a Files Agent in the background. Any
+upload then waits for it, sending the same final request again one second after Files.com's first
+answer that it is still completing it, two after the second and three after each later one, and
+returns the file as usual. Its progress listener gets a report for each of Files.com's answers meanwhile, with
+`isFinalizing()` true, the byte counts unchanged and `getFinalizationProgress()` the percentage
+Files.com gave, if any. An upload that stops waiting, such as one cancelled or out of time, throws
+`UploadCompletionUnknownException`: Files.com may still complete the file.
 
 The older `File.uploadToRemoteServer(remoteServerId, destinationPath)` and its siblings, with or without
 parameters and options, only start an upload: they return the `FileUploadPart` for its first part and

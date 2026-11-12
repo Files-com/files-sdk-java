@@ -247,9 +247,15 @@ public final class UploadOptions {
 
     /**
      * Receives the upload's progress: once it has started, and each time Files.com's storage
-     * accepts a part. The listener is called on the thread that called the upload method, between
-     * the upload's steps, so keep it quick. If it throws, the upload stops and throws that
-     * exception. No progress is reported after the request that completes the upload is sent.
+     * accepts a part. Where Files.com completes the upload in the background, as it can for a Remote
+     * Server mount or a Files Agent, it is also called once for each answer that Files.com is still
+     * completing it, {@link TransferProgress#isFinalizing() finalizing}, with the byte counts
+     * unchanged and the percentage Files.com gave, if any. The listener is called on the thread that
+     * called the upload method, between the upload's steps, so keep it quick. If it throws, the
+     * upload stops and throws that exception; while finalizing, Files.com may still complete the
+     * file, so the upload throws {@link com.files.exceptions.UploadCompletionUnknownException} with
+     * that exception as its cause. No byte progress is reported after the request that completes the
+     * upload is sent.
      */
     public Builder progressListener(TransferProgressListener progressListener) {
       this.progressListener = progressListener;

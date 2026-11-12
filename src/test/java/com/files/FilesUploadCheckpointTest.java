@@ -3,6 +3,7 @@ package com.files;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static org.junit.Assume.assumeTrue;
@@ -361,6 +362,89 @@ public class FilesUploadCheckpointTest {
     assertFalse(client.transfers().discardUploadCheckpoint(source, "final.bin", checkpointed().build()));
     client.transfers().upload(source, "final.bin", checkpointed().build());
     assertEquals("put-2", files.finishes.get(1).json().path("ref").asText());
+  }
+
+  @Test(timeout = 20000)
+  public void cancellingWhileFilesComCompletesTheUploadInTheBackgroundStopsTheWaitAndKeepsTheRecordAsSent() throws Exception {
+    Path source = file("background.bin", bytes(8, 16));
+    files.finish = request -> FakeFiles.Answer.pending(request, "5");
+    final CancellationToken token = new CancellationToken();
+    final AtomicLong cancelledAt = new AtomicLong();
+    final ExecutorService canceller = Executors.newSingleThreadExecutor();
+    try {
+      // Cancelled while the upload waits to ask again.
+      canceller.submit(() -> {
+        while (files.finishes.isEmpty()) {
+          Thread.sleep(5);
+        }
+        Thread.sleep(200);
+        cancelledAt.set(System.nanoTime());
+        token.cancel();
+        return null;
+      });
+      try {
+        client.transfers().upload(source, "background.bin", checkpointed().cancellation(token).build());
+        fail("Expected the outcome to be unknown");
+      } catch (UploadCompletionUnknownException e) {
+        long stoppedAfter = TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - cancelledAt.get());
+        assertTrue("the wait stopped " + stoppedAfter + " ms after the cancellation", stoppedAfter < 700);
+        assertTrue(String.valueOf(e.getCause()), e.getCause() instanceof OperationCancelledException);
+        assertTrue(e.getMessage(), e.getMessage().contains("Files.com may still complete it"));
+        assertEquals(files.finishes.get(0).json().path("ref").asText(), e.getRef());
+        assertEquals(2, e.getParts().size());
+      }
+    } finally {
+      canceller.shutdownNow();
+    }
+    assertEquals(1, files.finishes.size());
+    assertKeptAsSent(source, "background.bin");
+  }
+
+  @Test(timeout = 20000)
+  public void aProgressListenerThrowingWhileFilesComCompletesTheUploadStopsTheWaitAndKeepsTheRecordAsSent() throws Exception {
+    Path source = file("listener.bin", bytes(8, 17));
+    files.finish = request -> FakeFiles.Answer.pending(request, "50");
+    IllegalStateException thrown = new IllegalStateException("The listener stops the upload");
+    try {
+      client.transfers().upload(source, "listener.bin", checkpointed().progressListener(progress -> {
+        if (progress.isFinalizing()) {
+          throw thrown;
+        }
+      }).build());
+      fail("Expected the outcome to be unknown");
+    } catch (UploadCompletionUnknownException e) {
+      assertSame(thrown, e.getCause());
+    }
+    assertEquals("not asked again", 1, files.finishes.size());
+    assertKeptAsSent(source, "listener.bin");
+  }
+
+  @Test(timeout = 20000)
+  public void credentialsRefusedWhileFilesComCompletesTheUploadInTheBackgroundAreThrownAndKeepTheRecordAsSent() throws Exception {
+    Path source = file("refused.bin", bytes(8, 18));
+    files.finish = request -> files.finishes.size() == 1 ? FakeFiles.Answer.pending(request, null)
+        : FakeFiles.Answer.status(401, "{\"type\":\"not-authenticated/invalid-credentials\",\"http-code\":401,\"error\":\"Invalid\"}");
+    expectFailure(() -> client.transfers().upload(source, "refused.bin", checkpointed().build()),
+        ApiErrorException.NotAuthenticatedException.class);
+    assertEquals(2, files.finishes.size());
+    assertKeptAsSent(source, "refused.bin");
+  }
+
+  // The record of an upload whose final request Files.com answered that it is completing it in the
+  // background still says that request was sent: a later run sends nothing and reports the outcome
+  // as unknown.
+  private void assertKeptAsSent(Path source, String destination) throws Exception {
+    String kept = new String(Files.readAllBytes(record()), StandardCharsets.ISO_8859_1);
+    assertTrue(kept.contains("\"type\":\"finalizing\""));
+    assertFalse("not recorded as unsent", kept.contains("\"type\":\"not-sent\""));
+    int beginsBefore = files.begins.size();
+    int partsBefore = files.parts.size();
+    int finishesBefore = files.finishes.size();
+    files.finish = request -> null;
+    expectFailure(() -> client.transfers().upload(source, destination, checkpointed().build()), UploadCompletionUnknownException.class);
+    assertEquals("nothing sent", beginsBefore, files.begins.size());
+    assertEquals(partsBefore, files.parts.size());
+    assertEquals(finishesBefore, files.finishes.size());
   }
 
   @Test(timeout = 20000)

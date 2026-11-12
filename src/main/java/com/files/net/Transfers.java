@@ -33,8 +33,21 @@ import java.util.HashMap;
  * when the Retry-After asks for longer than the SDK can wait. A part whose URL is about to expire gets a new one
  * for the same part. Parts already accepted are never sent again. Once every part has been
  * accepted, the upload is completed with a final request, which is never repeated once it may
- * have reached Files.com; if it fails in a way that does not show whether Files.com completed the
- * file, the upload throws {@link com.files.exceptions.UploadCompletionUnknownException}.
+ * have reached Files.com, unless Files.com answers that it is completing the upload in the
+ * background; if it fails in a way that does not show whether Files.com completed the file, the
+ * upload throws {@link com.files.exceptions.UploadCompletionUnknownException}.
+ *
+ * <p><b>Completion in the background.</b> The final request asks Files.com to complete the upload
+ * in the background where its destination does that, such as a Remote Server mount or a Files
+ * Agent; Files.com completes files it stores itself within the request, as before. When Files.com
+ * answers that it is still completing the upload, the upload reports that as
+ * {@link TransferProgress#isFinalizing() finalizing} progress, waits (one second after the first
+ * such answer, two after the second and three after each later one) and sends the same request again, with the same request options and to the same server, until Files.com answers with
+ * the file, which the upload returns, or with the error that ended the upload, which it throws. Each
+ * of those requests is retried as other API requests are. If they keep failing, or the upload is
+ * stopped meanwhile, it stops waiting and throws
+ * {@link com.files.exceptions.UploadCompletionUnknownException}: Files.com may still complete the
+ * file.
  *
  * <p>Every request uses the client's settings and the upload's request options as they were when
  * it started. The part requests go to the storage URLs Files.com provides, with the method and
@@ -47,8 +60,10 @@ import java.util.HashMap;
  * and once every part in flight has stopped, and the upload's threads have ended, it throws
  * {@link com.files.exceptions.OperationCancelledException}. The first failure stops the upload
  * the same way and is thrown. Either way nothing more is sent: the upload is not completed, unless
- * its final request had already been sent. A read of your own stream that blocks cannot be
- * interrupted: the upload stops when it returns.
+ * its final request had already been sent; it then throws
+ * {@link com.files.exceptions.UploadCompletionUnknownException}, and stopping while Files.com
+ * completes the upload in the background stops only the wait. A read of your own stream that
+ * blocks cannot be interrupted: the upload stops when it returns.
  *
  * <p><b>Checkpoints.</b> An upload of a local file given a
  * {@link UploadOptions.Builder#checkpointDirectory checkpoint directory} keeps a record there of what

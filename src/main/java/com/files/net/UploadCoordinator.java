@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.OptionalInt;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -55,7 +56,9 @@ import org.slf4j.LoggerFactory;
 // The first failure, the caller's cancellation or its time limit stops everything: requests in
 // flight are aborted and every part thread has ended, and its resources are released, before run
 // returns or throws. Only then, when every part was accepted, is the upload completed, with a
-// single final request.
+// single final request, which is sent again only to wait while Files.com answers that it is
+// completing the upload in the background (UploadSession.finish); each such answer is reported as
+// progress, on the calling thread.
 //
 // With a checkpoint (UploadCheckpoint), the upload records as it goes what a later run needs to
 // continue it, in the order that record describes: its reference once begun, each part as planned,
@@ -101,6 +104,9 @@ final class UploadCoordinator {
   // accepted.
   private UploadCheckpoint.Saved resumed;
   private long resumedBytes;
+  // Whether Files.com has answered the final request that it is completing the upload in the
+  // background. Used on the calling thread only.
+  private boolean finalizationPending;
   private long started;
   private boolean parallel;
   // The admission of the upload's attempts, which its concurrency controller decides; set when the
@@ -323,20 +329,23 @@ final class UploadCoordinator {
     return workers;
   }
 
-  // Completes the upload with one request. With a checkpoint, that the request is about to be sent is
-  // recorded durably first, or the request is not sent. Once Files.com completes the upload, or refuses
-  // it, the record is deleted. When the request did not reach Files.com, or Files.com refused the
-  // request, not the upload, by throttling it or refusing its credentials, the record says the request
-  // was not sent, so a later run may send it. An outcome that is not known keeps the record as it is,
-  // so no later run sends the request again.
+  // Completes the upload with one request, sent again only while Files.com answers that it is
+  // completing the upload in the background. With a checkpoint, that the request is about to be sent
+  // is recorded durably first, or the request is not sent. Once Files.com completes the upload, or
+  // refuses it, the record is deleted. When the request did not reach Files.com, or Files.com refused
+  // the request, not the upload, by throttling it or refusing its credentials, the record says the
+  // request was not sent, so a later run may send it; but not once Files.com has answered that it is
+  // completing the upload, which such a refusal does not undo. An outcome that is not known, such as
+  // a wait for a completion in the background that was cancelled, keeps the record as it is, so no
+  // later run sends the request again.
   private File finish(UploadSession session, PartPlanner planner, List<UploadedPart> parts, OperationScope scope) {
     if (checkpoint == null) {
-      return session.finish(planner.plannedBytes(), parts, modifiedTime, scope);
+      return session.finish(planner.plannedBytes(), parts, modifiedTime, scope, this::finalizing);
     }
     checkpoint.finalizing();
     File file;
     try {
-      file = session.finish(planner.plannedBytes(), parts, modifiedTime, scope);
+      file = session.finish(planner.plannedBytes(), parts, modifiedTime, scope, this::finalizing);
     } catch (UploadCompletionUnknownException e) {
       throw e;
     } catch (ApiErrorException.FileUploadNotFoundException e) {
@@ -347,8 +356,11 @@ final class UploadCoordinator {
       throw e;
     } catch (ApiErrorException.RateLimitedException | ApiErrorException.NotAuthenticatedException
         | ApiErrorException.NotAuthorizedException e) {
-      // Not completed, and the upload is still there to complete later.
-      checkpoint.finalNotSent();
+      // Not completed, and the upload is still there to complete later, unless Files.com is already
+      // completing it.
+      if (!finalizationPending) {
+        checkpoint.finalNotSent();
+      }
       throw e;
     } catch (ApiErrorException e) {
       // Refused, as session.finish throws only Files.com's 4xx answers: not completed, and not to be
@@ -364,6 +376,13 @@ final class UploadCoordinator {
     return file;
   }
 
+  // Reports an answer that Files.com is completing the upload in the background: the progress as it
+  // is, its byte counts unchanged, with the percentage Files.com gave, if any.
+  private void finalizing(OptionalInt progress) {
+    finalizationPending = true;
+    report(progress().finalizing(progress));
+  }
+
   // Files.com no longer recognizes the upload a checkpoint records: it may have been completed, or it
   // expired or was cancelled. The record is kept.
   private UploadCompletionUnknownException forgotten(Throwable cause) {
@@ -373,7 +392,8 @@ final class UploadCoordinator {
   }
 
   private UploadCompletionUnknownException completionUnknown(UploadCheckpoint.Saved saved, String message, Throwable cause) {
-    return new UploadCompletionUnknownException(path, source.length(), Collections.unmodifiableList(saved.acceptedParts()), message, cause);
+    return new UploadCompletionUnknownException(path, source.length(), Collections.unmodifiableList(saved.acceptedParts()), saved.ref, message,
+        cause);
   }
 
   // The upload's concurrency for its destination: its options' mode, startup and cap, within the

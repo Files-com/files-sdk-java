@@ -76,7 +76,10 @@ public final class UploadResult {
     return partSizeSource;
   }
 
-  /** The upload's progress once every part was accepted. */
+  /**
+   * The upload's progress once every part was accepted, before the request completing the upload:
+   * never {@link TransferProgress#isFinalizing() finalizing}.
+   */
   public TransferProgress getFinalProgress() {
     return finalProgress;
   }

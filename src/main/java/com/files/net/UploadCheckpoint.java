@@ -57,7 +57,9 @@ import org.slf4j.LoggerFactory;
 //      sent. A later run that finds the entry never sends the request: it reports that it does not know
 //      whether the upload was completed.
 //   6. Once the upload is completed, or refused, the record is deleted. If the request did not reach
-//      Files.com, an entry undoing step 5 is appended, so a later run may complete the upload.
+//      Files.com, an entry undoing step 5 is appended, so a later run may complete the upload. Once
+//      Files.com has answered that it is completing the upload in the background, the run sends the
+//      request again only to wait for it, and a wait that stops leaves the record as it is.
 //
 // The entry of step 5 needs only its own file to be durable, never its directory, so the order holds
 // wherever a file can be flushed. A record that is lost whole, such as one whose name did not last a

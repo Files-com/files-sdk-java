@@ -16,7 +16,8 @@ import org.slf4j.LoggerFactory;
  *
  * <p>{@link #getInstance()} creates the single instance on first use, loading the
  * {@code files-sdk.properties} resource bundled with the SDK, which sets {@code sdkVersion}. If
- * loading or closing that resource throws an {@code IOException}, a warning is logged and nothing
+ * that resource is not on the classpath, a warning is logged and every getter returns its default.
+ * If loading or closing the resource throws an {@code IOException}, a warning is logged and nothing
  * is cleared: properties already loaded keep their values, and getters return their defaults for
  * properties that were not loaded. {@link #setProperty} changes a property for the rest of the
  * process. No other source supplies values: environment variables are not read, and the only system
@@ -55,7 +56,11 @@ public class FilesConfig {
   protected FilesConfig() {
     properties = new Properties();
     try (InputStream file = FilesConfig.class.getResourceAsStream("/files-sdk.properties")) {
-      properties.load(file);
+      if (file == null) {
+        log.warn("could not find configurator properties /files-sdk.properties on the classpath");
+      } else {
+        properties.load(file);
+      }
     } catch (IOException e) {
       log.warn("could not load configurator properties");
     }

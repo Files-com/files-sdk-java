@@ -20,6 +20,7 @@ public final class DownloadOptions {
   private static final DownloadOptions DEFAULTS = builder().build();
 
   private final boolean replaceExisting;
+  private final Boolean checkDownloadModificationTime;
   private final HashMap<String, Object> requestOptions;
   private final CancellationToken cancellation;
   private final Duration timeout;
@@ -33,6 +34,7 @@ public final class DownloadOptions {
 
   private DownloadOptions(Builder builder) {
     this.replaceExisting = builder.replaceExisting;
+    this.checkDownloadModificationTime = builder.checkDownloadModificationTime;
     this.requestOptions = new HashMap<String, Object>(builder.requestOptions);
     this.cancellation = builder.cancellation;
     this.timeout = builder.timeout;
@@ -104,6 +106,9 @@ public final class DownloadOptions {
 
   HashMap<String, Object> callOptions() {
     HashMap<String, Object> options = new HashMap<String, Object>(requestOptions);
+    if (checkDownloadModificationTime != null) {
+      options.put(ClientRuntime.CHECK_DOWNLOAD_MODIFICATION_TIME_OPTION, checkDownloadModificationTime);
+    }
     if (cancellation != null) {
       options.put(ClientRuntime.CANCELLATION_OPTION, cancellation);
     }
@@ -118,6 +123,7 @@ public final class DownloadOptions {
    */
   public static final class Builder {
     private boolean replaceExisting = true;
+    private Boolean checkDownloadModificationTime;
     private Map<String, Object> requestOptions = new HashMap<String, Object>();
     private CancellationToken cancellation;
     private Duration timeout;
@@ -138,6 +144,15 @@ public final class DownloadOptions {
      */
     public Builder replaceExisting(boolean replaceExisting) {
       this.replaceExisting = replaceExisting;
+      return this;
+    }
+
+    /**
+     * Whether this download checks Last-Modified dates. Overrides the client's default, without
+     * changing ETag, size, concurrency or checkpoint checks. The value is kept for the whole download.
+     */
+    public Builder checkDownloadModificationTime(boolean enabled) {
+      this.checkDownloadModificationTime = enabled;
       return this;
     }
 

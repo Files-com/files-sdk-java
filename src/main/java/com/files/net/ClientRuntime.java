@@ -105,6 +105,8 @@ public final class ClientRuntime implements Closeable {
    * and listings the call returns keep it.
    */
   public static final String API_ROOT_OPTION = "api_root";
+  /** SDK-local per-download Boolean override; never sent as an API parameter. */
+  public static final String CHECK_DOWNLOAD_MODIFICATION_TIME_OPTION = "check_download_modification_time";
 
   // Request options that control one call rather than describing who makes it; objects that a
   // call returns do not keep them.
@@ -384,6 +386,17 @@ public final class ClientRuntime implements Closeable {
   // The retry limit for the next decision of a request that began with maxRetries.
   private static int retryLimit(int maxRetries) {
     return maxRetries == FOLLOW_CONFIGURATION ? FilesConfig.getInstance().getMaxNetworkRetries() : maxRetries;
+  }
+
+  boolean checkDownloadModificationTime(Map<String, Object> options) {
+    Object value = options.get(CHECK_DOWNLOAD_MODIFICATION_TIME_OPTION);
+    if (value == null) {
+      return settings.checkDownloadModificationTime;
+    }
+    if (!(value instanceof Boolean)) {
+      throw new ApiErrorException.InvalidParameterException("Bad option: check_download_modification_time must be of type Boolean");
+    }
+    return (Boolean) value;
   }
 
   int maxRetries(Map<String, Object> options) {
@@ -1319,6 +1332,7 @@ public final class ClientRuntime implements Closeable {
     final String apiBase;
     final String userAgent;
     final int maxRetries;
+    final boolean checkDownloadModificationTime;
     final Duration retryDelay;
     final Duration maxRetryDelay;
     final Duration connectTimeout;
@@ -1336,6 +1350,7 @@ public final class ClientRuntime implements Closeable {
       this.apiBase = builder.apiBase;
       this.userAgent = builder.userAgent;
       this.maxRetries = builder.maxRetries;
+      this.checkDownloadModificationTime = builder.checkDownloadModificationTime;
       this.retryDelay = builder.retryDelay;
       this.maxRetryDelay = builder.maxRetryDelay;
       this.connectTimeout = builder.connectTimeout;
@@ -1411,6 +1426,7 @@ public final class ClientRuntime implements Closeable {
           && apiBase.equals(that.apiBase)
           && userAgent.equals(that.userAgent)
           && maxRetries == that.maxRetries
+          && checkDownloadModificationTime == that.checkDownloadModificationTime
           && retryDelay.equals(that.retryDelay)
           && maxRetryDelay.equals(that.maxRetryDelay)
           && connectTimeout.equals(that.connectTimeout)
@@ -1451,6 +1467,7 @@ public final class ClientRuntime implements Closeable {
       private String apiBase = "/api/rest/v1";
       private String userAgent;
       private int maxRetries = 3;
+      private boolean checkDownloadModificationTime = true;
       private Duration retryDelay = Duration.ofMillis(100);
       private Duration maxRetryDelay = Duration.ofSeconds(10);
       private Duration connectTimeout = Duration.ofSeconds(30);
@@ -1495,6 +1512,11 @@ public final class ClientRuntime implements Closeable {
 
       public Builder userAgent(String userAgent) {
         this.userAgent = userAgent;
+        return this;
+      }
+
+      public Builder checkDownloadModificationTime(boolean enabled) {
+        this.checkDownloadModificationTime = enabled;
         return this;
       }
 

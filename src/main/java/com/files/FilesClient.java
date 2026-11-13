@@ -306,6 +306,7 @@ public final class FilesClient implements Closeable {
         .apiRoot(config.getApiRoot())
         .apiBase(config.getApiBase())
         .maxRetries(config.getMaxNetworkRetries())
+        .checkDownloadModificationTime(config.getCheckDownloadModificationTime())
         .retryDelay(Duration.ofMillis(config.getInitialRetryDelayMillis()))
         .maxRetryDelay(Duration.ofSeconds(config.getMaximumRetrySeconds()))
         .connectTimeoutMillis(config.getConnectTimeoutMillis())
@@ -1554,6 +1555,15 @@ public final class FilesClient implements Closeable {
      */
     public Builder callTimeout(Duration callTimeout) {
       settings.callTimeout(callTimeout);
+      return this;
+    }
+
+    /**
+     * Whether downloads use Last-Modified to guard later requests. Default true. Disabling this
+     * leaves stronger ETag, size and response checks in place. DownloadOptions can override it.
+     */
+    public Builder checkDownloadModificationTime(boolean enabled) {
+      settings.checkDownloadModificationTime(enabled);
       return this;
     }
 

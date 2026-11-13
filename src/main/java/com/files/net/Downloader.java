@@ -19,6 +19,9 @@ import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -32,6 +35,7 @@ import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.utils.DateUtils;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -128,6 +132,10 @@ final class Downloader {
   private volatile String refusedUrl;
   // The version the download is bound to, once its first answer has bound it.
   private volatile Version version;
+  // A best-effort date guard, not a version: kept across retries, fallback and URL renewal,
+  // and never persisted or used to authorize parts. If-Match takes precedence when available.
+  private Date lastModified;
+  private final boolean checkDownloadModificationTime;
   private volatile AttemptAdmission attempts;
   private long started;
   private volatile long totalBytes = -1;
@@ -161,6 +169,7 @@ final class Downloader {
     this.options = options;
     this.path = file.getPath();
     this.callOptions = options.callOptions();
+    this.checkDownloadModificationTime = runtime.checkDownloadModificationTime(callOptions);
     this.maxRetries = runtime.maxRetries(callOptions);
     this.retryDelayMillis = runtime.settings().retryDelay().toMillis();
     this.limiter = options.getLimiter() != null ? options.getLimiter()
@@ -687,6 +696,7 @@ final class Downloader {
         CloseableHttpResponse response = storage.execute(request(uri, 0, length - 1, null), false);
         refuseWebApplication(response);
         int status = response.getStatusLine().getStatusCode();
+        checkDate(response);
         if (status == 206) {
           ContentRange range = ContentRange.of(response);
           String etag = entityTag(response);
@@ -1113,6 +1123,7 @@ final class Downloader {
       }
       // The bytes as stored, so their length can be checked.
       request.setHeader("Accept-Encoding", "identity");
+      condition(request, null);
       Attempt outcome;
       long size = 0;
       try {
@@ -1121,6 +1132,7 @@ final class Downloader {
         HttpEntity entity = response.getEntity();
         int status = response.getStatusLine().getStatusCode();
         refuseWebApplication(response);
+        checkDate(response);
         if (status != 200) {
           outcome = failedStatus(response, status, storage.uri);
         } else {
@@ -1237,10 +1249,63 @@ final class Downloader {
     }
     request.setHeader("Accept-Encoding", "identity");
     request.setHeader("Range", "bytes=" + from + "-" + to);
+    condition(request, etag);
+    return request;
+  }
+
+  private void condition(HttpGet request, String etag) {
     if (etag != null) {
       request.setHeader("If-Match", etag);
+    } else if (lastModified != null) {
+      request.setHeader("If-Unmodified-Since", DateUtils.formatDate(lastModified));
     }
-    return request;
+  }
+
+  // Capture before reading the body, so even an interrupted answer guards its retry. Normalize a
+  // single valid HTTP date rather than forwarding raw headers. A server ignoring the condition
+  // still cannot send a newer dated response; missing or invalid metadata remains compatible.
+  private void checkDate(CloseableHttpResponse response) {
+    int status = response.getStatusLine().getStatusCode();
+    if (status == 412) {
+      throw changed("the storage server refused its precondition (HTTP 412)");
+    }
+    if (!checkDownloadModificationTime || (status != 200 && status != 206)) {
+      return;
+    }
+    Header[] headers = response.getHeaders("Last-Modified");
+    Date answered = headers.length == 1 ? httpDate(headers[0].getValue()) : null;
+    if (answered != null) {
+      if (lastModified == null) {
+        lastModified = answered;
+      } else if (answered.after(lastModified)) {
+        throw changed("the storage server answered with a newer Last-Modified date");
+      }
+    }
+  }
+
+  private static Date httpDate(String value) {
+    // Recipients accept the long-weekday RFC 850 form too. Apache's RFC1036 constant uses
+    // an abbreviated weekday and its default two-digit year window starts in 2000.
+    String rfc850 = "EEEE, dd-MMM-yy HH:mm:ss zzz";
+    String normalized = value.trim().replaceAll(" +", " ");
+    for (String pattern : new String[]{DateUtils.PATTERN_RFC1123, rfc850, DateUtils.PATTERN_ASCTIME}) {
+      Date parsed = DateUtils.parseDate(value, new String[]{pattern});
+      if (parsed == null) {
+        continue;
+      }
+      if (pattern.equals(rfc850)) {
+        ZonedDateTime date = parsed.toInstant().atZone(ZoneOffset.UTC);
+        if (date.isAfter(ZonedDateTime.now(ZoneOffset.UTC).plusYears(50))) {
+          parsed = Date.from(date.minusYears(100).toInstant());
+        }
+      }
+      // Parsing alone accepts prefixes and normalizes impossible dates. Round-trip the selected
+      // HTTP date form, including its weekday, before it becomes a later request's condition.
+      if (DateUtils.formatDate(parsed, pattern).replaceAll(" +", " ").equalsIgnoreCase(normalized)) {
+        return parsed;
+      }
+    }
+    return null;
   }
 
   private void refuseWebApplication(CloseableHttpResponse response) {

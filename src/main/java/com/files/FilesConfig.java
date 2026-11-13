@@ -110,6 +110,11 @@ public class FilesConfig {
     return boolProperty("allowInsecureBackend", false);
   }
 
+  /** Whether downloads check modification dates; true when unset or empty. */
+  public boolean getCheckDownloadModificationTime() {
+    return boolProperty("checkDownloadModificationTime", true);
+  }
+
   /**
    * Returns the {@code apiBase} property: the path that model request URLs put between the API root
    * and the endpoint path.

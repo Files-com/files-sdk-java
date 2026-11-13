@@ -1941,6 +1941,23 @@ was being downloaded, and the download fails. A part cut short is asked for agai
 byte not yet written. Where the answer binds nothing, the file comes in one response.
 `getFinalProgress()` and `isVersionBound()` on the result say how it went.
 
+When storage supplies a valid `Last-Modified` response date, the SDK keeps it for later content requests in
+the same attempt. Without a stronger `If-Match` condition, those requests send it in `If-Unmodified-Since`,
+including after URL renewal. A newer source can return HTTP 412 before sending contents, which fails the
+attempt before the downloaded file is put in place. Missing or invalid dates remain compatible with storage
+that supplies no timestamp.
+
+Timestamp checks are enabled by default. Set `FilesClient.builder().checkDownloadModificationTime(false)` for a
+client, or `DownloadOptions.builder().checkDownloadModificationTime(false)` for one download. An unset download
+option inherits the client setting. Static clients use
+`FilesClient.setProperty("checkDownloadModificationTime", "false")`.
+The effective value is fixed when the download or read handle starts. Disabling it leaves size and stronger version
+checks in place, but permits changes detectable only by modification time.
+
+Timestamp checks use one-second precision and can miss same-second edits, preserved or earlier modification times and
+changes during a response. An Agent file with a future modification time can be rejected even when its contents
+have not changed. These checks do not establish a strong version or enable parallel parts or checkpoint resume.
+
 Every request for file contents uses the limiter, including a whole-file request, the first
 request that binds a version, and a checkpoint's version check. Its copy buffer counts against
 the limiter's memory budget. Whole-file requests count against the scope's shared automatic

@@ -22,6 +22,11 @@ import org.apache.http.HttpEntity;
 // expired" (Amazon S3), <Code>ExpiredToken</Code> (Amazon, Google) or "Signature not valid in the
 // specified time frame" (Azure), however long the body. Nothing of the body is kept. A URL alone gives
 // nothing to renew it with: only a transfer that has the Files.com request its URL came from renews it.
+//
+// It also tells whether an HTTP 409 to a download says, in the same strict JSON form, that the file
+// changed since its download URL was issued: top-level type download_source_changed, as Files.com
+// storage such as the Files Agent answers (saysSourceChanged). Any other 409, or that text in any
+// other form, does not.
 final class StorageExpiry {
   // How much of an error answer's body is looked at. An expiry answer is far smaller.
   static final int PREFIX_BYTES = 4096;
@@ -35,6 +40,7 @@ final class StorageExpiry {
   private static final char BYTE_ORDER_MARK = 0xFEFF;
 
   private static final List<String> FILES_TYPES = Arrays.asList("download_request_expired", "upload_request_expired");
+  private static final String SOURCE_CHANGED_TYPE = "download_source_changed";
 
   // One JSON value with nothing after it but white space. ClientRuntime.MAPPER, as it reads API answers,
   // ignores whatever follows the first value.
@@ -53,17 +59,8 @@ final class StorageExpiry {
       return false;
     }
     byte[] prefix = new byte[PREFIX_BYTES + 1];
-    int length = 0;
-    try {
-      InputStream content = entity.getContent();
-      while (content != null && length < prefix.length) {
-        int read = content.read(prefix, length, prefix.length - length);
-        if (read < 0) {
-          break;
-        }
-        length += read;
-      }
-    } catch (IOException | IllegalStateException e) {
+    int length = readPrefix(entity, prefix);
+    if (length < 0) {
       return false;
     }
     String start = new String(prefix, 0, Math.min(length, PREFIX_BYTES), StandardCharsets.UTF_8);
@@ -75,6 +72,47 @@ final class StorageExpiry {
     } catch (IOException e) {
       return false;
     }
+  }
+
+  // Whether a download's error answer is the typed source change: an HTTP 409 whose body is exactly one
+  // JSON object, read as saysExpired reads one, with top-level type download_source_changed. Reads at most
+  // PREFIX_BYTES + 1 bytes of the body, and only of a 409; the stream is left to the caller to release.
+  static boolean saysSourceChanged(int status, HttpEntity entity) {
+    if (status != 409 || entity == null) {
+      return false;
+    }
+    byte[] prefix = new byte[PREFIX_BYTES + 1];
+    int length = readPrefix(entity, prefix);
+    if (length < 0 || length > PREFIX_BYTES
+        || !startsAsJson(new String(prefix, 0, length, StandardCharsets.UTF_8))) {
+      return false;
+    }
+    try {
+      JsonNode json = STRICT_JSON.readTree(prefix, 0, length);
+      JsonNode type = json != null && json.isObject() ? json.get("type") : null;
+      return type != null && type.isTextual() && SOURCE_CHANGED_TYPE.equals(type.textValue());
+    } catch (IOException e) {
+      return false;
+    }
+  }
+
+  // Reads the start of the body into prefix, as far as it goes: how many bytes, or -1 when it cannot be
+  // read.
+  private static int readPrefix(HttpEntity entity, byte[] prefix) {
+    int length = 0;
+    try {
+      InputStream content = entity.getContent();
+      while (content != null && length < prefix.length) {
+        int read = content.read(prefix, length, prefix.length - length);
+        if (read < 0) {
+          break;
+        }
+        length += read;
+      }
+    } catch (IOException | IllegalStateException e) {
+      return -1;
+    }
+    return length;
   }
 
   // As above, for an error answer whose whole body the client has already read as text (ApiErrors).

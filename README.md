@@ -1937,13 +1937,13 @@ size and a strong entity tag, the rest comes in parts, many at once, as for uplo
 and `maxConcurrency`; an automatic download from S3 starts at 150 parts at once, within its caps),
 each written at its own place in the file. Every part is asked for with that tag in `If-Match`, and
 must come back as exactly its bytes of exactly that version; otherwise the file changed while it
-was being downloaded, and the download fails. A part cut short is asked for again from its first
+was being downloaded (see below). A part cut short is asked for again from its first
 byte not yet written. Where the answer binds nothing, the file comes in one response.
 `getFinalProgress()` and `isVersionBound()` on the result say how it went.
 
 When storage supplies a valid `Last-Modified` response date, the SDK keeps it for later content requests in
 the same attempt. Without a stronger `If-Match` condition, those requests send it in `If-Unmodified-Since`,
-including after URL renewal. A newer source can return HTTP 412 before sending contents, which fails the
+including after URL renewal. A newer source can return HTTP 412 before sending contents, which ends the
 attempt before the downloaded file is put in place. Missing or invalid dates remain compatible with storage
 that supplies no timestamp.
 
@@ -1957,6 +1957,16 @@ checks in place, but permits changes detectable only by modification time.
 Timestamp checks use one-second precision and can miss same-second edits, preserved or earlier modification times and
 changes during a response. An Agent file with a future modification time can be rejected even when its contents
 have not changed. These checks do not establish a strong version or enable parallel parts or checkpoint resume.
+
+When the file changes while it is downloaded (a 412 to `If-Match` or `If-Unmodified-Since`, a 409 whose JSON
+body's `type` is `download_source_changed`, another entity tag, size or storage resource, or a newer
+`Last-Modified` date), the SDK stops the attempt and its other requests, discards what it fetched, describes
+the file again for its size and a new URL, and downloads it again from its first byte, keeping no version or
+date from before. Each start over counts as one of the client's `maxRetries`, however much the attempt had
+fetched, so a file that keeps changing fails with an `ApiConnectionException` saying it changed; with
+`maxRetries` 0 the first change fails the download. Other 409 answers fail the download as before. A download
+to your `OutputStream` starts over only while the stream holds none of the file; once it holds some, the change
+fails the download.
 
 Every request for file contents uses the limiter, including a whole-file request, the first
 request that binds a version, and a checkpoint's version check. Its copy buffer counts against
@@ -2035,7 +2045,8 @@ download starts over.
 The version is confirmed before anything is written. The first missing range, or the last byte, is
 asked for with `If-Match`, and must come back as exactly those bytes of exactly that version. If the
 file changed, the checkpoint forgets the old version before the partial file is emptied, and the
-download starts over, so bytes of two versions are never mixed. Only the missing ranges are then
+download starts over, so bytes of two versions are never mixed. Giving up the earlier run's version uses
+none of the client's retries; when storage rejects it, the SDK describes the file again first. Only the missing ranges are then
 fetched, and `TransferProgress.getResumedBytes()` reports the bytes the partial file already held.
 
 While parts are written, what they hold is made durable and recorded at most once a second, and

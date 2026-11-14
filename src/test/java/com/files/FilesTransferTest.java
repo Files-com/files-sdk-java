@@ -2245,36 +2245,152 @@ public class FilesTransferTest {
   }
 
   @Test(timeout = 20000)
-  public void aFileThatChangesWhileItIsDownloadedIsNotPutInPlace() throws Exception {
+  public void aFileThatChangesWhileItIsDownloadedIsDownloadedAgainFromItsStart() throws Exception {
     // Another version, with another entity tag, from the second part on; the same, from storage that
-    // ignores If-Match and answers with the version it has; and the same tag with another size.
+    // ignores If-Match and answers with the version it has; and the same tag with another size, which
+    // Files.com describes too once it has changed.
     for (String change : new String[]{"tag", "tag, If-Match ignored", "size"}) {
       boolean sameTag = "size".equals(change);
       rangedFile(42);
       files.ifMatch = !change.contains("ignored");
       files.rangeRequests.clear();
+      files.describes.clear();
+      byte[] changedContents = bytes(sameTag ? 12_000 : 10_000, 43);
+      String changedTag = sameTag ? "\"v1\"" : "\"v2\"";
       AtomicBoolean changed = new AtomicBoolean();
       files.rangeAnswer = (start, attempt) -> {
         if (start == 1000 && changed.compareAndSet(false, true)) {
-          files.contents = bytes(sameTag ? 12_000 : 10_000, 43);
-          files.etag = sameTag ? "\"v1\"" : "\"v2\"";
+          files.contents = changedContents;
+          files.describedSize = (long) changedContents.length;
+          files.etag = changedTag;
         }
         return null;
       };
       Path destination = file("changed.bin", "old".getBytes(StandardCharsets.UTF_8));
-      try {
-        client.transfers().download("remote/changed.bin", destination, inParts().concurrencyMode(ConcurrencyMode.STATIC).maxConcurrency(1).build());
-        fail("Expected the changed file to fail the download");
-      } catch (ApiErrorException.ApiConnectionException e) {
-        assertTrue(change + ": " + e.getMessage(), e.getMessage().contains("changed while it was being downloaded"));
-      }
-      assertEquals("old", new String(Files.readAllBytes(destination), StandardCharsets.UTF_8));
+
+      com.files.net.DownloadResult result = client.transfers().download("remote/changed.bin", destination,
+          inParts().concurrencyMode(ConcurrencyMode.STATIC).maxConcurrency(1).build());
+
+      assertArrayEquals(change + ": only the changed version", changedContents, Files.readAllBytes(destination));
+      assertTrue(change, result.isVersionBound());
+      assertEquals(change, 1, result.getFinalProgress().getRetries());
       assertEquals(Arrays.asList("changed.bin"), directoryListing());
-      assertEquals("not tried again", 2, files.rangeRequests.size());
+      assertEquals(change + ": described again", 2, files.describes.size());
+      List<String> asked = files.rangeRequests.stream().map(r -> r.header("Range")).collect(Collectors.toList());
+      int restart = asked.lastIndexOf("bytes=0-999");
+      assertEquals(change + ": started over from the first byte after the change: " + asked, 2, restart);
+      assertNull(change + ": its first part binds the version anew", files.rangeRequests.get(restart).header("If-Match"));
+      for (FakeFiles.Received request : files.rangeRequests.subList(restart + 1, files.rangeRequests.size())) {
+        assertEquals(change, changedTag, request.header("If-Match"));
+      }
+      assertEquals(change + ": every part of the changed version once: " + asked, changedContents.length / 1000, asked.size() - restart);
       assertTrue(files.downloads.isEmpty());
       files.rangeAnswer = (start, attempt) -> null;
-      file("changed.bin", "old".getBytes(StandardCharsets.UTF_8));
     }
+  }
+
+  @Test(timeout = 20000)
+  public void aTypedSourceChangeConflictStartsTheFileOverWithANewDescriptionAndUrl() throws Exception {
+    // Storage such as the Files Agent answers a URL whose file changed size since it was issued with
+    // 409 download_source_changed. Files.com then describes the new size, with a new URL.
+    rangedFile(47);
+    byte[] changedContents = bytes(11_000, 48);
+    files.rangeAnswer = (start, attempt) -> {
+      if (start == 3000 && attempt == 1) {
+        files.contents = changedContents;
+        files.describedSize = (long) changedContents.length;
+        files.etag = "\"v2\"";
+        files.downloadQuery = "&generation=2";
+        return FakeFiles.Answer.status(409, "{\"error\":\"The source file changed\",\"http-code\":409,\"title\":\"Download Source Changed\","
+            + "\"type\":\"download_source_changed\"}");
+      }
+      return null;
+    };
+    Path destination = file("conflict.bin", "old".getBytes(StandardCharsets.UTF_8));
+
+    com.files.net.DownloadResult result = client.transfers().download("remote/conflict.bin", destination,
+        inParts().concurrencyMode(ConcurrencyMode.STATIC).maxConcurrency(1).build());
+
+    assertArrayEquals("only the new version, of its new size", changedContents, Files.readAllBytes(destination));
+    assertEquals(changedContents.length, result.getSize());
+    assertEquals(2, files.describes.size());
+    List<String> asked = files.rangeRequests.stream().map(r -> r.header("Range")).collect(Collectors.toList());
+    int restart = asked.lastIndexOf("bytes=0-999");
+    assertEquals(asked.toString(), 4, restart);
+    for (FakeFiles.Received request : files.rangeRequests.subList(0, restart)) {
+      assertFalse("the first URL before the change", request.rawQuery.contains("generation=2"));
+    }
+    for (FakeFiles.Received request : files.rangeRequests.subList(restart, files.rangeRequests.size())) {
+      assertTrue("the new URL after it", request.rawQuery.contains("generation=2"));
+    }
+    assertTrue(asked.toString(), asked.contains("bytes=10000-10999"));
+    assertEquals(Arrays.asList("conflict.bin"), directoryListing());
+  }
+
+  @Test(timeout = 20000)
+  public void anyOtherConflictFailsTheDownloadWithoutStartingOver() throws Exception {
+    // Another type, and the source-change type only mentioned in the message, are not the typed change.
+    String[] bodies = {
+        "{\"error\":\"Conflict\",\"http-code\":409,\"type\":\"processing-failure/conflict\"}",
+        "{\"error\":\"download_source_changed mentioned\",\"http-code\":409,\"type\":\"processing-failure/conflict\"}",
+        "download_source_changed"
+    };
+    for (String body : bodies) {
+      rangedFile(49);
+      files.rangeRequests.clear();
+      files.describes.clear();
+      files.rangeAnswer = (start, attempt) -> start == 3000 ? FakeFiles.Answer.status(409, body) : null;
+      Path destination = file("other-conflict.bin", "old".getBytes(StandardCharsets.UTF_8));
+      try {
+        client.transfers().download("remote/other-conflict.bin", destination, inParts().concurrencyMode(ConcurrencyMode.STATIC).maxConcurrency(1).build());
+        fail("Expected the conflict to fail the download");
+      } catch (ApiErrorException.ApiConnectionException e) {
+        assertTrue(body + ": " + e.getMessage(), e.getMessage().contains("HTTP status 409"));
+        assertFalse(body + ": " + e.getMessage(), e.getMessage().contains("changed while it was being downloaded"));
+      }
+      assertEquals(body, "old", new String(Files.readAllBytes(destination), StandardCharsets.UTF_8));
+      assertEquals(body + ": not described again", 1, files.describes.size());
+      assertEquals(body + ": not asked again", 1, files.rangeRequests.stream().filter(r -> r.part == 3000).count());
+      assertEquals(Arrays.asList("other-conflict.bin"), directoryListing());
+    }
+    files.rangeAnswer = (start, attempt) -> null;
+  }
+
+  @Test(timeout = 20000)
+  public void aChangeStopsTheOtherPartsInFlightBeforeTheFileIsDownloadedAgain() throws Exception {
+    rangedFile(45);
+    byte[] changedContents = bytes(10_000, 46);
+    CountDownLatch siblingAsked = new CountDownLatch(1);
+    CountDownLatch release = new CountDownLatch(1);
+    // The part at 2000 is held unanswered until the download describes the file again; the part at
+    // 1000 finds the file changed meanwhile. Waiting for the held part would never start over.
+    files.rangeAnswer = (start, attempt) -> {
+      if (start == 2000 && attempt == 1) {
+        siblingAsked.countDown();
+        return FakeFiles.Answer.holdUntil(release);
+      }
+      if (start == 1000 && attempt == 1) {
+        assertTrue(siblingAsked.await(10, TimeUnit.SECONDS));
+        files.contents = changedContents;
+        files.etag = "\"v2\"";
+      }
+      return null;
+    };
+    files.downloadUriEditor = uri -> {
+      if (files.describes.size() > 1) {
+        release.countDown();
+      }
+      return uri;
+    };
+    Path destination = folder.getRoot().toPath().resolve("in-flight.bin");
+    try {
+      client.transfers().download("remote/in-flight.bin", destination, inParts().concurrencyMode(ConcurrencyMode.STATIC).maxConcurrency(2).build());
+    } finally {
+      release.countDown();
+    }
+    assertArrayEquals(changedContents, Files.readAllBytes(destination));
+    assertEquals(2, files.describes.size());
+    assertEquals(Arrays.asList("in-flight.bin"), directoryListing());
   }
 
   @Test(timeout = 20000)
@@ -2327,23 +2443,42 @@ public class FilesTransferTest {
     assertArrayEquals(contents, Files.readAllBytes(destination));
     assertTrue("renewed: " + files.describes.size(), files.describes.size() > 2);
 
-    // A renewed URL for another storage resource stops the download.
-    files.rangeRequests.clear();
-    files.rangeAnswer = (start, attempt) -> {
-      if (start == 0) {
-        files.downloadResource = files.root() + "/download/elsewhere.bin";
+    // A renewed URL for another storage resource means the file changed: with no retries, the
+    // download stops; otherwise it starts over, from the resource Files.com now describes.
+    for (int retries : new int[]{0, 3}) {
+      files.rangeRequests.clear();
+      files.describes.clear();
+      files.downloadResource = null;
+      files.rangeAnswer = (start, attempt) -> {
+        if (start == 0) {
+          files.downloadResource = files.root() + "/download/elsewhere.bin";
+        }
+        return null;
+      };
+      Path other = file("moved.bin", "old".getBytes(StandardCharsets.UTF_8));
+      java.util.HashMap<String, Object> requestOptions = new java.util.HashMap<>();
+      requestOptions.put("max_retries", retries);
+      com.files.net.DownloadOptions options = inParts().requestOptions(requestOptions).build();
+      if (retries == 0) {
+        try {
+          client.transfers().download("remote/moved.bin", other, options);
+          fail("Expected the download to stop");
+        } catch (ApiErrorException.ApiConnectionException e) {
+          assertTrue(e.getMessage(), e.getMessage().contains("another storage resource"));
+        }
+        assertEquals("old", new String(Files.readAllBytes(other), StandardCharsets.UTF_8));
+        assertEquals(1, files.rangeRequests.size());
+      } else {
+        client.transfers().download("remote/moved.bin", other, options);
+        assertArrayEquals(contents, Files.readAllBytes(other));
+        FakeFiles.Received restarted = files.rangeRequests.get(1);
+        assertEquals("bytes=0-999", restarted.header("Range"));
+        assertEquals("/download/elsewhere.bin", restarted.rawPath);
+        for (FakeFiles.Received request : files.rangeRequests.subList(1, files.rangeRequests.size())) {
+          assertEquals("/download/elsewhere.bin", request.rawPath);
+        }
       }
-      return null;
-    };
-    Path other = file("moved.bin", "old".getBytes(StandardCharsets.UTF_8));
-    try {
-      client.transfers().download("remote/moved.bin", other, inParts().build());
-      fail("Expected the download to stop");
-    } catch (ApiErrorException.ApiConnectionException e) {
-      assertTrue(e.getMessage(), e.getMessage().contains("another storage resource"));
     }
-    assertEquals("old", new String(Files.readAllBytes(other), StandardCharsets.UTF_8));
-    assertEquals(1, files.rangeRequests.size());
   }
 
   @Test(timeout = 20000)
@@ -2712,6 +2847,7 @@ public class FilesTransferTest {
     }
     assertArrayEquals(Arrays.copyOf(contents, 3400), out.toByteArray());
     assertEquals("nothing asked for after the change", "bytes=3400-3999", files.rangeRequests.get(files.rangeRequests.size() - 1).header("Range"));
+    assertEquals("not started over", 1, files.describes.size());
     assertFalse(out.closed);
   }
 

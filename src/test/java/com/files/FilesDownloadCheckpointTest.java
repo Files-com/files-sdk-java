@@ -71,7 +71,11 @@ public class FilesDownloadCheckpointTest {
         .build();
     checkpoints = folder.getRoot().toPath().resolve("checkpoints");
     destination = folder.getRoot().toPath().resolve("big.bin");
-    files.rangeAnswer = (start, attempt) -> !interrupting.get() ? null
+    files.rangeAnswer = interruptingRanges();
+  }
+
+  private FakeFiles.RangeAnswer interruptingRanges() {
+    return (start, attempt) -> !interrupting.get() ? null
         : start == 5000 ? FakeFiles.Answer.status(403, "") : start > 5000 ? FakeFiles.Answer.holdUntil(held) : null;
   }
 
@@ -235,6 +239,75 @@ public class FilesDownloadCheckpointTest {
     assertEquals("\"v2\"", run.get(0).header("If-Match"));
     assertEquals(0L, run.get(1).part);
     assertNull(run.get(1).header("If-Match"));
+  }
+
+  @Test(timeout = 30000)
+  public void aFileThatChangesSizeAfterTheRunDescribesItIsDescribedAgainWhenStorageRejectsTheCheckpoint() throws Exception {
+    // The run describes the file at its recorded size; it changes, to another size, before storage
+    // confirms the recorded version, which storage rejects with 412 to If-Match, or with the typed 409
+    // download_source_changed. Giving up an earlier run's version uses none of the client's retries,
+    // so even a download allowed none starts over, from what Files.com describes then.
+    int seed = 5;
+    for (boolean typed : new boolean[]{false, true}) {
+      rangedFile(seed++, "\"v1\"");
+      files.rangeAnswer = interruptingRanges();
+      interrupt();
+      byte[] changed = bytes(12_000, seed++);
+      AtomicBoolean changing = new AtomicBoolean();
+      files.rangeAnswer = (start, attempt) -> {
+        if (!changing.compareAndSet(false, true)) {
+          return null;
+        }
+        files.contents = changed;
+        files.describedSize = (long) changed.length;
+        files.etag = "\"v2\"";
+        return typed ? FakeFiles.Answer.status(409, "{\"error\":\"The source file changed\",\"http-code\":409,"
+            + "\"title\":\"Download Source Changed\",\"type\":\"download_source_changed\"}") : null;
+      };
+      int describes = files.describes.size();
+      int before = files.rangeRequests.size();
+      HashMap<String, Object> noRetries = new HashMap<>();
+      noRetries.put("max_retries", 0);
+
+      DownloadResult result = client.transfers().download(REMOTE, destination, checkpointed().requestOptions(noRetries).build());
+
+      String what = typed ? "typed 409" : "412";
+      assertArrayEquals(what, changed, Files.readAllBytes(destination));
+      assertEquals(what + ": described, then again once storage rejected the recorded version", describes + 2, files.describes.size());
+      List<FakeFiles.Received> run = files.rangeRequests.subList(before, files.rangeRequests.size());
+      assertEquals(what, "\"v1\"", run.get(0).header("If-Match"));
+      assertEquals(what, 0L, run.get(1).part);
+      assertEquals(what, 0, result.getFinalProgress().getRetries());
+      assertEquals(what, 0, listing(checkpoints).size());
+    }
+  }
+
+  @Test(timeout = 30000)
+  public void anotherConflictToTheCheckpointConfirmationFailsWithoutStartingOver() throws Exception {
+    // Only an answer whose whole body is the typed JSON says the source changed: the typed object after
+    // more than the bytes read to tell, though it would be one standalone, is any other 409.
+    rangedFile(9, "\"v1\"");
+    interrupt();
+    StringBuilder body = new StringBuilder();
+    for (int i = 0; i < 5000; i++) {
+      body.append(' ');
+    }
+    body.append("{\"type\":\"download_source_changed\"}");
+    files.rangeAnswer = (start, attempt) -> FakeFiles.Answer.status(409, body.toString());
+    int describes = files.describes.size();
+    int before = files.rangeRequests.size();
+    try {
+      client.transfers().download(REMOTE, destination, checkpointed().build());
+      fail("Expected the conflict to fail the download");
+    } catch (com.files.exceptions.ApiErrorException.ApiConnectionException e) {
+      assertTrue(e.getMessage(), e.getMessage().contains("HTTP status 409"));
+      assertFalse(e.getMessage(), e.getMessage().contains("changed while it was being downloaded"));
+    }
+    assertFalse(Files.exists(destination));
+    assertEquals("not described again", describes + 1, files.describes.size());
+    List<FakeFiles.Received> run = files.rangeRequests.subList(before, files.rangeRequests.size());
+    assertEquals("only the confirmation, not tried again", Arrays.asList(5000L), starts(run));
+    assertEquals("the recorded version is kept for a later run", 1, listing(checkpoints).size());
   }
 
   @Test(timeout = 30000)

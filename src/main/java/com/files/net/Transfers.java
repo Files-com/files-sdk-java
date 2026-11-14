@@ -540,7 +540,7 @@ public final class Transfers {
    * in parts, several at once as {@link DownloadOptions.Builder#concurrencyMode} describes, each
    * written at its own place in the file: every part is asked for with that tag in
    * {@code If-Match}, follows no redirect, and must be answered with exactly its bytes of exactly
-   * that version, or the file changed and the download fails, not tried again. A part that fails
+   * that version, or the file changed. A part that fails
    * in a way that may be temporary is asked for again from its first byte not yet written. Where
    * the answer binds nothing, the file comes in one response, which must be a successful one; its
    * length must match its Content-Length, and the file's size when Files.com described one, and a
@@ -549,6 +549,17 @@ public final class Transfers {
    * application header fails the download. When the download fails or is cancelled, what it created
    * is deleted and the destination is left as it was. The
    * {@link DownloadOptions.Builder#timeout time limit} covers the whole download.
+   *
+   * <p>When the file changes while it is downloaded (a 412 to {@code If-Match} or
+   * {@code If-Unmodified-Since}, a 409 whose JSON body's type is {@code download_source_changed},
+   * another entity tag, size or storage resource, or a Last-Modified date newer than the first
+   * answer's), the requests in flight are stopped, the bytes fetched are
+   * discarded, and the file is downloaded again from its first byte: Files.com describes it again,
+   * for its size and a new URL, and no version or date from before is kept. Each time counts as one
+   * of the client's retries, however much had been fetched, so a file that keeps changing fails,
+   * once they are used, with an {@link com.files.exceptions.ApiErrorException.ApiConnectionException}
+   * saying it changed; with no retries, the first change fails the download. A File without a path
+   * cannot be described again, and fails at the first change.
    *
    * <p>With a {@link DownloadOptions.Builder#checkpointDirectory checkpoint directory}, a download
    * fetched in parts keeps its partial file when it stops before publishing, and a later run of the
@@ -566,7 +577,8 @@ public final class Transfers {
    * range still missing, or the last byte, is asked for with {@code If-Match} and must be answered
    * with exactly those bytes of exactly that version before any is written. If the file changed,
    * the checkpoint forgets the old version before the partial file is emptied, and the download
-   * starts over; bytes of two versions are never mixed. While parts are written, what they hold is
+   * starts over, without using one of the client's retries; when storage rejects the recorded
+   * version, Files.com describes the file again first. Bytes of two versions are never mixed. While parts are written, what they hold is
    * made durable and recorded at most once a second, and when the download stops. A file that comes
    * in one request keeps no progress. Once the file is published, the checkpoint is deleted; a run
    * that finds the file was published, the destination being the partial file itself, completes
@@ -615,7 +627,9 @@ public final class Transfers {
    * whole file to a part. A file that comes in one request, unbound, is asked for again after a
    * failure that may be temporary only while nothing of it has been written: once {@code out} holds
    * some of it, a failure stops the download, as the bytes written cannot be taken back and the rest
-   * cannot be asked for alone. Nothing is ever written twice.
+   * cannot be asked for alone. Nothing is ever written twice: a file that changes is downloaded
+   * again from its start, as to a path, only while {@code out} holds none of it; once it holds some,
+   * the change fails the download.
    *
    * <p>{@code out} is yours: it is never flushed or closed, whether the download succeeds or fails.
    * If writing to it throws, the download stops with that {@code IOException}, without writing to it

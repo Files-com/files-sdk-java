@@ -7,13 +7,20 @@ import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import com.files.exceptions.ApiErrorException;
+import com.files.exceptions.OperationCancelledException;
 import com.files.net.DownloadOptions;
 import com.files.net.DownloadResult;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -28,6 +35,12 @@ public class FilesDownloadDateTest {
 
   private FilesClient client(FakeFiles files) {
     return FilesClient.builder().apiKey("date-test-key").apiRoot(files.root()).retryDelay(Duration.ofMillis(1)).build();
+  }
+
+  private List<String> listing() throws IOException {
+    try (Stream<Path> entries = Files.list(folder.getRoot().toPath())) {
+      return entries.map(p -> p.getFileName().toString()).sorted().collect(Collectors.toList());
+    }
   }
 
   private DownloadOptions parts() {
@@ -68,25 +81,81 @@ public class FilesDownloadDateTest {
   }
 
   @Test(timeout = 20000)
-  public void aNewerSameSizeFileIsNeverPublishedEvenWhenTheConditionIsIgnored() throws Exception {
-    for (boolean obeys : new boolean[]{true, false}) {
-      try (FakeFiles files = new FakeFiles(); FilesClient client = client(files)) {
-        firstWithoutVersion(files, BASELINE);
-        files.download = attempt -> obeys && BASELINE.equals(files.downloads.get(files.downloads.size() - 1).header("If-Unmodified-Since"))
-            ? FakeFiles.Answer.status(412, "")
-            : FakeFiles.Answer.status(200, "9876543210").header("Last-Modified", NEWER);
-        Path destination = folder.getRoot().toPath().resolve("changed-" + obeys + ".bin");
-        Files.write(destination, "old".getBytes(StandardCharsets.UTF_8));
+  public void aSourceNewerOnEveryAttemptIsNeverPublishedAndStartsOverOnlyWithinTheRetryLimit() throws Exception {
+    for (int retries : new int[]{0, 2}) {
+      for (boolean obeys : new boolean[]{true, false}) {
+        try (FakeFiles files = new FakeFiles(); FilesClient client = FilesClient.builder().apiKey("date-test-key").apiRoot(files.root())
+                 .retryDelay(Duration.ofMillis(1)).maxRetries(retries).build()) {
+          firstWithoutVersion(files, BASELINE);
+          files.download = attempt -> obeys && BASELINE.equals(files.downloads.get(files.downloads.size() - 1).header("If-Unmodified-Since"))
+              ? FakeFiles.Answer.status(412, "")
+              : FakeFiles.Answer.status(200, "9876543210").header("Last-Modified", NEWER);
+          Path destination = folder.getRoot().toPath().resolve("changed-" + retries + "-" + obeys + ".bin");
+          Files.write(destination, "old".getBytes(StandardCharsets.UTF_8));
 
-        try {
-          client.transfers().download("remote.bin", destination, parts());
-          fail("A newer source must stop the download");
-        } catch (ApiErrorException.ApiConnectionException e) {
-          assertTrue(e.getMessage(), e.getMessage().contains("changed while it was being downloaded"));
+          try {
+            client.transfers().download("remote.bin", destination, parts());
+            fail("A newer source must stop the download");
+          } catch (ApiErrorException.ApiConnectionException e) {
+            assertTrue(e.getMessage(), e.getMessage().contains("changed while it was being downloaded"));
+          }
+          assertEquals("old", new String(Files.readAllBytes(destination), StandardCharsets.UTF_8));
+          String what = retries + " retries, condition " + (obeys ? "obeyed" : "ignored");
+          assertEquals(what, 1 + retries, files.downloads.size());
+          assertEquals(what + ": each start over describes the file again", 1 + retries, files.describes.size());
+          for (FakeFiles.Received request : files.downloads) {
+            assertEquals(what, BASELINE, request.header("If-Unmodified-Since"));
+          }
         }
-        assertEquals("old", new String(Files.readAllBytes(destination), StandardCharsets.UTF_8));
-        assertEquals(1, files.downloads.size());
       }
+    }
+  }
+
+  @Test(timeout = 20000)
+  public void cancellingWhileAChangedSourceWaitsToStartOverStopsTheDownload() throws Exception {
+    try (FakeFiles files = new FakeFiles(); FilesClient client = FilesClient.builder().apiKey("date-test-key").apiRoot(files.root())
+             .retryDelay(Duration.ofSeconds(60)).maxRetries(3).build()) {
+      firstWithoutVersion(files, BASELINE);
+      files.download = attempt -> FakeFiles.Answer.status(412, "");
+      CancellationToken token = new CancellationToken();
+      // A start over is reported, with its retry, before its wait.
+      DownloadOptions options = DownloadOptions.builder().partSize(4).cancellation(token).progressListener(progress -> {
+        if (progress.getRetries() > 0) {
+          token.cancel();
+        }
+      }).build();
+      Path destination = folder.getRoot().toPath().resolve("cancelled.bin");
+      try {
+        client.transfers().download("remote.bin", destination, options);
+        fail("Cancelling must stop the download");
+      } catch (OperationCancelledException e) {
+        // Expected.
+      }
+      assertFalse(Files.exists(destination));
+      assertEquals(Collections.emptyList(), listing());
+      assertEquals(1, files.downloads.size());
+      assertEquals("not described again", 1, files.describes.size());
+    }
+  }
+
+  @Test(timeout = 20000)
+  public void aStreamStartsOverForAChangedSourceOnlyWhileItHoldsNothing() throws Exception {
+    try (FakeFiles files = new FakeFiles(); FilesClient client = client(files)) {
+      // The first part binds no version, so nothing is written to the stream before the whole file
+      // is asked for; the file is newer once the download starts over.
+      firstWithoutVersion(files, null);
+      files.rangeAnswer = (start, attempt) -> FakeFiles.Answer.status(206, "0123").header("Content-Range", "bytes 0-3/10")
+          .header("Last-Modified", attempt == 1 ? BASELINE : NEWER);
+      files.download = attempt -> attempt == 1 ? FakeFiles.Answer.status(412, "")
+          : FakeFiles.Answer.status(200, "9876543210").header("Last-Modified", NEWER);
+      ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+      client.transfers().download("remote.bin", out, parts());
+
+      assertEquals("9876543210", new String(out.toByteArray(), StandardCharsets.UTF_8));
+      assertEquals(2, files.describes.size());
+      assertEquals(BASELINE, files.downloads.get(0).header("If-Unmodified-Since"));
+      assertEquals("the start over keeps the new version's date, not the old", NEWER, files.downloads.get(1).header("If-Unmodified-Since"));
     }
   }
 
@@ -195,7 +264,7 @@ public class FilesDownloadDateTest {
   }
 
   @Test(timeout = 20000)
-  public void aWholeResponseRetryKeepsTheDateFromItsInterruptedBody() throws Exception {
+  public void aWholeResponseRetryKeepsTheDateFromItsInterruptedBodyAndAChangeStartsOverWithoutIt() throws Exception {
     try (FakeFiles files = new FakeFiles(); FilesClient client = client(files)) {
       files.contents = CONTENTS.getBytes(StandardCharsets.UTF_8);
       files.describedSize = (long) files.contents.length;
@@ -203,14 +272,16 @@ public class FilesDownloadDateTest {
           : BASELINE.equals(files.downloads.get(files.downloads.size() - 1).header("If-Unmodified-Since"))
           ? FakeFiles.Answer.status(412, "") : FakeFiles.Answer.status(200, "9876543210");
       Path destination = folder.getRoot().toPath().resolve("retry.bin");
-      try {
-        client.transfers().download("remote.bin", destination);
-        fail("The interrupted response's date must be used on retry");
-      } catch (ApiErrorException.ApiConnectionException e) {
-        assertTrue(e.getMessage(), e.getMessage().contains("changed while it was being downloaded"));
-      }
-      assertFalse(Files.exists(destination));
-      assertEquals(2, files.downloads.size());
+
+      final DownloadResult result = client.transfers().download("remote.bin", destination);
+
+      assertEquals("only the new version", "9876543210", new String(Files.readAllBytes(destination), StandardCharsets.UTF_8));
+      assertEquals(3, files.downloads.size());
+      assertEquals("the retry keeps the interrupted body's date", BASELINE, files.downloads.get(1).header("If-Unmodified-Since"));
+      assertNull("the start over keeps no date", files.downloads.get(2).header("If-Unmodified-Since"));
+      assertEquals("the start over describes the file again", 2, files.describes.size());
+      assertEquals("a retry, then a start over", 2, result.getFinalProgress().getRetries());
+      assertEquals(Collections.singletonList("retry.bin"), listing());
     }
   }
 

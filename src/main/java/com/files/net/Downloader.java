@@ -61,7 +61,7 @@ import org.slf4j.LoggerFactory;
 //                       starts at its policy's start), each written at its own position in the stage.
 //                       A part whose request fails in a way that may be temporary is asked for again
 //                       from its first byte not yet written. 412, another size or another entity tag
-//                       mean the file changed: the download fails and is not tried again.
+//                       mean the file changed (see below).
 //   not bound           Otherwise (a file of one part or of unknown size, or a first answer of 200, a
 //                       redirect, 416, or 206 without a strong entity tag), the file comes in one
 //                       request, from its first byte, started over after a failure that may be
@@ -71,6 +71,17 @@ import org.slf4j.LoggerFactory;
 // A bound part answered 200 shows a server that ignores Range: the download starts over in one
 // request. An answer from the Files.com web application is refused before any byte is written. A
 // storage Retry-After is waited in full; one longer than the SDK can wait is not retried.
+//
+// When the file changes while it is downloaded (changed: 412 to If-Match or If-Unmodified-Since, a
+// typed 409 download_source_changed, another size, entity tag or storage resource, or a Last-Modified
+// date newer than the first), the attempt stops, its other requests with it, and what it fetched is
+// discarded: the download starts again from the file's first byte, as a new one would, with
+// Files.com's description of the file then, its size and a new URL, and no version or date from
+// before (fetchFromStart). Any other 409 fails the download as before. Each start over counts as one
+// of the client's retries, however much the attempt had fetched, so a file that keeps changing fails
+// with the change once they are used; a stream that holds bytes of the file, and a File without a
+// path, which cannot be described again, fail with it at once. Retries of a request, and renewing its
+// URL, keep the version and the date the download started with.
 //
 // Every storage request, a bound part's attempt, the first part, a resumed version's confirmation and
 // the file in one request alike, holds a request slot of the download's limiter (and, where it counts
@@ -89,9 +100,11 @@ import org.slf4j.LoggerFactory;
 // If-Match and must come back as exactly those bytes of exactly that version, its Content-Range,
 // size, entity tag and length checked, before any of them is written. Then only the missing ranges
 // are fetched, under the rules above. A changed size, entity tag or storage resource, 412, 416, a
-// redirect or a range that is not the one asked for means the recorded version is gone: the record
-// forgets it, durably, the stage is emptied, and the download starts over as a first run would; 200
-// means the file comes in one request, after the same. Bytes of two versions are never mixed.
+// typed 409 download_source_changed, a redirect or a range that is not the one asked for means the
+// recorded version is gone: the record forgets it, durably, the stage is emptied, and the download
+// starts over as a first run would, without using one of the client's retries; when storage answered
+// so, Files.com describes the file again first, as its description may be as old. 200 means the file
+// comes in one request, after the same. Bytes of two versions are never mixed.
 final class Downloader {
   private static final Logger log = LoggerFactory.getLogger(Downloader.class);
   private static final TypeReference<File> FILE = new TypeReference<File>() {};
@@ -109,7 +122,8 @@ final class Downloader {
   private static final AtomicInteger THREADS = new AtomicInteger();
 
   private final ClientRuntime runtime;
-  private final File file;
+  // Files.com's description of the file, described again when the download starts over.
+  private File file;
   private final Path destination;
   private final DownloadOptions options;
   private final String path;
@@ -201,7 +215,7 @@ final class Downloader {
       throw new FileAlreadyExistsException(target.toString());
     }
     try (DownloadStage stage = DownloadStage.create(target)) {
-      long size = fetch(stage, scope, null);
+      long size = fetchFromStart(stage, scope, null);
       scope.check();
       stage.publish(target, options.isReplaceExisting());
       return new DownloadResult(file, target, size, version != null, progress());
@@ -217,7 +231,7 @@ final class Downloader {
       throw new IllegalStateException("The transfer scope of the download of " + path + " is closed");
     }
     started = System.nanoTime();
-    long size = fetchToStream(new StreamStage(out, scope), scope);
+    long size = fetchFromStart(new StreamStage(out, scope), scope, null);
     scope.check();
     return new DownloadResult(file, null, size, version != null, progress());
   }
@@ -265,7 +279,7 @@ final class Downloader {
         // is emptied, so that no byte of it can outlast the file this run writes.
         stage.restart();
       }
-      long size = fetch(stage, scope, reopened && saved.version != null ? saved : null);
+      long size = fetchFromStart(stage, scope, reopened && saved.version != null ? saved : null);
       scope.check();
       if (version != null) {
         checkpoint.publishing();
@@ -333,6 +347,66 @@ final class Downloader {
     }
   }
 
+  // Fetches the file into the stage, as fetch does, or as fetchToStream does into a stream, and
+  // downloads it again from its first byte each time it changes meanwhile, while the client's retries
+  // allow (startAgain). The version resumed records is continued only by the first attempt.
+  private long fetchFromStart(DownloadStage stage, OperationScope scope, DownloadCheckpoint.Saved resumed) throws IOException {
+    for (int restarts = 0; ; restarts++) {
+      try {
+        return stage instanceof StreamStage ? fetchToStream((StreamStage) stage, scope) : fetch(stage, scope, restarts == 0 ? resumed : null);
+      } catch (SourceChanged change) {
+        // A stream's bytes cannot be taken back, and a File without a path cannot be described again.
+        if (restarts >= maxRetries || delivered(stage) > 0 || path == null) {
+          throw change;
+        }
+        startAgain(stage, scope, change, restarts + 1);
+      }
+    }
+  }
+
+  // The file changed while it was downloaded, and every request for it has ended: what the download
+  // holds of it is discarded, as a new download's would be, the checkpoint first forgetting any
+  // version it records, durably, so that it never claims bytes of another version. After the client's
+  // retry delay, Files.com describes the file again, for its size and a new URL; no version, date or
+  // progress of the earlier attempt is kept.
+  private void startAgain(DownloadStage stage, OperationScope scope, SourceChanged change, int restart) throws IOException {
+    log.info("The file {} changed while it was being downloaded ({}); downloading it again from its start (retry {} of {})", path,
+        change.why, restart, maxRetries);
+    if (checkpoint != null) {
+      checkpoint.clearVersion();
+    }
+    stage.restart();
+    version = null;
+    lastModified = null;
+    attempts = null;
+    totalBytes = -1;
+    resumedBytes = 0;
+    firstPartAttempts = 0;
+    synchronized (lock) {
+      completedBytes = 0;
+      completedParts = 0;
+      unreported = 0;
+      writtenRanges.clear();
+      rangesChanges++;
+    }
+    retries.incrementAndGet();
+    report(progress());
+    scope.sleep(retryDelayMillis);
+    describeAgain(scope);
+  }
+
+  // Takes Files.com's description of the file now, its size and a new URL, for a download that starts
+  // over from its first byte.
+  private void describeAgain(OperationScope scope) {
+    File described = describe(scope);
+    runtime.bind(described, callOptions);
+    synchronized (renewLock) {
+      url = described.getDownloadUri();
+      refusedUrl = null;
+    }
+    file = described;
+  }
+
   // Fetches the file into the stage: continuing the version resumed records, when it is not null.
   private long fetch(DownloadStage stage, OperationScope scope, DownloadCheckpoint.Saved resumed) throws IOException {
     if (resumed != null) {
@@ -350,6 +424,10 @@ final class Downloader {
         return fetchWhole(stage, scope);
       }
       startOver(stage);
+      if (resumption == Resumption.REJECTED) {
+        // Not one of the client's retries: the version given up was an earlier run's.
+        describeAgain(scope);
+      }
     }
     long stated = file.getSize() != null ? file.getSize() : -1;
     if (stated > options.getPartSize()) {
@@ -517,8 +595,11 @@ final class Downloader {
     BOUND,
     // The storage server ignores ranges: the file comes in one request.
     WHOLE,
-    // The recorded version is not the storage server's any more.
-    CHANGED
+    // Files.com describes the file otherwise than the recorded version.
+    CHANGED,
+    // The storage server answered that it no longer has the recorded version: the description this run
+    // started with, given before that answer, may be of a version as old, and is asked for again.
+    REJECTED
   }
 
   // Continues the version an earlier run recorded, once the storage server confirms it: the first
@@ -565,7 +646,7 @@ final class Downloader {
               || range.end != to || (declared >= 0 && declared != to - from + 1)) {
             log.info("The storage server answered the download of {} with another version, or other bytes, than its checkpoint records;"
                 + " the download starts over", path);
-            return Resumption.CHANGED;
+            return Resumption.REJECTED;
           }
           if (missing.isEmpty()) {
             version = new Version(recorded.etag, recorded.size, resourceOf(uri));
@@ -591,9 +672,16 @@ final class Downloader {
         } else if (status == 412 || status == 416 || (status >= 300 && status < 400)) {
           log.info("The storage server no longer has the version of {} that its checkpoint records (HTTP {}); the download starts over",
               path, status);
-          return Resumption.CHANGED;
+          return Resumption.REJECTED;
         } else {
-          attempt = failedStatus(response, status, uri);
+          try {
+            attempt = failedStatus(response, status, uri);
+          } catch (SourceChanged e) {
+            // The typed 409, which failedStatus reads the body once to tell: the recorded version is gone.
+            log.info("The storage server no longer has the version of {} that its checkpoint records ({}); the download starts over",
+                path, e.why);
+            return Resumption.REJECTED;
+          }
         }
       } catch (LocalFailure e) {
         throw e.failure();
@@ -1320,6 +1408,10 @@ final class Downloader {
   // limit, with the download's URL renewed first (refusedUrl), as when a request is refused before
   // sending for its URL's expiry.
   private Attempt failedStatus(CloseableHttpResponse response, int status, String uri) {
+    if (StorageExpiry.saysSourceChanged(status, response.getEntity())) {
+      EntityUtils.consumeQuietly(response.getEntity());
+      throw changed("the storage server answered that it changed since its download URL was issued (HTTP 409 download_source_changed)");
+    }
     boolean urlExpired = StorageExpiry.saysExpired(status, response.getEntity());
     EntityUtils.consumeQuietly(response.getEntity());
     if (urlExpired) {
@@ -1360,9 +1452,9 @@ final class Downloader {
         + file.getSize());
   }
 
-  private ApiErrorException.ApiConnectionException changed(String why) {
-    return new ApiErrorException.ApiConnectionException("The file " + path + " changed while it was being downloaded: " + why
-        + ", so the download was stopped and nothing was put in place");
+  private SourceChanged changed(String why) {
+    return new SourceChanged("The file " + path + " changed while it was being downloaded: " + why
+        + ", so the download was stopped and nothing was put in place", why);
   }
 
   // Gives the download a new URL when its URL is about to expire, or a request for it was refused after
@@ -1377,13 +1469,7 @@ final class Downloader {
       if (!needsRenewal()) {
         return;
       }
-      FilesResponse response = runtime.send(RequestMethods.GET, "/files/" + UrlUtils.encodeUrlPath(path), new HashMap<String, Object>(),
-          ClientRuntime.retainedOptions(callOptions), scope, maxRetries);
-      File renewed = runtime.readItem(response.getBody(), FILE);
-      String uri = renewed.getDownloadUri();
-      if (uri == null || uri.isEmpty()) {
-        throw new ApiErrorException.ApiConnectionException("Files.com gave no new download URL for " + path);
-      }
+      String uri = describe(scope).getDownloadUri();
       Version bound = version;
       if (bound != null && !bound.resource.equals(resourceOf(uri))) {
         throw changed("Files.com gave a download URL for another storage resource");
@@ -1395,6 +1481,18 @@ final class Downloader {
       url = uri;
       refusedUrl = null;
     }
+  }
+
+  // Files.com's description of the file now, which must give a download URL.
+  private File describe(OperationScope scope) {
+    FilesResponse response = runtime.send(RequestMethods.GET, "/files/" + UrlUtils.encodeUrlPath(path), new HashMap<String, Object>(),
+        ClientRuntime.retainedOptions(callOptions), scope, maxRetries);
+    File described = runtime.readItem(response.getBody(), FILE);
+    String uri = described.getDownloadUri();
+    if (uri == null || uri.isEmpty()) {
+      throw new ApiErrorException.ApiConnectionException("Files.com gave no new download URL for " + path);
+    }
+    return described;
   }
 
   private boolean needsRenewal() {
@@ -1884,6 +1982,18 @@ final class Downloader {
 
     Unbound() {
       super("The storage server ignored a range request", null, false, false);
+    }
+  }
+
+  // The file changed while it was being downloaded (changed): an ApiConnectionException, as any
+  // download failure is, that fetchFromStart tells apart to download the file again from its start.
+  private static final class SourceChanged extends ApiErrorException.ApiConnectionException {
+    private static final long serialVersionUID = 1L;
+    final String why;
+
+    SourceChanged(String message, String why) {
+      super(message);
+      this.why = why;
     }
   }
 

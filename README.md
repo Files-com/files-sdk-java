@@ -1092,7 +1092,6 @@ RuntimeException
 |`RequestParamsRequiredException`|  `BadRequestException` |
 |`SearchAllOnChildPathException`|  `BadRequestException` |
 |`UnrecognizedSortIndexException`|  `BadRequestException` |
-|`UnsupportedCurrencyException`|  `BadRequestException` |
 |`UnsupportedHttpResponseFormatException`|  `BadRequestException` |
 |`UnsupportedMediaTypeException`|  `BadRequestException` |
 |`UserIdInvalidException`|  `BadRequestException` |

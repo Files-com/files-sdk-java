@@ -1134,23 +1134,6 @@ public class ApiErrorException extends SdkException {
    * One API error type within the family its superclass represents.
    * {@link ApiErrorException#forType} creates it.
    */
-  public static class UnsupportedCurrencyException extends BadRequestException {
-    /**
-     * Creates the exception; {@link ApiErrorException#forType} calls this.
-     *
-     * @param message the exception message
-     * @param responseError the parsed error body
-     * @param headers the HTTP response headers
-     */
-    public UnsupportedCurrencyException(String message, ResponseError responseError, List<Header> headers) {
-      super(message, responseError, headers);
-    }
-  }
-
-  /**
-   * One API error type within the family its superclass represents.
-   * {@link ApiErrorException#forType} creates it.
-   */
   public static class UnsupportedHttpResponseFormatException extends BadRequestException {
     /**
      * Creates the exception; {@link ApiErrorException#forType} calls this.

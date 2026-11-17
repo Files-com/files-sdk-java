@@ -52,4 +52,16 @@ if [ -z "${FILES_TEST_SERVER_URL:-}" ]; then
   trap stop_test_servers EXIT
   . ./test-server/target/servers.env
 fi
-./mvnw -B -ntp verify
+# The test classes run in three JVMs at once. Each JVM gets a temporary directory of its own, under
+# one made for this run in the system's temporary directory, because FilesClientTest checks that the
+# attachment copies it makes there are deleted while FilesAttachmentTest may be making copies in
+# another JVM.
+forks=3
+test_tmp="$(mktemp -d "${TMPDIR:-/tmp}/files-sdk-java-tests.XXXXXX")"
+for fork in $(seq "$forks"); do
+  mkdir "$test_tmp/$fork"
+done
+status=0
+./mvnw -B -ntp -DforkCount="$forks" "-DargLine=-Djava.io.tmpdir=\"$test_tmp/\${surefire.forkNumber}\"" verify || status=$?
+rm -rf -- "$test_tmp"
+exit "$status"

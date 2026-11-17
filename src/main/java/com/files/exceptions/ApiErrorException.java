@@ -1117,6 +1117,23 @@ public class ApiErrorException extends SdkException {
    * One API error type within the family its superclass represents.
    * {@link ApiErrorException#forType} creates it.
    */
+  public static class SearchQueryTooShortException extends BadRequestException {
+    /**
+     * Creates the exception; {@link ApiErrorException#forType} calls this.
+     *
+     * @param message the exception message
+     * @param responseError the parsed error body
+     * @param headers the HTTP response headers
+     */
+    public SearchQueryTooShortException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  /**
+   * One API error type within the family its superclass represents.
+   * {@link ApiErrorException#forType} creates it.
+   */
   public static class UnrecognizedSortIndexException extends BadRequestException {
     /**
      * Creates the exception; {@link ApiErrorException#forType} calls this.
@@ -3506,6 +3523,23 @@ public class ApiErrorException extends SdkException {
      * @param headers the HTTP response headers
      */
     public ResourceLockedException(String message, ResponseError responseError, List<Header> headers) {
+      super(message, responseError, headers);
+    }
+  }
+
+  /**
+   * One API error type within the family its superclass represents.
+   * {@link ApiErrorException#forType} creates it.
+   */
+  public static class SearchTimedOutException extends ProcessingFailureException {
+    /**
+     * Creates the exception; {@link ApiErrorException#forType} calls this.
+     *
+     * @param message the exception message
+     * @param responseError the parsed error body
+     * @param headers the HTTP response headers
+     */
+    public SearchTimedOutException(String message, ResponseError responseError, List<Header> headers) {
       super(message, responseError, headers);
     }
   }

@@ -32,5 +32,5 @@ fi
 
 . ./build-jdk.sh
 ./mvnw -B -ntp -V rewrite:run
-./mvnw -B -ntp -DnewVersion="$(cat _VERSION)" -DgenerateBackupPoms=false versions:set
+./mvnw -B -ntp -DnewVersion="$(cat _VERSION)" -DgenerateBackupPoms=false -DupdateBuildOutputTimestampPolicy=never versions:set
 ./mvnw -B -ntp -DskipTests clean package

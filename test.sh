@@ -37,7 +37,7 @@ fi
 . ./build-jdk.sh
 ./mvnw -B -ntp -V rewrite:run
 if [ "${FILES_SDK_SET_RELEASE_VERSION:-}" = 1 ]; then
-  ./mvnw -B -ntp -DnewVersion="$(cat _VERSION)" -DgenerateBackupPoms=false versions:set
+  ./mvnw -B -ntp -DnewVersion="$(cat _VERSION)" -DgenerateBackupPoms=false -DupdateBuildOutputTimestampPolicy=never versions:set
 fi
 # FilesApiTest runs against WireMock servers on JDK 17 (see test-server/servers.sh) unless the
 # caller already runs them and set their URLs. Servers this script started are stopped when it

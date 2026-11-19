@@ -171,7 +171,7 @@ public class FormField implements ModelInterface {
   }
 
   /**
-   * Options to display for radio and dropdown
+   * Options to display for radio, dropdown, and multi_select
    */
   @JsonProperty("options_for_select")
   public String[] optionsForSelect;
@@ -186,7 +186,7 @@ public class FormField implements ModelInterface {
   }
 
   /**
-   * Default option for radio and dropdown
+   * Default option for radio, dropdown, and multi_select
    */
   @JsonProperty("default_option")
   public String defaultOption;

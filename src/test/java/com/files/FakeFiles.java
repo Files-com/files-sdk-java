@@ -385,14 +385,17 @@ final class FakeFiles implements AutoCloseable {
   private void part(HttpExchange exchange) throws IOException {
     int active = activeParts.incrementAndGet();
     maxActiveParts.accumulateAndGet(active, Math::max);
+    long number;
+    int attempt;
+    Answer answer;
+    byte[] body;
     try {
       // /storage/<ref>/<part number>, or, like S3's own URLs, /storage/<ref>/<object>?partNumber=<part number>&...
       String[] segments = exchange.getRequestURI().getRawPath().split("/");
       String query = exchange.getRequestURI().getRawQuery();
       java.util.regex.Matcher partNumber = java.util.regex.Pattern.compile("(?:^|&)partNumber=(\\d+)").matcher(query == null ? "" : query);
-      long number = Long.parseLong(partNumber.find() ? partNumber.group(1) : segments[segments.length - 1]);
-      int attempt = attempts.computeIfAbsent(segments[segments.length - 2] + "/" + number, key -> new AtomicInteger()).incrementAndGet();
-      Answer answer;
+      number = Long.parseLong(partNumber.find() ? partNumber.group(1) : segments[segments.length - 1]);
+      attempt = attempts.computeIfAbsent(segments[segments.length - 2] + "/" + number, key -> new AtomicInteger()).incrementAndGet();
       try {
         answer = storage.answer(number, attempt);
       } catch (Exception e) {
@@ -402,21 +405,19 @@ final class FakeFiles implements AutoCloseable {
         await(answer.hold);
         answer = null;
       }
-      if (answer != null && answer.drop) {
-        parts.add(new Received(exchange, readAll(exchange.getRequestBody()), number, attempt));
-        exchange.close();
-        return;
+      if (answer != null && answer.delayMillis > 0) {
+        sleep(answer.delayMillis);
       }
-      byte[] body = readAll(exchange.getRequestBody());
-      parts.add(new Received(exchange, body, number, attempt));
-      if (answer == null) {
-        exchange.getResponseHeaders().add("ETag", "\"etag-" + number + "-" + attempt + "\"");
-        respond(exchange, 200, new byte[0]);
-      } else {
-        answer(exchange, answer);
-      }
+      body = readAll(exchange.getRequestBody());
     } finally {
       activeParts.decrementAndGet();
+    }
+    parts.add(new Received(exchange, body, number, attempt));
+    if (answer == null) {
+      exchange.getResponseHeaders().add("ETag", "\"etag-" + number + "-" + attempt + "\"");
+      respond(exchange, 200, new byte[0]);
+    } else {
+      send(exchange, answer);
     }
   }
 
@@ -549,6 +550,11 @@ final class FakeFiles implements AutoCloseable {
     if (answer.hold != null) {
       await(answer.hold);
     }
+    send(exchange, answer);
+  }
+
+  // Sends answer at once, without its delay or hold.
+  private void send(HttpExchange exchange, Answer answer) throws IOException {
     if (answer.drop) {
       exchange.close();
       return;

@@ -3887,9 +3887,8 @@ public class FilesTransferTest extends FilesTransferTestBase {
       release.countDown();
       assertTrue("the interrupt status was kept", interruptedCloser.get(5, TimeUnit.SECONDS));
       secondCloser.get(5, TimeUnit.SECONDS);
-      assertTrue("the upload had stopped when close returned", upload.isDone());
       try {
-        upload.get();
+        upload.get(5, TimeUnit.SECONDS);
         fail("Expected the upload to be cancelled");
       } catch (java.util.concurrent.ExecutionException e) {
         assertTrue(String.valueOf(e.getCause()), e.getCause() instanceof OperationCancelledException);

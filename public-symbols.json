@@ -3337,6 +3337,10 @@
         "status": {
           "field": "status",
           "getter": "getStatus"
+        },
+        "workspace_id": {
+          "field": "workspaceId",
+          "getter": "getWorkspaceId"
         }
       },
       "operations": {

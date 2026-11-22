@@ -49,7 +49,7 @@
 * `allow_credential_changes` / `allowCredentialChanges`  (boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` / `allowProvidingGpgKeys`  (boolean): Allow Partner Admins to provide GPG keys.
 * `allow_user_creation` / `allowUserCreation`  (boolean): Allow Partner Admins to create users.
-* `cc_emails_to_responsible_party` / `ccEmailsToResponsibleParty`  (boolean): When `true`, emails sent to Partner users are copied to the responsible User or Group.
+* `cc_emails_to_responsible_party` / `ccEmailsToResponsibleParty`  (boolean): When `true`, the responsible User or Group receives eligible email copies for Partner Users without their own Responsible Party. Welcome emails trigger a separate onboarding notice. Password recovery links, email verification codes, and signed export links go only to the primary email address.
 * `connections` / `connections`  (PartnerConnection[]): Approved Connected Sites relationships for this Partner, in both directions. Empty when this Partner has no connections. Read-only.
 * `id` / `id`  (int64): The unique ID of the Partner.
 * `ai_assistant_personality_id` / `aiAssistantPersonalityId`  (int64): AI Assistant Personality ID assigned to this Partner, if any. Users in the Partner inherit it unless a direct per-user assignment overrides it.
@@ -131,7 +131,7 @@ Partner partner = Partner.create(parameters, null);
 * `allow_credential_changes` (Boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (Boolean): Allow Partner Admins to provide GPG keys.
 * `allow_user_creation` (Boolean): Allow Partner Admins to create users.
-* `cc_emails_to_responsible_party` (Boolean): When `true`, emails sent to Partner users are copied to the responsible User or Group.
+* `cc_emails_to_responsible_party` (Boolean): When `true`, the responsible User or Group receives eligible email copies for Partner Users without their own Responsible Party. Welcome emails trigger a separate onboarding notice. Password recovery links, email verification codes, and signed export links go only to the primary email address.
 * `notes` (String): Notes about this Partner.
 * `partner_channel_template_id` (Long): ID of the Partner Channel Template assigned to this Partner.
 * `responsible_group_id` (Long): ID of the Group responsible for this Partner.
@@ -177,7 +177,7 @@ Partner partner = Partner.update(1L, parameters, null);
 * `allow_credential_changes` (Boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (Boolean): Allow Partner Admins to provide GPG keys.
 * `allow_user_creation` (Boolean): Allow Partner Admins to create users.
-* `cc_emails_to_responsible_party` (Boolean): When `true`, emails sent to Partner users are copied to the responsible User or Group.
+* `cc_emails_to_responsible_party` (Boolean): When `true`, the responsible User or Group receives eligible email copies for Partner Users without their own Responsible Party. Welcome emails trigger a separate onboarding notice. Password recovery links, email verification codes, and signed export links go only to the primary email address.
 * `notes` (String): Notes about this Partner.
 * `partner_channel_template_id` (Long): ID of the Partner Channel Template assigned to this Partner.
 * `responsible_group_id` (Long): ID of the Group responsible for this Partner.
@@ -238,7 +238,7 @@ Partner result = partner.update(parameters);
 * `allow_credential_changes` (Boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.
 * `allow_providing_gpg_keys` (Boolean): Allow Partner Admins to provide GPG keys.
 * `allow_user_creation` (Boolean): Allow Partner Admins to create users.
-* `cc_emails_to_responsible_party` (Boolean): When `true`, emails sent to Partner users are copied to the responsible User or Group.
+* `cc_emails_to_responsible_party` (Boolean): When `true`, the responsible User or Group receives eligible email copies for Partner Users without their own Responsible Party. Welcome emails trigger a separate onboarding notice. Password recovery links, email verification codes, and signed export links go only to the primary email address.
 * `notes` (String): Notes about this Partner.
 * `partner_channel_template_id` (Long): ID of the Partner Channel Template assigned to this Partner.
 * `responsible_group_id` (Long): ID of the Group responsible for this Partner.

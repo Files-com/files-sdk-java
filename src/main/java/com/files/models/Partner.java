@@ -219,7 +219,7 @@ public class Partner implements ModelInterface {
   }
 
   /**
-   * When `true`, emails sent to Partner users are copied to the responsible User or Group.
+   * When `true`, the responsible User or Group receives eligible email copies for Partner Users without their own Responsible Party. Welcome emails trigger a separate onboarding notice. Password recovery links, email verification codes, and signed export links go only to the primary email address.
    */
   @JsonProperty("cc_emails_to_responsible_party")
   public Boolean ccEmailsToResponsibleParty;
@@ -613,7 +613,7 @@ public class Partner implements ModelInterface {
    * <li>{@code allow_credential_changes} (Boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.</li>
    * <li>{@code allow_providing_gpg_keys} (Boolean): Allow Partner Admins to provide GPG keys.</li>
    * <li>{@code allow_user_creation} (Boolean): Allow Partner Admins to create users.</li>
-   * <li>{@code cc_emails_to_responsible_party} (Boolean): When `true`, emails sent to Partner users are copied to the responsible User or Group.</li>
+   * <li>{@code cc_emails_to_responsible_party} (Boolean): When `true`, the responsible User or Group receives eligible email copies for Partner Users without their own Responsible Party. Welcome emails trigger a separate onboarding notice. Password recovery links, email verification codes, and signed export links go only to the primary email address.</li>
    * <li>{@code notes} (String): Notes about this Partner.</li>
    * <li>{@code partner_channel_template_id} (Long): ID of the Partner Channel Template assigned to this Partner.</li>
    * <li>{@code responsible_group_id} (Long): ID of the Group responsible for this Partner.</li>
@@ -840,7 +840,7 @@ public class Partner implements ModelInterface {
    * <li>{@code allow_credential_changes} (Boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.</li>
    * <li>{@code allow_providing_gpg_keys} (Boolean): Allow Partner Admins to provide GPG keys.</li>
    * <li>{@code allow_user_creation} (Boolean): Allow Partner Admins to create users.</li>
-   * <li>{@code cc_emails_to_responsible_party} (Boolean): When `true`, emails sent to Partner users are copied to the responsible User or Group.</li>
+   * <li>{@code cc_emails_to_responsible_party} (Boolean): When `true`, the responsible User or Group receives eligible email copies for Partner Users without their own Responsible Party. Welcome emails trigger a separate onboarding notice. Password recovery links, email verification codes, and signed export links go only to the primary email address.</li>
    * <li>{@code notes} (String): Notes about this Partner.</li>
    * <li>{@code partner_channel_template_id} (Long): ID of the Partner Channel Template assigned to this Partner.</li>
    * <li>{@code responsible_group_id} (Long): ID of the Group responsible for this Partner.</li>
@@ -898,7 +898,7 @@ public class Partner implements ModelInterface {
    * <li>{@code allow_credential_changes} (Boolean): Allow Partner Admins to change or reset credentials for users belonging to this Partner.</li>
    * <li>{@code allow_providing_gpg_keys} (Boolean): Allow Partner Admins to provide GPG keys.</li>
    * <li>{@code allow_user_creation} (Boolean): Allow Partner Admins to create users.</li>
-   * <li>{@code cc_emails_to_responsible_party} (Boolean): When `true`, emails sent to Partner users are copied to the responsible User or Group.</li>
+   * <li>{@code cc_emails_to_responsible_party} (Boolean): When `true`, the responsible User or Group receives eligible email copies for Partner Users without their own Responsible Party. Welcome emails trigger a separate onboarding notice. Password recovery links, email verification codes, and signed export links go only to the primary email address.</li>
    * <li>{@code notes} (String): Notes about this Partner.</li>
    * <li>{@code partner_channel_template_id} (Long): ID of the Partner Channel Template assigned to this Partner.</li>
    * <li>{@code responsible_group_id} (Long): ID of the Group responsible for this Partner.</li>

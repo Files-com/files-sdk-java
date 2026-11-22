@@ -552,7 +552,7 @@
 * `username_display` / `usernameDisplay`  (string): How usernames are displayed in the web UI. Can be `username_only`, `full_name_only`, `full_name_username`, `full_name_company`, or `full_name_username_company`.
 * `welcome_custom_text` / `welcomeCustomText`  (string): Custom text send in user welcome email
 * `email_footer_custom_text` / `emailFooterCustomText`  (string): Custom footer text for system-generated emails (as Markdown). Supports standard strftime date/time patterns like %Y (4-digit year), %m (month), %d (day).
-* `welcome_email_cc` / `welcomeEmailCc`  (email): Include this email in welcome emails if enabled
+* `welcome_email_cc` / `welcomeEmailCc`  (email): Copy welcome emails to this address when the email contains neither a create-password link nor a password.
 * `welcome_email_subject` / `welcomeEmailSubject`  (string): Include this email subject in welcome emails if enabled
 * `welcome_email_enabled` / `welcomeEmailEnabled`  (boolean): Will the welcome email be sent to new users?
 * `welcome_screen` / `welcomeScreen`  (string): Does the welcome screen appear?
@@ -821,7 +821,7 @@ Site site = Site.update(parameters, null);
 * `ask_about_overwrites` (Boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
 * `show_request_access_link` (Boolean): Show request access link for users without access?  Currently unused.
 * `always_mkdir_parents` (Boolean): Create parent directories if they do not exist during uploads?  This is primarily used to work around broken upload clients that assume servers will perform this step.
-* `welcome_email_cc` (String): Include this email in welcome emails if enabled
+* `welcome_email_cc` (String): Copy welcome emails to this address when the email contains neither a create-password link nor a password.
 * `welcome_email_subject` (String): Include this email subject in welcome emails if enabled
 * `welcome_custom_text` (String): Custom text send in user welcome email
 * `language` (String): Site default language

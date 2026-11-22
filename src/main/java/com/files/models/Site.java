@@ -2889,7 +2889,7 @@ public class Site implements ModelInterface {
   }
 
   /**
-   * Include this email in welcome emails if enabled
+   * Copy welcome emails to this address when the email contains neither a create-password link nor a password.
    */
   @JsonProperty("welcome_email_cc")
   public String welcomeEmailCc;
@@ -3096,7 +3096,7 @@ public class Site implements ModelInterface {
    * <li>{@code ask_about_overwrites} (Boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.</li>
    * <li>{@code show_request_access_link} (Boolean): Show request access link for users without access?  Currently unused.</li>
    * <li>{@code always_mkdir_parents} (Boolean): Create parent directories if they do not exist during uploads?  This is primarily used to work around broken upload clients that assume servers will perform this step.</li>
-   * <li>{@code welcome_email_cc} (String): Include this email in welcome emails if enabled</li>
+   * <li>{@code welcome_email_cc} (String): Copy welcome emails to this address when the email contains neither a create-password link nor a password.</li>
    * <li>{@code welcome_email_subject} (String): Include this email subject in welcome emails if enabled</li>
    * <li>{@code welcome_custom_text} (String): Custom text send in user welcome email</li>
    * <li>{@code language} (String): Site default language</li>

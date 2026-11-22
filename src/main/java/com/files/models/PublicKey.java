@@ -331,7 +331,7 @@ public class PublicKey implements ModelInterface {
   }
 
   /**
-   * Only returned when generating keys. Private key generated for the user.
+   * Available for 60 minutes after key creation, only to the API key or login session that requested generation.
    */
   @JsonProperty("generated_private_key")
   public String generatedPrivateKey;

@@ -1298,6 +1298,21 @@ public class Site implements ModelInterface {
   }
 
   /**
+   * Allow eligible Remote Server Mount and Files.com Agent transfer URLs to use the Site's custom domain. Enabling can serve file content from the same hostname as the signed-in web app. Disabled by default.
+   */
+  @JsonProperty("dangerously_use_custom_domain_for_transfer_urls")
+  public Boolean dangerouslyUseCustomDomainForTransferUrls;
+
+  /**
+   * Gets {@link #dangerouslyUseCustomDomainForTransferUrls}.
+   *
+   * @return the value of {@link #dangerouslyUseCustomDomainForTransferUrls}
+   */
+  public Boolean getDangerouslyUseCustomDomainForTransferUrls() {
+    return dangerouslyUseCustomDomainForTransferUrls;
+  }
+
+  /**
    * Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
    */
   @JsonProperty("domain_hsts_header")
@@ -3108,6 +3123,7 @@ public class Site implements ModelInterface {
    * <li>{@code allow_bundle_names} (Boolean): Are manual Bundle names allowed?</li>
    * <li>{@code bundle_expiration} (Long): Site-wide Bundle expiration in days</li>
    * <li>{@code bundle_max_uses} (Long): Maximum visitors per Share Link on this Site. Applies immediately to existing Share Links and across all Workspaces. Null disables the Site-wide cap.</li>
+   * <li>{@code dangerously_use_custom_domain_for_transfer_urls} (Boolean): Allow eligible Remote Server Mount and Files.com Agent transfer URLs to use the Site's custom domain. Enabling can serve file content from the same hostname as the signed-in web app. Disabled by default.</li>
    * <li>{@code welcome_email_enabled} (Boolean): Will the welcome email be sent to new users?</li>
    * <li>{@code ask_about_overwrites} (Boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.</li>
    * <li>{@code show_request_access_link} (Boolean): Show request access link for users without access?  Currently unused.</li>

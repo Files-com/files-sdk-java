@@ -32,6 +32,7 @@ import com.files.operations.BundleNotificationOperations;
 import com.files.operations.BundleOperations;
 import com.files.operations.BundleRecipientOperations;
 import com.files.operations.BundleRegistrationOperations;
+import com.files.operations.CertificateOperations;
 import com.files.operations.ChatSessionOperations;
 import com.files.operations.ChildSiteManagementPolicyOperations;
 import com.files.operations.ClickwrapOperations;
@@ -547,6 +548,14 @@ public final class FilesClient implements Closeable {
   public BundleRegistrationOperations bundleRegistrations() {
     runtime.ensureOpen();
     return new BundleRegistrationOperations(this);
+  }
+
+  /**
+   * Certificate operations that run with this client.
+   */
+  public CertificateOperations certificates() {
+    runtime.ensureOpen();
+    return new CertificateOperations(this);
   }
 
   /**

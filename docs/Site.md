@@ -103,6 +103,7 @@
   "file_activity_events_enabled": true,
   "disable_password_reset": true,
   "domain": "my-custom-domain.com",
+  "dangerously_use_custom_domain_for_transfer_urls": true,
   "domain_hsts_header": true,
   "domain_letsencrypt_chain": "example",
   "email": "john.doe@files.com",
@@ -447,6 +448,7 @@
 * `file_activity_events_enabled` / `fileActivityEventsEnabled`  (boolean): If true, file operations produce file_action.activity.v1 EventChannel events in all workspaces. Defaults to false; subscription filters and workspace access still control delivery.
 * `disable_password_reset` / `disablePasswordReset`  (boolean): Is password reset disabled?
 * `domain` / `domain`  (string): Custom domain
+* `dangerously_use_custom_domain_for_transfer_urls` / `dangerouslyUseCustomDomainForTransferUrls`  (boolean): Allow eligible Remote Server Mount and Files.com Agent transfer URLs to use the Site's custom domain. Enabling can serve file content from the same hostname as the signed-in web app. Disabled by default.
 * `domain_hsts_header` / `domainHstsHeader`  (boolean): Send HSTS (HTTP Strict Transport Security) header when visitors access the site via a custom domain?
 * `domain_letsencrypt_chain` / `domainLetsencryptChain`  (string): Letsencrypt chain to use when registering SSL Certificate for domain. No longer used as of 2026.
 * `email` / `email`  (email): Main email for this site
@@ -612,6 +614,7 @@ parameters.put("reply_to_email", "jane.doe@files.com");
 parameters.put("allow_bundle_names", false);
 parameters.put("bundle_expiration", 1L);
 parameters.put("bundle_max_uses", 1L);
+parameters.put("dangerously_use_custom_domain_for_transfer_urls", false);
 parameters.put("welcome_email_enabled", false);
 parameters.put("ask_about_overwrites", false);
 parameters.put("show_request_access_link", false);
@@ -821,6 +824,7 @@ Site site = Site.update(parameters, null);
 * `allow_bundle_names` (Boolean): Are manual Bundle names allowed?
 * `bundle_expiration` (Long): Site-wide Bundle expiration in days
 * `bundle_max_uses` (Long): Maximum visitors per Share Link on this Site. Applies immediately to existing Share Links and across all Workspaces. Null disables the Site-wide cap.
+* `dangerously_use_custom_domain_for_transfer_urls` (Boolean): Allow eligible Remote Server Mount and Files.com Agent transfer URLs to use the Site's custom domain. Enabling can serve file content from the same hostname as the signed-in web app. Disabled by default.
 * `welcome_email_enabled` (Boolean): Will the welcome email be sent to new users?
 * `ask_about_overwrites` (Boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
 * `show_request_access_link` (Boolean): Show request access link for users without access?  Currently unused.

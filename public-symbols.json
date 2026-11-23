@@ -2853,6 +2853,177 @@
         }
       }
     },
+    "Certificate": {
+      "class": "Certificate",
+      "client_accessor": "certificates",
+      "fields": {
+        "brick_managed": {
+          "field": "brickManaged",
+          "getter": "getBrickManaged"
+        },
+        "certificate": {
+          "field": "certificate",
+          "getter": "getCertificate"
+        },
+        "certificate_city_or_locale": {
+          "field": "certificateCityOrLocale",
+          "getter": "getCertificateCityOrLocale"
+        },
+        "certificate_company_name": {
+          "field": "certificateCompanyName",
+          "getter": "getCertificateCompanyName"
+        },
+        "certificate_country": {
+          "field": "certificateCountry",
+          "getter": "getCertificateCountry"
+        },
+        "certificate_domain": {
+          "field": "certificateDomain",
+          "getter": "getCertificateDomain"
+        },
+        "certificate_email_address": {
+          "field": "certificateEmailAddress",
+          "getter": "getCertificateEmailAddress"
+        },
+        "certificate_extra_domains": {
+          "field": "certificateExtraDomains",
+          "getter": "getCertificateExtraDomains"
+        },
+        "certificate_state_or_province": {
+          "field": "certificateStateOrProvince",
+          "getter": "getCertificateStateOrProvince"
+        },
+        "created_at": {
+          "field": "createdAt",
+          "getter": "getCreatedAt"
+        },
+        "csr_ou1": {
+          "field": "csrOu1",
+          "getter": "getCsrOu1"
+        },
+        "csr_ou2": {
+          "field": "csrOu2",
+          "getter": "getCsrOu2"
+        },
+        "csr_ou3": {
+          "field": "csrOu3",
+          "getter": "getCsrOu3"
+        },
+        "custom_domain_id": {
+          "field": "customDomainId",
+          "getter": "getCustomDomainId"
+        },
+        "display_status": {
+          "field": "displayStatus",
+          "getter": "getDisplayStatus"
+        },
+        "domains": {
+          "field": "domains",
+          "getter": "getDomains"
+        },
+        "expires_at": {
+          "field": "expiresAt",
+          "getter": "getExpiresAt"
+        },
+        "id": {
+          "field": "id",
+          "getter": "getId"
+        },
+        "intermediates": {
+          "field": "intermediates",
+          "getter": "getIntermediates"
+        },
+        "ip_addresses": {
+          "field": "ipAddresses",
+          "getter": "getIpAddresses"
+        },
+        "issuer": {
+          "field": "issuer",
+          "getter": "getIssuer"
+        },
+        "key_type": {
+          "field": "keyType",
+          "getter": "getKeyType"
+        },
+        "name": {
+          "field": "name",
+          "getter": "getName"
+        },
+        "password": {
+          "field": "password",
+          "getter": "getPassword"
+        },
+        "private_key": {
+          "field": "privateKey",
+          "getter": "getPrivateKey"
+        },
+        "request": {
+          "field": "request",
+          "getter": "getRequest"
+        },
+        "status": {
+          "field": "status",
+          "getter": "getStatus"
+        },
+        "subject": {
+          "field": "subject",
+          "getter": "getSubject"
+        }
+      },
+      "operations": {
+        "delete /certificates/{id}": {
+          "method": "delete",
+          "aliases": {
+            "destroy": "destroy"
+          },
+          "arguments": {
+            "id": "id"
+          }
+        },
+        "get /certificates": {
+          "method": "list",
+          "aliases": {
+            "all": "all"
+          }
+        },
+        "get /certificates/{id}": {
+          "method": "find",
+          "aliases": {
+            "get": "get"
+          },
+          "arguments": {
+            "id": "id"
+          }
+        },
+        "patch /certificates/{id}": {
+          "method": "update",
+          "arguments": {
+            "id": "id"
+          }
+        },
+        "post /certificates": {
+          "method": "create"
+        },
+        "post /certificates/{id}/activate": {
+          "method": "activate",
+          "arguments": {
+            "id": "id"
+          }
+        },
+        "post /certificates/{id}/deactivate": {
+          "method": "deactivate",
+          "arguments": {
+            "id": "id"
+          }
+        },
+        "post /certificates/{id}/replace_with_files_certificate": {
+          "method": "replaceWithFiles",
+          "arguments": {
+            "id": "id"
+          }
+        }
+      }
+    },
     "ChatMessage": {
       "class": "ChatMessage",
       "fields": {
@@ -10105,6 +10276,10 @@
         "custom_namespace": {
           "field": "customNamespace",
           "getter": "getCustomNamespace"
+        },
+        "dangerously_use_custom_domain_for_transfer_urls": {
+          "field": "dangerouslyUseCustomDomainForTransferUrls",
+          "getter": "getDangerouslyUseCustomDomainForTransferUrls"
         },
         "dav_enabled": {
           "field": "davEnabled",

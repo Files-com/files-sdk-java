@@ -763,7 +763,7 @@ public class Bundle implements ModelInterface {
   }
 
   /**
-   * Maximum number of times bundle can be accessed
+   * Visitor limit configured for this Share Link. Null uses the Site-wide cap, if set. The configured limit cannot exceed the Site-wide cap.
    */
   @JsonProperty("max_uses")
   public Long maxUses;
@@ -784,6 +784,30 @@ public class Bundle implements ModelInterface {
    */
   public void setMaxUses(Long maxUses) {
     this.maxUses = maxUses;
+  }
+
+  /**
+   * Read-only visitor limit actually enforced for this Share Link. Uses the lower of the link limit and the Site-wide cap when both are set. Null means unlimited.
+   */
+  @JsonProperty("effective_max_uses")
+  public Long effectiveMaxUses;
+
+  /**
+   * Gets {@link #effectiveMaxUses}.
+   *
+   * @return the value of {@link #effectiveMaxUses}
+   */
+  public Long getEffectiveMaxUses() {
+    return effectiveMaxUses;
+  }
+
+  /**
+   * Sets {@link #effectiveMaxUses}.
+   *
+   * @param effectiveMaxUses the new value
+   */
+  public void setEffectiveMaxUses(Long effectiveMaxUses) {
+    this.effectiveMaxUses = effectiveMaxUses;
   }
 
   /**
@@ -1442,7 +1466,7 @@ public class Bundle implements ModelInterface {
    * <li>{@code expires_at} (String): Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.</li>
    * <li>{@code finalize_snapshot} (Boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.</li>
    * <li>{@code inbox_id} (Long): ID of the associated inbox, if available.</li>
-   * <li>{@code max_uses} (Long): Maximum number of times bundle can be accessed</li>
+   * <li>{@code max_uses} (Long): Visitor limit configured for this Share Link. Null uses the Site-wide cap, if set. The configured limit cannot exceed the Site-wide cap.</li>
    * <li>{@code group_id} (Long): Owning group ID. If set, members of this group can view, edit, and share this Share Link.</li>
    * <li>{@code internal_name} (String): Internal name for identifying this Share Link.</li>
    * <li>{@code note} (String): Bundle internal note</li>
@@ -1551,6 +1575,7 @@ public class Bundle implements ModelInterface {
     this.dontSeparateSubmissionsByFolder = canonical.dontSeparateSubmissionsByFolder;
     this.effectiveExpiresAt = canonical.effectiveExpiresAt;
     this.maxUses = canonical.maxUses;
+    this.effectiveMaxUses = canonical.effectiveMaxUses;
     this.internalName = canonical.internalName;
     this.note = canonical.note;
     this.pathTemplate = canonical.pathTemplate;
@@ -1734,7 +1759,7 @@ public class Bundle implements ModelInterface {
    * <li>{@code dont_separate_submissions_by_folder} (Boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.</li>
    * <li>{@code expires_at} (String): Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.</li>
    * <li>{@code finalize_snapshot} (Boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.</li>
-   * <li>{@code max_uses} (Long): Maximum number of times bundle can be accessed</li>
+   * <li>{@code max_uses} (Long): Visitor limit configured for this Share Link. Null uses the Site-wide cap, if set. The configured limit cannot exceed the Site-wide cap.</li>
    * <li>{@code group_id} (Long): Owning group ID. If set, members of this group can view, edit, and share this Share Link.</li>
    * <li>{@code internal_name} (String): Internal name for identifying this Share Link.</li>
    * <li>{@code description} (String): Public description</li>
@@ -1856,7 +1881,7 @@ public class Bundle implements ModelInterface {
    * <li>{@code expires_at} (String): Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.</li>
    * <li>{@code finalize_snapshot} (Boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.</li>
    * <li>{@code inbox_id} (Long): ID of the associated inbox, if available.</li>
-   * <li>{@code max_uses} (Long): Maximum number of times bundle can be accessed</li>
+   * <li>{@code max_uses} (Long): Visitor limit configured for this Share Link. Null uses the Site-wide cap, if set. The configured limit cannot exceed the Site-wide cap.</li>
    * <li>{@code group_id} (Long): Owning group ID. If set, members of this group can view, edit, and share this Share Link.</li>
    * <li>{@code internal_name} (String): Internal name for identifying this Share Link.</li>
    * <li>{@code note} (String): Bundle internal note</li>

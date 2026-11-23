@@ -40,6 +40,7 @@
   "ask_about_overwrites": true,
   "bundle_activity_notifications": "never",
   "bundle_expiration": 1,
+  "bundle_max_uses": 1,
   "bundle_not_found_message": "example",
   "bundle_password_required": true,
   "bundles_default_owned_by_primary_group": true,
@@ -392,6 +393,7 @@
 * `ask_about_overwrites` / `askAboutOverwrites`  (boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
 * `bundle_activity_notifications` / `bundleActivityNotifications`  (string): Do Bundle owners receive activity notifications?
 * `bundle_expiration` / `bundleExpiration`  (int64): Site-wide Bundle expiration in days
+* `bundle_max_uses` / `bundleMaxUses`  (int64): Maximum visitors per Share Link on this Site. Applies immediately to existing Share Links and across all Workspaces. Null disables the Site-wide cap.
 * `bundle_not_found_message` / `bundleNotFoundMessage`  (string): Custom error message to show when bundle is not found.
 * `bundle_password_required` / `bundlePasswordRequired`  (boolean): Do Bundles require password protection?
 * `bundles_default_owned_by_primary_group` / `bundlesDefaultOwnedByPrimaryGroup`  (boolean): If true, new Share Links created by a user with a primary group will default to that group as owner.
@@ -609,6 +611,7 @@ parameters.put("email", "john.doe@files.com");
 parameters.put("reply_to_email", "jane.doe@files.com");
 parameters.put("allow_bundle_names", false);
 parameters.put("bundle_expiration", 1L);
+parameters.put("bundle_max_uses", 1L);
 parameters.put("welcome_email_enabled", false);
 parameters.put("ask_about_overwrites", false);
 parameters.put("show_request_access_link", false);
@@ -817,6 +820,7 @@ Site site = Site.update(parameters, null);
 * `reply_to_email` (String): Reply-to email for this site
 * `allow_bundle_names` (Boolean): Are manual Bundle names allowed?
 * `bundle_expiration` (Long): Site-wide Bundle expiration in days
+* `bundle_max_uses` (Long): Maximum visitors per Share Link on this Site. Applies immediately to existing Share Links and across all Workspaces. Null disables the Site-wide cap.
 * `welcome_email_enabled` (Boolean): Will the welcome email be sent to new users?
 * `ask_about_overwrites` (Boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.
 * `show_request_access_link` (Boolean): Show request access link for users without access?  Currently unused.

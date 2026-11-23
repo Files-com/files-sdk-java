@@ -2347,6 +2347,10 @@
           "field": "effectiveExpiresAt",
           "getter": "getEffectiveExpiresAt"
         },
+        "effective_max_uses": {
+          "field": "effectiveMaxUses",
+          "getter": "getEffectiveMaxUses"
+        },
         "expires_at": {
           "field": "expiresAt",
           "getter": "getExpiresAt"
@@ -9985,6 +9989,10 @@
         "bundle_expiration": {
           "field": "bundleExpiration",
           "getter": "getBundleExpiration"
+        },
+        "bundle_max_uses": {
+          "field": "bundleMaxUses",
+          "getter": "getBundleMaxUses"
         },
         "bundle_not_found_message": {
           "field": "bundleNotFoundMessage",

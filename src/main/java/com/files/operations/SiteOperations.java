@@ -166,6 +166,7 @@ public final class SiteOperations extends ResourceOperations {
    * <li>{@code reply_to_email} (String): Reply-to email for this site</li>
    * <li>{@code allow_bundle_names} (Boolean): Are manual Bundle names allowed?</li>
    * <li>{@code bundle_expiration} (Long): Site-wide Bundle expiration in days</li>
+   * <li>{@code bundle_max_uses} (Long): Maximum visitors per Share Link on this Site. Applies immediately to existing Share Links and across all Workspaces. Null disables the Site-wide cap.</li>
    * <li>{@code welcome_email_enabled} (Boolean): Will the welcome email be sent to new users?</li>
    * <li>{@code ask_about_overwrites} (Boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.</li>
    * <li>{@code show_request_access_link} (Boolean): Show request access link for users without access?  Currently unused.</li>
@@ -383,6 +384,10 @@ public final class SiteOperations extends ResourceOperations {
 
     if (parameters.containsKey("bundle_expiration") && !(parameters.get("bundle_expiration") instanceof Long || parameters.get("bundle_expiration") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: bundle_expiration must be of type Long or Integer parameters[\"bundle_expiration\"]");
+    }
+
+    if (parameters.containsKey("bundle_max_uses") && !(parameters.get("bundle_max_uses") instanceof Long || parameters.get("bundle_max_uses") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: bundle_max_uses must be of type Long or Integer parameters[\"bundle_max_uses\"]");
     }
 
     if (parameters.containsKey("welcome_email_enabled") && !(parameters.get("welcome_email_enabled") instanceof Boolean)) {

@@ -488,6 +488,21 @@ public class Site implements ModelInterface {
   }
 
   /**
+   * Maximum visitors per Share Link on this Site. Applies immediately to existing Share Links and across all Workspaces. Null disables the Site-wide cap.
+   */
+  @JsonProperty("bundle_max_uses")
+  public Long bundleMaxUses;
+
+  /**
+   * Gets {@link #bundleMaxUses}.
+   *
+   * @return the value of {@link #bundleMaxUses}
+   */
+  public Long getBundleMaxUses() {
+    return bundleMaxUses;
+  }
+
+  /**
    * Custom error message to show when bundle is not found.
    */
   @JsonProperty("bundle_not_found_message")
@@ -3092,6 +3107,7 @@ public class Site implements ModelInterface {
    * <li>{@code reply_to_email} (String): Reply-to email for this site</li>
    * <li>{@code allow_bundle_names} (Boolean): Are manual Bundle names allowed?</li>
    * <li>{@code bundle_expiration} (Long): Site-wide Bundle expiration in days</li>
+   * <li>{@code bundle_max_uses} (Long): Maximum visitors per Share Link on this Site. Applies immediately to existing Share Links and across all Workspaces. Null disables the Site-wide cap.</li>
    * <li>{@code welcome_email_enabled} (Boolean): Will the welcome email be sent to new users?</li>
    * <li>{@code ask_about_overwrites} (Boolean): If false, rename conflicting files instead of asking for overwrite confirmation.  Only applies to web interface.</li>
    * <li>{@code show_request_access_link} (Boolean): Show request access link for users without access?  Currently unused.</li>

@@ -248,7 +248,7 @@ public final class BundleOperations extends ResourceOperations {
    * <li>{@code dont_separate_submissions_by_folder} (Boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.</li>
    * <li>{@code expires_at} (String): Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.</li>
    * <li>{@code finalize_snapshot} (Boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.</li>
-   * <li>{@code max_uses} (Long): Maximum number of times bundle can be accessed</li>
+   * <li>{@code max_uses} (Long): Visitor limit configured for this Share Link. Null uses the Site-wide cap, if set. The configured limit cannot exceed the Site-wide cap.</li>
    * <li>{@code group_id} (Long): Owning group ID. If set, members of this group can view, edit, and share this Share Link.</li>
    * <li>{@code internal_name} (String): Internal name for identifying this Share Link.</li>
    * <li>{@code description} (String): Public description</li>
@@ -538,7 +538,7 @@ public final class BundleOperations extends ResourceOperations {
    * <li>{@code expires_at} (String): Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.</li>
    * <li>{@code finalize_snapshot} (Boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.</li>
    * <li>{@code inbox_id} (Long): ID of the associated inbox, if available.</li>
-   * <li>{@code max_uses} (Long): Maximum number of times bundle can be accessed</li>
+   * <li>{@code max_uses} (Long): Visitor limit configured for this Share Link. Null uses the Site-wide cap, if set. The configured limit cannot exceed the Site-wide cap.</li>
    * <li>{@code group_id} (Long): Owning group ID. If set, members of this group can view, edit, and share this Share Link.</li>
    * <li>{@code internal_name} (String): Internal name for identifying this Share Link.</li>
    * <li>{@code note} (String): Bundle internal note</li>

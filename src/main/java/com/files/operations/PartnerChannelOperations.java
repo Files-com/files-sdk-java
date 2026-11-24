@@ -199,6 +199,7 @@ public final class PartnerChannelOperations extends ResourceOperations {
    * <li>{@code use_channel_root} (Boolean): Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Channel must remain one-way.</li>
    * <li>{@code from_partner_folder_name} (String): Optional Channel-level from-Partner folder name override.</li>
    * <li>{@code from_partner_managed_folder_paths} (String[]): Managed folder paths inside the from-Partner folder.</li>
+   * <li>{@code from_partner_upload_forms} (Object[]): Form Field Sets for From Partner upload destinations. Each entry has a `path` relative to the From Partner folder and a `form_field_set_id`. Use an empty `path` when the Channel has no managed folders. Providing this replaces all assignments, and an empty array removes them.</li>
    * <li>{@code from_partner_route_path} (String): Optional route path for files uploaded by the Partner.</li>
    * <li>{@code to_partner_folder_name} (String): Optional Channel-level to-Partner folder name override.</li>
    * <li>{@code to_partner_managed_folder_paths} (String[]): Managed folder paths inside the to-Partner folder.</li>
@@ -238,6 +239,10 @@ public final class PartnerChannelOperations extends ResourceOperations {
 
     if (parameters.containsKey("from_partner_managed_folder_paths") && !(parameters.get("from_partner_managed_folder_paths") instanceof String[])) {
       throw new IllegalArgumentException("Bad parameter: from_partner_managed_folder_paths must be of type String[] parameters[\"from_partner_managed_folder_paths\"]");
+    }
+
+    if (parameters.containsKey("from_partner_upload_forms") && !(parameters.get("from_partner_upload_forms") instanceof Object[])) {
+      throw new IllegalArgumentException("Bad parameter: from_partner_upload_forms must be of type Object[] parameters[\"from_partner_upload_forms\"]");
     }
 
     if (parameters.containsKey("from_partner_route_path") && !(parameters.get("from_partner_route_path") instanceof String)) {
@@ -308,6 +313,7 @@ public final class PartnerChannelOperations extends ResourceOperations {
    * <li>{@code use_channel_root} (Boolean): Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Channel must remain one-way.</li>
    * <li>{@code from_partner_folder_name} (String): Optional Channel-level from-Partner folder name override.</li>
    * <li>{@code from_partner_managed_folder_paths} (String[]): Managed folder paths inside the from-Partner folder.</li>
+   * <li>{@code from_partner_upload_forms} (Object[]): Form Field Sets for From Partner upload destinations. Each entry has a `path` relative to the From Partner folder and a `form_field_set_id`. Use an empty `path` when the Channel has no managed folders. Providing this replaces all assignments, and an empty array removes them.</li>
    * <li>{@code from_partner_route_path} (String): Optional route path for files uploaded by the Partner.</li>
    * <li>{@code to_partner_folder_name} (String): Optional Channel-level to-Partner folder name override.</li>
    * <li>{@code to_partner_managed_folder_paths} (String[]): Managed folder paths inside the to-Partner folder.</li>
@@ -350,6 +356,10 @@ public final class PartnerChannelOperations extends ResourceOperations {
 
     if (parameters.containsKey("from_partner_managed_folder_paths") && !(parameters.get("from_partner_managed_folder_paths") instanceof String[])) {
       throw new IllegalArgumentException("Bad parameter: from_partner_managed_folder_paths must be of type String[] parameters[\"from_partner_managed_folder_paths\"]");
+    }
+
+    if (parameters.containsKey("from_partner_upload_forms") && !(parameters.get("from_partner_upload_forms") instanceof Object[])) {
+      throw new IllegalArgumentException("Bad parameter: from_partner_upload_forms must be of type Object[] parameters[\"from_partner_upload_forms\"]");
     }
 
     if (parameters.containsKey("from_partner_route_path") && !(parameters.get("from_partner_route_path") instanceof String)) {

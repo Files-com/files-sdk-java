@@ -387,6 +387,30 @@ public class PartnerChannelTemplate implements ModelInterface {
   }
 
   /**
+   * Form Field Sets attached to From Partner upload destinations. Managed Partner Channels receive copies of these assignments.
+   */
+  @JsonProperty("from_partner_upload_forms")
+  public PartnerChannelUploadForm[] fromPartnerUploadForms;
+
+  /**
+   * Gets {@link #fromPartnerUploadForms}.
+   *
+   * @return the value of {@link #fromPartnerUploadForms}
+   */
+  public PartnerChannelUploadForm[] getFromPartnerUploadForms() {
+    return fromPartnerUploadForms;
+  }
+
+  /**
+   * Sets {@link #fromPartnerUploadForms}.
+   *
+   * @param fromPartnerUploadForms the new value
+   */
+  public void setFromPartnerUploadForms(PartnerChannelUploadForm[] fromPartnerUploadForms) {
+    this.fromPartnerUploadForms = fromPartnerUploadForms;
+  }
+
+  /**
    * Resolved to-Partner subfolder name. Null when the direction is disabled or uses the Channel folder directly.
    */
   @JsonProperty("effective_to_partner_folder_name")
@@ -443,6 +467,7 @@ public class PartnerChannelTemplate implements ModelInterface {
    * <li>{@code use_channel_root} (Boolean): Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Template must remain one-way.</li>
    * <li>{@code from_partner_folder_name} (String): Optional Channel-level from-Partner folder name override.</li>
    * <li>{@code from_partner_managed_folder_paths} (String[]): Managed folder paths inside the from-Partner folder.</li>
+   * <li>{@code from_partner_upload_forms} (Object[]): Form Field Sets for From Partner upload destinations, copied to managed Partner Channels. Each entry has a `path` relative to the From Partner folder and a `form_field_set_id`. Use an empty `path` when the Template has no managed folders. Providing this replaces all assignments, and an empty array removes them.</li>
    * <li>{@code from_partner_route_path_pattern} (String): Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.</li>
    * <li>{@code to_partner_folder_name} (String): Optional Channel-level to-Partner folder name override.</li>
    * <li>{@code to_partner_managed_folder_paths} (String[]): Managed folder paths inside the to-Partner folder.</li>
@@ -500,6 +525,9 @@ public class PartnerChannelTemplate implements ModelInterface {
     if (this.fromPartnerManagedFolderPaths != null) {
       parameters.put("from_partner_managed_folder_paths", this.fromPartnerManagedFolderPaths);
     }
+    if (this.fromPartnerUploadForms != null) {
+      parameters.put("from_partner_upload_forms", this.fromPartnerUploadForms);
+    }
     if (this.toPartnerManagedFolderPaths != null) {
       parameters.put("to_partner_managed_folder_paths", this.toPartnerManagedFolderPaths);
     }
@@ -521,6 +549,7 @@ public class PartnerChannelTemplate implements ModelInterface {
     this.toPartnerRoutePathPattern = canonical.toPartnerRoutePathPattern;
     this.toPartnerManagedFolderPaths = canonical.toPartnerManagedFolderPaths;
     this.fromPartnerManagedFolderPaths = canonical.fromPartnerManagedFolderPaths;
+    this.fromPartnerUploadForms = canonical.fromPartnerUploadForms;
     this.effectiveToPartnerFolderName = canonical.effectiveToPartnerFolderName;
     this.effectiveFromPartnerFolderName = canonical.effectiveFromPartnerFolderName;
   }
@@ -664,6 +693,7 @@ public class PartnerChannelTemplate implements ModelInterface {
    * <li>{@code use_channel_root} (Boolean): Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Template must remain one-way.</li>
    * <li>{@code from_partner_folder_name} (String): Optional Channel-level from-Partner folder name override.</li>
    * <li>{@code from_partner_managed_folder_paths} (String[]): Managed folder paths inside the from-Partner folder.</li>
+   * <li>{@code from_partner_upload_forms} (Object[]): Form Field Sets for From Partner upload destinations, copied to managed Partner Channels. Each entry has a `path` relative to the From Partner folder and a `form_field_set_id`. Use an empty `path` when the Template has no managed folders. Providing this replaces all assignments, and an empty array removes them.</li>
    * <li>{@code from_partner_route_path_pattern} (String): Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.</li>
    * <li>{@code to_partner_folder_name} (String): Optional Channel-level to-Partner folder name override.</li>
    * <li>{@code to_partner_managed_folder_paths} (String[]): Managed folder paths inside the to-Partner folder.</li>
@@ -717,6 +747,7 @@ public class PartnerChannelTemplate implements ModelInterface {
    * <li>{@code use_channel_root} (Boolean): Use the Channel folder directly for a one-way exchange. Defaults to false. Cannot be changed after creation. Folder name overrides must be blank when enabled, and the Template must remain one-way.</li>
    * <li>{@code from_partner_folder_name} (String): Optional Channel-level from-Partner folder name override.</li>
    * <li>{@code from_partner_managed_folder_paths} (String[]): Managed folder paths inside the from-Partner folder.</li>
+   * <li>{@code from_partner_upload_forms} (Object[]): Form Field Sets for From Partner upload destinations, copied to managed Partner Channels. Each entry has a `path` relative to the From Partner folder and a `form_field_set_id`. Use an empty `path` when the Template has no managed folders. Providing this replaces all assignments, and an empty array removes them.</li>
    * <li>{@code from_partner_route_path_pattern} (String): Optional route path pattern for files uploaded by the Partner. Supports {{partner_name}}.</li>
    * <li>{@code to_partner_folder_name} (String): Optional Channel-level to-Partner folder name override.</li>
    * <li>{@code to_partner_managed_folder_paths} (String[]): Managed folder paths inside the to-Partner folder.</li>

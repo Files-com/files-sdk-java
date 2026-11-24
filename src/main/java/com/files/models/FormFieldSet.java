@@ -291,7 +291,7 @@ public class FormFieldSet implements ModelInterface {
   }
 
   /**
-   * Form Field Set is in use by an active Inbox / Bundle / Inbox Registration / Bundle Registration
+   * Form Field Set is in use by an active Inbox / Bundle / Inbox Registration / Bundle Registration / Partner Channel upload destination
    */
   @JsonProperty("in_use")
   public Boolean inUse;

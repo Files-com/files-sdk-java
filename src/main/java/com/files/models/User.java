@@ -1893,25 +1893,25 @@ public class User implements ModelInterface {
   /**
    * Workspace ID the user should land in by default when more than one Workspace is available.
    */
-  @JsonProperty("default_workspace_id")
-  public Long defaultWorkspaceId;
+  @JsonProperty("preferred_workspace_id")
+  public Long preferredWorkspaceId;
 
   /**
-   * Gets {@link #defaultWorkspaceId}.
+   * Gets {@link #preferredWorkspaceId}.
    *
-   * @return the value of {@link #defaultWorkspaceId}
+   * @return the value of {@link #preferredWorkspaceId}
    */
-  public Long getDefaultWorkspaceId() {
-    return defaultWorkspaceId;
+  public Long getPreferredWorkspaceId() {
+    return preferredWorkspaceId;
   }
 
   /**
-   * Sets {@link #defaultWorkspaceId}.
+   * Sets {@link #preferredWorkspaceId}.
    *
-   * @param defaultWorkspaceId the new value
+   * @param preferredWorkspaceId the new value
    */
-  public void setDefaultWorkspaceId(Long defaultWorkspaceId) {
-    this.defaultWorkspaceId = defaultWorkspaceId;
+  public void setPreferredWorkspaceId(Long preferredWorkspaceId) {
+    this.preferredWorkspaceId = preferredWorkspaceId;
   }
 
   /**
@@ -2568,7 +2568,7 @@ public class User implements ModelInterface {
    * <li>{@code bypass_site_allowed_ips} (Boolean): Allow this user to skip site-wide IP blacklists?</li>
    * <li>{@code dav_permission} (Boolean): Can the user connect with WebDAV?</li>
    * <li>{@code desktop_configuration_profile_id} (Long): Desktop Configuration Profile ID assigned directly to this user, if any.</li>
-   * <li>{@code default_workspace_id} (Long): Workspace ID the user should land in by default when more than one Workspace is available.</li>
+   * <li>{@code preferred_workspace_id} (Long): Workspace ID the user should land in by default when more than one Workspace is available.</li>
    * <li>{@code disabled} (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.</li>
    * <li>{@code filesystem_layout} (String): File system layout</li>
    * <li>{@code ftp_permission} (Boolean): Can the user access with FTP/FTPS?</li>
@@ -2753,7 +2753,7 @@ public class User implements ModelInterface {
     this.workspaceAdmin = canonical.workspaceAdmin;
     this.siteId = canonical.siteId;
     this.workspaceId = canonical.workspaceId;
-    this.defaultWorkspaceId = canonical.defaultWorkspaceId;
+    this.preferredWorkspaceId = canonical.preferredWorkspaceId;
     this.skipWelcomeScreen = canonical.skipWelcomeScreen;
     this.ftpTlsSessionReuseRequired = canonical.ftpTlsSessionReuseRequired;
     this.sslRequired = canonical.sslRequired;
@@ -2947,7 +2947,7 @@ public class User implements ModelInterface {
    * <li>{@code bypass_site_allowed_ips} (Boolean): Allow this user to skip site-wide IP blacklists?</li>
    * <li>{@code dav_permission} (Boolean): Can the user connect with WebDAV?</li>
    * <li>{@code desktop_configuration_profile_id} (Long): Desktop Configuration Profile ID assigned directly to this user, if any.</li>
-   * <li>{@code default_workspace_id} (Long): Workspace ID the user should land in by default when more than one Workspace is available.</li>
+   * <li>{@code preferred_workspace_id} (Long): Workspace ID the user should land in by default when more than one Workspace is available.</li>
    * <li>{@code disabled} (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.</li>
    * <li>{@code filesystem_layout} (String): File system layout</li>
    * <li>{@code ftp_permission} (Boolean): Can the user access with FTP/FTPS?</li>
@@ -3175,7 +3175,7 @@ public class User implements ModelInterface {
    * <li>{@code bypass_site_allowed_ips} (Boolean): Allow this user to skip site-wide IP blacklists?</li>
    * <li>{@code dav_permission} (Boolean): Can the user connect with WebDAV?</li>
    * <li>{@code desktop_configuration_profile_id} (Long): Desktop Configuration Profile ID assigned directly to this user, if any.</li>
-   * <li>{@code default_workspace_id} (Long): Workspace ID the user should land in by default when more than one Workspace is available.</li>
+   * <li>{@code preferred_workspace_id} (Long): Workspace ID the user should land in by default when more than one Workspace is available.</li>
    * <li>{@code disabled} (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.</li>
    * <li>{@code filesystem_layout} (String): File system layout</li>
    * <li>{@code ftp_permission} (Boolean): Can the user access with FTP/FTPS?</li>

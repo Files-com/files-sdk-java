@@ -263,7 +263,7 @@ public final class UserOperations extends ResourceOperations {
    * <li>{@code bypass_site_allowed_ips} (Boolean): Allow this user to skip site-wide IP blacklists?</li>
    * <li>{@code dav_permission} (Boolean): Can the user connect with WebDAV?</li>
    * <li>{@code desktop_configuration_profile_id} (Long): Desktop Configuration Profile ID assigned directly to this user, if any.</li>
-   * <li>{@code default_workspace_id} (Long): Workspace ID the user should land in by default when more than one Workspace is available.</li>
+   * <li>{@code preferred_workspace_id} (Long): Workspace ID the user should land in by default when more than one Workspace is available.</li>
    * <li>{@code disabled} (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.</li>
    * <li>{@code filesystem_layout} (String): File system layout</li>
    * <li>{@code ftp_permission} (Boolean): Can the user access with FTP/FTPS?</li>
@@ -412,8 +412,8 @@ public final class UserOperations extends ResourceOperations {
       throw new IllegalArgumentException("Bad parameter: desktop_configuration_profile_id must be of type Long or Integer parameters[\"desktop_configuration_profile_id\"]");
     }
 
-    if (parameters.containsKey("default_workspace_id") && !(parameters.get("default_workspace_id") instanceof Long || parameters.get("default_workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: default_workspace_id must be of type Long or Integer parameters[\"default_workspace_id\"]");
+    if (parameters.containsKey("preferred_workspace_id") && !(parameters.get("preferred_workspace_id") instanceof Long || parameters.get("preferred_workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: preferred_workspace_id must be of type Long or Integer parameters[\"preferred_workspace_id\"]");
     }
 
     if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean)) {
@@ -825,7 +825,7 @@ public final class UserOperations extends ResourceOperations {
    * <li>{@code bypass_site_allowed_ips} (Boolean): Allow this user to skip site-wide IP blacklists?</li>
    * <li>{@code dav_permission} (Boolean): Can the user connect with WebDAV?</li>
    * <li>{@code desktop_configuration_profile_id} (Long): Desktop Configuration Profile ID assigned directly to this user, if any.</li>
-   * <li>{@code default_workspace_id} (Long): Workspace ID the user should land in by default when more than one Workspace is available.</li>
+   * <li>{@code preferred_workspace_id} (Long): Workspace ID the user should land in by default when more than one Workspace is available.</li>
    * <li>{@code disabled} (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.</li>
    * <li>{@code filesystem_layout} (String): File system layout</li>
    * <li>{@code ftp_permission} (Boolean): Can the user access with FTP/FTPS?</li>
@@ -985,8 +985,8 @@ public final class UserOperations extends ResourceOperations {
       throw new IllegalArgumentException("Bad parameter: desktop_configuration_profile_id must be of type Long or Integer parameters[\"desktop_configuration_profile_id\"]");
     }
 
-    if (parameters.containsKey("default_workspace_id") && !(parameters.get("default_workspace_id") instanceof Long || parameters.get("default_workspace_id") instanceof Integer)) {
-      throw new IllegalArgumentException("Bad parameter: default_workspace_id must be of type Long or Integer parameters[\"default_workspace_id\"]");
+    if (parameters.containsKey("preferred_workspace_id") && !(parameters.get("preferred_workspace_id") instanceof Long || parameters.get("preferred_workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: preferred_workspace_id must be of type Long or Integer parameters[\"preferred_workspace_id\"]");
     }
 
     if (parameters.containsKey("disabled") && !(parameters.get("disabled") instanceof Boolean)) {

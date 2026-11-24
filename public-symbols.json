@@ -7277,6 +7277,10 @@
           "field": "fromPartnerRoutePath",
           "getter": "getFromPartnerRoutePath"
         },
+        "from_partner_upload_forms": {
+          "field": "fromPartnerUploadForms",
+          "getter": "getFromPartnerUploadForms"
+        },
         "id": {
           "field": "id",
           "getter": "getId"
@@ -7382,6 +7386,10 @@
           "field": "fromPartnerRoutePathPattern",
           "getter": "getFromPartnerRoutePathPattern"
         },
+        "from_partner_upload_forms": {
+          "field": "fromPartnerUploadForms",
+          "getter": "getFromPartnerUploadForms"
+        },
         "id": {
           "field": "id",
           "getter": "getId"
@@ -7449,6 +7457,21 @@
         "post /partner_channel_templates": {
           "method": "create"
         }
+      }
+    },
+    "PartnerChannelUploadForm": {
+      "class": "PartnerChannelUploadForm",
+      "fields": {
+        "form_field_set_id": {
+          "field": "formFieldSetId",
+          "getter": "getFormFieldSetId"
+        },
+        "path": {
+          "field": "path",
+          "getter": "getPath"
+        }
+      },
+      "operations": {
       }
     },
     "PartnerConnection": {
@@ -12132,10 +12155,6 @@
           "field": "daysRemainingUntilPasswordExpire",
           "getter": "getDaysRemainingUntilPasswordExpire"
         },
-        "default_workspace_id": {
-          "field": "defaultWorkspaceId",
-          "getter": "getDefaultWorkspaceId"
-        },
         "desktop_configuration_profile_id": {
           "field": "desktopConfigurationProfileId",
           "getter": "getDesktopConfigurationProfileId"
@@ -12331,6 +12350,10 @@
         "password_validity_days": {
           "field": "passwordValidityDays",
           "getter": "getPasswordValidityDays"
+        },
+        "preferred_workspace_id": {
+          "field": "preferredWorkspaceId",
+          "getter": "getPreferredWorkspaceId"
         },
         "primary_group_id": {
           "field": "primaryGroupId",

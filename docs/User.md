@@ -81,7 +81,7 @@
   "workspace_admin": true,
   "site_id": 1,
   "workspace_id": 1,
-  "default_workspace_id": 1,
+  "preferred_workspace_id": 1,
   "skip_welcome_screen": true,
   "ftp_tls_session_reuse_required": "use_system_setting",
   "ssl_required": "always_require",
@@ -173,7 +173,7 @@
 * `workspace_admin` / `workspaceAdmin`  (boolean): Whether the user is an administrator of their own Custom Workspace. Does not reflect administration granted through Permissions.
 * `site_id` / `siteId`  (int64): Site ID
 * `workspace_id` / `workspaceId`  (int64): ID of the Workspace the user belongs to. 0 is the Default Workspace.
-* `default_workspace_id` / `defaultWorkspaceId`  (int64): Workspace ID the user should land in by default when more than one Workspace is available.
+* `preferred_workspace_id` / `preferredWorkspaceId`  (int64): Workspace ID the user should land in by default when more than one Workspace is available.
 * `skip_welcome_screen` / `skipWelcomeScreen`  (boolean): Skip Welcome page in the UI?
 * `ftp_tls_session_reuse_required` / `ftpTlsSessionReuseRequired`  (string): FTP TLS session reuse requirement: use_system_setting, always_require, or never_require
 * `ssl_required` / `sslRequired`  (string): SSL required setting
@@ -264,7 +264,7 @@ parameters.put("bypass_user_lifecycle_rules", false);
 parameters.put("bypass_site_allowed_ips", false);
 parameters.put("dav_permission", true);
 parameters.put("desktop_configuration_profile_id", 1L);
-parameters.put("default_workspace_id", 1L);
+parameters.put("preferred_workspace_id", 1L);
 parameters.put("disabled", true);
 parameters.put("filesystem_layout", "site_root");
 parameters.put("ftp_permission", true);
@@ -338,7 +338,7 @@ User user = User.create(parameters, null);
 * `bypass_site_allowed_ips` (Boolean): Allow this user to skip site-wide IP blacklists?
 * `dav_permission` (Boolean): Can the user connect with WebDAV?
 * `desktop_configuration_profile_id` (Long): Desktop Configuration Profile ID assigned directly to this user, if any.
-* `default_workspace_id` (Long): Workspace ID the user should land in by default when more than one Workspace is available.
+* `preferred_workspace_id` (Long): Workspace ID the user should land in by default when more than one Workspace is available.
 * `disabled` (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
 * `filesystem_layout` (String): File system layout
 * `ftp_permission` (Boolean): Can the user access with FTP/FTPS?
@@ -450,7 +450,7 @@ parameters.put("bypass_user_lifecycle_rules", false);
 parameters.put("bypass_site_allowed_ips", false);
 parameters.put("dav_permission", true);
 parameters.put("desktop_configuration_profile_id", 1L);
-parameters.put("default_workspace_id", 1L);
+parameters.put("preferred_workspace_id", 1L);
 parameters.put("disabled", true);
 parameters.put("filesystem_layout", "site_root");
 parameters.put("ftp_permission", true);
@@ -527,7 +527,7 @@ User user = User.update(1L, parameters, null);
 * `bypass_site_allowed_ips` (Boolean): Allow this user to skip site-wide IP blacklists?
 * `dav_permission` (Boolean): Can the user connect with WebDAV?
 * `desktop_configuration_profile_id` (Long): Desktop Configuration Profile ID assigned directly to this user, if any.
-* `default_workspace_id` (Long): Workspace ID the user should land in by default when more than one Workspace is available.
+* `preferred_workspace_id` (Long): Workspace ID the user should land in by default when more than one Workspace is available.
 * `disabled` (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
 * `filesystem_layout` (String): File system layout
 * `ftp_permission` (Boolean): Can the user access with FTP/FTPS?
@@ -661,7 +661,7 @@ parameters.put("bypass_user_lifecycle_rules", false);
 parameters.put("bypass_site_allowed_ips", false);
 parameters.put("dav_permission", true);
 parameters.put("desktop_configuration_profile_id", 1L);
-parameters.put("default_workspace_id", 1L);
+parameters.put("preferred_workspace_id", 1L);
 parameters.put("disabled", true);
 parameters.put("filesystem_layout", "site_root");
 parameters.put("ftp_permission", true);
@@ -738,7 +738,7 @@ User result = user.update(parameters);
 * `bypass_site_allowed_ips` (Boolean): Allow this user to skip site-wide IP blacklists?
 * `dav_permission` (Boolean): Can the user connect with WebDAV?
 * `desktop_configuration_profile_id` (Long): Desktop Configuration Profile ID assigned directly to this user, if any.
-* `default_workspace_id` (Long): Workspace ID the user should land in by default when more than one Workspace is available.
+* `preferred_workspace_id` (Long): Workspace ID the user should land in by default when more than one Workspace is available.
 * `disabled` (Boolean): Is user disabled? Disabled users cannot log in, and do not count for billing purposes. Users can be automatically disabled after an inactivity period via a Site setting or schedule to be deactivated after specific date.
 * `filesystem_layout` (String): File system layout
 * `ftp_permission` (Boolean): Can the user access with FTP/FTPS?

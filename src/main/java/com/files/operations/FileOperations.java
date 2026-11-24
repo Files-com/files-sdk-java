@@ -10,11 +10,8 @@ import com.files.models.FileUploadPart;
 import com.files.models.ZipListEntry;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.UrlUtils;
-import java.math.BigDecimal;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * File operations that run with one client: its API root, credentials, workspace

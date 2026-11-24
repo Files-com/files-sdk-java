@@ -65,7 +65,12 @@ DatabaseDestination databaseDestination = DatabaseDestination.find(1L, parameter
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "Orders");
 parameters.put("provider", "snowflake");
-parameters.put("config", "example");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("account_identifier", "value");
+map1.put("database_name", "value");
+map1.put("schema_name", "value");
+map1.put("table_name", "value");
+parameters.put("config", map1);
 parameters.put("secret_id", 1L);
 parameters.put("workspace_id", 1L);
 DatabaseDestination databaseDestination = DatabaseDestination.create(parameters, null);
@@ -88,7 +93,12 @@ DatabaseDestination databaseDestination = DatabaseDestination.create(parameters,
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "Orders");
 parameters.put("secret_id", 1L);
-parameters.put("config", "example");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("account_identifier", "value");
+map1.put("database_name", "value");
+map1.put("schema_name", "value");
+map1.put("table_name", "value");
+parameters.put("config", map1);
 DatabaseDestination databaseDestination = DatabaseDestination.update(1L, parameters, null);
 ```
 
@@ -123,7 +133,12 @@ DatabaseDestination databaseDestination = DatabaseDestination.find(1L, null, nul
 HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("name", "Orders");
 parameters.put("secret_id", 1L);
-parameters.put("config", "example");
+HashMap<String, Object> map1 = new HashMap<>();
+map1.put("account_identifier", "value");
+map1.put("database_name", "value");
+map1.put("schema_name", "value");
+map1.put("table_name", "value");
+parameters.put("config", map1);
 DatabaseDestination result = databaseDestination.update(parameters);
 ```
 

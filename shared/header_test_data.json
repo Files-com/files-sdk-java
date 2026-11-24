@@ -1,0 +1,42 @@
+[
+  {
+    "headers": {},
+    "result": null
+  },
+  {
+    "headers": {
+      "Retry-After": ["aaaaaa"]
+    },
+    "result": null
+  },
+  {
+    "headers": {
+      "Retry-After": ["5"]
+    },
+    "result": 5
+  },
+  {
+    "headers": {
+      "Retry-After": ["60"]
+    },
+    "result": null
+  },
+  {
+    "headers": {
+      "Retry-After": ["5", "10"]
+    },
+    "result": 5
+  },
+  {
+    "headers": {
+      "Retry-After": ["5", "aaaaaa"]
+    },
+    "result": 5
+  },
+  {
+    "headers": {
+      "Retry-After": ["%s"]
+    },
+    "result": 8
+  }
+]

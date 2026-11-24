@@ -8,8 +8,11 @@ import com.files.models.Automation;
 import com.files.models.AutomationAuthoringSchema;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.UrlUtils;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Automation operations that run with one client: its API root, credentials, workspace
@@ -260,6 +263,9 @@ public final class AutomationOperations extends ResourceOperations {
    * <li>{@code user_ids} (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.</li>
    * <li>{@code group_ids} (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.</li>
    * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the automation's schedule fields.</li>
+   * <li>{@code shared_trigger_user_ids} (Long[]): Users who can start this Shared Workflow.</li>
+   * <li>{@code shared_trigger_group_ids} (Long[]): Groups whose members can start this Shared Workflow.</li>
+   * <li>{@code shared_trigger_partner_ids} (Long[]): Partners whose users can start this Shared Workflow.</li>
    * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule` without `schedule_id`, a list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.</li>
    * <li>{@code schedule_interval_minutes} (Long): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`. For v2 Automations, set this field in the Scheduled trigger's definition.</li>
    * <li>{@code schedule_times_of_day} (String[]): Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` without `schedule_id` or `schedule_interval_minutes`. For `daily` triggers, the default is midnight UTC.</li>
@@ -339,6 +345,18 @@ public final class AutomationOperations extends ResourceOperations {
 
     if (parameters.containsKey("schedule_id") && !(parameters.get("schedule_id") instanceof Long || parameters.get("schedule_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: schedule_id must be of type Long or Integer parameters[\"schedule_id\"]");
+    }
+
+    if (parameters.containsKey("shared_trigger_user_ids") && !(parameters.get("shared_trigger_user_ids") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: shared_trigger_user_ids must be of type Long[] parameters[\"shared_trigger_user_ids\"]");
+    }
+
+    if (parameters.containsKey("shared_trigger_group_ids") && !(parameters.get("shared_trigger_group_ids") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: shared_trigger_group_ids must be of type Long[] parameters[\"shared_trigger_group_ids\"]");
+    }
+
+    if (parameters.containsKey("shared_trigger_partner_ids") && !(parameters.get("shared_trigger_partner_ids") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: shared_trigger_partner_ids must be of type Long[] parameters[\"shared_trigger_partner_ids\"]");
     }
 
     if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
@@ -613,6 +631,9 @@ public final class AutomationOperations extends ResourceOperations {
    * <li>{@code user_ids} (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.</li>
    * <li>{@code group_ids} (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.</li>
    * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the automation's schedule fields.</li>
+   * <li>{@code shared_trigger_user_ids} (Long[]): Users who can start this Shared Workflow.</li>
+   * <li>{@code shared_trigger_group_ids} (Long[]): Groups whose members can start this Shared Workflow.</li>
+   * <li>{@code shared_trigger_partner_ids} (Long[]): Partners whose users can start this Shared Workflow.</li>
    * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule` without `schedule_id`, a list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.</li>
    * <li>{@code schedule_interval_minutes} (Long): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`. For v2 Automations, set this field in the Scheduled trigger's definition.</li>
    * <li>{@code schedule_times_of_day} (String[]): Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` without `schedule_id` or `schedule_interval_minutes`. For `daily` triggers, the default is midnight UTC.</li>
@@ -700,6 +721,18 @@ public final class AutomationOperations extends ResourceOperations {
 
     if (parameters.containsKey("schedule_id") && !(parameters.get("schedule_id") instanceof Long || parameters.get("schedule_id") instanceof Integer)) {
       throw new IllegalArgumentException("Bad parameter: schedule_id must be of type Long or Integer parameters[\"schedule_id\"]");
+    }
+
+    if (parameters.containsKey("shared_trigger_user_ids") && !(parameters.get("shared_trigger_user_ids") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: shared_trigger_user_ids must be of type Long[] parameters[\"shared_trigger_user_ids\"]");
+    }
+
+    if (parameters.containsKey("shared_trigger_group_ids") && !(parameters.get("shared_trigger_group_ids") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: shared_trigger_group_ids must be of type Long[] parameters[\"shared_trigger_group_ids\"]");
+    }
+
+    if (parameters.containsKey("shared_trigger_partner_ids") && !(parameters.get("shared_trigger_partner_ids") instanceof Long[])) {
+      throw new IllegalArgumentException("Bad parameter: shared_trigger_partner_ids must be of type Long[] parameters[\"shared_trigger_partner_ids\"]");
     }
 
     if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {

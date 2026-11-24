@@ -70,7 +70,7 @@ public final class FilesPath implements Path {
     }
     boolean absolute = text.startsWith("/");
     if (!absolute && names.isEmpty()) {
-      return new FilesPath(fileSystem, false, new String[]{""});
+      return new FilesPath(fileSystem, false, new String[] {""});
     }
     return new FilesPath(fileSystem, absolute, names.toArray(NO_NAMES));
   }
@@ -116,7 +116,7 @@ public final class FilesPath implements Path {
 
   @Override
   public Path getFileName() {
-    return names.length == 0 ? null : new FilesPath(fileSystem, false, new String[]{names[names.length - 1]});
+    return names.length == 0 ? null : new FilesPath(fileSystem, false, new String[] {names[names.length - 1]});
   }
 
   @Override
@@ -137,7 +137,7 @@ public final class FilesPath implements Path {
     if (index < 0 || index >= names.length) {
       throw new IllegalArgumentException("No name at index " + index + " of " + this);
     }
-    return new FilesPath(fileSystem, false, new String[]{names[index]});
+    return new FilesPath(fileSystem, false, new String[] {names[index]});
   }
 
   @Override
@@ -216,7 +216,7 @@ public final class FilesPath implements Path {
       kept.add(name);
     }
     if (!absolute && kept.isEmpty()) {
-      return new FilesPath(fileSystem, false, new String[]{""});
+      return new FilesPath(fileSystem, false, new String[] {""});
     }
     return new FilesPath(fileSystem, absolute, kept.toArray(NO_NAMES));
   }
@@ -259,7 +259,7 @@ public final class FilesPath implements Path {
       throw new IllegalArgumentException("Only two absolute or two relative paths can be relativized: " + this + ", " + other);
     }
     if (equals(target)) {
-      return new FilesPath(fileSystem, false, new String[]{""});
+      return new FilesPath(fileSystem, false, new String[] {""});
     }
     if (isEmpty()) {
       return target;
@@ -275,7 +275,7 @@ public final class FilesPath implements Path {
     }
     relative.addAll(Arrays.asList(targetNames).subList(common, targetNames.length));
     if (relative.isEmpty()) {
-      return new FilesPath(fileSystem, false, new String[]{""});
+      return new FilesPath(fileSystem, false, new String[] {""});
     }
     return new FilesPath(fileSystem, false, relative.toArray(NO_NAMES));
   }

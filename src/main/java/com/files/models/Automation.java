@@ -1,10 +1,12 @@
 package com.files.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -13,14 +15,28 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
+import com.files.FilesConfig;
 import com.files.ListIterator;
 import com.files.net.ClientRuntime;
+import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.FilesInputStream;
 import com.files.util.ModelUtils;
+import com.files.util.PathUtils;
+import com.files.util.UrlUtils;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -1060,6 +1076,78 @@ public class Automation implements ModelInterface {
   }
 
   /**
+   * Users who can start this Shared Workflow.
+   */
+  @JsonProperty("shared_trigger_user_ids")
+  public Long[] sharedTriggerUserIds;
+
+  /**
+   * Gets {@link #sharedTriggerUserIds}.
+   *
+   * @return the value of {@link #sharedTriggerUserIds}
+   */
+  public Long[] getSharedTriggerUserIds() {
+    return sharedTriggerUserIds;
+  }
+
+  /**
+   * Sets {@link #sharedTriggerUserIds}.
+   *
+   * @param sharedTriggerUserIds the new value
+   */
+  public void setSharedTriggerUserIds(Long[] sharedTriggerUserIds) {
+    this.sharedTriggerUserIds = sharedTriggerUserIds;
+  }
+
+  /**
+   * Groups whose members can start this Shared Workflow.
+   */
+  @JsonProperty("shared_trigger_group_ids")
+  public Long[] sharedTriggerGroupIds;
+
+  /**
+   * Gets {@link #sharedTriggerGroupIds}.
+   *
+   * @return the value of {@link #sharedTriggerGroupIds}
+   */
+  public Long[] getSharedTriggerGroupIds() {
+    return sharedTriggerGroupIds;
+  }
+
+  /**
+   * Sets {@link #sharedTriggerGroupIds}.
+   *
+   * @param sharedTriggerGroupIds the new value
+   */
+  public void setSharedTriggerGroupIds(Long[] sharedTriggerGroupIds) {
+    this.sharedTriggerGroupIds = sharedTriggerGroupIds;
+  }
+
+  /**
+   * Partners whose users can start this Shared Workflow.
+   */
+  @JsonProperty("shared_trigger_partner_ids")
+  public Long[] sharedTriggerPartnerIds;
+
+  /**
+   * Gets {@link #sharedTriggerPartnerIds}.
+   *
+   * @return the value of {@link #sharedTriggerPartnerIds}
+   */
+  public Long[] getSharedTriggerPartnerIds() {
+    return sharedTriggerPartnerIds;
+  }
+
+  /**
+   * Sets {@link #sharedTriggerPartnerIds}.
+   *
+   * @param sharedTriggerPartnerIds the new value
+   */
+  public void setSharedTriggerPartnerIds(Long[] sharedTriggerPartnerIds) {
+    this.sharedTriggerPartnerIds = sharedTriggerPartnerIds;
+  }
+
+  /**
    * IDs of Syncs to run by this Automation.
    */
   @JsonProperty("sync_ids")
@@ -1289,6 +1377,9 @@ public class Automation implements ModelInterface {
    * <li>{@code user_ids} (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.</li>
    * <li>{@code group_ids} (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.</li>
    * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the automation's schedule fields.</li>
+   * <li>{@code shared_trigger_user_ids} (Long[]): Users who can start this Shared Workflow.</li>
+   * <li>{@code shared_trigger_group_ids} (Long[]): Groups whose members can start this Shared Workflow.</li>
+   * <li>{@code shared_trigger_partner_ids} (Long[]): Partners whose users can start this Shared Workflow.</li>
    * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule` without `schedule_id`, a list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.</li>
    * <li>{@code schedule_interval_minutes} (Long): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`. For v2 Automations, set this field in the Scheduled trigger's definition.</li>
    * <li>{@code schedule_times_of_day} (String[]): Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` without `schedule_id` or `schedule_interval_minutes`. For `daily` triggers, the default is midnight UTC.</li>
@@ -1375,6 +1466,15 @@ public class Automation implements ModelInterface {
     if (this.groupIds != null) {
       parameters.put("group_ids", ModelUtils.commaDelimited(this.groupIds));
     }
+    if (this.sharedTriggerUserIds != null) {
+      parameters.put("shared_trigger_user_ids", this.sharedTriggerUserIds);
+    }
+    if (this.sharedTriggerGroupIds != null) {
+      parameters.put("shared_trigger_group_ids", this.sharedTriggerGroupIds);
+    }
+    if (this.sharedTriggerPartnerIds != null) {
+      parameters.put("shared_trigger_partner_ids", this.sharedTriggerPartnerIds);
+    }
     if (this.scheduleDaysOfWeek != null) {
       parameters.put("schedule_days_of_week", this.scheduleDaysOfWeek);
     }
@@ -1436,6 +1536,9 @@ public class Automation implements ModelInterface {
     this.scheduleTimesOfDay = canonical.scheduleTimesOfDay;
     this.scheduleTimeZone = canonical.scheduleTimeZone;
     this.source = canonical.source;
+    this.sharedTriggerUserIds = canonical.sharedTriggerUserIds;
+    this.sharedTriggerGroupIds = canonical.sharedTriggerGroupIds;
+    this.sharedTriggerPartnerIds = canonical.sharedTriggerPartnerIds;
     this.syncIds = canonical.syncIds;
     this.triggerActions = canonical.triggerActions;
     this.trigger = canonical.trigger;
@@ -1626,6 +1729,9 @@ public class Automation implements ModelInterface {
    * <li>{@code user_ids} (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.</li>
    * <li>{@code group_ids} (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.</li>
    * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the automation's schedule fields.</li>
+   * <li>{@code shared_trigger_user_ids} (Long[]): Users who can start this Shared Workflow.</li>
+   * <li>{@code shared_trigger_group_ids} (Long[]): Groups whose members can start this Shared Workflow.</li>
+   * <li>{@code shared_trigger_partner_ids} (Long[]): Partners whose users can start this Shared Workflow.</li>
    * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule` without `schedule_id`, a list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.</li>
    * <li>{@code schedule_interval_minutes} (Long): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`. For v2 Automations, set this field in the Scheduled trigger's definition.</li>
    * <li>{@code schedule_times_of_day} (String[]): Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` without `schedule_id` or `schedule_interval_minutes`. For `daily` triggers, the default is midnight UTC.</li>
@@ -1788,6 +1894,9 @@ public class Automation implements ModelInterface {
    * <li>{@code user_ids} (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.</li>
    * <li>{@code group_ids} (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.</li>
    * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the automation's schedule fields.</li>
+   * <li>{@code shared_trigger_user_ids} (Long[]): Users who can start this Shared Workflow.</li>
+   * <li>{@code shared_trigger_group_ids} (Long[]): Groups whose members can start this Shared Workflow.</li>
+   * <li>{@code shared_trigger_partner_ids} (Long[]): Partners whose users can start this Shared Workflow.</li>
    * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule` without `schedule_id`, a list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.</li>
    * <li>{@code schedule_interval_minutes} (Long): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`. For v2 Automations, set this field in the Scheduled trigger's definition.</li>
    * <li>{@code schedule_times_of_day} (String[]): Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` without `schedule_id` or `schedule_interval_minutes`. For `daily` triggers, the default is midnight UTC.</li>

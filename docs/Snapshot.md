@@ -10,7 +10,8 @@
   "name": "My Snapshot",
   "user_id": 1,
   "bundle_id": 1,
-  "workspace_id": 1
+  "workspace_id": 1,
+  "shared_workflow_id": 1
 }
 ```
 
@@ -21,6 +22,7 @@
 * `user_id` / `userId`  (int64): The user that created this snapshot, if applicable.
 * `bundle_id` / `bundleId`  (int64): The bundle using this snapshot, if applicable.
 * `workspace_id` / `workspaceId`  (int64): Workspace ID. `0` means the default workspace.
+* `shared_workflow_id` / `sharedWorkflowId`  (int64): Shared Workflow for which the Snapshot was created.
 * `paths` / `paths`  (array(string)): An array of paths to add to the snapshot.
 
 
@@ -62,6 +64,7 @@ HashMap<String, Object> parameters = new HashMap<>();
 parameters.put("expires_at", "2000-01-01T01:00:00Z");
 parameters.put("name", "My Snapshot");
 parameters.put("workspace_id", 0L);
+parameters.put("shared_workflow_id", 1L);
 Snapshot snapshot = Snapshot.create(parameters, null);
 ```
 
@@ -71,6 +74,7 @@ Snapshot snapshot = Snapshot.create(parameters, null);
 * `name` (String): A name for the snapshot.
 * `paths` (String[]): An array of paths to add to the snapshot.
 * `workspace_id` (Long): Workspace ID. `0` means the default workspace.
+* `shared_workflow_id` (Long): Shared Workflow for which the Snapshot was created.
 
 
 ---

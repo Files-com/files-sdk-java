@@ -105,6 +105,15 @@
   ],
   "schedule_time_zone": "Eastern Time (US & Canada)",
   "source": "example",
+  "shared_trigger_user_ids": [
+    1
+  ],
+  "shared_trigger_group_ids": [
+    1
+  ],
+  "shared_trigger_partner_ids": [
+    1
+  ],
   "sync_ids": [
     1,
     2
@@ -166,6 +175,9 @@
 * `schedule_times_of_day` / `scheduleTimesOfDay`  (array(string)): Times of day to run in HH:MM format (24-hour). For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
 * `schedule_time_zone` / `scheduleTimeZone`  (string): Time zone for the schedule. If not set, times are interpreted as UTC.
 * `source` / `source`  (string): Source path/glob.  See Automation docs for exact description, but this is used to filter for files in the `path` to find files to operate on. Supports globs, except on remote mounts.
+* `shared_trigger_user_ids` / `sharedTriggerUserIds`  (array(int64)): Users who can start this Shared Workflow.
+* `shared_trigger_group_ids` / `sharedTriggerGroupIds`  (array(int64)): Groups whose members can start this Shared Workflow.
+* `shared_trigger_partner_ids` / `sharedTriggerPartnerIds`  (array(int64)): Partners whose users can start this Shared Workflow.
 * `sync_ids` / `syncIds`  (array(int64)): IDs of Syncs to run by this Automation.
 * `trigger_actions` / `triggerActions`  (array(string)): If trigger is `action`, this is the list of action types on which to trigger the automation. Valid actions are create, copy, move, archived_delete, update, read, destroy
 * `trigger` / `trigger`  (string): How this automation is triggered to run.
@@ -237,6 +249,9 @@ parameters.put("sync_ids", new Object[] {1, 2});
 parameters.put("user_ids", new Object[] {1, 2});
 parameters.put("group_ids", new Object[] {1, 2});
 parameters.put("schedule_id", 1L);
+parameters.put("shared_trigger_user_ids", new Long[] {1L});
+parameters.put("shared_trigger_group_ids", new Long[] {1L});
+parameters.put("shared_trigger_partner_ids", new Long[] {1L});
 parameters.put("schedule_days_of_week", new Long[] {0L, 1L, 3L});
 parameters.put("schedule_interval_minutes", 15L);
 parameters.put("schedule_times_of_day", new String[] {"7:30", "11:30"});
@@ -307,6 +322,9 @@ Automation automation = Automation.create(parameters, null);
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the automation's schedule fields.
+* `shared_trigger_user_ids` (Long[]): Users who can start this Shared Workflow.
+* `shared_trigger_group_ids` (Long[]): Groups whose members can start this Shared Workflow.
+* `shared_trigger_partner_ids` (Long[]): Partners whose users can start this Shared Workflow.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule` without `schedule_id`, a list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
 * `schedule_interval_minutes` (Long): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`. For v2 Automations, set this field in the Scheduled trigger's definition.
 * `schedule_times_of_day` (String[]): Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` without `schedule_id` or `schedule_interval_minutes`. For `daily` triggers, the default is midnight UTC.
@@ -388,6 +406,9 @@ parameters.put("sync_ids", new Object[] {1, 2});
 parameters.put("user_ids", new Object[] {1, 2});
 parameters.put("group_ids", new Object[] {1, 2});
 parameters.put("schedule_id", 1L);
+parameters.put("shared_trigger_user_ids", new Long[] {1L});
+parameters.put("shared_trigger_group_ids", new Long[] {1L});
+parameters.put("shared_trigger_partner_ids", new Long[] {1L});
 parameters.put("schedule_days_of_week", new Long[] {0L, 1L, 3L});
 parameters.put("schedule_interval_minutes", 15L);
 parameters.put("schedule_times_of_day", new String[] {"7:30", "11:30"});
@@ -458,6 +479,9 @@ Automation automation = Automation.update(1L, parameters, null);
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the automation's schedule fields.
+* `shared_trigger_user_ids` (Long[]): Users who can start this Shared Workflow.
+* `shared_trigger_group_ids` (Long[]): Groups whose members can start this Shared Workflow.
+* `shared_trigger_partner_ids` (Long[]): Partners whose users can start this Shared Workflow.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule` without `schedule_id`, a list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
 * `schedule_interval_minutes` (Long): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`. For v2 Automations, set this field in the Scheduled trigger's definition.
 * `schedule_times_of_day` (String[]): Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` without `schedule_id` or `schedule_interval_minutes`. For `daily` triggers, the default is midnight UTC.
@@ -555,6 +579,9 @@ parameters.put("sync_ids", new Object[] {1, 2});
 parameters.put("user_ids", new Object[] {1, 2});
 parameters.put("group_ids", new Object[] {1, 2});
 parameters.put("schedule_id", 1L);
+parameters.put("shared_trigger_user_ids", new Long[] {1L});
+parameters.put("shared_trigger_group_ids", new Long[] {1L});
+parameters.put("shared_trigger_partner_ids", new Long[] {1L});
 parameters.put("schedule_days_of_week", new Long[] {0L, 1L, 3L});
 parameters.put("schedule_interval_minutes", 15L);
 parameters.put("schedule_times_of_day", new String[] {"7:30", "11:30"});
@@ -625,6 +652,9 @@ Automation result = automation.update(parameters);
 * `user_ids` (String): A list of user IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `group_ids` (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.
 * `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the automation's schedule fields.
+* `shared_trigger_user_ids` (Long[]): Users who can start this Shared Workflow.
+* `shared_trigger_group_ids` (Long[]): Groups whose members can start this Shared Workflow.
+* `shared_trigger_partner_ids` (Long[]): Partners whose users can start this Shared Workflow.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule` without `schedule_id`, a list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.
 * `schedule_interval_minutes` (Long): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`. For v2 Automations, set this field in the Scheduled trigger's definition.
 * `schedule_times_of_day` (String[]): Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` without `schedule_id` or `schedule_interval_minutes`. For `daily` triggers, the default is midnight UTC.

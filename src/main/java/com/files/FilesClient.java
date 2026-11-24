@@ -38,6 +38,7 @@ import com.files.operations.ChatSessionOperations;
 import com.files.operations.ChildSiteManagementPolicyOperations;
 import com.files.operations.ClickwrapOperations;
 import com.files.operations.CustomDomainOperations;
+import com.files.operations.DatabaseDestinationOperations;
 import com.files.operations.DesktopConfigurationProfileOperations;
 import com.files.operations.DnsRecordOperations;
 import com.files.operations.EmailIncomingMessageOperations;
@@ -105,6 +106,7 @@ import com.files.operations.SettingsChangeOperations;
 import com.files.operations.SftpActionLogOperations;
 import com.files.operations.SftpHostKeyOperations;
 import com.files.operations.ShareGroupOperations;
+import com.files.operations.SharedWorkflowOperations;
 import com.files.operations.SiemHttpDestinationEventOperations;
 import com.files.operations.SiemHttpDestinationOperations;
 import com.files.operations.SiteOperations;
@@ -597,6 +599,14 @@ public final class FilesClient implements Closeable {
   public CustomDomainOperations customDomains() {
     runtime.ensureOpen();
     return new CustomDomainOperations(this);
+  }
+
+  /**
+   * DatabaseDestination operations that run with this client.
+   */
+  public DatabaseDestinationOperations databaseDestinations() {
+    runtime.ensureOpen();
+    return new DatabaseDestinationOperations(this);
   }
 
   /**
@@ -1133,6 +1143,14 @@ public final class FilesClient implements Closeable {
   public ShareGroupOperations shareGroups() {
     runtime.ensureOpen();
     return new ShareGroupOperations(this);
+  }
+
+  /**
+   * SharedWorkflow operations that run with this client.
+   */
+  public SharedWorkflowOperations sharedWorkflows() {
+    runtime.ensureOpen();
+    return new SharedWorkflowOperations(this);
   }
 
   /**

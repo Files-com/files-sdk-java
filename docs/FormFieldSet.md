@@ -39,7 +39,7 @@
 * `skip_name` / `skipName`  (boolean): Any associated InboxRegistrations or BundleRegistrations can be saved without providing name
 * `skip_email` / `skipEmail`  (boolean): Any associated InboxRegistrations or BundleRegistrations can be saved without providing email
 * `skip_company` / `skipCompany`  (boolean): Any associated InboxRegistrations or BundleRegistrations can be saved without providing company
-* `in_use` / `inUse`  (boolean): Form Field Set is in use by an active Inbox / Bundle / Inbox Registration / Bundle Registration / Partner Channel upload destination
+* `in_use` / `inUse`  (boolean): Form Field Set is in use by an active Inbox, Share Link, Partner Channel upload destination, or Shared Trigger.
 * `user_id` / `userId`  (int64): User ID.  Provide a value of `0` to operate the current session's user.
 * `workspace_id` / `workspaceId`  (int64): Workspace ID
 

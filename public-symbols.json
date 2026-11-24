@@ -1730,6 +1730,18 @@
           "field": "scheduleTimesOfDay",
           "getter": "getScheduleTimesOfDay"
         },
+        "shared_trigger_group_ids": {
+          "field": "sharedTriggerGroupIds",
+          "getter": "getSharedTriggerGroupIds"
+        },
+        "shared_trigger_partner_ids": {
+          "field": "sharedTriggerPartnerIds",
+          "getter": "getSharedTriggerPartnerIds"
+        },
+        "shared_trigger_user_ids": {
+          "field": "sharedTriggerUserIds",
+          "getter": "getSharedTriggerUserIds"
+        },
         "source": {
           "field": "source",
           "getter": "getSource"
@@ -2025,6 +2037,14 @@
         "id": {
           "field": "id",
           "getter": "getId"
+        },
+        "initiating_interface": {
+          "field": "initiatingInterface",
+          "getter": "getInitiatingInterface"
+        },
+        "initiating_user_id": {
+          "field": "initiatingUserId",
+          "getter": "getInitiatingUserId"
         },
         "journal_url": {
           "field": "journalUrl",
@@ -3421,6 +3441,79 @@
           "arguments": {
             "id": "id"
           }
+        }
+      }
+    },
+    "DatabaseDestination": {
+      "class": "DatabaseDestination",
+      "client_accessor": "databaseDestinations",
+      "fields": {
+        "config": {
+          "field": "config",
+          "getter": "getConfig"
+        },
+        "created_at": {
+          "field": "createdAt",
+          "getter": "getCreatedAt"
+        },
+        "id": {
+          "field": "id",
+          "getter": "getId"
+        },
+        "name": {
+          "field": "name",
+          "getter": "getName"
+        },
+        "provider": {
+          "field": "provider",
+          "getter": "getProvider"
+        },
+        "secret_id": {
+          "field": "secretId",
+          "getter": "getSecretId"
+        },
+        "updated_at": {
+          "field": "updatedAt",
+          "getter": "getUpdatedAt"
+        },
+        "workspace_id": {
+          "field": "workspaceId",
+          "getter": "getWorkspaceId"
+        }
+      },
+      "operations": {
+        "delete /database_destinations/{id}": {
+          "method": "delete",
+          "aliases": {
+            "destroy": "destroy"
+          },
+          "arguments": {
+            "id": "id"
+          }
+        },
+        "get /database_destinations": {
+          "method": "list",
+          "aliases": {
+            "all": "all"
+          }
+        },
+        "get /database_destinations/{id}": {
+          "method": "find",
+          "aliases": {
+            "get": "get"
+          },
+          "arguments": {
+            "id": "id"
+          }
+        },
+        "patch /database_destinations/{id}": {
+          "method": "update",
+          "arguments": {
+            "id": "id"
+          }
+        },
+        "post /database_destinations": {
+          "method": "create"
         }
       }
     },
@@ -9814,6 +9907,62 @@
       "operations": {
       }
     },
+    "SharedWorkflow": {
+      "class": "SharedWorkflow",
+      "client_accessor": "sharedWorkflows",
+      "fields": {
+        "description": {
+          "field": "description",
+          "getter": "getDescription"
+        },
+        "form_fields": {
+          "field": "formFields",
+          "getter": "getFormFields"
+        },
+        "id": {
+          "field": "id",
+          "getter": "getId"
+        },
+        "name": {
+          "field": "name",
+          "getter": "getName"
+        },
+        "submission_revision": {
+          "field": "submissionRevision",
+          "getter": "getSubmissionRevision"
+        }
+      },
+      "operations": {
+        "get /shared_workflows": {
+          "method": "list",
+          "aliases": {
+            "all": "all"
+          }
+        },
+        "get /shared_workflows/{id}": {
+          "method": "find",
+          "aliases": {
+            "get": "get"
+          },
+          "arguments": {
+            "id": "id"
+          }
+        },
+        "get /shared_workflows/{id}/runs/{run_id}": {
+          "method": "findRun",
+          "arguments": {
+            "id": "id",
+            "run_id": "runId"
+          }
+        },
+        "post /shared_workflows/{id}/run_workflow": {
+          "method": "runWorkflow",
+          "arguments": {
+            "id": "id"
+          }
+        }
+      }
+    },
     "SiemHttpDestination": {
       "class": "SiemHttpDestination",
       "client_accessor": "siemHttpDestinations",
@@ -11028,6 +11177,10 @@
         "paths": {
           "field": "paths",
           "getter": "getPaths"
+        },
+        "shared_workflow_id": {
+          "field": "sharedWorkflowId",
+          "getter": "getSharedWorkflowId"
         },
         "user_id": {
           "field": "userId",

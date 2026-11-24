@@ -1,10 +1,12 @@
 package com.files.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.MapperFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
@@ -13,13 +15,28 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.files.FilesClient;
+import com.files.FilesConfig;
 import com.files.ListIterator;
 import com.files.net.ClientRuntime;
+import com.files.net.HttpMethods.RequestMethods;
+import com.files.util.FilesInputStream;
+import com.files.util.ModelUtils;
+import com.files.util.PathUtils;
+import com.files.util.UrlUtils;
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -114,6 +131,51 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
+   * Automation run completion/failure date/time.
+   */
+  @JsonProperty("completed_at")
+  public Date completedAt;
+
+  /**
+   * Gets {@link #completedAt}.
+   *
+   * @return the value of {@link #completedAt}
+   */
+  public Date getCompletedAt() {
+    return completedAt;
+  }
+
+  /**
+   * Automation run start date/time.
+   */
+  @JsonProperty("created_at")
+  public Date createdAt;
+
+  /**
+   * Gets {@link #createdAt}.
+   *
+   * @return the value of {@link #createdAt}
+   */
+  public Date getCreatedAt() {
+    return createdAt;
+  }
+
+  /**
+   * The status of the AutomationRun. One of `queued`, `running`, `success`, `partial_failure`, `failure`, `skipped`, or `canceled`.
+   */
+  @JsonProperty("status")
+  public String status;
+
+  /**
+   * Gets {@link #status}.
+   *
+   * @return the value of {@link #status}
+   */
+  public String getStatus() {
+    return status;
+  }
+
+  /**
    * ID of the associated Automation.
    */
   @JsonProperty("automation_id")
@@ -174,6 +236,36 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
+   * User who initiated a Shared Workflow run.
+   */
+  @JsonProperty("initiating_user_id")
+  public Long initiatingUserId;
+
+  /**
+   * Gets {@link #initiatingUserId}.
+   *
+   * @return the value of {@link #initiatingUserId}
+   */
+  public Long getInitiatingUserId() {
+    return initiatingUserId;
+  }
+
+  /**
+   * Interface from which the Shared Workflow was started.
+   */
+  @JsonProperty("initiating_interface")
+  public String initiatingInterface;
+
+  /**
+   * Gets {@link #initiatingInterface}.
+   *
+   * @return the value of {@link #initiatingInterface}
+   */
+  public String getInitiatingInterface() {
+    return initiatingInterface;
+  }
+
+  /**
    * Date/time at which cancellation was requested.
    */
   @JsonProperty("cancel_requested_at")
@@ -186,36 +278,6 @@ public class AutomationRun implements ModelInterface {
    */
   public Date getCancelRequestedAt() {
     return cancelRequestedAt;
-  }
-
-  /**
-   * Automation run completion/failure date/time.
-   */
-  @JsonProperty("completed_at")
-  public Date completedAt;
-
-  /**
-   * Gets {@link #completedAt}.
-   *
-   * @return the value of {@link #completedAt}
-   */
-  public Date getCompletedAt() {
-    return completedAt;
-  }
-
-  /**
-   * Automation run start date/time.
-   */
-  @JsonProperty("created_at")
-  public Date createdAt;
-
-  /**
-   * Gets {@link #createdAt}.
-   *
-   * @return the value of {@link #createdAt}
-   */
-  public Date getCreatedAt() {
-    return createdAt;
   }
 
   /**
@@ -321,21 +383,6 @@ public class AutomationRun implements ModelInterface {
    */
   public Double getRuntime() {
     return runtime;
-  }
-
-  /**
-   * The status of the AutomationRun. One of `queued`, `running`, `success`, `partial_failure`, `failure`, `skipped`, or `canceled`.
-   */
-  @JsonProperty("status")
-  public String status;
-
-  /**
-   * Gets {@link #status}.
-   *
-   * @return the value of {@link #status}
-   */
-  public String getStatus() {
-    return status;
   }
 
   /**

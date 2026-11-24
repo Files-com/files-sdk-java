@@ -743,7 +743,7 @@ public class SsoStrategy implements ModelInterface {
   }
 
   /**
-   * Username domain that can publicly discover this SSO provider on this site. Set after saving the provider. Set to null to turn off discovery.
+   * Username domain that can publicly discover this SSO provider on this site. Set to null to turn off discovery.
    */
   @JsonProperty("public_sso_domain")
   public String publicSsoDomain;
@@ -755,21 +755,6 @@ public class SsoStrategy implements ModelInterface {
    */
   public String getPublicSsoDomain() {
     return publicSsoDomain;
-  }
-
-  /**
-   * This provider's DNS TXT value to publish at _files-sso.&lt;domain&gt; before enabling public SSO discovery for that domain.
-   */
-  @JsonProperty("public_sso_domain_dns_value")
-  public String publicSsoDomainDnsValue;
-
-  /**
-   * Gets {@link #publicSsoDomainDnsValue}.
-   *
-   * @return the value of {@link #publicSsoDomainDnsValue}
-   */
-  public String getPublicSsoDomainDnsValue() {
-    return publicSsoDomainDnsValue;
   }
 
   /**

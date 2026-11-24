@@ -11227,10 +11227,6 @@
           "field": "publicSsoDomain",
           "getter": "getPublicSsoDomain"
         },
-        "public_sso_domain_dns_value": {
-          "field": "publicSsoDomainDnsValue",
-          "getter": "getPublicSsoDomainDnsValue"
-        },
         "saml_provider_cert_fingerprint": {
           "field": "samlProviderCertFingerprint",
           "getter": "getSamlProviderCertFingerprint"

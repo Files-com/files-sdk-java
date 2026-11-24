@@ -5791,6 +5791,10 @@
           "field": "notes",
           "getter": "getNotes"
         },
+        "preferred_workspace_id": {
+          "field": "preferredWorkspaceId",
+          "getter": "getPreferredWorkspaceId"
+        },
         "restapi_permission": {
           "field": "restapiPermission",
           "getter": "getRestapiPermission"

@@ -19,6 +19,7 @@
   "s3_compatible_endpoint_permission": true,
   "desktop_configuration_profile_id": 1,
   "integration_centric_profile_id": 1,
+  "preferred_workspace_id": 1,
   "site_id": 1,
   "workspace_id": 1
 }
@@ -39,6 +40,7 @@
 * `s3_compatible_endpoint_permission` / `s3CompatibleEndpointPermission`  (boolean): If true, users in this group can access the S3-compatible endpoint. This will override a false value of `s3_compatible_endpoint_permission` on the user level. Defaults to false.
 * `desktop_configuration_profile_id` / `desktopConfigurationProfileId`  (int64): Desktop Configuration Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 * `integration_centric_profile_id` / `integrationCentricProfileId`  (int64): Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
+* `preferred_workspace_id` / `preferredWorkspaceId`  (int64): Custom Workspace a new Group member will use as their Preferred Workspace if they have no saved preference. The Group must have a Permission in that Workspace.
 * `site_id` / `siteId`  (int64): Site ID
 * `workspace_id` / `workspaceId`  (int64): Workspace ID
 
@@ -140,6 +142,7 @@ parameters.put("desktop_configuration_profile_id", 1L);
 parameters.put("integration_centric_profile_id", 1L);
 parameters.put("allowed_ips", "10.0.0.0/8\n127.0.0.1");
 parameters.put("name", "owners");
+parameters.put("preferred_workspace_id", 1L);
 Group group = Group.update(1L, parameters, null);
 ```
 
@@ -159,6 +162,7 @@ Group group = Group.update(1L, parameters, null);
 * `integration_centric_profile_id` (Long): Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 * `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
 * `name` (String): Group name.
+* `preferred_workspace_id` (Long): Custom Workspace a new Group member will use as their Preferred Workspace if they have no saved preference. The Group must have a Permission in that Workspace.
 
 
 ---
@@ -195,6 +199,7 @@ parameters.put("desktop_configuration_profile_id", 1L);
 parameters.put("integration_centric_profile_id", 1L);
 parameters.put("allowed_ips", "10.0.0.0/8\n127.0.0.1");
 parameters.put("name", "owners");
+parameters.put("preferred_workspace_id", 1L);
 Group result = group.update(parameters);
 ```
 
@@ -214,6 +219,7 @@ Group result = group.update(parameters);
 * `integration_centric_profile_id` (Long): Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.
 * `allowed_ips` (String): A list of allowed IPs if applicable.  Newline delimited
 * `name` (String): Group name.
+* `preferred_workspace_id` (Long): Custom Workspace a new Group member will use as their Preferred Workspace if they have no saved preference. The Group must have a Permission in that Workspace.
 
 
 ---

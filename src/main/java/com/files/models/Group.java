@@ -476,6 +476,30 @@ public class Group implements ModelInterface {
   }
 
   /**
+   * Custom Workspace a new Group member will use as their Preferred Workspace if they have no saved preference. The Group must have a Permission in that Workspace.
+   */
+  @JsonProperty("preferred_workspace_id")
+  public Long preferredWorkspaceId;
+
+  /**
+   * Gets {@link #preferredWorkspaceId}.
+   *
+   * @return the value of {@link #preferredWorkspaceId}
+   */
+  public Long getPreferredWorkspaceId() {
+    return preferredWorkspaceId;
+  }
+
+  /**
+   * Sets {@link #preferredWorkspaceId}.
+   *
+   * @param preferredWorkspaceId the new value
+   */
+  public void setPreferredWorkspaceId(Long preferredWorkspaceId) {
+    this.preferredWorkspaceId = preferredWorkspaceId;
+  }
+
+  /**
    * Site ID
    */
   @JsonProperty("site_id")
@@ -541,6 +565,7 @@ public class Group implements ModelInterface {
    * <li>{@code integration_centric_profile_id} (Long): Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.</li>
    * <li>{@code allowed_ips} (String): A list of allowed IPs if applicable.  Newline delimited</li>
    * <li>{@code name} (String): Group name.</li>
+   * <li>{@code preferred_workspace_id} (Long): Custom Workspace a new Group member will use as their Preferred Workspace if they have no saved preference. The Group must have a Permission in that Workspace.</li>
    * </ul>
    *
    * @param parameters the request's parameters, by their API names
@@ -609,6 +634,7 @@ public class Group implements ModelInterface {
     this.s3CompatibleEndpointPermission = canonical.s3CompatibleEndpointPermission;
     this.desktopConfigurationProfileId = canonical.desktopConfigurationProfileId;
     this.integrationCentricProfileId = canonical.integrationCentricProfileId;
+    this.preferredWorkspaceId = canonical.preferredWorkspaceId;
     this.siteId = canonical.siteId;
     this.workspaceId = canonical.workspaceId;
   }
@@ -821,6 +847,7 @@ public class Group implements ModelInterface {
    * <li>{@code integration_centric_profile_id} (Long): Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.</li>
    * <li>{@code allowed_ips} (String): A list of allowed IPs if applicable.  Newline delimited</li>
    * <li>{@code name} (String): Group name.</li>
+   * <li>{@code preferred_workspace_id} (Long): Custom Workspace a new Group member will use as their Preferred Workspace if they have no saved preference. The Group must have a Permission in that Workspace.</li>
    * </ul>
    *
    * @param id Group ID.

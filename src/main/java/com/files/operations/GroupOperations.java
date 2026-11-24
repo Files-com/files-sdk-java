@@ -351,6 +351,7 @@ public final class GroupOperations extends ResourceOperations {
    * <li>{@code integration_centric_profile_id} (Long): Integration Centric Profile ID assigned to this Group, if any. Users in the Group inherit it unless a direct per-user assignment overrides it.</li>
    * <li>{@code allowed_ips} (String): A list of allowed IPs if applicable.  Newline delimited</li>
    * <li>{@code name} (String): Group name.</li>
+   * <li>{@code preferred_workspace_id} (Long): Custom Workspace a new Group member will use as their Preferred Workspace if they have no saved preference. The Group must have a Permission in that Workspace.</li>
    * </ul>
    *
    * @param id Group ID.
@@ -424,6 +425,10 @@ public final class GroupOperations extends ResourceOperations {
 
     if (parameters.containsKey("name") && !(parameters.get("name") instanceof String)) {
       throw new IllegalArgumentException("Bad parameter: name must be of type String parameters[\"name\"]");
+    }
+
+    if (parameters.containsKey("preferred_workspace_id") && !(parameters.get("preferred_workspace_id") instanceof Long || parameters.get("preferred_workspace_id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: preferred_workspace_id must be of type Long or Integer parameters[\"preferred_workspace_id\"]");
     }
 
     String apiPath = String.format("/groups/%s", UrlUtils.encodeUrlPath(String.valueOf(id)));

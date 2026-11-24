@@ -208,6 +208,7 @@ public final class ExpectationOperations extends ResourceOperations {
    * <li>{@code recurring_days} (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.</li>
    * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.</li>
    * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.</li>
+   * <li>{@code schedule_interval_minutes} (Long): Set a delivery deadline every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.</li>
    * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the Expectation schedule.</li>
    * <li>{@code schedule_time_zone} (String): Time zone used by the Expectation schedule.</li>
    * <li>{@code holiday_region} (String): Optional holiday region used by the Expectation schedule.</li>
@@ -274,6 +275,10 @@ public final class ExpectationOperations extends ResourceOperations {
 
     if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
+    }
+
+    if (parameters.containsKey("schedule_interval_minutes") && !(parameters.get("schedule_interval_minutes") instanceof Long || parameters.get("schedule_interval_minutes") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: schedule_interval_minutes must be of type Long or Integer parameters[\"schedule_interval_minutes\"]");
     }
 
     if (parameters.containsKey("schedule_times_of_day") && !(parameters.get("schedule_times_of_day") instanceof String[])) {
@@ -420,6 +425,7 @@ public final class ExpectationOperations extends ResourceOperations {
    * <li>{@code recurring_days} (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.</li>
    * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.</li>
    * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.</li>
+   * <li>{@code schedule_interval_minutes} (Long): Set a delivery deadline every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.</li>
    * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the Expectation schedule.</li>
    * <li>{@code schedule_time_zone} (String): Time zone used by the Expectation schedule.</li>
    * <li>{@code holiday_region} (String): Optional holiday region used by the Expectation schedule.</li>
@@ -499,6 +505,10 @@ public final class ExpectationOperations extends ResourceOperations {
 
     if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
+    }
+
+    if (parameters.containsKey("schedule_interval_minutes") && !(parameters.get("schedule_interval_minutes") instanceof Long || parameters.get("schedule_interval_minutes") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: schedule_interval_minutes must be of type Long or Integer parameters[\"schedule_interval_minutes\"]");
     }
 
     if (parameters.containsKey("schedule_times_of_day") && !(parameters.get("schedule_times_of_day") instanceof String[])) {

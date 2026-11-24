@@ -460,6 +460,30 @@ public class Expectation implements ModelInterface {
   }
 
   /**
+   * Set a delivery deadline every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
+   */
+  @JsonProperty("schedule_interval_minutes")
+  public Long scheduleIntervalMinutes;
+
+  /**
+   * Gets {@link #scheduleIntervalMinutes}.
+   *
+   * @return the value of {@link #scheduleIntervalMinutes}
+   */
+  public Long getScheduleIntervalMinutes() {
+    return scheduleIntervalMinutes;
+  }
+
+  /**
+   * Sets {@link #scheduleIntervalMinutes}.
+   *
+   * @param scheduleIntervalMinutes the new value
+   */
+  public void setScheduleIntervalMinutes(Long scheduleIntervalMinutes) {
+    this.scheduleIntervalMinutes = scheduleIntervalMinutes;
+  }
+
+  /**
    * Times of day in HH:MM format for the Expectation schedule.
    */
   @JsonProperty("schedule_times_of_day")
@@ -828,6 +852,7 @@ public class Expectation implements ModelInterface {
    * <li>{@code recurring_days} (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.</li>
    * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.</li>
    * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.</li>
+   * <li>{@code schedule_interval_minutes} (Long): Set a delivery deadline every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.</li>
    * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the Expectation schedule.</li>
    * <li>{@code schedule_time_zone} (String): Time zone used by the Expectation schedule.</li>
    * <li>{@code holiday_region} (String): Optional holiday region used by the Expectation schedule.</li>
@@ -919,6 +944,7 @@ public class Expectation implements ModelInterface {
     this.recurringDays = canonical.recurringDays;
     this.scheduleId = canonical.scheduleId;
     this.scheduleDaysOfWeek = canonical.scheduleDaysOfWeek;
+    this.scheduleIntervalMinutes = canonical.scheduleIntervalMinutes;
     this.scheduleTimesOfDay = canonical.scheduleTimesOfDay;
     this.scheduleTimeZone = canonical.scheduleTimeZone;
     this.holidayRegion = canonical.holidayRegion;
@@ -1083,6 +1109,7 @@ public class Expectation implements ModelInterface {
    * <li>{@code recurring_days} (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.</li>
    * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.</li>
    * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.</li>
+   * <li>{@code schedule_interval_minutes} (Long): Set a delivery deadline every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.</li>
    * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the Expectation schedule.</li>
    * <li>{@code schedule_time_zone} (String): Time zone used by the Expectation schedule.</li>
    * <li>{@code holiday_region} (String): Optional holiday region used by the Expectation schedule.</li>
@@ -1187,6 +1214,7 @@ public class Expectation implements ModelInterface {
    * <li>{@code recurring_days} (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.</li>
    * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.</li>
    * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.</li>
+   * <li>{@code schedule_interval_minutes} (Long): Set a delivery deadline every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.</li>
    * <li>{@code schedule_times_of_day} (String[]): Times of day in HH:MM format for the Expectation schedule.</li>
    * <li>{@code schedule_time_zone} (String): Time zone used by the Expectation schedule.</li>
    * <li>{@code holiday_region} (String): Optional holiday region used by the Expectation schedule.</li>

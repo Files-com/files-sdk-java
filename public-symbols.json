@@ -601,6 +601,10 @@
           "field": "scheduleId",
           "getter": "getScheduleId"
         },
+        "schedule_interval_minutes": {
+          "field": "scheduleIntervalMinutes",
+          "getter": "getScheduleIntervalMinutes"
+        },
         "schedule_time_zone": {
           "field": "scheduleTimeZone",
           "getter": "getScheduleTimeZone"
@@ -1713,6 +1717,10 @@
         "schedule_id": {
           "field": "scheduleId",
           "getter": "getScheduleId"
+        },
+        "schedule_interval_minutes": {
+          "field": "scheduleIntervalMinutes",
+          "getter": "getScheduleIntervalMinutes"
         },
         "schedule_time_zone": {
           "field": "scheduleTimeZone",
@@ -4178,6 +4186,10 @@
         "schedule_id": {
           "field": "scheduleId",
           "getter": "getScheduleId"
+        },
+        "schedule_interval_minutes": {
+          "field": "scheduleIntervalMinutes",
+          "getter": "getScheduleIntervalMinutes"
         },
         "schedule_time_exceptions": {
           "field": "scheduleTimeExceptions",
@@ -9167,6 +9179,10 @@
           "field": "scheduleId",
           "getter": "getScheduleId"
         },
+        "schedule_interval_minutes": {
+          "field": "scheduleIntervalMinutes",
+          "getter": "getScheduleIntervalMinutes"
+        },
         "schedule_time_zone": {
           "field": "scheduleTimeZone",
           "getter": "getScheduleTimeZone"
@@ -11474,6 +11490,10 @@
         "schedule_id": {
           "field": "scheduleId",
           "getter": "getScheduleId"
+        },
+        "schedule_interval_minutes": {
+          "field": "scheduleIntervalMinutes",
+          "getter": "getScheduleIntervalMinutes"
         },
         "schedule_time_zone": {
           "field": "scheduleTimeZone",

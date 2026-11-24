@@ -778,6 +778,30 @@ public class Sync implements ModelInterface {
   }
 
   /**
+   * Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
+   */
+  @JsonProperty("schedule_interval_minutes")
+  public Long scheduleIntervalMinutes;
+
+  /**
+   * Gets {@link #scheduleIntervalMinutes}.
+   *
+   * @return the value of {@link #scheduleIntervalMinutes}
+   */
+  public Long getScheduleIntervalMinutes() {
+    return scheduleIntervalMinutes;
+  }
+
+  /**
+   * Sets {@link #scheduleIntervalMinutes}.
+   *
+   * @param scheduleIntervalMinutes the new value
+   */
+  public void setScheduleIntervalMinutes(Long scheduleIntervalMinutes) {
+    this.scheduleIntervalMinutes = scheduleIntervalMinutes;
+  }
+
+  /**
    * Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
    */
   @JsonProperty("schedule_times_of_day")
@@ -911,6 +935,7 @@ public class Sync implements ModelInterface {
    * <li>{@code recurring_days} (Long[]): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.</li>
    * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.</li>
    * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.</li>
+   * <li>{@code schedule_interval_minutes} (Long): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.</li>
    * <li>{@code schedule_time_zone} (String): Time zone for the schedule. If not set, times are interpreted as UTC.</li>
    * <li>{@code schedule_times_of_day} (String[]): Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.</li>
    * <li>{@code src_path} (String): Absolute source path for the sync</li>
@@ -1017,6 +1042,7 @@ public class Sync implements ModelInterface {
     this.recurringDays = canonical.recurringDays;
     this.scheduleId = canonical.scheduleId;
     this.scheduleDaysOfWeek = canonical.scheduleDaysOfWeek;
+    this.scheduleIntervalMinutes = canonical.scheduleIntervalMinutes;
     this.scheduleTimesOfDay = canonical.scheduleTimesOfDay;
     this.scheduleTimeZone = canonical.scheduleTimeZone;
     this.holidayRegion = canonical.holidayRegion;
@@ -1173,6 +1199,7 @@ public class Sync implements ModelInterface {
    * <li>{@code recurring_days} (Long[]): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.</li>
    * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.</li>
    * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.</li>
+   * <li>{@code schedule_interval_minutes} (Long): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.</li>
    * <li>{@code schedule_time_zone} (String): Time zone for the schedule. If not set, times are interpreted as UTC.</li>
    * <li>{@code schedule_times_of_day} (String[]): Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.</li>
    * <li>{@code src_path} (String): Absolute source path for the sync</li>
@@ -1317,6 +1344,7 @@ public class Sync implements ModelInterface {
    * <li>{@code recurring_days} (Long[]): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.</li>
    * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.</li>
    * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.</li>
+   * <li>{@code schedule_interval_minutes} (Long): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.</li>
    * <li>{@code schedule_time_zone} (String): Time zone for the schedule. If not set, times are interpreted as UTC.</li>
    * <li>{@code schedule_times_of_day} (String[]): Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.</li>
    * <li>{@code src_path} (String): Absolute source path for the sync</li>

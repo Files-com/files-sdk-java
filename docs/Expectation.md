@@ -26,6 +26,7 @@
     3,
     5
   ],
+  "schedule_interval_minutes": 15,
   "schedule_times_of_day": [
     "06:00"
   ],
@@ -75,6 +76,7 @@
 * `recurring_days` / `recurringDays`  (array(int64)): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 * `schedule_id` / `scheduleId`  (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
 * `schedule_days_of_week` / `scheduleDaysOfWeek`  (array(int64)): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
+* `schedule_interval_minutes` / `scheduleIntervalMinutes`  (int64): Set a delivery deadline every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
 * `schedule_times_of_day` / `scheduleTimesOfDay`  (array(string)): Times of day in HH:MM format for the Expectation schedule.
 * `schedule_time_zone` / `scheduleTimeZone`  (string): Time zone used by the Expectation schedule.
 * `holiday_region` / `holidayRegion`  (string): Optional holiday region used by the Expectation schedule.
@@ -141,6 +143,7 @@ parameters.put("recurring_day", 3L);
 parameters.put("recurring_days", new Long[] {1L, 15L});
 parameters.put("schedule_id", 1L);
 parameters.put("schedule_days_of_week", new Long[] {1L, 3L, 5L});
+parameters.put("schedule_interval_minutes", 15L);
 parameters.put("schedule_times_of_day", new String[] {"06:00"});
 parameters.put("schedule_time_zone", "UTC");
 parameters.put("holiday_region", "us");
@@ -176,6 +179,7 @@ Expectation expectation = Expectation.create(parameters, null);
 * `recurring_days` (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 * `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
+* `schedule_interval_minutes` (Long): Set a delivery deadline every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
 * `schedule_times_of_day` (String[]): Times of day in HH:MM format for the Expectation schedule.
 * `schedule_time_zone` (String): Time zone used by the Expectation schedule.
 * `holiday_region` (String): Optional holiday region used by the Expectation schedule.
@@ -220,6 +224,7 @@ parameters.put("recurring_day", 3L);
 parameters.put("recurring_days", new Long[] {1L, 15L});
 parameters.put("schedule_id", 1L);
 parameters.put("schedule_days_of_week", new Long[] {1L, 3L, 5L});
+parameters.put("schedule_interval_minutes", 15L);
 parameters.put("schedule_times_of_day", new String[] {"06:00"});
 parameters.put("schedule_time_zone", "UTC");
 parameters.put("holiday_region", "us");
@@ -256,6 +261,7 @@ Expectation expectation = Expectation.update(1L, parameters, null);
 * `recurring_days` (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 * `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
+* `schedule_interval_minutes` (Long): Set a delivery deadline every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
 * `schedule_times_of_day` (String[]): Times of day in HH:MM format for the Expectation schedule.
 * `schedule_time_zone` (String): Time zone used by the Expectation schedule.
 * `holiday_region` (String): Optional holiday region used by the Expectation schedule.
@@ -316,6 +322,7 @@ parameters.put("recurring_day", 3L);
 parameters.put("recurring_days", new Long[] {1L, 15L});
 parameters.put("schedule_id", 1L);
 parameters.put("schedule_days_of_week", new Long[] {1L, 3L, 5L});
+parameters.put("schedule_interval_minutes", 15L);
 parameters.put("schedule_times_of_day", new String[] {"06:00"});
 parameters.put("schedule_time_zone", "UTC");
 parameters.put("holiday_region", "us");
@@ -352,6 +359,7 @@ Expectation result = expectation.update(parameters);
 * `recurring_days` (Long[]): If trigger is `daily`, this selects one or more day numbers inside a `week`, `month`, `quarter`, or `year` interval.
 * `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the Expectation's schedule fields.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, the 0-based weekdays used by the schedule.
+* `schedule_interval_minutes` (Long): Set a delivery deadline every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
 * `schedule_times_of_day` (String[]): Times of day in HH:MM format for the Expectation schedule.
 * `schedule_time_zone` (String): Time zone used by the Expectation schedule.
 * `holiday_region` (String): Optional holiday region used by the Expectation schedule.

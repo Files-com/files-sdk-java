@@ -44,6 +44,7 @@
     2,
     4
   ],
+  "schedule_interval_minutes": 15,
   "schedule_times_of_day": [
     "06:30",
     "14:30"
@@ -119,6 +120,7 @@
 * `recurring_days` / `recurringDays`  (array(int64)): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `schedule_id` / `scheduleId`  (int64): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
 * `schedule_days_of_week` / `scheduleDaysOfWeek`  (array(int64)): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
+* `schedule_interval_minutes` / `scheduleIntervalMinutes`  (int64): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
 * `schedule_times_of_day` / `scheduleTimesOfDay`  (array(string)): Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
 * `schedule_time_zone` / `scheduleTimeZone`  (string): Time zone for the schedule. If not set, times are interpreted as UTC.
 * `holiday_region` / `holidayRegion`  (string): Skip the sync if there is a formal, observed holiday for this region.
@@ -177,6 +179,7 @@ parameters.put("recurring_day", 25L);
 parameters.put("recurring_days", new Long[] {1L, 15L});
 parameters.put("schedule_id", 1L);
 parameters.put("schedule_days_of_week", new Long[] {0L, 2L, 4L});
+parameters.put("schedule_interval_minutes", 15L);
 parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
 parameters.put("schedule_times_of_day", new String[] {"06:30", "14:30"});
 parameters.put("src_path", "example");
@@ -206,6 +209,7 @@ Sync sync = Sync.create(parameters, null);
 * `recurring_days` (Long[]): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
+* `schedule_interval_minutes` (Long): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
 * `schedule_time_zone` (String): Time zone for the schedule. If not set, times are interpreted as UTC.
 * `schedule_times_of_day` (String[]): Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
 * `src_path` (String): Absolute source path for the sync
@@ -266,6 +270,7 @@ parameters.put("recurring_day", 25L);
 parameters.put("recurring_days", new Long[] {1L, 15L});
 parameters.put("schedule_id", 1L);
 parameters.put("schedule_days_of_week", new Long[] {0L, 2L, 4L});
+parameters.put("schedule_interval_minutes", 15L);
 parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
 parameters.put("schedule_times_of_day", new String[] {"06:30", "14:30"});
 parameters.put("src_path", "example");
@@ -295,6 +300,7 @@ Sync sync = Sync.update(1L, parameters, null);
 * `recurring_days` (Long[]): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
+* `schedule_interval_minutes` (Long): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
 * `schedule_time_zone` (String): Time zone for the schedule. If not set, times are interpreted as UTC.
 * `schedule_times_of_day` (String[]): Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
 * `src_path` (String): Absolute source path for the sync
@@ -371,6 +377,7 @@ parameters.put("recurring_day", 25L);
 parameters.put("recurring_days", new Long[] {1L, 15L});
 parameters.put("schedule_id", 1L);
 parameters.put("schedule_days_of_week", new Long[] {0L, 2L, 4L});
+parameters.put("schedule_interval_minutes", 15L);
 parameters.put("schedule_time_zone", "Eastern Time (US & Canada)");
 parameters.put("schedule_times_of_day", new String[] {"06:30", "14:30"});
 parameters.put("src_path", "example");
@@ -400,6 +407,7 @@ Sync result = sync.update(parameters);
 * `recurring_days` (Long[]): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.
 * `schedule_id` (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.
 * `schedule_days_of_week` (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.
+* `schedule_interval_minutes` (Long): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.
 * `schedule_time_zone` (String): Time zone for the schedule. If not set, times are interpreted as UTC.
 * `schedule_times_of_day` (String[]): Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.
 * `src_path` (String): Absolute source path for the sync

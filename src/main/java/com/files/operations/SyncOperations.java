@@ -210,6 +210,7 @@ public final class SyncOperations extends ResourceOperations {
    * <li>{@code recurring_days} (Long[]): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.</li>
    * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.</li>
    * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.</li>
+   * <li>{@code schedule_interval_minutes} (Long): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.</li>
    * <li>{@code schedule_time_zone} (String): Time zone for the schedule. If not set, times are interpreted as UTC.</li>
    * <li>{@code schedule_times_of_day} (String[]): Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.</li>
    * <li>{@code src_path} (String): Absolute source path for the sync</li>
@@ -287,6 +288,10 @@ public final class SyncOperations extends ResourceOperations {
 
     if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
+    }
+
+    if (parameters.containsKey("schedule_interval_minutes") && !(parameters.get("schedule_interval_minutes") instanceof Long || parameters.get("schedule_interval_minutes") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: schedule_interval_minutes must be of type Long or Integer parameters[\"schedule_interval_minutes\"]");
     }
 
     if (parameters.containsKey("schedule_time_zone") && !(parameters.get("schedule_time_zone") instanceof String)) {
@@ -484,6 +489,7 @@ public final class SyncOperations extends ResourceOperations {
    * <li>{@code recurring_days} (Long[]): If trigger type is `daily`, this specifies one or more day numbers to run in one of the supported intervals: `week`, `month`, `quarter`, `year`.</li>
    * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the sync's schedule fields.</li>
    * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule`, Custom schedule description for when the sync should be run. 0-based days of the week. 0 is Sunday, 1 is Monday, etc.</li>
+   * <li>{@code schedule_interval_minutes} (Long): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`.</li>
    * <li>{@code schedule_time_zone} (String): Time zone for the schedule. If not set, times are interpreted as UTC.</li>
    * <li>{@code schedule_times_of_day} (String[]): Times of day to run in HH:MM format. For `custom_schedule`, run at these times on specified days of week. For `daily`, run at these times on the scheduled interval date.</li>
    * <li>{@code src_path} (String): Absolute source path for the sync</li>
@@ -573,6 +579,10 @@ public final class SyncOperations extends ResourceOperations {
 
     if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
+    }
+
+    if (parameters.containsKey("schedule_interval_minutes") && !(parameters.get("schedule_interval_minutes") instanceof Long || parameters.get("schedule_interval_minutes") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: schedule_interval_minutes must be of type Long or Integer parameters[\"schedule_interval_minutes\"]");
     }
 
     if (parameters.containsKey("schedule_time_zone") && !(parameters.get("schedule_time_zone") instanceof String)) {

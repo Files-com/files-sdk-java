@@ -261,7 +261,8 @@ public final class AutomationOperations extends ResourceOperations {
    * <li>{@code group_ids} (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.</li>
    * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the automation's schedule fields.</li>
    * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule` without `schedule_id`, a list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.</li>
-   * <li>{@code schedule_times_of_day} (String[]): Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` without `schedule_id`. Optional for `daily` triggers; if not set, runs at midnight UTC.</li>
+   * <li>{@code schedule_interval_minutes} (Long): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`. For v2 Automations, set this field in the Scheduled trigger's definition.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` without `schedule_id` or `schedule_interval_minutes`. For `daily` triggers, the default is midnight UTC.</li>
    * <li>{@code schedule_time_zone} (String): Time zone for schedule fields. Optional for `custom_schedule` without `schedule_id` and for `daily`. If not set, times are interpreted as UTC.</li>
    * <li>{@code holiday_region} (String): Skip automation on holidays in this region. Optional for `custom_schedule` without `schedule_id` and for `daily`.</li>
    * <li>{@code always_overwrite_size_matching_files} (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.</li>
@@ -342,6 +343,10 @@ public final class AutomationOperations extends ResourceOperations {
 
     if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
+    }
+
+    if (parameters.containsKey("schedule_interval_minutes") && !(parameters.get("schedule_interval_minutes") instanceof Long || parameters.get("schedule_interval_minutes") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: schedule_interval_minutes must be of type Long or Integer parameters[\"schedule_interval_minutes\"]");
     }
 
     if (parameters.containsKey("schedule_times_of_day") && !(parameters.get("schedule_times_of_day") instanceof String[])) {
@@ -609,7 +614,8 @@ public final class AutomationOperations extends ResourceOperations {
    * <li>{@code group_ids} (String): A list of group IDs the automation is associated with. If sent as a string, it should be comma-delimited.</li>
    * <li>{@code schedule_id} (Long): If trigger is `custom_schedule`, the reusable Schedule used instead of the automation's schedule fields.</li>
    * <li>{@code schedule_days_of_week} (Long[]): If trigger is `custom_schedule` without `schedule_id`, a list of days of the week to run this automation. 0 is Sunday, 1 is Monday, etc.</li>
-   * <li>{@code schedule_times_of_day} (String[]): Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` without `schedule_id`. Optional for `daily` triggers; if not set, runs at midnight UTC.</li>
+   * <li>{@code schedule_interval_minutes} (Long): Run every N minutes (1–59, subject to the Site plan minimum). Use by itself with `custom_schedule`. For v2 Automations, set this field in the Scheduled trigger's definition.</li>
+   * <li>{@code schedule_times_of_day} (String[]): Times of day to run in HH:MM format (24-hour). Required for `custom_schedule` without `schedule_id` or `schedule_interval_minutes`. For `daily` triggers, the default is midnight UTC.</li>
    * <li>{@code schedule_time_zone} (String): Time zone for schedule fields. Optional for `custom_schedule` without `schedule_id` and for `daily`. If not set, times are interpreted as UTC.</li>
    * <li>{@code holiday_region} (String): Skip automation on holidays in this region. Optional for `custom_schedule` without `schedule_id` and for `daily`.</li>
    * <li>{@code always_overwrite_size_matching_files} (Boolean): Ordinarily, files with identical size in the source and destination will be skipped from copy operations to prevent wasted transfer.  If this flag is `true` we will overwrite the destination file always.  Note that this may cause large amounts of wasted transfer usage.  This setting has no effect unless `overwrite_files` is also set to `true`.</li>
@@ -698,6 +704,10 @@ public final class AutomationOperations extends ResourceOperations {
 
     if (parameters.containsKey("schedule_days_of_week") && !(parameters.get("schedule_days_of_week") instanceof Long[])) {
       throw new IllegalArgumentException("Bad parameter: schedule_days_of_week must be of type Long[] parameters[\"schedule_days_of_week\"]");
+    }
+
+    if (parameters.containsKey("schedule_interval_minutes") && !(parameters.get("schedule_interval_minutes") instanceof Long || parameters.get("schedule_interval_minutes") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: schedule_interval_minutes must be of type Long or Integer parameters[\"schedule_interval_minutes\"]");
     }
 
     if (parameters.containsKey("schedule_times_of_day") && !(parameters.get("schedule_times_of_day") instanceof String[])) {

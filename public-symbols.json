@@ -2119,6 +2119,71 @@
         }
       }
     },
+    "AutomationVersion": {
+      "class": "AutomationVersion",
+      "client_accessor": "automationVersions",
+      "fields": {
+        "api_key_id": {
+          "field": "apiKeyId",
+          "getter": "getApiKeyId"
+        },
+        "automation_id": {
+          "field": "automationId",
+          "getter": "getAutomationId"
+        },
+        "created_at": {
+          "field": "createdAt",
+          "getter": "getCreatedAt"
+        },
+        "definition": {
+          "field": "definition",
+          "getter": "getDefinition"
+        },
+        "id": {
+          "field": "id",
+          "getter": "getId"
+        },
+        "user_id": {
+          "field": "userId",
+          "getter": "getUserId"
+        },
+        "username": {
+          "field": "username",
+          "getter": "getUsername"
+        },
+        "version": {
+          "field": "version",
+          "getter": "getVersion"
+        },
+        "workspace_id": {
+          "field": "workspaceId",
+          "getter": "getWorkspaceId"
+        }
+      },
+      "operations": {
+        "get /automation_versions": {
+          "method": "list",
+          "aliases": {
+            "all": "all"
+          }
+        },
+        "get /automation_versions/{id}": {
+          "method": "find",
+          "aliases": {
+            "get": "get"
+          },
+          "arguments": {
+            "id": "id"
+          }
+        },
+        "post /automation_versions/{id}/restore": {
+          "method": "restore",
+          "arguments": {
+            "id": "id"
+          }
+        }
+      }
+    },
     "BandwidthSnapshot": {
       "class": "BandwidthSnapshot",
       "client_accessor": "bandwidthSnapshots",

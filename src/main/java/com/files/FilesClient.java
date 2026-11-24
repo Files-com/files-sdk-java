@@ -24,6 +24,7 @@ import com.files.operations.As2StationOperations;
 import com.files.operations.AutomationLogOperations;
 import com.files.operations.AutomationOperations;
 import com.files.operations.AutomationRunOperations;
+import com.files.operations.AutomationVersionOperations;
 import com.files.operations.BandwidthSnapshotOperations;
 import com.files.operations.BehaviorOperations;
 import com.files.operations.BundleActionOperations;
@@ -484,6 +485,14 @@ public final class FilesClient implements Closeable {
   public AutomationRunOperations automationRuns() {
     runtime.ensureOpen();
     return new AutomationRunOperations(this);
+  }
+
+  /**
+   * AutomationVersion operations that run with this client.
+   */
+  public AutomationVersionOperations automationVersions() {
+    runtime.ensureOpen();
+    return new AutomationVersionOperations(this);
   }
 
   /**

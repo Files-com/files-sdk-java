@@ -1880,6 +1880,14 @@
           "field": "inputs",
           "getter": "getInputs"
         },
+        "item_refs": {
+          "field": "itemRefs",
+          "getter": "getItemRefs"
+        },
+        "item_values": {
+          "field": "itemValues",
+          "getter": "getItemValues"
+        },
         "node_id": {
           "field": "nodeId",
           "getter": "getNodeId"

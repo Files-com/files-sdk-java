@@ -277,7 +277,7 @@ public class AutomationExecutionNode implements ModelInterface {
   }
 
   /**
-   * Materialized input items currently available, grouped by inlet.
+   * Available input items grouped by inlet. Resolve large values with item_refs and item_values.
    */
   @JsonProperty("input_items")
   public Object inputItems;
@@ -292,7 +292,7 @@ public class AutomationExecutionNode implements ModelInterface {
   }
 
   /**
-   * Materialized output items grouped by outlet.
+   * Output items grouped by outlet. Resolve large values with item_refs and item_values.
    */
   @JsonProperty("output_items")
   public Object outputItems;
@@ -304,6 +304,36 @@ public class AutomationExecutionNode implements ModelInterface {
    */
   public Object getOutputItems() {
     return outputItems;
+  }
+
+  /**
+   * References with a path from the response root and a digest. Replace the null at each path with the value for that digest. Path segments are literal object keys or zero-based array indexes.
+   */
+  @JsonProperty("item_refs")
+  public Object[] itemRefs;
+
+  /**
+   * Gets {@link #itemRefs}.
+   *
+   * @return the value of {@link #itemRefs}
+   */
+  public Object[] getItemRefs() {
+    return itemRefs;
+  }
+
+  /**
+   * Ordered entries with a digest, a value, and optional item_refs relative to that value. References inside entries point to earlier entries in this array.
+   */
+  @JsonProperty("item_values")
+  public Object[] itemValues;
+
+  /**
+   * Gets {@link #itemValues}.
+   *
+   * @return the value of {@link #itemValues}
+   */
+  public Object[] getItemValues() {
+    return itemValues;
   }
 
 

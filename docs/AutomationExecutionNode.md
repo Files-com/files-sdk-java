@@ -19,7 +19,13 @@
   ],
   "outputs": "example",
   "input_items": "example",
-  "output_items": "example"
+  "output_items": "example",
+  "item_refs": [
+    "example"
+  ],
+  "item_values": [
+    "example"
+  ]
 }
 ```
 
@@ -35,5 +41,7 @@
 * `duration_ms` / `durationMs`  (int64): Node runtime in milliseconds.
 * `inputs` / `inputs`  (array(object)): Ordered inbound edge references.
 * `outputs` / `outputs`  (object): Output counts, item kinds, and typed-error summaries by outlet.
-* `input_items` / `inputItems`  (object): Materialized input items currently available, grouped by inlet.
-* `output_items` / `outputItems`  (object): Materialized output items grouped by outlet.
+* `input_items` / `inputItems`  (object): Available input items grouped by inlet. Resolve large values with item_refs and item_values.
+* `output_items` / `outputItems`  (object): Output items grouped by outlet. Resolve large values with item_refs and item_values.
+* `item_refs` / `itemRefs`  (array(object)): References with a path from the response root and a digest. Replace the null at each path with the value for that digest. Path segments are literal object keys or zero-based array indexes.
+* `item_values` / `itemValues`  (array(object)): Ordered entries with a digest, a value, and optional item_refs relative to that value. References inside entries point to earlier entries in this array.

@@ -245,7 +245,7 @@ public final class BundleOperations extends ResourceOperations {
    * <li>{@code bypasses_site_expiration_rules} (Boolean): If true, this Share Link bypasses site-wide expiration rules. Only site admins may set this.</li>
    * <li>{@code form_field_set_id} (Long): Id of Form Field Set to use with this bundle</li>
    * <li>{@code create_snapshot} (Boolean): If true, create a snapshot of this bundle's contents.</li>
-   * <li>{@code dont_separate_submissions_by_folder} (Boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.</li>
+   * <li>{@code dont_separate_submissions_by_folder} (Boolean): Do not create subfolders for files uploaded to this share. Upload-only Share Links with non-recursive folder access require this to be true. If omitted on create, the API sets it to true for those links. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.</li>
    * <li>{@code expires_at} (String): Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.</li>
    * <li>{@code finalize_snapshot} (Boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.</li>
    * <li>{@code max_uses} (Long): Visitor limit configured for this Share Link. Null uses the Site-wide cap, if set. The configured limit cannot exceed the Site-wide cap.</li>
@@ -534,7 +534,7 @@ public final class BundleOperations extends ResourceOperations {
    * <li>{@code code} (String): Bundle code.  This code forms the end part of the Public URL.</li>
    * <li>{@code create_snapshot} (Boolean): If true, create a snapshot of this bundle's contents.</li>
    * <li>{@code description} (String): Public description</li>
-   * <li>{@code dont_separate_submissions_by_folder} (Boolean): Do not create subfolders for files uploaded to this share. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.</li>
+   * <li>{@code dont_separate_submissions_by_folder} (Boolean): Do not create subfolders for files uploaded to this share. Upload-only Share Links with non-recursive folder access require this to be true. If omitted on create, the API sets it to true for those links. Note: there are subtle security pitfalls with allowing anonymous uploads from multiple users to live in the same folder. We strongly discourage use of this option unless absolutely required.</li>
    * <li>{@code expires_at} (String): Explicit Bundle expiration date/time. If not set, the site-wide expiration setting may apply.</li>
    * <li>{@code finalize_snapshot} (Boolean): If true, finalize the snapshot of this bundle's contents. Note that `create_snapshot` must also be true.</li>
    * <li>{@code inbox_id} (Long): ID of the associated inbox, if available.</li>

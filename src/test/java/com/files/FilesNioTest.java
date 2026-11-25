@@ -414,7 +414,7 @@ public class FilesNioTest {
         .withHeader("Content-Type", "application/json").withBody("{\"type\":\"not-found\",\"title\":\"not-found\",\"error\":\"not-found\"}")));
     api.stubFor(post(urlPathEqualTo(API + "/file_actions/delete/bare")).willReturn(aResponse().withStatus(404)
         .withHeader("Content-Type", "text/html").withBody("<html>Not Found</html>")));
-    for (String name : new String[]{"coded", "uncoded", "bare"}) {
+    for (String name : new String[] {"coded", "uncoded", "bare"}) {
       FileSystemException failure = assertThrows(name, FileSystemException.class, () -> Files.deleteIfExists(files.getPath("/" + name)));
       assertEquals(name, FileSystemException.class, failure.getClass());
       assertTrue(name, failure.getCause() instanceof SdkException);
@@ -501,7 +501,7 @@ public class FilesNioTest {
     api.stubFor(stat("bare.txt").willReturn(aResponse().withStatus(404).withHeader("Content-Type", "text/html").withBody("<html>Not Found</html>")));
     api.stubFor(stat("login.txt").willReturn(apiError(401, "not-authenticated/invalid-api-key")));
     api.stubFor(stat("net.txt").willReturn(aResponse().withFault(Fault.CONNECTION_RESET_BY_PEER)));
-    for (String name : new String[]{"site.txt", "bare.txt", "login.txt", "net.txt"}) {
+    for (String name : new String[] {"site.txt", "bare.txt", "login.txt", "net.txt"}) {
       Path path = files.getPath("/" + name);
       FileSystemException failure = assertThrows(name, FileSystemException.class, () -> Files.readAttributes(path, BasicFileAttributes.class));
       assertEquals(name + " is neither missing nor denied", FileSystemException.class, failure.getClass());

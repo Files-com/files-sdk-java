@@ -5,11 +5,15 @@ import com.files.FilesClient;
 import com.files.ListIterator;
 import com.files.ResourceOperations;
 import com.files.models.Bundle;
+import com.files.models.BundlePath;
 import com.files.net.Attachment;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.UrlUtils;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Bundle operations that run with one client: its API root, credentials, workspace
@@ -716,6 +720,87 @@ public final class BundleOperations extends ResourceOperations {
 
     String apiPath = String.format("/bundles/%s", UrlUtils.encodeUrlPath(String.valueOf(id)));
     TypeReference<Bundle> typeReference = new TypeReference<Bundle>() {};
+    return requestItem(RequestMethods.PATCH, apiPath, typeReference, parameters, options);
+  }
+
+  /**
+   * Update Bundle Path
+   *
+   * @see #updateBundle(Long, String, HashMap, HashMap)
+   */
+  public BundlePath updateBundle() throws RuntimeException {
+    return updateBundle(null, null, null, null);
+  }
+
+  /**
+   * Update Bundle Path
+   *
+   * @see #updateBundle(Long, String, HashMap, HashMap)
+   */
+  public BundlePath updateBundle(Long id, String path, HashMap<String, Object> parameters) throws RuntimeException {
+    return updateBundle(id, path, parameters, null);
+  }
+
+  /**
+   * Update Bundle Path
+   *
+   * @see #updateBundle(Long, String, HashMap, HashMap)
+   */
+  public BundlePath updateBundle(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return updateBundle(null, null, parameters, options);
+  }
+
+  /**
+   * Update Bundle Path
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code recursive} (Boolean): Required. Allow access to subfolders content?</li>
+   * </ul>
+   *
+   * @param id Bundle ID.
+   * @param path Path to operate on.
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code BundlePath}
+   */
+  public BundlePath updateBundle(Long id, String path, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = copy(parameters);
+    options = copy(options);
+
+    if (id == null && parameters.containsKey("id") && parameters.get("id") != null) {
+      id = (Long) parameters.get("id");
+    }
+
+    if (path == null && parameters.containsKey("path") && parameters.get("path") != null) {
+      path = (String) parameters.get("path");
+    }
+
+    if (id == null) {
+      throw new NullPointerException("Argument or Parameter missing: id parameters[\"id\"]");
+    }
+
+    if (path == null) {
+      throw new NullPointerException("Argument or Parameter missing: path parameters[\"path\"]");
+    }
+
+    if (!parameters.containsKey("recursive") || parameters.get("recursive") == null) {
+      throw new NullPointerException("Parameter missing: recursive parameters[\"recursive\"]");
+    }
+
+    if (!(id instanceof Long || parameters.get("id") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: id must be of type Long or Integer parameters[\"id\"]");
+    }
+
+    if (!(path instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: path must be of type String parameters[\"path\"]");
+    }
+
+    if (parameters.containsKey("recursive") && !(parameters.get("recursive") instanceof Boolean)) {
+      throw new IllegalArgumentException("Bad parameter: recursive must be of type Boolean parameters[\"recursive\"]");
+    }
+
+    String apiPath = String.format("/bundles/%s/paths/%s", UrlUtils.encodeUrlPath(String.valueOf(id)), UrlUtils.encodeUrlPath(path));
+    TypeReference<BundlePath> typeReference = new TypeReference<BundlePath>() {};
     return requestItem(RequestMethods.PATCH, apiPath, typeReference, parameters, options);
   }
 

@@ -161,11 +161,11 @@ public class FilesDownloadCheckpointTest {
     List<TransferProgress> progress = new ArrayList<>();
     DownloadResult result;
     try (FilesClient fresh = FilesClient.builder()
-             .apiKey("transfer-key")
-             .workspaceId(0L)
-             .apiRoot(files.root())
-             .retryDelay(Duration.ofMillis(1))
-             .build()) {
+        .apiKey("transfer-key")
+        .workspaceId(0L)
+        .apiRoot(files.root())
+        .retryDelay(Duration.ofMillis(1))
+        .build()) {
       result = fresh.transfers().download(REMOTE, destination, checkpointed().progressListener(progress::add).build());
     }
 

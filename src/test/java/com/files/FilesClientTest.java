@@ -248,15 +248,15 @@ public class FilesClientTest {
     String identity = "Files.com Java SDK v" + new FilesConfig().getSdkVersion();
     // Each os.name and java.version (null for none), and the comment a client built under them sends.
     String[][] cases = {
-        {"Linux", "21", " (files-sdk-meta/1; os=linux; runtime=java/21)"},
-        {"Darwin", "25-ea", " (files-sdk-meta/1; os=macos; runtime=java/25-ea)"},
-        {"FreeBSD", "123456789012345678901234567890123456789012345678",
-            " (files-sdk-meta/1; os=freebsd; runtime=java/123456789012345678901234567890123456789012345678)"},
-        // A Java version longer than 48 characters, with a space, not starting with a digit or unset is left out.
-        {"SunOS", "1234567890123456789012345678901234567890123456789", " (files-sdk-meta/1; os=other; runtime=java)"},
-        {"Windows 11", "17.0.2 (build 8)", " (files-sdk-meta/1; os=windows; runtime=java)"},
-        {"", "ea-17", " (files-sdk-meta/1; os=unknown; runtime=java)"},
-        {"Linux", null, " (files-sdk-meta/1; os=linux; runtime=java)"}
+      {"Linux", "21", " (files-sdk-meta/1; os=linux; runtime=java/21)"},
+      {"Darwin", "25-ea", " (files-sdk-meta/1; os=macos; runtime=java/25-ea)"},
+      {"FreeBSD", "123456789012345678901234567890123456789012345678",
+          " (files-sdk-meta/1; os=freebsd; runtime=java/123456789012345678901234567890123456789012345678)"},
+      // A Java version longer than 48 characters, with a space, not starting with a digit or unset is left out.
+      {"SunOS", "1234567890123456789012345678901234567890123456789", " (files-sdk-meta/1; os=other; runtime=java)"},
+      {"Windows 11", "17.0.2 (build 8)", " (files-sdk-meta/1; os=windows; runtime=java)"},
+      {"", "ea-17", " (files-sdk-meta/1; os=unknown; runtime=java)"},
+      {"Linux", null, " (files-sdk-meta/1; os=linux; runtime=java)"}
     };
     String osName = System.getProperty("os.name");
     String javaVersion = System.getProperty("java.version");
@@ -277,11 +277,11 @@ public class FilesClientTest {
   public void aUserAgentThatIsSetIsReturnedExactlyAsSetWithoutMetadata() {
     // Each on a configuration of its own, so the process-wide configuration keeps its userAgent unset.
     String[] values = {
-        "",
-        "my-application/2.0",
-        "Files.com Java SDK v9.9.9",
-        "Files.com Java SDK v9.9.9 (files-sdk-meta/1; os=linux; runtime=java)",
-        "café \t" + new String(new char[300]).replace('\0', 'x')
+      "",
+      "my-application/2.0",
+      "Files.com Java SDK v9.9.9",
+      "Files.com Java SDK v9.9.9 (files-sdk-meta/1; os=linux; runtime=java)",
+      "café \t" + new String(new char[300]).replace('\0', 'x')
     };
     for (String value : values) {
       FilesConfig config = new FilesConfig();
@@ -1265,7 +1265,7 @@ public class FilesClientTest {
         }
         // Your own requests carry no Files.com credential, though they set one; the clients' each carry
         // their own.
-        for (String step : new String[]{"before", "while", "after"}) {
+        for (String step : new String[] {"before", "while", "after"}) {
           String target = "http://api.files.invalid/direct/" + step;
           List<LoggedRequest> own = sent.stream().filter(request -> request.getAbsoluteUrl().equals(target)).collect(Collectors.toList());
           assertEquals(target, 1, own.size());
@@ -1703,11 +1703,11 @@ public class FilesClientTest {
       // The same through an Apache client of your own, which the client borrows, whose processor adds a
       // credential after the SDK's headers: it still goes only to the API root.
       try (GuardedApacheClient http = HttpTransport.builder().customize(builder -> builder.setHttpProcessor(
-               org.apache.http.protocol.HttpProcessorBuilder.create()
-                   .add(new org.apache.http.protocol.RequestContent())
-                   .add(new org.apache.http.protocol.RequestTargetHost())
-                   .add((org.apache.http.HttpRequestInterceptor) (request, context) -> request.setHeader("X-Files-Workspace-Id", "injected"))
-                   .build())).buildClient()) {
+          org.apache.http.protocol.HttpProcessorBuilder.create()
+              .add(new org.apache.http.protocol.RequestContent())
+              .add(new org.apache.http.protocol.RequestTargetHost())
+              .add((org.apache.http.HttpRequestInterceptor) (request, context) -> request.setHeader("X-Files-Workspace-Id", "injected"))
+              .build())).buildClient()) {
         FilesClient adopted = client(builder("adopted-key").transport(HttpTransport.borrowed(http)));
         assertEquals(Long.valueOf(1), adopted.users().find(1L, null).getId());
         assertEquals(Long.valueOf(3), adopted.users().find(2L, null).getId());

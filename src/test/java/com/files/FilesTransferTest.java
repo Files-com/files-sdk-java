@@ -987,7 +987,7 @@ public class FilesTransferTest extends FilesTransferTestBase {
     // transfer made is the one sent, with its own settings.
     try (GuardedApacheClient http = HttpTransport.builder().buildClient()) {
       try (FilesClient adopted = FilesClient.builder().apiKey("transfer-key").apiRoot(files.root())
-               .transport(HttpTransport.borrowed(http)).build()) {
+          .transport(HttpTransport.borrowed(http)).build()) {
         adopted.transfers().upload(file("adopted.bin", bytes(4, 9)), "exact.bin");
       }
     }
@@ -2872,7 +2872,7 @@ public class FilesTransferTest extends FilesTransferTestBase {
 
     @Override
     public void write(int b) throws IOException {
-      write(new byte[]{(byte) b}, 0, 1);
+      write(new byte[] {(byte) b}, 0, 1);
     }
 
     @Override
@@ -3074,7 +3074,7 @@ public class FilesTransferTest extends FilesTransferTestBase {
       UploadOptions options = UploadOptions.builder().scope(job).build();
       // More failures, one after another, than the scope has places for.
       for (int i = 0; i < 7; i++) {
-        for (String name : new String[]{"unplanned-" + i + ".bin", "unfinished-" + i + ".bin"}) {
+        for (String name : new String[] {"unplanned-" + i + ".bin", "unfinished-" + i + ".bin"}) {
           try {
             client.transfers().upload(file(name, bytes(15, 92)), name, options);
             fail("Expected " + name + " to be refused");
@@ -3137,7 +3137,7 @@ public class FilesTransferTest extends FilesTransferTestBase {
   @Test(timeout = 20000)
   public void aDownloadWhoseStorageSizeIsNotTheDescribedSizeFailsBeforeWritingAndIsNotTriedAgain() throws Exception {
     // Files.com describes 12,000 bytes; storage serves 10,000, whether or not it binds a version.
-    for (String etag : new String[]{"\"v1\"", "W/\"v1\""}) {
+    for (String etag : new String[] {"\"v1\"", "W/\"v1\""}) {
       rangedFile(61);
       files.etag = etag;
       files.describedSize = 12_000L;
@@ -3226,7 +3226,7 @@ public class FilesTransferTest extends FilesTransferTestBase {
   // storage-a.test and storage-b.test resolving to the fake server. Waiting 100 ms for a lease, with no
   // retries, fails any transfer that ever waits for one while a range takes 150 ms.
   private PoolingHttpClientConnectionManager callerPool(int defaultPerRoute, int total) {
-    DnsResolver storageHosts = host -> host.endsWith(".test") ? new java.net.InetAddress[]{java.net.InetAddress.getLoopbackAddress()}
+    DnsResolver storageHosts = host -> host.endsWith(".test") ? new java.net.InetAddress[] {java.net.InetAddress.getLoopbackAddress()}
         : SystemDefaultDnsResolver.INSTANCE.resolve(host);
     PoolingHttpClientConnectionManager pool = new PoolingHttpClientConnectionManager(
         RegistryBuilder.<ConnectionSocketFactory>create().register("http", PlainConnectionSocketFactory.getSocketFactory()).build(),
@@ -3274,8 +3274,8 @@ public class FilesTransferTest extends FilesTransferTestBase {
     HttpTransport otherTransport = HttpTransport.borrowed(http);
     HttpTransport closingTransport = HttpTransport.borrowed(http);
     try (FilesClient narrow = leaseIntolerantClient(narrowTransport);
-         FilesClient other = leaseIntolerantClient(otherTransport);
-         FilesClient closing = leaseIntolerantClient(closingTransport)) {
+        FilesClient other = leaseIntolerantClient(otherTransport);
+        FilesClient closing = leaseIntolerantClient(closingTransport)) {
       com.files.net.DownloadResult result = narrow.transfers().download("remote/narrow.bin", destination,
           inParts().concurrencyMode(ConcurrencyMode.STATIC).maxConcurrency(8).build());
 
@@ -3370,7 +3370,7 @@ public class FilesTransferTest extends FilesTransferTestBase {
     ExecutorService downloads = Executors.newFixedThreadPool(2);
     try (FilesClient narrow = leaseIntolerantClient(pool)) {
       List<Future<com.files.net.DownloadResult>> results = new ArrayList<>();
-      for (String name : new String[]{"first.bin", "second.bin"}) {
+      for (String name : new String[] {"first.bin", "second.bin"}) {
         Path destination = folder.getRoot().toPath().resolve(name);
         results.add(downloads.submit(() -> narrow.transfers().download("remote/" + name, destination,
             inParts().concurrencyMode(ConcurrencyMode.STATIC).maxConcurrency(8).build())));

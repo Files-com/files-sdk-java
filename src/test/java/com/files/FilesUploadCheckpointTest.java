@@ -167,11 +167,11 @@ public class FilesUploadCheckpointTest {
     List<TransferProgress> progress = new ArrayList<>();
     UploadResult result;
     try (FilesClient fresh = FilesClient.builder()
-             .apiKey("transfer-key")
-             .workspaceId(0L)
-             .apiRoot(files.root())
-             .retryDelay(Duration.ofMillis(1))
-             .build()) {
+        .apiKey("transfer-key")
+        .workspaceId(0L)
+        .apiRoot(files.root())
+        .retryDelay(Duration.ofMillis(1))
+        .build()) {
       result = fresh.transfers().upload(source, "cancelled.bin", checkpointed().progressListener(progress::add).build());
     }
     assertEquals(12, result.getSize());
@@ -630,7 +630,7 @@ public class FilesUploadCheckpointTest {
     // A last entry cut short, as a crash leaves one: dropped, and the upload continues.
     Files.write(record(), recorded);
     // Its length and checksum, and the first 3 of its 40 bytes.
-    Files.write(record(), new byte[]{0, 0, 0, 40, 9, 9, 9, 9, 1, 2, 3}, StandardOpenOption.APPEND);
+    Files.write(record(), new byte[] {0, 0, 0, 40, 9, 9, 9, 9, 1, 2, 3}, StandardOpenOption.APPEND);
     int partsBefore = files.parts.size();
     client.transfers().upload(source, "torn.bin", checkpointed().build());
     assertEquals(Arrays.asList(3L), sentPartNumbers(partsBefore));

@@ -38,7 +38,7 @@ public class PartPlanningTest {
     // S3's smallest part but the last, and the largest part this SDK plans.
     final long smallestPart = 5L * 1024 * 1024;
     final long largestPart = 1024L * 1024 * 1024;
-    for (long total : new long[]{(1L << 40) + 1, 5L << 40}) {
+    for (long total : new long[] {(1L << 40) + 1, 5L << 40}) {
       PartSizes.Plan plan = PartSizes.plan(total, -1, 0, PartSizing.automatic(), -1, "huge.bin");
       assertNull(total + " bytes", plan.fallback);
       List<Long> lengths = lengths(plan.sizes, total);
@@ -72,9 +72,9 @@ public class PartPlanningTest {
     final long partSize = 5L * 1024 * 1024;
     final long total = 10_001L * partSize;
     try (BeginUploadService service = new BeginUploadService();
-         FilesClient client = client(service.root());
-         ClientRuntime runtime = runtime(client, service.root());
-         OperationScope scope = runtime.open("planning", new HashMap<String, Object>())) {
+        FilesClient client = client(service.root());
+        ClientRuntime runtime = runtime(client, service.root());
+        OperationScope scope = runtime.open("planning", new HashMap<String, Object>())) {
       service.parts = number -> serverPart(service.root(), number, partSize);
       UploadSession session = new UploadSession(runtime, "big.bin", new HashMap<String, Object>(), null, 0);
       PartPlanner planner = new PartPlanner(session, total, () -> 100, PartSizing.automatic(), -1, -1);
@@ -121,7 +121,7 @@ public class PartPlanningTest {
     Map<String, ObjectNode> rows = new LinkedHashMap<>();
     rows.put("complete, version 1", complete);
     rows.put("none", null);
-    for (String field : new String[]{"version", "server_name", "addresses", "direct_uri", "ca_pem"}) {
+    for (String field : new String[] {"version", "server_name", "addresses", "direct_uri", "ca_pem"}) {
       ObjectNode without = complete.deepCopy();
       without.remove(field);
       rows.put("without " + field, without);
@@ -131,9 +131,9 @@ public class PartPlanningTest {
     rows.put("version 2", version2);
 
     try (BeginUploadService service = new BeginUploadService();
-         FilesClient client = client(service.root());
-         ClientRuntime runtime = runtime(client, service.root());
-         OperationScope scope = runtime.open("planning", new HashMap<String, Object>())) {
+        FilesClient client = client(service.root());
+        ClientRuntime runtime = runtime(client, service.root());
+        OperationScope scope = runtime.open("planning", new HashMap<String, Object>())) {
       for (Map.Entry<String, ObjectNode> row : rows.entrySet()) {
         service.parts = number -> {
           ObjectNode part = s3Part(service.root(), number);

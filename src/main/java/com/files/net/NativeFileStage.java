@@ -199,7 +199,7 @@ public final class NativeFileStage implements Closeable {
 
     @Override
     public void write(int b) throws IOException {
-      write(new byte[]{(byte) b}, 0, 1);
+      write(new byte[] {(byte) b}, 0, 1);
     }
 
     @Override

@@ -2632,6 +2632,13 @@
             "id": "id"
           }
         },
+        "patch /bundles/{id}/paths/{path}": {
+          "method": "updateBundle",
+          "arguments": {
+            "id": "id",
+            "path": "path"
+          }
+        },
         "post /bundles": {
           "method": "create"
         },

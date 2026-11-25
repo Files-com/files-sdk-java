@@ -392,6 +392,23 @@ Bundle bundle = Bundle.update(1L, parameters, null);
 
 ---
 
+## Update Bundle Path
+
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("recursive", true);
+BundlePath bundlePath = Bundle.updateBundle(1L, "path", parameters, null);
+```
+
+### Parameters
+
+* `id` (Long): Required - Bundle ID.
+* `path` (String): Required - Path to operate on.
+* `recursive` (Boolean): Required - Allow access to subfolders content?
+
+
+---
+
 ## Delete Share Link
 
 ```java
@@ -509,6 +526,24 @@ Bundle result = bundle.update(parameters);
 * `watermark_attachment_file` (byte[] or Attachment): Preview watermark image applied to all bundle items.
 * `watermark_value` (Object): Preview watermark settings applied to all bundle items. Uses the same keys as Behavior.value
 * `workspace_id` (Long): Workspace ID. `0` means the default workspace.
+
+
+---
+
+## Update Bundle Path
+
+```java
+Bundle bundle = Bundle.find(1L, null, null);
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("recursive", true);
+BundlePath result = bundle.updateBundle(parameters);
+```
+
+### Parameters
+
+* `id` (Long): Required - Bundle ID.
+* `path` (String): Required - Path to operate on.
+* `recursive` (Boolean): Required - Allow access to subfolders content?
 
 
 ---

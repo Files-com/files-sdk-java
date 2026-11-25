@@ -2158,7 +2158,7 @@ public class FilesApiTest {
       }
       assertEquals("nothing goes to the global API root", 0,
           wireMockServer.findAll(postRequestedFor(urlEqualTo("/api/rest/v1/file_actions/copy/reports"))).size()
-              + wireMockServer.findAll(postRequestedFor(urlEqualTo("/api/rest/v1/file_actions/move/reports"))).size());
+          + wireMockServer.findAll(postRequestedFor(urlEqualTo("/api/rest/v1/file_actions/move/reports"))).size());
     } finally {
       bound.stop();
     }

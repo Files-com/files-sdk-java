@@ -332,6 +332,30 @@ public class Automation implements ModelInterface {
   }
 
   /**
+   * Normalized application action metadata keyed by pinned action fingerprint.
+   */
+  @JsonProperty("application_actions")
+  public Object applicationActions;
+
+  /**
+   * Gets {@link #applicationActions}.
+   *
+   * @return the value of {@link #applicationActions}
+   */
+  public Object getApplicationActions() {
+    return applicationActions;
+  }
+
+  /**
+   * Sets {@link #applicationActions}.
+   *
+   * @param applicationActions the new value
+   */
+  public void setApplicationActions(Object applicationActions) {
+    this.applicationActions = applicationActions;
+  }
+
+  /**
    * If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
    */
   @JsonProperty("destination_replace_from")
@@ -1505,6 +1529,7 @@ public class Automation implements ModelInterface {
     this.deleted = canonical.deleted;
     this.description = canonical.description;
     this.definition = canonical.definition;
+    this.applicationActions = canonical.applicationActions;
     this.destinationReplaceFrom = canonical.destinationReplaceFrom;
     this.destinationReplaceTo = canonical.destinationReplaceTo;
     this.destinations = canonical.destinations;
@@ -1664,6 +1689,79 @@ public class Automation implements ModelInterface {
   public static Automation get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
   }
+
+  /**
+   * List actions available for an Automation application
+   *
+   * @see #listApplicationActions(HashMap, HashMap)
+   */
+  public static ListIterator<AutomationApplicationAction> listApplicationActions() throws RuntimeException {
+    return listApplicationActions(null, null);
+  }
+
+  /**
+   * List actions available for an Automation application
+   *
+   * @see #listApplicationActions(HashMap, HashMap)
+   */
+  public static ListIterator<AutomationApplicationAction> listApplicationActions(HashMap<String, Object> parameters) throws RuntimeException {
+    return listApplicationActions(parameters, null);
+  }
+
+
+  /**
+   * List actions available for an Automation application
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code application_key} (String): Required. Application key returned by the Automation applications list.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AutomationApplicationAction} records, in a {@code ListIterator}
+   */
+  public static ListIterator<AutomationApplicationAction> listApplicationActions(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return FilesClient.defaultClient().automations().listApplicationActions(parameters, options);
+  }
+
+
+  /**
+   * List applications available in the Automation builder
+   *
+   * @see #listApplications(HashMap, HashMap)
+   */
+  public static ListIterator<AutomationApplication> listApplications() throws RuntimeException {
+    return listApplications(null, null);
+  }
+
+  /**
+   * List applications available in the Automation builder
+   *
+   * @see #listApplications(HashMap, HashMap)
+   */
+  public static ListIterator<AutomationApplication> listApplications(HashMap<String, Object> parameters) throws RuntimeException {
+    return listApplications(parameters, null);
+  }
+
+
+  /**
+   * List applications available in the Automation builder
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AutomationApplication} records, in a {@code ListIterator}
+   */
+  public static ListIterator<AutomationApplication> listApplications(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    return FilesClient.defaultClient().automations().listApplications(parameters, options);
+  }
+
 
   /**
    * Show the Automation v2 authoring schema and active node catalog

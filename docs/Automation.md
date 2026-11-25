@@ -36,6 +36,7 @@
       }
     ]
   },
+  "application_actions": "example",
   "destination_replace_from": "example",
   "destination_replace_to": "example",
   "destinations": [
@@ -144,6 +145,7 @@
 * `deleted` / `deleted`  (boolean): Indicates if the automation has been deleted.
 * `description` / `description`  (string): Description for the this Automation.
 * `definition` / `definition`  (object): Automation v2 graph definition.
+* `application_actions` / `applicationActions`  (object): Normalized application action metadata keyed by pinned action fingerprint.
 * `destination_replace_from` / `destinationReplaceFrom`  (string): If set, this string in the destination path will be replaced with the value in `destination_replace_to`.
 * `destination_replace_to` / `destinationReplaceTo`  (string): If set, this string will replace the value `destination_replace_from` in the destination filename. You can use special patterns here.
 * `destinations` / `destinations`  (array(string)): Destination Paths
@@ -221,6 +223,38 @@ Automation automation = Automation.find(1L, parameters, null);
 ### Parameters
 
 * `id` (Long): Required - Automation ID.
+
+
+---
+
+## List actions available for an Automation application
+
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+parameters.put("application_key", "application_key");
+ListIterator<AutomationApplicationAction> automationApplicationActions = Automation.listApplicationActions(parameters, null);
+```
+
+### Parameters
+
+* `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+* `per_page` (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
+* `application_key` (String): Required - Application key returned by the Automation applications list.
+
+
+---
+
+## List applications available in the Automation builder
+
+```java
+HashMap<String, Object> parameters = new HashMap<>();
+ListIterator<AutomationApplication> automationApplications = Automation.listApplications(parameters, null);
+```
+
+### Parameters
+
+* `cursor` (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.
+* `per_page` (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).
 
 
 ---

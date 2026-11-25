@@ -17,6 +17,7 @@ import com.files.operations.AiTaskOperations;
 import com.files.operations.ApiKeyOperations;
 import com.files.operations.ApiRequestLogOperations;
 import com.files.operations.AppOperations;
+import com.files.operations.ApplicationConnectionOperations;
 import com.files.operations.As2IncomingMessageOperations;
 import com.files.operations.As2OutgoingMessageOperations;
 import com.files.operations.As2PartnerOperations;
@@ -431,6 +432,14 @@ public final class FilesClient implements Closeable {
   public AppOperations apps() {
     runtime.ensureOpen();
     return new AppOperations(this);
+  }
+
+  /**
+   * ApplicationConnection operations that run with this client.
+   */
+  public ApplicationConnectionOperations applicationConnections() {
+    runtime.ensureOpen();
+    return new ApplicationConnectionOperations(this);
   }
 
   /**

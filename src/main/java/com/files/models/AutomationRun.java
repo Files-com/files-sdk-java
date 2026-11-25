@@ -431,6 +431,21 @@ public class AutomationRun implements ModelInterface {
   }
 
   /**
+   * Normalized application action metadata keyed by pinned action fingerprint.
+   */
+  @JsonProperty("application_actions")
+  public Object applicationActions;
+
+  /**
+   * Gets {@link #applicationActions}.
+   *
+   * @return the value of {@link #applicationActions}
+   */
+  public Object getApplicationActions() {
+    return applicationActions;
+  }
+
+  /**
    * Status and execution stage for each node in this run. For performance reasons, this is not provided when listing Automation runs.
    */
   @JsonProperty("node_states")

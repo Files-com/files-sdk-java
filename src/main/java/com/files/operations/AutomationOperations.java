@@ -5,6 +5,8 @@ import com.files.FilesClient;
 import com.files.ListIterator;
 import com.files.ResourceOperations;
 import com.files.models.Automation;
+import com.files.models.AutomationApplication;
+import com.files.models.AutomationApplicationAction;
 import com.files.models.AutomationAuthoringSchema;
 import com.files.net.HttpMethods.RequestMethods;
 import com.files.util.UrlUtils;
@@ -195,6 +197,109 @@ public final class AutomationOperations extends ResourceOperations {
    */
   public Automation get(Long id, HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
     return find(id, parameters, options);
+  }
+
+  /**
+   * List actions available for an Automation application
+   *
+   * @see #listApplicationActions(HashMap, HashMap)
+   */
+  public ListIterator<AutomationApplicationAction> listApplicationActions() throws RuntimeException {
+    return listApplicationActions(null, null);
+  }
+
+  /**
+   * List actions available for an Automation application
+   *
+   * @see #listApplicationActions(HashMap, HashMap)
+   */
+  public ListIterator<AutomationApplicationAction> listApplicationActions(HashMap<String, Object> parameters) throws RuntimeException {
+    return listApplicationActions(parameters, null);
+  }
+
+  /**
+   * List actions available for an Automation application
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * <li>{@code application_key} (String): Required. Application key returned by the Automation applications list.</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AutomationApplicationAction} records, in a {@code ListIterator}
+   */
+  public ListIterator<AutomationApplicationAction> listApplicationActions(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = copy(parameters);
+    options = copy(options);
+
+    if (!parameters.containsKey("application_key") || parameters.get("application_key") == null) {
+      throw new NullPointerException("Parameter missing: application_key parameters[\"application_key\"]");
+    }
+
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
+    }
+
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
+    }
+
+    if (parameters.containsKey("application_key") && !(parameters.get("application_key") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: application_key must be of type String parameters[\"application_key\"]");
+    }
+
+    String apiPath = "/automations/application_actions";
+    TypeReference<List<AutomationApplicationAction>> typeReference = new TypeReference<List<AutomationApplicationAction>>() {};
+    return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
+  }
+
+  /**
+   * List applications available in the Automation builder
+   *
+   * @see #listApplications(HashMap, HashMap)
+   */
+  public ListIterator<AutomationApplication> listApplications() throws RuntimeException {
+    return listApplications(null, null);
+  }
+
+  /**
+   * List applications available in the Automation builder
+   *
+   * @see #listApplications(HashMap, HashMap)
+   */
+  public ListIterator<AutomationApplication> listApplications(HashMap<String, Object> parameters) throws RuntimeException {
+    return listApplications(parameters, null);
+  }
+
+  /**
+   * List applications available in the Automation builder
+   * <p>The parameters map may hold:</p>
+   * <ul>
+   * <li>{@code cursor} (String): Used for pagination.  When a list request has more records available, cursors are provided in the response headers `X-Files-Cursor-Next` and `X-Files-Cursor-Prev`.  Send one of those cursor value here to resume an existing list from the next available record.  Note: many of our SDKs have iterator methods that will automatically handle cursor-based pagination.</li>
+   * <li>{@code per_page} (Long): Number of records to show per page.  (Max: 10000, 1,000 or less is recommended).</li>
+   * </ul>
+   *
+   * @param parameters the request's parameters, by their API names
+   * @param options the request options for this call, such as {@code api_key} or {@code workspace_id}
+   * @return the {@code AutomationApplication} records, in a {@code ListIterator}
+   */
+  public ListIterator<AutomationApplication> listApplications(HashMap<String, Object> parameters, HashMap<String, Object> options) throws RuntimeException {
+    parameters = copy(parameters);
+    options = copy(options);
+
+    if (parameters.containsKey("cursor") && !(parameters.get("cursor") instanceof String)) {
+      throw new IllegalArgumentException("Bad parameter: cursor must be of type String parameters[\"cursor\"]");
+    }
+
+    if (parameters.containsKey("per_page") && !(parameters.get("per_page") instanceof Long || parameters.get("per_page") instanceof Integer)) {
+      throw new IllegalArgumentException("Bad parameter: per_page must be of type Long or Integer parameters[\"per_page\"]");
+    }
+
+    String apiPath = "/automations/applications";
+    TypeReference<List<AutomationApplication>> typeReference = new TypeReference<List<AutomationApplication>>() {};
+    return requestList(RequestMethods.GET, apiPath, typeReference, parameters, options);
   }
 
   /**

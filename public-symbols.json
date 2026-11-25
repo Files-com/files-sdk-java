@@ -998,6 +998,83 @@
         }
       }
     },
+    "ApplicationConnection": {
+      "class": "ApplicationConnection",
+      "client_accessor": "applicationConnections",
+      "fields": {
+        "application_key": {
+          "field": "applicationKey",
+          "getter": "getApplicationKey"
+        },
+        "authentication": {
+          "field": "authentication",
+          "getter": "getAuthentication"
+        },
+        "created_at": {
+          "field": "createdAt",
+          "getter": "getCreatedAt"
+        },
+        "id": {
+          "field": "id",
+          "getter": "getId"
+        },
+        "name": {
+          "field": "name",
+          "getter": "getName"
+        },
+        "origin": {
+          "field": "origin",
+          "getter": "getOrigin"
+        },
+        "secret_id": {
+          "field": "secretId",
+          "getter": "getSecretId"
+        },
+        "updated_at": {
+          "field": "updatedAt",
+          "getter": "getUpdatedAt"
+        },
+        "workspace_id": {
+          "field": "workspaceId",
+          "getter": "getWorkspaceId"
+        }
+      },
+      "operations": {
+        "delete /application_connections/{id}": {
+          "method": "delete",
+          "aliases": {
+            "destroy": "destroy"
+          },
+          "arguments": {
+            "id": "id"
+          }
+        },
+        "get /application_connections": {
+          "method": "list",
+          "aliases": {
+            "all": "all"
+          }
+        },
+        "get /application_connections/{id}": {
+          "method": "find",
+          "aliases": {
+            "get": "get"
+          },
+          "arguments": {
+            "id": "id"
+          }
+        },
+        "patch /application_connections/{id}": {
+          "method": "update",
+          "arguments": {
+            "id": "id"
+          }
+        },
+        "post /application_connections": {
+          "method": "create"
+        }
+      }
+    },
     "As2IncomingMessage": {
       "class": "As2IncomingMessage",
       "client_accessor": "as2IncomingMessages",
@@ -1586,6 +1663,10 @@
           "field": "alwaysSerializeJobs",
           "getter": "getAlwaysSerializeJobs"
         },
+        "application_actions": {
+          "field": "applicationActions",
+          "getter": "getApplicationActions"
+        },
         "automation": {
           "field": "automation",
           "getter": "getAutomation"
@@ -1799,6 +1880,12 @@
             "all": "all"
           }
         },
+        "get /automations/application_actions": {
+          "method": "listApplicationActions"
+        },
+        "get /automations/applications": {
+          "method": "listApplications"
+        },
         "get /automations/authoring_schema": {
           "method": "getAuthoringSchema"
         },
@@ -1832,6 +1919,68 @@
             "id": "id"
           }
         }
+      }
+    },
+    "AutomationApplication": {
+      "class": "AutomationApplication",
+      "fields": {
+        "brand": {
+          "field": "brand",
+          "getter": "getBrand"
+        },
+        "key": {
+          "field": "key",
+          "getter": "getKey"
+        },
+        "name": {
+          "field": "name",
+          "getter": "getName"
+        }
+      },
+      "operations": {
+      }
+    },
+    "AutomationApplicationAction": {
+      "class": "AutomationApplicationAction",
+      "fields": {
+        "application": {
+          "field": "application",
+          "getter": "getApplication"
+        },
+        "authentication": {
+          "field": "authentication",
+          "getter": "getAuthentication"
+        },
+        "description": {
+          "field": "description",
+          "getter": "getDescription"
+        },
+        "fields": {
+          "field": "fields",
+          "getter": "getFields"
+        },
+        "fingerprint": {
+          "field": "fingerprint",
+          "getter": "getFingerprint"
+        },
+        "key": {
+          "field": "key",
+          "getter": "getKey"
+        },
+        "name": {
+          "field": "name",
+          "getter": "getName"
+        },
+        "origins": {
+          "field": "origins",
+          "getter": "getOrigins"
+        },
+        "output": {
+          "field": "output",
+          "getter": "getOutput"
+        }
+      },
+      "operations": {
       }
     },
     "AutomationAuthoringSchema": {
@@ -2010,6 +2159,10 @@
       "class": "AutomationRun",
       "client_accessor": "automationRuns",
       "fields": {
+        "application_actions": {
+          "field": "applicationActions",
+          "getter": "getApplicationActions"
+        },
         "automation_id": {
           "field": "automationId",
           "getter": "getAutomationId"
@@ -2154,6 +2307,10 @@
         "api_key_id": {
           "field": "apiKeyId",
           "getter": "getApiKeyId"
+        },
+        "application_actions": {
+          "field": "applicationActions",
+          "getter": "getApplicationActions"
         },
         "automation_id": {
           "field": "automationId",

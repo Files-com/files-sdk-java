@@ -251,6 +251,21 @@ public class AutomationVersion implements ModelInterface {
   }
 
   /**
+   * Normalized application action metadata keyed by pinned action fingerprint.
+   */
+  @JsonProperty("application_actions")
+  public Object applicationActions;
+
+  /**
+   * Gets {@link #applicationActions}.
+   *
+   * @return the value of {@link #applicationActions}
+   */
+  public Object getApplicationActions() {
+    return applicationActions;
+  }
+
+  /**
    * Restore an Automation v2 definition as a new current version
    *
    * @param parameters the request's parameters, by their API names

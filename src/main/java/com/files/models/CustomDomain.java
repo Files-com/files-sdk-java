@@ -236,7 +236,7 @@ public class CustomDomain implements ModelInterface {
   }
 
   /**
-   * Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
+   * Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, `file_content`, or `unassigned` (not routing traffic). Each Site can have one File Content domain in its default workspace. It applies to the whole Site and uses the Site's existing dedicated HTTPS IPs. Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
    */
   @JsonProperty("destination")
   public String destination;
@@ -416,7 +416,7 @@ public class CustomDomain implements ModelInterface {
    * <ul>
    * <li>{@code available_to_all_workspaces} (Boolean): Allow all workspaces to use this default-workspace Custom Domain.</li>
    * <li>{@code workspace_id} (Long): Workspace ID (0 for the default workspace).</li>
-   * <li>{@code destination} (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.</li>
+   * <li>{@code destination} (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, `file_content`, or `unassigned` (not routing traffic). Each Site can have one File Content domain in its default workspace. It applies to the whole Site and uses the Site's existing dedicated HTTPS IPs. Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.</li>
    * <li>{@code folder_behavior_id} (Long): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.</li>
    * <li>{@code ssl_certificate_id} (Long): Current SSL certificate ID.</li>
    * <li>{@code domain} (String): Customer-owned domain name.</li>
@@ -625,7 +625,7 @@ public class CustomDomain implements ModelInterface {
    * <ul>
    * <li>{@code available_to_all_workspaces} (Boolean): Allow all workspaces to use this default-workspace Custom Domain.</li>
    * <li>{@code workspace_id} (Long): Workspace ID (0 for the default workspace).</li>
-   * <li>{@code destination} (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.</li>
+   * <li>{@code destination} (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, `file_content`, or `unassigned` (not routing traffic). Each Site can have one File Content domain in its default workspace. It applies to the whole Site and uses the Site's existing dedicated HTTPS IPs. Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.</li>
    * <li>{@code folder_behavior_id} (Long): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.</li>
    * <li>{@code ssl_certificate_id} (Long): Current SSL certificate ID.</li>
    * <li>{@code domain} (String): Required. Customer-owned domain name.</li>
@@ -717,7 +717,7 @@ public class CustomDomain implements ModelInterface {
    * <ul>
    * <li>{@code available_to_all_workspaces} (Boolean): Allow all workspaces to use this default-workspace Custom Domain.</li>
    * <li>{@code workspace_id} (Long): Workspace ID (0 for the default workspace).</li>
-   * <li>{@code destination} (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.</li>
+   * <li>{@code destination} (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, `file_content`, or `unassigned` (not routing traffic). Each Site can have one File Content domain in its default workspace. It applies to the whole Site and uses the Site's existing dedicated HTTPS IPs. Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.</li>
    * <li>{@code folder_behavior_id} (Long): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.</li>
    * <li>{@code ssl_certificate_id} (Long): Current SSL certificate ID.</li>
    * <li>{@code domain} (String): Customer-owned domain name.</li>

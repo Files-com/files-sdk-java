@@ -25,6 +25,7 @@
   "successful_operations": 1,
   "failed_operations": 1,
   "definition": "example",
+  "application_actions": "example",
   "node_states": "example",
   "execution_nodes": [
     {
@@ -78,6 +79,7 @@
 * `successful_operations` / `successfulOperations`  (int64): Count of successful operations.
 * `failed_operations` / `failedOperations`  (int64): Count of failed operations.
 * `definition` / `definition`  (object): Automation definition snapshot pinned by this run. For performance reasons, this is not provided when listing Automation runs.
+* `application_actions` / `applicationActions`  (object): Normalized application action metadata keyed by pinned action fingerprint.
 * `node_states` / `nodeStates`  (object): Status and execution stage for each node in this run. For performance reasons, this is not provided when listing Automation runs.
 * `execution_nodes` / `executionNodes`  (AutomationExecutionNode[]): Execution status, timing, and bounded output summaries for each node. For performance reasons, this is not provided when listing Automation runs.
 * `journal_url` / `journalUrl`  (string): Link to the run journal artifact.

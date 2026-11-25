@@ -31,7 +31,7 @@
 * `available_to_all_workspaces` / `availableToAllWorkspaces`  (boolean): Allow all workspaces to use this default-workspace Custom Domain.
 * `outbound_ip_addresses` / `outboundIpAddresses`  (array(string)): Eligible public IP addresses for Remote Server outbound connections. Empty when this Custom Domain is not eligible for outbound selection.
 * `domain` / `domain`  (string): Customer-owned domain name.
-* `destination` / `destination`  (string): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
+* `destination` / `destination`  (string): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, `file_content`, or `unassigned` (not routing traffic). Each Site can have one File Content domain in its default workspace. It applies to the whole Site and uses the Site's existing dedicated HTTPS IPs. Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
 * `dns_status` / `dnsStatus`  (string): Current DNS verification status.
 * `ssl_certificate_id` / `sslCertificateId`  (int64): Current SSL certificate ID.
 * `brick_managed` / `brickManaged`  (boolean): Is this domain's SSL certificate automatically managed and renewed by Files.com?
@@ -91,7 +91,7 @@ CustomDomain customDomain = CustomDomain.create(parameters, null);
 
 * `available_to_all_workspaces` (Boolean): Allow all workspaces to use this default-workspace Custom Domain.
 * `workspace_id` (Long): Workspace ID (0 for the default workspace).
-* `destination` (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
+* `destination` (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, `file_content`, or `unassigned` (not routing traffic). Each Site can have one File Content domain in its default workspace. It applies to the whole Site and uses the Site's existing dedicated HTTPS IPs. Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
 * `folder_behavior_id` (Long): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
 * `ssl_certificate_id` (Long): Current SSL certificate ID.
 * `domain` (String): Required - Customer-owned domain name.
@@ -133,7 +133,7 @@ CustomDomain customDomain = CustomDomain.update(1L, parameters, null);
 * `id` (Long): Required - Custom Domain ID.
 * `available_to_all_workspaces` (Boolean): Allow all workspaces to use this default-workspace Custom Domain.
 * `workspace_id` (Long): Workspace ID (0 for the default workspace).
-* `destination` (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
+* `destination` (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, `file_content`, or `unassigned` (not routing traffic). Each Site can have one File Content domain in its default workspace. It applies to the whole Site and uses the Site's existing dedicated HTTPS IPs. Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
 * `folder_behavior_id` (Long): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
 * `ssl_certificate_id` (Long): Current SSL certificate ID.
 * `domain` (String): Customer-owned domain name.
@@ -174,7 +174,7 @@ CustomDomain result = customDomain.update(parameters);
 * `id` (Long): Required - Custom Domain ID.
 * `available_to_all_workspaces` (Boolean): Allow all workspaces to use this default-workspace Custom Domain.
 * `workspace_id` (Long): Workspace ID (0 for the default workspace).
-* `destination` (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, or `unassigned` (not routing traffic). Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
+* `destination` (String): Where this custom domain routes. Can be `site_alias`, `public_hosting`, `s3_endpoint`, `file_content`, or `unassigned` (not routing traffic). Each Site can have one File Content domain in its default workspace. It applies to the whole Site and uses the Site's existing dedicated HTTPS IPs. Set to `unassigned` automatically when a bound `public_hosting` folder behavior is deleted, and can be set manually via the API for any reason.
 * `folder_behavior_id` (Long): Public Hosting behavior ID when this domain routes to a specific Public Hosting behavior.  Preserved as historical context when `destination` becomes `unassigned`.
 * `ssl_certificate_id` (Long): Current SSL certificate ID.
 * `domain` (String): Customer-owned domain name.

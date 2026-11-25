@@ -35,7 +35,8 @@
         "to": "create_reports"
       }
     ]
-  }
+  },
+  "application_actions": "example"
 }
 ```
 
@@ -48,6 +49,7 @@
 * `username` / `username`  (string): Username recorded when the revision was saved, when available.
 * `api_key_id` / `apiKeyId`  (int64): ID of the API key used to save the revision, when available.
 * `definition` / `definition`  (object): Saved Automation v2 graph definition. Included when retrieving a single revision.
+* `application_actions` / `applicationActions`  (object): Normalized application action metadata keyed by pinned action fingerprint.
 
 
 ---
